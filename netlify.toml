@@ -3,19 +3,24 @@
   publish = ".next"
 
 [build.environment]
-  NEXT_USE_NETLIFY = "true"
-  NODE_VERSION = "18"
   NETLIFY_NEXT_PLUGIN_SKIP = "true"
+  NODE_VERSION = "18"
+  NEXT_TELEMETRY_DISABLED = "1"
 
 [[plugins]]
   package = "@netlify/plugin-nextjs"
 
 [[redirects]]
-  from = "/*"
-  to = "/.netlify/functions/next"
+  from = "/_next/static/*"
+  to = "/static/:splat"
   status = 200
-  force = true
 
-[functions]
-  directory = "netlify/functions"
-  node_bundler = "esbuild"
+[[redirects]]
+  from = "/_next/*"
+  to = "/_next/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
