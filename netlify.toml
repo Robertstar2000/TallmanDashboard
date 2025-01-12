@@ -12,8 +12,10 @@
 
 [[redirects]]
   from = "/*"
-  to = "/index.html"
+  to = "/.netlify/functions/next"
   status = 200
+  force = true
 
 [functions]
   directory = "netlify/functions"
+  node_bundler = "esbuild"
