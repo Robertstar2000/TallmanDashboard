@@ -287,6 +287,7 @@ export interface DatabaseConnectionState {
 }
 
 export interface AdminVariable extends RawDataBase {
+  name?: string;
   extractedValue?: string;
   secondaryValue?: string;
   updateTime?: string;
