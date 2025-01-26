@@ -169,33 +169,46 @@ export function useAdminData() {
         // Save all fields that might have changed
         await Promise.all([
           // Basic fields
-          updateDashboardVariable(itemId, 'name', item.name),
-          updateDashboardVariable(itemId, 'chartGroup', item.chartGroup),
-          updateDashboardVariable(itemId, 'calculation', item.calculation),
-          updateDashboardVariable(itemId, 'sqlExpression', item.sqlExpression),
-          updateDashboardVariable(itemId, 'p21DataDictionary', item.p21DataDictionary),
-          updateDashboardVariable(itemId, 'value', item.value || ''),
+          updateDashboardVariable(itemId, 'name', item.name || ''),
+          updateDashboardVariable(itemId, 'chartGroup', item.chartGroup || ''),
+          updateDashboardVariable(itemId, 'calculation', item.calculation || ''),
+          updateDashboardVariable(itemId, 'sqlExpression', item.sqlExpression || ''),
+          updateDashboardVariable(itemId, 'p21DataDictionary', item.p21DataDictionary || ''),
+          updateDashboardVariable(itemId, 'value', String(item.value || '')),
           updateDashboardVariable(itemId, 'subGroup', item.subGroup || ''),
           
           // Special fields based on chart group
           item.chartGroup === 'Historical Data' && [
-            updateDashboardVariable(itemId, 'p21', item.p21 || ''),
-            updateDashboardVariable(itemId, 'por', item.por || '')
+            updateDashboardVariable(itemId, 'historicalDate', item.historicalDate || ''),
+            updateDashboardVariable(itemId, 'p21', String(item.p21 || '')),
+            updateDashboardVariable(itemId, 'por', String(item.por || ''))
           ],
           
           item.chartGroup === 'Inventory Value & Turnover' && [
-            updateDashboardVariable(itemId, 'inventory', item.inventory || ''),
-            updateDashboardVariable(itemId, 'turnover', item.turnover || '')
+            updateDashboardVariable(itemId, 'inventoryValueDate', item.inventoryValueDate || ''),
+            updateDashboardVariable(itemId, 'inventory', String(item.inventory || '')),
+            updateDashboardVariable(itemId, 'turnover', String(item.turnover || ''))
           ],
           
           item.chartGroup === 'Accounts Payable Overview' && [
-            updateDashboardVariable(itemId, 'total', item.total || ''),
-            updateDashboardVariable(itemId, 'overdue', item.overdue || '')
+            updateDashboardVariable(itemId, 'accountsPayableDate', item.accountsPayableDate || ''),
+            updateDashboardVariable(itemId, 'total', String(item.total || '')),
+            updateDashboardVariable(itemId, 'overdue', String(item.overdue || ''))
           ],
           
           item.chartGroup === 'New Customers vs. New Prospects' && [
-            updateDashboardVariable(itemId, 'new', item.new || ''),
-            updateDashboardVariable(itemId, 'prospects', item.prospects || '')
+            updateDashboardVariable(itemId, 'customersDate', item.customersDate || ''),
+            updateDashboardVariable(itemId, 'new', String(item.new || '')),
+            updateDashboardVariable(itemId, 'prospects', String(item.prospects || ''))
+          ],
+
+          item.chartGroup === 'AR Aging' && [
+            updateDashboardVariable(itemId, 'arAgingDate', item.arAgingDate || ''),
+            updateDashboardVariable(itemId, 'current', String(item.current || '')),
+            updateDashboardVariable(itemId, 'aging_1_30', String(item.aging_1_30 || '')),
+            updateDashboardVariable(itemId, 'aging_31_60', String(item.aging_31_60 || '')),
+            updateDashboardVariable(itemId, 'aging_61_90', String(item.aging_61_90 || '')),
+            updateDashboardVariable(itemId, 'aging_90_plus', String(item.aging_90_plus || ''))
           ]
         ].filter(Boolean).flat());
       }
