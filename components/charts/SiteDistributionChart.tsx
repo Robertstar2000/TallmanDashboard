@@ -11,11 +11,12 @@ interface SiteData {
 
 interface SiteDistributionChartProps {
   data: SiteData[];
+  onUpdate?: (data: SiteData[]) => void;
 }
 
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884d8'];
 
-export function SiteDistributionChart({ data }: SiteDistributionChartProps) {
+export function SiteDistributionChart({ data, onUpdate }: SiteDistributionChartProps) {
   const total = data.reduce((sum, item) => sum + item.value, 0);
   const formattedTotal = `$${(total / 1000000).toFixed(1)}M`;
 
