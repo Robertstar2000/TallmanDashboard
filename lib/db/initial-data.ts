@@ -8,7 +8,8 @@ import {
   RawInventoryData,
   RawSiteDistributionData,
   RawDashboardData,
-  SpreadsheetData
+  SpreadsheetData,
+  RawARAgingData
 } from '@/lib/types/dashboard';
 
 function generateLastNMonths(n: number, baseDate: string = '2025-01-11'): string[] {
@@ -366,7 +367,118 @@ const topProducts = [
   }
 ];
 
-export const rawDashboardData: RawDashboardData[] = [
+const arAgingData: RawARAgingData[] = [
+  {
+    id: 218,
+    name: 'ar_aging_current',
+    value: '125000',
+    chartGroup: 'AR Aging',
+    calculation: 'Current AR (0-30 days)',
+    sqlExpression: `
+      SELECT SUM(invoice_amt) as current_amount
+      FROM ap_hdr
+      WHERE DATEDIFF(day, due_date, GETDATE()) <= 30
+      AND invoice_status != 'P'
+    `,
+    p21DataDictionary: 'ap_hdr.invoice_amt,ap_hdr.due_date,ap_hdr.invoice_status',
+    arAgingDate: new Date().toISOString().slice(0, 10),
+    current: '125000'
+  },
+  {
+    id: 219,
+    name: 'ar_aging_1_30',
+    value: '75000',
+    chartGroup: 'AR Aging',
+    calculation: 'AR 1-30 days past due',
+    sqlExpression: `
+      SELECT SUM(invoice_amt) as amount_1_30
+      FROM ap_hdr
+      WHERE DATEDIFF(day, due_date, GETDATE()) BETWEEN 1 AND 30
+      AND invoice_status != 'P'
+    `,
+    p21DataDictionary: 'ap_hdr.invoice_amt,ap_hdr.due_date,ap_hdr.invoice_status',
+    arAgingDate: new Date().toISOString().slice(0, 10),
+    aging_1_30: '75000'
+  },
+  {
+    id: 220,
+    name: 'ar_aging_31_60',
+    value: '45000',
+    chartGroup: 'AR Aging',
+    calculation: 'AR 31-60 days past due',
+    sqlExpression: `
+      SELECT SUM(invoice_amt) as amount_31_60
+      FROM ap_hdr
+      WHERE DATEDIFF(day, due_date, GETDATE()) BETWEEN 31 AND 60
+      AND invoice_status != 'P'
+    `,
+    p21DataDictionary: 'ap_hdr.invoice_amt,ap_hdr.due_date,ap_hdr.invoice_status',
+    arAgingDate: new Date().toISOString().slice(0, 10),
+    aging_31_60: '45000'
+  },
+  {
+    id: 221,
+    name: 'ar_aging_61_90',
+    value: '25000',
+    chartGroup: 'AR Aging',
+    calculation: 'AR 61-90 days past due',
+    sqlExpression: `
+      SELECT SUM(invoice_amt) as amount_61_90
+      FROM ap_hdr
+      WHERE DATEDIFF(day, due_date, GETDATE()) BETWEEN 61 AND 90
+      AND invoice_status != 'P'
+    `,
+    p21DataDictionary: 'ap_hdr.invoice_amt,ap_hdr.due_date,ap_hdr.invoice_status',
+    arAgingDate: new Date().toISOString().slice(0, 10),
+    aging_61_90: '25000'
+  },
+  {
+    id: 222,
+    name: 'ar_aging_90_plus',
+    value: '15000',
+    chartGroup: 'AR Aging',
+    calculation: 'AR over 90 days past due',
+    sqlExpression: `
+      SELECT SUM(invoice_amt) as amount_90_plus
+      FROM ap_hdr
+      WHERE DATEDIFF(day, due_date, GETDATE()) > 90
+      AND invoice_status != 'P'
+    `,
+    p21DataDictionary: 'ap_hdr.invoice_amt,ap_hdr.due_date,ap_hdr.invoice_status',
+    arAgingDate: new Date().toISOString().slice(0, 10),
+    aging_90_plus: '15000'
+  }
+];
+
+function isHistoricalData(item: RawDashboardData): item is RawHistoricalData {
+  return item.chartGroup === 'Historical Data';
+}
+
+function isAccountsPayableData(item: RawDashboardData): item is RawAccountsPayableData {
+  return item.chartGroup === 'Accounts Payable Overview';
+}
+
+function isCustomersData(item: RawDashboardData): item is RawCustomersData {
+  return item.chartGroup === 'New Customers vs. New Prospects';
+}
+
+function isInventoryData(item: RawDashboardData): item is RawInventoryData {
+  return item.chartGroup === 'Inventory Value & Turnover';
+}
+
+function isSiteDistributionData(item: RawDashboardData): item is RawSiteDistributionData {
+  return item.chartGroup === 'Site Distribution';
+}
+
+function isProductData(item: RawDashboardData): item is RawProductData {
+  return item.chartGroup === 'Top Products';
+}
+
+function isARAgingData(item: RawDashboardData): item is RawARAgingData {
+  return item.chartGroup === 'AR Aging';
+}
+
+const metricsData = [
   // Metrics - 6 unique metrics
   {
     id: 1,
@@ -456,40 +568,19 @@ export const rawDashboardData: RawDashboardData[] = [
     p21DataDictionary: 'analytics',
     value: '3200'
   },
+];
+
+// Export raw dashboard data with all components
+export const rawDashboardData: RawDashboardData[] = [
+  ...metricsData,
   ...historicalData,
   ...accountsPayableData,
   ...customerData,
   ...inventoryData,
   ...siteDistributionData,
-  ...topProducts
+  ...topProducts,
+  ...arAgingData
 ];
-
-// Type guard functions
-function isHistoricalData(item: RawDashboardData): item is RawHistoricalData {
-  return item.chartGroup === 'Historical Data';
-}
-
-function isAccountsPayableData(item: RawDashboardData): item is RawAccountsPayableData {
-  return item.chartGroup === 'Accounts Payable Overview';
-}
-
-function isCustomersData(item: RawDashboardData): item is RawCustomersData {
-  return item.chartGroup === 'Customer Data';
-}
-
-function isInventoryData(item: RawDashboardData): item is RawInventoryData {
-  return item.chartGroup === 'Inventory Value & Turnover';
-}
-
-function isSiteDistributionData(item: RawDashboardData): item is RawSiteDistributionData {
-  return item.chartGroup === 'Site Distribution';
-}
-
-function isProductData(item: RawDashboardData): item is RawProductData {
-  return item.chartGroup === 'Top Products';
-}
-
-export const initialData = rawDashboardData;
 
 export const spreadsheetData: SpreadsheetData = {
   entries: rawDashboardData
@@ -498,65 +589,61 @@ export const spreadsheetData: SpreadsheetData = {
       isAccountsPayableData(item) || 
       isCustomersData(item) || 
       isInventoryData(item) || 
-      isSiteDistributionData(item))
+      isSiteDistributionData(item) ||
+      isARAgingData(item))
     .map(item => {
       const entry = {
         date: '',
         p21Value: 0,
         porValue: 0,
+        p21: 0,
+        por: 0,
         accountsPayable: { total: 0, overdue: 0 },
-        total: 0,
-        overdue: 0,
         customers: { new: 0, prospects: 0 },
-        new: 0,
-        prospects: 0,
         inventory: { value: 0, turnover: 0 },
-        value: 0,
-        turnover: 0,
         sites: { columbus: 0, addison: 0, lakeCity: 0 },
-        columbus: 0,
-        addison: 0,
-        lakeCity: 0
+        arAging: { current: 0, aging_1_30: 0, aging_31_60: 0, aging_61_90: 0, aging_90_plus: 0 }
       };
 
       if (isHistoricalData(item)) {
         entry.date = item.historicalDate;
         entry.p21Value = parseInt(item.p21);
         entry.porValue = parseInt(item.por);
+        entry.p21 = parseInt(item.p21);
+        entry.por = parseInt(item.por);
       }
-      
+
       if (isAccountsPayableData(item)) {
         entry.date = item.accountsPayableDate;
         entry.accountsPayable.total = parseInt(item.total);
         entry.accountsPayable.overdue = parseInt(item.overdue);
-        entry.total = parseInt(item.total);
-        entry.overdue = parseInt(item.overdue);
       }
-      
+
       if (isCustomersData(item)) {
         entry.date = item.customersDate;
         entry.customers.new = parseInt(item.new);
         entry.customers.prospects = parseInt(item.prospects);
-        entry.new = parseInt(item.new);
-        entry.prospects = parseInt(item.prospects);
       }
-      
+
       if (isInventoryData(item)) {
         entry.date = item.inventoryValueDate;
         entry.inventory.value = parseInt(item.inventory);
-        entry.inventory.turnover = parseFloat(item.turnover);
-        entry.value = parseInt(item.inventory);
-        entry.turnover = parseFloat(item.turnover);
+        entry.inventory.turnover = parseInt(item.turnover);
       }
-      
+
       if (isSiteDistributionData(item)) {
-        entry.date = item.historicalDate;
         entry.sites.columbus = parseInt(item.columbus);
         entry.sites.addison = parseInt(item.addison);
         entry.sites.lakeCity = parseInt(item.lakeCity);
-        entry.columbus = parseInt(item.columbus);
-        entry.addison = parseInt(item.addison);
-        entry.lakeCity = parseInt(item.lakeCity);
+      }
+
+      if (isARAgingData(item)) {
+        entry.date = item.arAgingDate;
+        entry.arAging.current = parseInt(item.current || '0');
+        entry.arAging.aging_1_30 = parseInt(item.aging_1_30 || '0');
+        entry.arAging.aging_31_60 = parseInt(item.aging_31_60 || '0');
+        entry.arAging.aging_61_90 = parseInt(item.aging_61_90 || '0');
+        entry.arAging.aging_90_plus = parseInt(item.aging_90_plus || '0');
       }
 
       return entry;
@@ -580,17 +667,21 @@ export const spreadsheetData: SpreadsheetData = {
       columbus: 0,
       addison: 0,
       lakeCity: 0
+    },
+    arAging: {
+      current: 0,
+      aging_1_30: 0,
+      aging_31_60: 0,
+      aging_61_90: 0,
+      aging_90_plus: 0
     }
   },
   dailyShipments: rawDashboardData
-    .filter(item => item.chartGroup === 'Daily Shipments')
-    .map(item => {
-      if (!isProductData(item)) return { date: '', shipments: 0 };
-      return {
-        date: item.name,
-        shipments: parseInt(item.value || '0')
-      };
-    })
+    .filter(item => isHistoricalData(item))
+    .map(item => ({
+      date: isHistoricalData(item) ? item.historicalDate : '',
+      shipments: isHistoricalData(item) ? parseInt(item.p21) : 0
+    }))
 };
 
 export const adminSpreadsheetData = rawDashboardData.map(item => ({
@@ -619,5 +710,70 @@ export const adminSpreadsheetData = rawDashboardData.map(item => ({
   addison: isSiteDistributionData(item) ? item.addison : undefined,
   lakeCity: isSiteDistributionData(item) ? item.lakeCity : undefined,
   value: isProductData(item) ? item.value : undefined,
-  subGroup: isProductData(item) ? item.subGroup : undefined
+  subGroup: isProductData(item) ? item.subGroup : undefined,
+  arAgingDate: isARAgingData(item) ? item.arAgingDate : undefined,
+  current: isARAgingData(item) ? item.current : undefined,
+  aging_1_30: isARAgingData(item) ? item.aging_1_30 : undefined,
+  aging_31_60: isARAgingData(item) ? item.aging_31_60 : undefined,
+  aging_61_90: isARAgingData(item) ? item.aging_61_90 : undefined,
+  aging_90_plus: isARAgingData(item) ? item.aging_90_plus : undefined
 }));
+
+export const initialARAgingData = [
+  {
+    name: '0-30 Days',
+    value: 100000,
+    arAgingDate: '2024-01-25'
+  },
+  {
+    name: '31-60 Days',
+    value: 75000,
+    arAgingDate: '2024-01-25'
+  },
+  {
+    name: '61-90 Days',
+    value: 50000,
+    arAgingDate: '2024-01-25'
+  },
+  {
+    name: '90+ Days',
+    value: 25000,
+    arAgingDate: '2024-01-25'
+  }
+];
+
+// Initialize storage with initial data
+export const initializeStorage = () => {
+  if (typeof window === 'undefined') return;
+  
+  const storage = window.localStorage;
+  const arAgingData = [
+    {
+      name: '0-30 Days',
+      value: 100000,
+      arAgingDate: '2024-01-25'
+    },
+    {
+      name: '31-60 Days',
+      value: 75000,
+      arAgingDate: '2024-01-25'
+    },
+    {
+      name: '61-90 Days',
+      value: 50000,
+      arAgingDate: '2024-01-25'
+    },
+    {
+      name: '90+ Days',
+      value: 25000,
+      arAgingDate: '2024-01-25'
+    }
+  ];
+
+  if (!storage.getItem('arAging')) {
+    storage.setItem('arAging', JSON.stringify(arAgingData));
+  }
+};
+
+// Call initialization on import
+initializeStorage();

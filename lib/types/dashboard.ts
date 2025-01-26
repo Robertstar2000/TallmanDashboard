@@ -1,7 +1,6 @@
 // Raw Data Types
 export interface RawDataBase {
   id: number;
-  name: string;
   chartGroup: string;
   calculation: string;
   sqlExpression: string;
@@ -9,53 +8,89 @@ export interface RawDataBase {
 }
 
 export interface RawMetricData extends RawDataBase {
+  name: string;
   value: string;
 }
 
 export interface RawProductData extends RawDataBase {
+  name: string;
   value: string;
   subGroup?: string;
 }
 
 export interface RawHistoricalData extends RawDataBase {
+  name: string;
   historicalDate: string;
   p21: string;
   por: string;
 }
 
 export interface RawAccountsPayableData extends RawDataBase {
+  name: string;
   accountsPayableDate: string;
   total: string;
   overdue: string;
 }
 
 export interface RawCustomersData extends RawDataBase {
+  name: string;
   customersDate: string;
   new: string;
   prospects: string;
 }
 
 export interface RawInventoryData extends RawDataBase {
+  name: string;
   inventoryValueDate: string;
   inventory: string;
   turnover: string;
 }
 
 export interface RawSiteDistributionData extends RawDataBase {
+  name: string;
   historicalDate: string;
   columbus: string;
   addison: string;
   lakeCity: string;
 }
 
+export interface RawARAgingData {
+  name: string;
+  value: string | number;
+  arAgingDate: string;
+  id?: number;
+  chartGroup?: string;
+  calculation?: string;
+  sqlExpression?: string;
+  p21DataDictionary?: string;
+  current?: string;
+  aging_1_30?: string;
+  aging_31_60?: string;
+  aging_61_90?: string;
+  aging_90_plus?: string;
+}
+
+export interface ARAgingData {
+  name: string;
+  value: number;
+  date: string;
+}
+
+export interface WebMetrics {
+  name: string;
+  value: number;
+  date: string;
+}
+
 export type RawDashboardData = 
-  RawMetricData 
+  | RawMetricData 
   | RawProductData 
   | RawHistoricalData 
   | RawAccountsPayableData 
   | RawCustomersData 
   | RawInventoryData 
-  | RawSiteDistributionData;
+  | RawSiteDistributionData
+  | RawARAgingData;
 
 // Transformed Data Types
 export interface DashboardData {
@@ -141,6 +176,13 @@ export interface MonthlyData {
     addison: number;
     lakeCity: number;
   };
+  arAging: {
+    current: number;
+    aging_1_30: number;
+    aging_31_60: number;
+    aging_61_90: number;
+    aging_90_plus: number;
+  };
 }
 
 export interface SpreadsheetData {
@@ -165,12 +207,19 @@ export interface SpreadsheetData {
       addison: number;
       lakeCity: number;
     };
+    arAging: {
+      current: number;
+      aging_1_30: number;
+      aging_31_60: number;
+      aging_61_90: number;
+      aging_90_plus: number;
+    };
   };
   dailyShipments: DailyShipment[];
 }
 
-export interface DashboardVariable {
-  id: string;
+export interface DashboardVariable extends RawDataBase {
+  id: number;
   name: string;
   value: string | number;
   category: string;
@@ -178,6 +227,28 @@ export interface DashboardVariable {
   chartId: string;
   chartType: 'metric' | 'chart' | 'graph';
   displayName: string;
+  chartGroup: string;
+  calculation: string;
+  sqlExpression: string;
+  p21DataDictionary: string;
+  historicalDate?: string;
+  p21?: string;
+  por?: string;
+  accountsPayableDate?: string;
+  total?: string;
+  overdue?: string;
+  customersDate?: string;
+  new?: string;
+  prospects?: string;
+  inventoryValueDate?: string;
+  inventory?: string;
+  turnover?: string;
+  arAgingDate?: string;
+  current?: string;
+  aging_1_30?: string;
+  aging_31_60?: string;
+  aging_61_90?: string;
+  aging_90_plus?: string;
 }
 
 export interface ChartMetadata {
@@ -216,12 +287,6 @@ export interface DatabaseConnectionState {
 }
 
 export interface AdminVariable extends RawDataBase {
-  id: number;
-  name: string;
-  chartGroup: string;
-  calculation: string;
-  sqlExpression: string;
-  p21DataDictionary: string;
   extractedValue?: string;
   secondaryValue?: string;
   updateTime?: string;
@@ -242,5 +307,11 @@ export interface AdminVariable extends RawDataBase {
   lakeCity?: string;
   value?: string;
   subGroup?: string;
+  arAgingDate?: string;
+  current?: string;
+  aging_1_30?: string;
+  aging_31_60?: string;
+  aging_61_90?: string;
+  aging_90_plus?: string;
   connectionState?: DatabaseConnectionState;
 }

@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { sql } from '@vercel/postgres';
+import { db } from '@/lib/db/sqlite';
 
 export function generateStaticParams() {
   return [
@@ -21,25 +21,20 @@ export async function GET(
       );
     }
 
-    const result = await sql`
-      SELECT settings, last_updated
-      FROM connection_settings
-      WHERE id = ${type};
-    `;
+    const result = await db.execute({
+      sql: 'SELECT settings, last_updated FROM connection_settings WHERE id = ?',
+      args: [type]
+    });
 
-    if (result.rows.length === 0) {
+    if (!result.rows || result.rows.length === 0) {
       return NextResponse.json(null);
     }
 
-    return NextResponse.json({
-      id: type,
-      settings: result.rows[0].settings,
-      lastUpdated: result.rows[0].last_updated
-    });
+    return NextResponse.json(result.rows[0]);
   } catch (error) {
-    console.error('Error getting connection settings:', error);
+    console.error('Error retrieving connection settings:', error);
     return NextResponse.json(
-      { error: 'Failed to get connection settings' },
+      { error: 'Failed to retrieve connection settings' },
       { status: 500 }
     );
   }

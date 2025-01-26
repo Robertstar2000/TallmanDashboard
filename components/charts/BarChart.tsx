@@ -9,7 +9,9 @@ import {
   BarElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
+  ChartData,
+  ChartOptions
 } from 'chart.js';
 
 ChartJS.register(
@@ -21,7 +23,7 @@ ChartJS.register(
   Legend
 );
 
-interface BarChartProps<T> {
+interface BarChartProps<T extends Record<string, any>> {
   data: T[];
   xKey: keyof T;
   yKey: keyof T;
@@ -29,30 +31,36 @@ interface BarChartProps<T> {
   onDataUpdate?: (data: T[]) => void;
 }
 
-export function BarChart<T>({ data, xKey, yKey, color, onDataUpdate }: BarChartProps<T>) {
-  const chartData = {
+export function BarChart<T extends Record<string, any>>({ data, xKey, yKey, color, onDataUpdate }: BarChartProps<T>) {
+  const chartData: ChartData<'bar'> = {
     labels: data.map(item => String(item[xKey])),
     datasets: [
       {
+        label: String(yKey),
         data: data.map(item => Number(item[yKey])),
         backgroundColor: color,
-      }
-    ]
+        borderColor: color,
+        borderWidth: 1,
+      },
+    ],
   };
 
-  const options = {
+  const options: ChartOptions<'bar'> = {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
       legend: {
-        display: false
-      }
+        position: 'top' as const,
+      },
+      title: {
+        display: false,
+      },
     },
     scales: {
       y: {
-        beginAtZero: true
-      }
-    }
+        beginAtZero: true,
+      },
+    },
   };
 
   return (

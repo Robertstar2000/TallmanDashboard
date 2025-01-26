@@ -1,162 +1,137 @@
 'use client';
 
+import { ARAgingData, RawARAgingData } from '@/lib/types/dashboard';
+import { executeQuery, isServerConnected } from './sqlite';
 import { storage } from './storage';
-import { initialData } from './initial-data';
-import { 
-  Metric, 
-  HistoricalDataPoint, 
-  DailyShipment, 
-  SiteDistribution, 
-  Products,
-  RawHistoricalData,
-  RawProductData,
-  RawAccountsPayableData,
-  RawCustomersData,
-  RawInventoryData,
-  RawSiteDistributionData
-} from '@/lib/types/dashboard';
 
-// Type guards
-function isHistoricalData(item: any): item is RawHistoricalData {
-  return 'historicalDate' in item && 'p21' in item && 'por' in item;
+// Storage utility functions
+function getStorageItem<T>(key: string): T | null {
+  if (typeof window === 'undefined') return null;
+  try {
+    const item = window.localStorage.getItem(key);
+    return item ? JSON.parse(item) : null;
+  } catch {
+    return null;
+  }
 }
 
-function isProductData(item: any): item is RawProductData {
-  return 'value' in item;
-}
-
-function isSiteDistributionData(item: any): item is RawSiteDistributionData {
-  return 'columbus' in item && 'addison' in item && 'lakeCity' in item;
-}
-
-// Initialize storage with data
-const initializeStorage = () => {
+function setStorageItem(key: string, value: any): void {
   if (typeof window === 'undefined') return;
-  
-  // Convert initial data array to structured format
-  const structuredData = {
-    metrics: initialData
-      .filter(item => item.chartGroup === 'Metrics')
-      .map(item => {
-        const value = isHistoricalData(item) ? Number(item.p21) : 0;
-        return {
-          name: item.name,
-          value
-        };
-      }),
-    
-    historicalData: initialData
-      .filter(item => item.chartGroup === 'Historical Data')
-      .filter(isHistoricalData)
-      .map(item => ({
-        date: item.historicalDate,
-        p21: Number(item.p21),
-        por: Number(item.por)
-      }))
-      .sort((a, b) => a.date.localeCompare(b.date)),
-    
-    dailyShipments: initialData
-      .filter(item => item.chartGroup === 'Daily Shipments')
-      .filter(isHistoricalData)
-      .map(item => ({
-        date: item.historicalDate,
-        shipments: Number(item.p21)
-      })),
-    
-    siteDistribution: initialData
-      .filter(item => item.chartGroup === 'Site Distribution')
-      .filter(isSiteDistributionData)
-      .map(item => ({
-        date: item.historicalDate,
-        columbus: Number(item.columbus),
-        addison: Number(item.addison),
-        lakeCity: Number(item.lakeCity)
-      })),
-    
-    products: {
-      online: initialData
-        .filter(item => item.chartGroup === 'Top Products Online')
-        .filter(isProductData)
-        .map(item => ({
-          name: item.name,
-          value: Number(item.value)
-        })),
-      inside: initialData
-        .filter(item => item.chartGroup === 'Top Products Inside')
-        .filter(isProductData)
-        .map(item => ({
-          name: item.name,
-          value: Number(item.value)
-        })),
-      outside: initialData
-        .filter(item => item.chartGroup === 'Top Products Outside')
-        .filter(isProductData)
-        .map(item => ({
-          name: item.name,
-          value: Number(item.value)
-        }))
-    }
-  };
+  window.localStorage.setItem(key, JSON.stringify(value));
+}
 
-  // Initialize each data category
-  Object.entries(structuredData).forEach(([key, value]) => {
-    storage.initialize(key, value);
-  });
-};
+// Data access functions
+function getMetrics() {
+  if (typeof window === 'undefined') return [];
+  return storage.getItem('metrics') || [];
+}
 
-// Initialize on import
-initializeStorage();
-
-export const getMetrics = (): Metric[] => {
-  const metrics = storage.getItem('metrics');
-  return metrics || [];
-};
-
-export const updateMetric = (name: string, value: number): Metric[] => {
+function updateMetric(metric: any) {
+  if (typeof window === 'undefined') return;
   const metrics = getMetrics();
-  const updatedMetrics = metrics.map((m: Metric) =>
-    m.name === name ? { ...m, value } : m
-  );
-  storage.setItem('metrics', updatedMetrics);
-  return updatedMetrics;
-};
+  const index = metrics.findIndex((m: any) => m.name === metric.name);
+  if (index !== -1) {
+    metrics[index] = metric;
+  } else {
+    metrics.push(metric);
+  }
+  storage.setItem('metrics', metrics);
+}
 
-export const getHistoricalData = (): HistoricalDataPoint[] => {
-  const data = storage.getItem('historicalData');
-  return data || [];
-};
+function getHistoricalData() {
+  if (typeof window === 'undefined') return [];
+  return storage.getItem('historicalData') || [];
+}
 
-export const updateHistoricalData = (data: HistoricalDataPoint[]): HistoricalDataPoint[] => {
+function updateHistoricalData(data: any) {
+  if (typeof window === 'undefined') return;
   storage.setItem('historicalData', data);
-  return data;
-};
+}
 
-export const getDailyShipments = (): DailyShipment[] => {
-  const data = storage.getItem('dailyShipments');
-  return data || [];
-};
+function updateARAgingData(data: any) {
+  if (typeof window === 'undefined') return;
+  storage.setItem('arAging', data);
+}
 
-export const updateDailyShipments = (data: DailyShipment[]): DailyShipment[] => {
+function getDailyShipments() {
+  if (typeof window === 'undefined') return [];
+  return storage.getItem('dailyShipments') || [];
+}
+
+function updateDailyShipments(data: any) {
+  if (typeof window === 'undefined') return;
   storage.setItem('dailyShipments', data);
-  return data;
-};
+}
 
-export const getSiteDistribution = (): SiteDistribution[] => {
-  const data = storage.getItem('siteDistribution');
-  return data || [];
-};
+function getSiteDistribution() {
+  if (typeof window === 'undefined') return [];
+  return storage.getItem('siteDistribution') || [];
+}
 
-export const updateSiteDistribution = (data: SiteDistribution[]): SiteDistribution[] => {
+function updateSiteDistribution(data: any) {
+  if (typeof window === 'undefined') return;
   storage.setItem('siteDistribution', data);
-  return data;
-};
+}
 
-export const getProducts = (): Products => {
-  const data = storage.getItem('products');
-  return data || { online: [], inside: [], outside: [] };
-};
+function getProducts() {
+  if (typeof window === 'undefined') return [];
+  return storage.getItem('products') || [];
+}
 
-export const updateProducts = (data: Products): Products => {
+function updateProducts(data: any) {
+  if (typeof window === 'undefined') return;
   storage.setItem('products', data);
-  return data;
+}
+
+function getDailyOrders() {
+  if (typeof window === 'undefined') return [];
+  return storage.getItem('dailyOrders') || [];
+}
+
+function getCustomerMetrics() {
+  if (typeof window === 'undefined') return [];
+  return storage.getItem('customerMetrics') || [];
+}
+
+function getAccounts() {
+  if (typeof window === 'undefined') return [];
+  return storage.getItem('accounts') || [];
+}
+
+function getPOR() {
+  if (typeof window === 'undefined') return [];
+  return storage.getItem('por') || [];
+}
+
+function getInventoryValue() {
+  if (typeof window === 'undefined') return [];
+  return storage.getItem('inventoryValue') || [];
+}
+
+function getWebMetrics() {
+  if (typeof window === 'undefined') return [];
+  return storage.getItem('webMetrics') || [];
+}
+
+// Export all functions in a single statement
+export {
+  executeQuery,
+  isServerConnected,
+  getMetrics,
+  updateMetric,
+  getHistoricalData,
+  updateHistoricalData,
+  updateARAgingData,
+  getDailyShipments,
+  updateDailyShipments,
+  getSiteDistribution,
+  updateSiteDistribution,
+  getProducts,
+  updateProducts,
+  getDailyOrders,
+  getCustomerMetrics,
+  getAccounts,
+  getPOR,
+  getInventoryValue,
+  getWebMetrics
 };

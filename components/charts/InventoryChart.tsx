@@ -71,7 +71,7 @@ export function InventoryChart({ data }: InventoryChartProps) {
           <ResponsiveContainer width="100%" height="100%">
             <BarChart
               data={chartData}
-              margin={{ top: 2, right: 8, left: 2, bottom: 2 }}
+              margin={{ top: 2, right: 4, left: 0, bottom: 2 }}
             >
               <CartesianGrid strokeDasharray="2 2" />
               <XAxis 
@@ -81,13 +81,14 @@ export function InventoryChart({ data }: InventoryChartProps) {
               />
               <YAxis 
                 tick={{fontSize: 'clamp(7px,0.7vw,8px)'}}
-                width={16}
+                width={14}
               />
               <Tooltip />
               <Legend 
                 wrapperStyle={{fontSize: 'clamp(7px,0.7vw,8px)'}}
                 iconSize={4}
                 height={10}
+                margin={{ top: 0, right: 0, left: 0, bottom: 0 }}
               />
               <Bar dataKey="inStock" fill="#8884d8" />
               <Bar dataKey="onOrder" fill="#82ca9d" />

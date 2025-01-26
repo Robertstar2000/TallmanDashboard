@@ -1,7 +1,18 @@
 'use client';
 
-export const storage = {
-  getItem: (key: string) => {
+class Storage {
+  constructor() {
+    // Initialize storage if needed
+    if (typeof window !== 'undefined') {
+      try {
+        window.localStorage.getItem('initialized');
+      } catch (error) {
+        console.error('Storage not available:', error);
+      }
+    }
+  }
+
+  getItem(key: string): any {
     if (typeof window === 'undefined') return null;
     
     try {
@@ -11,9 +22,9 @@ export const storage = {
       console.error(`Error reading from storage: ${key}`, error);
       return null;
     }
-  },
-  
-  setItem: (key: string, value: any) => {
+  }
+
+  setItem(key: string, value: any): void {
     if (typeof window === 'undefined') return;
     
     try {
@@ -21,18 +32,27 @@ export const storage = {
     } catch (error) {
       console.error(`Error writing to storage: ${key}`, error);
     }
-  },
+  }
 
-  initialize: (key: string, value: any) => {
+  removeItem(key: string): void {
     if (typeof window === 'undefined') return;
     
     try {
-      const existing = window.localStorage.getItem(key);
-      if (!existing) {
-        window.localStorage.setItem(key, JSON.stringify(value));
-      }
+      window.localStorage.removeItem(key);
     } catch (error) {
-      console.error(`Error initializing storage: ${key}`, error);
+      console.error(`Error removing from storage: ${key}`, error);
     }
   }
-};
+
+  clear(): void {
+    if (typeof window === 'undefined') return;
+    
+    try {
+      window.localStorage.clear();
+    } catch (error) {
+      console.error('Error clearing storage', error);
+    }
+  }
+}
+
+export const storage = new Storage();

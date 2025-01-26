@@ -1,4 +1,5 @@
 import { createClient } from '@libsql/client';
+import { ARAgingData } from '@/lib/types/dashboard';
 
 // For browser environment, we'll use localStorage to simulate the database
 const storage = {
@@ -123,28 +124,28 @@ const initialData = {
     { month: 'Feb', W_Orders: 362, W_Revenue: 148000 },
     { month: 'Mar', W_Orders: 456, W_Revenue: 195000 },
     { month: 'Apr', W_Orders: 478, W_Revenue: 242000 },
-    { month: 'May', W_Orders: 585, W_Revenue: 286000 },
-    { month: 'Jun', W_Orders: 692, W_Revenue: 345000 },
-    { month: 'Jul', W_Orders: 800, W_Revenue: 400000 },
-    { month: 'Aug', W_Orders: 900, W_Revenue: 450000 },
-    { month: 'Sep', W_Orders: 1000, W_Revenue: 500000 },
-    { month: 'Oct', W_Orders: 1100, W_Revenue: 550000 },
-    { month: 'Nov', W_Orders: 1200, W_Revenue: 600000 },
-    { month: 'Dec', W_Orders: 1300, W_Revenue: 650000 }
+    { month: 'May', W_Orders: 524, W_Revenue: 268000 },
+    { month: 'Jun', W_Orders: 568, W_Revenue: 285000 },
+    { month: 'Jul', W_Orders: 612, W_Revenue: 312000 },
+    { month: 'Aug', W_Orders: 645, W_Revenue: 328000 },
+    { month: 'Sep', W_Orders: 678, W_Revenue: 345000 },
+    { month: 'Oct', W_Orders: 712, W_Revenue: 362000 },
+    { month: 'Nov', W_Orders: 745, W_Revenue: 378000 },
+    { month: 'Dec', W_Orders: 785, W_Revenue: 398000 }
   ],
   customerMetrics: [
-    { month: 'Jan', newCustomers: 45, prospects: 85 },
-    { month: 'Feb', newCustomers: 52, prospects: 92 },
-    { month: 'Mar', newCustomers: 48, prospects: 88 },
-    { month: 'Apr', newCustomers: 55, prospects: 95 },
-    { month: 'May', newCustomers: 58, prospects: 98 },
-    { month: 'Jun', newCustomers: 62, prospects: 102 },
-    { month: 'Jul', newCustomers: 65, prospects: 105 },
-    { month: 'Aug', newCustomers: 68, prospects: 108 },
-    { month: 'Sep', newCustomers: 72, prospects: 112 },
-    { month: 'Oct', newCustomers: 75, prospects: 115 },
-    { month: 'Nov', newCustomers: 78, prospects: 118 },
-    { month: 'Dec', newCustomers: 82, prospects: 122 }
+    { month: 'Jan', newCustomers: 45, prospects: 120 },
+    { month: 'Feb', newCustomers: 52, prospects: 135 },
+    { month: 'Mar', newCustomers: 48, prospects: 142 },
+    { month: 'Apr', newCustomers: 55, prospects: 150 },
+    { month: 'May', newCustomers: 62, prospects: 158 },
+    { month: 'Jun', newCustomers: 58, prospects: 165 },
+    { month: 'Jul', newCustomers: 64, prospects: 172 },
+    { month: 'Aug', newCustomers: 68, prospects: 180 },
+    { month: 'Sep', newCustomers: 72, prospects: 188 },
+    { month: 'Oct', newCustomers: 75, prospects: 195 },
+    { month: 'Nov', newCustomers: 78, prospects: 202 },
+    { month: 'Dec', newCustomers: 82, prospects: 210 }
   ]
 };
 
@@ -162,23 +163,23 @@ if (typeof window !== 'undefined') {
   if (!storage.getItem('siteDistribution')) {
     storage.setItem('siteDistribution', JSON.stringify(initialData.siteDistribution));
   }
-  if (!storage.getItem('accounts')) {
-    storage.setItem('accounts', JSON.stringify(initialData.accounts));
-  }
-  if (!storage.getItem('por')) {
-    storage.setItem('por', JSON.stringify(initialData.por));
-  }
   if (!storage.getItem('inventoryValue')) {
     storage.setItem('inventoryValue', JSON.stringify(initialData.inventoryValue));
   }
   if (!storage.getItem('growthMetrics')) {
     storage.setItem('growthMetrics', JSON.stringify(initialData.growthMetrics));
   }
-  if (!storage.getItem('webMetrics')) {
-    storage.setItem('webMetrics', JSON.stringify(initialData.webMetrics));
+  if (!storage.getItem('accounts')) {
+    storage.setItem('accounts', JSON.stringify(initialData.accounts));
+  }
+  if (!storage.getItem('por')) {
+    storage.setItem('por', JSON.stringify(initialData.por));
   }
   if (!storage.getItem('customerMetrics')) {
     storage.setItem('customerMetrics', JSON.stringify(initialData.customerMetrics));
+  }
+  if (!storage.getItem('webMetrics')) {
+    storage.setItem('webMetrics', JSON.stringify(initialData.webMetrics));
   }
 }
 
@@ -222,7 +223,12 @@ export const connectToServer = (serverType: 'P21' | 'POR', config: ConnectionCon
   }
 
   // Build connection string
-  const connectionString = buildConnectionString(config);
+  let connectionString;
+  if (serverType === 'P21') {
+    connectionString = buildConnectionString(config);
+  } else {
+    connectionString = buildPORConnectionString(config);
+  }
   console.log(`
     ========== SERVER CONNECTION ==========
     Type: ${serverType}
@@ -236,7 +242,7 @@ export const connectToServer = (serverType: 'P21' | 'POR', config: ConnectionCon
 };
 
 const buildConnectionString = (config: ConnectionConfig): string => {
-  // Build SQL Server connection string
+  // Build SQL Server connection string with P21 compatibility settings
   let server = config.ipAddress;
   if (config.instance) {
     server += '\\' + config.instance;
@@ -245,7 +251,20 @@ const buildConnectionString = (config: ConnectionConfig): string => {
     server += ',' + config.port;
   }
 
-  return `Server=${server};Database=${config.database};Domain=${config.domain};User Id=${config.username};Password=${config.password};Trusted_Connection=False;TrustServerCertificate=True;`;
+  return `Server=${server};Database=${config.database};Domain=${config.domain};User Id=${config.username};Password=${config.password};Trusted_Connection=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False;Encrypt=True;ConnectRetryCount=3;ConnectRetryInterval=10;`;
+};
+
+const buildPORConnectionString = (config: ConnectionConfig): string => {
+  // Build Point of Rental SQL Server connection string with standard settings
+  let server = config.ipAddress;
+  if (config.instance) {
+    server += '\\' + config.instance;
+  }
+  if (config.port) {
+    server += ',' + config.port;
+  }
+
+  return `Server=${server};Database=${config.database};Domain=${config.domain};User Id=${config.username};Password=${config.password};Trusted_Connection=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultipleActiveResultSets=True;Encrypt=True;ConnectRetryCount=3;ConnectRetryInterval=10;`;
 };
 
 export const isServerConnected = (serverType: 'P21' | 'POR') => {
@@ -253,32 +272,65 @@ export const isServerConnected = (serverType: 'P21' | 'POR') => {
 };
 
 export const executeQuery = async (serverType: 'P21' | 'POR', tableName: string, sqlExpression: string): Promise<number> => {
-  const config = serverType === 'P21' ? p21Connection : porConnection;
-  
-  if (!config) {
-    throw new Error(`${serverType} server not connected`);
+  try {
+    // Get the appropriate connection
+    const connection = serverType === 'P21' ? p21Connection : porConnection;
+    if (!connection) {
+      console.error(`No ${serverType} connection available`);
+      return 0;
+    }
+
+    // Log the query for debugging
+    console.log(`
+      ========== EXECUTING QUERY ==========
+      Server: ${serverType}
+      Table: ${tableName}
+      Query: ${sqlExpression}
+      ===================================
+    `);
+
+    // In development, we're using localStorage
+    if (typeof window !== 'undefined') {
+      return 1; // Simulate successful query
+    }
+
+    // TODO: Implement actual SQL query execution
+    // For now, return 1 to simulate success
+    return 1;
+  } catch (error) {
+    console.error(`Error executing query on ${serverType}:`, error);
+    throw error;
   }
+};
 
-  // In production, this would use the connection string to execute real SQL queries
-  const connectionString = buildConnectionString(config);
-  
-  console.log(`
-    ========== EXECUTING SQL QUERY ==========
-    Server: ${serverType}
-    Connection: ${connectionString}
-    Table: ${tableName}
-    SQL: ${sqlExpression}
-    ======================================
-  `);
+export const executePORQuery = async (tableName: string, sqlExpression: string): Promise<number> => {
+  try {
+    const connection = porConnection;
+    if (!connection) {
+      console.error('No POR connection available');
+      return 0;
+    }
 
-  // For now, simulate query execution
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      // Simulate query execution time
-      const baseValue = Math.random() * 1000;
-      resolve(Math.floor(baseValue));
-    }, 500);
-  });
+    // Log the query for debugging
+    console.log(`
+      ========== EXECUTING POR QUERY ==========
+      Table: ${tableName}
+      Query: ${sqlExpression}
+      =====================================
+    `);
+
+    // In development, we're using localStorage
+    if (typeof window !== 'undefined') {
+      return 1; // Simulate successful query
+    }
+
+    // TODO: Implement actual SQL query execution
+    // For now, return 1 to simulate success
+    return 1;
+  } catch (error) {
+    console.error('Error executing POR query:', error);
+    throw error;
+  }
 };
 
 export const getMetrics = () => {
@@ -489,31 +541,56 @@ export const updateGrowthMetrics = (month: string, newCustomers: number, newProd
 };
 
 export const getWebMetrics = () => {
-  const data = storage.getItem('webMetrics');
-  if (!data) {
-    storage.setItem('webMetrics', JSON.stringify(initialData.webMetrics));
-    return initialData.webMetrics;
-  }
+  if (typeof window === 'undefined') return [];
   try {
-    const parsedData = typeof data === 'string' ? JSON.parse(data) : data;
-    return Array.isArray(parsedData) ? parsedData : initialData.webMetrics;
-  } catch {
+    const data = storage.getItem('webMetrics');
+    if (!data) {
+      console.log('No web metrics data found, using initial data');
+      return initialData.webMetrics;
+    }
+    const parsedData = JSON.parse(data);
+    if (!Array.isArray(parsedData) || parsedData.length === 0) {
+      console.log('Invalid web metrics data format, using initial data');
+      return initialData.webMetrics;
+    }
+    return parsedData;
+  } catch (error) {
+    console.error('Error getting web metrics:', error);
     return initialData.webMetrics;
   }
 };
 
 export const getCustomerMetrics = () => {
-  const data = storage.getItem('customerMetrics');
-  if (!data) {
-    storage.setItem('customerMetrics', JSON.stringify(initialData.customerMetrics));
-    return initialData.customerMetrics;
-  }
+  if (typeof window === 'undefined') return [];
   try {
-    const parsedData = typeof data === 'string' ? JSON.parse(data) : data;
-    return Array.isArray(parsedData) ? parsedData : initialData.customerMetrics;
-  } catch {
+    const data = storage.getItem('customerMetrics');
+    if (!data) {
+      console.log('No customer metrics data found, using initial data');
+      return initialData.customerMetrics;
+    }
+    const parsedData = JSON.parse(data);
+    if (!Array.isArray(parsedData) || parsedData.length === 0) {
+      console.log('Invalid customer metrics data format, using initial data');
+      return initialData.customerMetrics;
+    }
+    return parsedData;
+  } catch (error) {
+    console.error('Error getting customer metrics:', error);
     return initialData.customerMetrics;
   }
+};
+
+export const getARAgingData = (): ARAgingData[] => {
+  if (typeof window === 'undefined') return [];
+  const rawData = storage.getItem('arAging');
+  if (!rawData) return [];
+  const data = typeof rawData === 'string' ? JSON.parse(rawData) : rawData;
+  if (!Array.isArray(data)) return [];
+  return data.map((item: { name: string; value?: number; current?: number; arAgingDate: string }) => ({
+    name: item.name,
+    value: Number(item.value || item.current || 0),
+    date: item.arAgingDate
+  }));
 };
 
 export const resetData = () => {

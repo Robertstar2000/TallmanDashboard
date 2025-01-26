@@ -4,7 +4,7 @@ import { initialData } from './initial-data';
 import type { AdminVariable } from '@/lib/types/dashboard';
 
 const DB_NAME = 'dashboardDB';
-const DB_VERSION = 1;
+const DB_VERSION = 2;
 const STORE_NAME = 'variables';
 
 export type { AdminVariable };

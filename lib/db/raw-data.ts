@@ -274,8 +274,119 @@ const topProductsData: RawProductData[] = [
   }
 ];
 
+// AR Aging Data
+const arAgingData = [
+  {
+    id: 600,
+    name: 'ar_aging_current',
+    value: '125000',
+    chartGroup: 'AR Aging',
+    calculation: 'Current AR (0-30 days)',
+    sqlExpression: `
+      SELECT SUM(invoice_amt) as current_amount
+      FROM ap_hdr
+      WHERE DATEDIFF(day, due_date, GETDATE()) <= 30
+      AND invoice_status != 'P'
+    `,
+    p21DataDictionary: 'ap_hdr.invoice_amt,ap_hdr.due_date,ap_hdr.invoice_status',
+    arAgingDate: new Date().toISOString().slice(0, 10),
+    current: '125000'
+  },
+  {
+    id: 601,
+    name: 'ar_aging_1_30',
+    value: '75000',
+    chartGroup: 'AR Aging',
+    calculation: 'AR 1-30 days past due',
+    sqlExpression: `
+      SELECT SUM(invoice_amt) as amount_1_30
+      FROM ap_hdr
+      WHERE DATEDIFF(day, due_date, GETDATE()) BETWEEN 1 AND 30
+      AND invoice_status != 'P'
+    `,
+    p21DataDictionary: 'ap_hdr.invoice_amt,ap_hdr.due_date,ap_hdr.invoice_status',
+    arAgingDate: new Date().toISOString().slice(0, 10),
+    aging_1_30: '75000'
+  },
+  {
+    id: 602,
+    name: 'ar_aging_31_60',
+    value: '45000',
+    chartGroup: 'AR Aging',
+    calculation: 'AR 31-60 days past due',
+    sqlExpression: `
+      SELECT SUM(invoice_amt) as amount_31_60
+      FROM ap_hdr
+      WHERE DATEDIFF(day, due_date, GETDATE()) BETWEEN 31 AND 60
+      AND invoice_status != 'P'
+    `,
+    p21DataDictionary: 'ap_hdr.invoice_amt,ap_hdr.due_date,ap_hdr.invoice_status',
+    arAgingDate: new Date().toISOString().slice(0, 10),
+    aging_31_60: '45000'
+  },
+  {
+    id: 603,
+    name: 'ar_aging_61_90',
+    value: '25000',
+    chartGroup: 'AR Aging',
+    calculation: 'AR 61-90 days past due',
+    sqlExpression: `
+      SELECT SUM(invoice_amt) as amount_61_90
+      FROM ap_hdr
+      WHERE DATEDIFF(day, due_date, GETDATE()) BETWEEN 61 AND 90
+      AND invoice_status != 'P'
+    `,
+    p21DataDictionary: 'ap_hdr.invoice_amt,ap_hdr.due_date,ap_hdr.invoice_status',
+    arAgingDate: new Date().toISOString().slice(0, 10),
+    aging_61_90: '25000'
+  },
+  {
+    id: 604,
+    name: 'ar_aging_90_plus',
+    value: '15000',
+    chartGroup: 'AR Aging',
+    calculation: 'AR over 90 days past due',
+    sqlExpression: `
+      SELECT SUM(invoice_amt) as amount_90_plus
+      FROM ap_hdr
+      WHERE DATEDIFF(day, due_date, GETDATE()) > 90
+      AND invoice_status != 'P'
+    `,
+    p21DataDictionary: 'ap_hdr.invoice_amt,ap_hdr.due_date,ap_hdr.invoice_status',
+    arAgingDate: new Date().toISOString().slice(0, 10),
+    aging_90_plus: '15000'
+  }
+];
+
 // Export raw dashboard data
-export const rawDashboardData: RawDashboardData[] = [
+export interface DashboardVariable {
+  id: number;
+  name: string;
+  chartGroup: string;
+  calculation: string;
+  sqlExpression: string;
+  p21DataDictionary: string;
+  historicalDate?: string;
+  p21?: string;
+  por?: string;
+  accountsPayableDate?: string;
+  total?: string;
+  overdue?: string;
+  customersDate?: string;
+  new?: string;
+  prospects?: string;
+  inventoryValueDate?: string;
+  inventory?: string;
+  turnover?: string;
+  arAgingDate?: string;
+  current?: string;
+  aging_1_30?: string;
+  aging_31_60?: string;
+  aging_61_90?: string;
+  aging_90_plus?: string;
+}
+
+export const rawDashboardData: DashboardVariable[] = [
   ...metricsData,
   ...historicalData,
   ...accountsPayableData,
@@ -283,17 +394,18 @@ export const rawDashboardData: RawDashboardData[] = [
   ...inventoryData,
   ...dailyShipmentsData,
   ...siteDistribution,
-  ...topProductsData
+  ...topProductsData,
+  ...arAgingData
 ];
 
 // Initialize with initial data
-export function initializeRawData(initialData: RawDashboardData[]) {
+export function initializeRawData(initialData: DashboardVariable[]) {
   rawDashboardData.length = 0;
   rawDashboardData.push(...initialData);
 }
 
 // Import and initialize with initial data
-import { initialData } from './initial-data';
+import { rawDashboardData as initialData } from './initial-data';
 initializeRawData([
   ...metricsData,
   ...historicalData,
@@ -302,5 +414,6 @@ initializeRawData([
   ...inventoryData,
   ...siteDistribution,
   ...dailyShipmentsData,
-  ...topProductsData
+  ...topProductsData,
+  ...arAgingData
 ]);

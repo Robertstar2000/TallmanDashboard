@@ -11,6 +11,7 @@ import { SiteDistributionChart } from '@/components/charts/SiteDistributionChart
 import { InventoryChart } from '@/components/charts/InventoryChart';
 import { HistoricalDataChart } from '@/components/charts/HistoricalDataChart';
 import { CustomerChart } from '@/components/charts/CustomerChart';
+import { ARAgingChart } from '@/components/charts/ARAgingChart';
 import { 
   getMetrics, 
   updateMetric,
@@ -89,6 +90,13 @@ interface HistoricalData {
   total: number;
 }
 
+interface ARAging {
+  [key: string]: string | number;
+  range: string;
+  amount: number;
+  color: string;
+}
+
 export default function Dashboard() {
   const [metrics, setMetrics] = useState<Metric[]>([]);
   const [dailyOrders, setDailyOrders] = useState<DailyOrder[]>([
@@ -107,6 +115,13 @@ export default function Dashboard() {
   const [inventoryData, setInventoryData] = useState<InventoryData[]>([]);
   const [webMetrics, setWebMetrics] = useState<WebMetric[]>([]);
   const [historicalData, setHistoricalData] = useState<HistoricalData[]>([]);
+  const [arAging, setARAging] = useState<ARAging[]>([
+    { range: 'Current', amount: 125000, color: '#4CAF50' },
+    { range: '1-30', amount: 75000, color: '#FFC107' },
+    { range: '31-60', amount: 45000, color: '#FF9800' },
+    { range: '61-90', amount: 25000, color: '#F44336' },
+    { range: '90+', amount: 15000, color: '#D32F2F' }
+  ]);
 
   useEffect(() => {
     resetData(); // Reset all data to initial state
@@ -152,10 +167,11 @@ export default function Dashboard() {
           Tallman Leadership Dashboard
         </h1>
       </div>
-      <div className="grid grid-cols-12 gap-0.5 p-0.5 h-[336px]">
+      
+      <div className="flex gap-0.5 p-0.5 h-[336px]">
         {/* Left Column - Metrics */}
-        <div className="col-span-2 grid grid-rows-6 gap-0.5 h-full">
-          {metrics.map((metric: Metric, index) => (
+        <div className="w-1/6 grid grid-rows-6 gap-0.5 h-full">
+          {metrics.map((metric: Metric) => (
             <div key={metric.name} className="max-h-[45px]">
               <EditableMetricCard
                 icon={
@@ -188,41 +204,41 @@ export default function Dashboard() {
           ))}
         </div>
 
-        {/* Middle Column - Charts */}
-        <div className="col-span-7 grid grid-rows-3 gap-0.5 h-full">
-          <div className="grid grid-cols-2 gap-0.5 h-[112px]">
-            <div className="h-full">
-              <DailyOrdersChart data={dailyOrders} />
-            </div>
-            <div className="h-full">
+        {/* Right Section - Charts in 3x3 Grid */}
+        <div className="flex-1">
+          <div className="grid grid-cols-3 gap-2 h-full">
+            {/* First Row */}
+            <div className="h-[108px]">
               <AccountsPayableChart data={accountsPayable} />
             </div>
-          </div>
-          <div className="grid grid-cols-2 gap-0.5 max-h-[95px]">
-            <div className="h-full">
-              <PORChart data={porData} />
-            </div>
-            <div className="h-full">
-              <Web_Metrics_Chart data={webMetrics} />
-            </div>
-          </div>
-          <div className="grid grid-cols-2 gap-0.5 max-h-[95px] mt-0.5">
-            <div className="h-full">
-              <InventoryChart data={inventoryData} />
-            </div>
-            <div className="h-full">
+            <div className="h-[108px]">
               <CustomerChart data={customerData} />
             </div>
-          </div>
-        </div>
+            <div className="h-[108px]">
+              <HistoricalDataChart data={historicalData} />
+            </div>
 
-        {/* Right Column */}
-        <div className="col-span-3 grid grid-rows-2 gap-0.5 h-full">
-          <div className="max-h-[125px]">
-            <HistoricalDataChart data={historicalData} />
-          </div>
-          <div className="max-h-[125px]">
-            <SiteDistributionChart data={siteDistribution} />
+            {/* Second Row */}
+            <div className="h-[108px]">
+              <InventoryChart data={inventoryData} />
+            </div>
+            <div className="h-[108px]">
+              <PORChart data={porData} />
+            </div>
+            <div className="h-[108px]">
+              <SiteDistributionChart data={siteDistribution} />
+            </div>
+
+            {/* Third Row */}
+            <div className="h-[108px]">
+              <DailyOrdersChart data={dailyOrders} />
+            </div>
+            <div className="h-[108px]">
+              <Web_Metrics_Chart data={webMetrics} />
+            </div>
+            <div className="h-[108px]">
+              <ARAgingChart data={arAging} />
+            </div>
           </div>
         </div>
       </div>
