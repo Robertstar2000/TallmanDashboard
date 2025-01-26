@@ -11,7 +11,8 @@ import {
   ResponsiveContainer,
   LineChart,
   BarChart,
-  TooltipProps
+  TooltipProps,
+  LegendProps
 } from 'recharts';
 
 import { cn } from '@/lib/utils';
@@ -111,7 +112,7 @@ ${colorConfig
 };
 
 interface CustomPayload {
-  value?: number;
+  value?: string | number | (string | number)[];
   dataKey?: string;
   name?: string;
   color?: string;
@@ -130,6 +131,7 @@ const ChartTooltipContent = React.forwardRef<
     indicator?: 'line' | 'dot' | 'dashed';
     nameKey?: string;
     labelKey?: string;
+    color?: string;
   }
 >(
   (
@@ -143,6 +145,7 @@ const ChartTooltipContent = React.forwardRef<
       label,
       labelKey,
       nameKey,
+      color,
       ...props
     },
     ref,
@@ -204,11 +207,11 @@ const ChartTooltipContent = React.forwardRef<
           {payload.map((item, index) => {
             const key = `${nameKey || item.dataKey || 'value'}`;
             const itemConfig = getPayloadConfigFromPayload(config, item, key);
-            const indicatorColor = props.color || item.payload.fill || item.color;
+            const indicatorColor = color || item.payload?.fill || item.color;
 
             return (
               <div
-                key={item.dataKey}
+                key={typeof item.dataKey === 'string' ? item.dataKey : `tooltip-item-${index}`}
                 className={cn(
                   'flex w-full flex-wrap items-stretch gap-2 [&>svg]:h-2.5 [&>svg]:w-2.5 [&>svg]:text-muted-foreground',
                   indicator === 'dot' && 'items-center'
@@ -277,13 +280,14 @@ const ChartLegend = Legend;
 const ChartLegendContent = React.forwardRef<
   HTMLDivElement,
   React.ComponentProps<'div'> &
-    Pick<RechartsPrimitive.LegendProps, 'payload' | 'verticalAlign'> & {
+    Pick<LegendProps, 'payload' | 'verticalAlign'> & {
       hideIcon?: boolean;
       nameKey?: string;
+      color?: string;
     }
 >(
   (
-    { className, hideIcon = false, payload, verticalAlign = 'bottom', nameKey },
+    { className, hideIcon = false, payload, verticalAlign = 'bottom', nameKey, color },
     ref
   ) => {
     const { config } = useChart();
@@ -296,18 +300,19 @@ const ChartLegendContent = React.forwardRef<
       <div
         ref={ref}
         className={cn(
-          'flex items-center justify-center gap-4',
+          'flex flex-wrap gap-4',
           verticalAlign === 'top' ? 'pb-3' : 'pt-3',
           className
         )}
+        data-vertical-align={verticalAlign}
       >
-        {payload.map((item) => {
+        {payload.map((item, index) => {
           const key = `${nameKey || item.dataKey || 'value'}`;
           const itemConfig = getPayloadConfigFromPayload(config, item, key);
 
           return (
             <div
-              key={item.value}
+              key={typeof item.dataKey === 'string' ? item.dataKey : `legend-item-${index}`}
               className={cn(
                 'flex items-center gap-1.5 [&>svg]:h-3 [&>svg]:w-3 [&>svg]:text-muted-foreground'
               )}
