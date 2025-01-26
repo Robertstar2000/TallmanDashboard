@@ -57,24 +57,6 @@ const historicalData = generateLastNMonths(12).map((date, index) => ({
       AND oh.order_status <> 'X'
       AND oh.order_date >= DATE_TRUNC('month', '${date}'::date)
       AND oh.order_date < DATE_TRUNC('month', '${date}'::date + INTERVAL '1 month')
-
-    -- Second Query ------------------------------------------
-
-    SELECT CAST(SUM(
-      CASE 
-        WHEN r.void_flag = 0 THEN 
-          r.total_amount + 
-          COALESCE(r.tax_amount1, 0) + 
-          COALESCE(r.tax_amount2, 0) + 
-          COALESCE(r.delivery_charge, 0)
-        ELSE 0 
-      END
-    ) as VARCHAR) as por_revenue
-    FROM por_rental_contracts r
-    WHERE r.store_id IN (SELECT store_id FROM por_store_config WHERE company_id = 1)
-      AND r.contract_status NOT IN ('Void', 'Quote')
-      AND r.contract_date >= DATE_TRUNC('month', '${date}'::date)
-      AND r.contract_date < DATE_TRUNC('month', '${date}'::date + INTERVAL '1 month')
   `,
   p21DataDictionary: 'oe_hdr',
   p21: (Math.random() * 1000000 + 500000).toFixed(0),
@@ -568,6 +550,15 @@ const metricsData = [
     p21DataDictionary: 'analytics',
     value: '3200'
   },
+];
+
+// Combine all data into initialData
+export const initialData = [
+  ...historicalData,
+  ...siteDistributionData,
+  ...topProducts,
+  ...arAgingData,
+  ...metricsData
 ];
 
 // Export raw dashboard data with all components
