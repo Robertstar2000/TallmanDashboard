@@ -16,7 +16,7 @@ export function AdminSpreadsheet({ data, onUpdate }: AdminSpreadsheetProps) {
   const [searchTerm, setSearchTerm] = useState('');
 
   const filteredData = data.filter(row => 
-    row.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    (row.name?.toLowerCase().includes(searchTerm.toLowerCase()) ?? false) ||
     row.chartGroup.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
@@ -31,7 +31,7 @@ export function AdminSpreadsheet({ data, onUpdate }: AdminSpreadsheetProps) {
 
   const getValue = (row: AdminVariable, field: string): string => {
     switch (field) {
-      case 'name': return row.name;
+      case 'name': return row.name || '';
       case 'chartGroup': return row.chartGroup;
       case 'calculation': return row.calculation || '';
       case 'sqlExpression': return row.sqlExpression || '';
