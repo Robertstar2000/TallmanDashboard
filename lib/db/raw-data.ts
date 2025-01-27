@@ -194,7 +194,7 @@ const dailyShipmentsData: RawProductData[] = Array.from({ length: 7 }, (_, i) =>
 });
 
 // Site Distribution Data
-const siteDistributionData: RawSiteDistributionData[] = [{
+const siteDistribution: RawSiteDistributionData[] = [{
   id: 600,
   name: 'site_distribution_current',
   chartGroup: 'Site Distribution',
@@ -359,21 +359,49 @@ const arAgingData = [
 ];
 
 // Export raw dashboard data
-export const rawDashboardData: RawDashboardData[] = [
+export interface DashboardVariable {
+  id: number;
+  name: string;
+  chartGroup: string;
+  calculation: string;
+  sqlExpression: string;
+  p21DataDictionary: string;
+  value?: string;
+  historicalDate?: string;
+  p21?: string;
+  por?: string;
+  accountsPayableDate?: string;
+  total?: string;
+  overdue?: string;
+  customersDate?: string;
+  new?: string;
+  prospects?: string;
+  inventoryValueDate?: string;
+  inventory?: string;
+  turnover?: string;
+  arAgingDate?: string;
+  current?: string;
+  aging_1_30?: string;
+  aging_31_60?: string;
+  aging_61_90?: string;
+  aging_90_plus?: string;
+}
+
+export const rawDashboardData: DashboardVariable[] = [
   ...metricsData,
   ...historicalData,
   ...accountsPayableData,
   ...customerData,
   ...inventoryData,
-  ...siteDistributionData,
+  ...dailyShipmentsData,
+  ...siteDistribution,
+  ...topProductsData,
   ...arAgingData
 ];
 
 // Initialize with initial data
-function initializeRawData(initialData: RawDashboardData[]) {
-  // Clear existing data
+export function initializeRawData(initialData: DashboardVariable[]) {
   rawDashboardData.length = 0;
-  // Add new data
   rawDashboardData.push(...initialData);
 }
 
@@ -385,6 +413,8 @@ initializeRawData([
   ...accountsPayableData,
   ...customerData,
   ...inventoryData,
-  ...siteDistributionData,
+  ...siteDistribution,
+  ...dailyShipmentsData,
+  ...topProductsData,
   ...arAgingData
 ]);

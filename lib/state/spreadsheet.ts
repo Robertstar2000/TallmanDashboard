@@ -27,46 +27,73 @@ export const initialSpreadsheetState: SpreadsheetState = {
       columbus: 0,
       addison: 0,
       lakeCity: 0
+    },
+    arAging: {
+      current: 0,
+      aging_1_30: 0,
+      aging_31_60: 0,
+      aging_61_90: 0,
+      aging_90_plus: 0
     }
   },
   dailyShipments: [],
   variables: {
     // Key Metrics Variables
     'var-total-orders': {
-      id: 'var-total-orders',
+      id: 1,
       name: 'total_orders',
       displayName: 'Total Orders',
       value: 0,
       category: 'Key Metrics',
+      subcategory: '',
       chartId: 'metric-total-orders',
-      chartType: 'metric'
+      chartType: 'metric',
+      chartGroup: 'Metrics',
+      calculation: '',
+      sqlExpression: '',
+      p21DataDictionary: ''
     },
     'var-open-orders': {
-      id: 'var-open-orders',
+      id: 2,
       name: 'open_orders',
       displayName: 'Open Orders',
       value: 0,
       category: 'Key Metrics',
+      subcategory: '',
       chartId: 'metric-open-orders',
-      chartType: 'metric'
+      chartType: 'metric',
+      chartGroup: 'Metrics',
+      calculation: '',
+      sqlExpression: '',
+      p21DataDictionary: ''
     },
     'var-in-process': {
-      id: 'var-in-process',
+      id: 3,
       name: 'in_process',
       displayName: 'In Process',
       value: 0,
       category: 'Key Metrics',
+      subcategory: '',
       chartId: 'metric-in-process',
-      chartType: 'metric'
+      chartType: 'metric',
+      chartGroup: 'Metrics',
+      calculation: '',
+      sqlExpression: '',
+      p21DataDictionary: ''
     },
     'var-weekly-revenue': {
-      id: 'var-weekly-revenue',
+      id: 4,
       name: 'weekly_revenue',
       displayName: 'Weekly Revenue',
       value: 0,
       category: 'Key Metrics',
+      subcategory: '',
       chartId: 'metric-weekly-revenue',
-      chartType: 'metric'
+      chartType: 'metric',
+      chartGroup: 'Metrics',
+      calculation: '',
+      sqlExpression: '',
+      p21DataDictionary: ''
     }
   },
   charts: {

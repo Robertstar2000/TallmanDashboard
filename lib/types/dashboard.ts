@@ -54,26 +54,21 @@ export interface RawSiteDistributionData extends RawDataBase {
   lakeCity: string;
 }
 
-export interface RawARAgingData extends RawDataBase {
+export interface RawARAgingData {
   name: string;
-  value: string;
+  value: string | number;
   arAgingDate: string;
+  id?: number;
+  chartGroup?: string;
+  calculation?: string;
+  sqlExpression?: string;
+  p21DataDictionary?: string;
   current?: string;
   aging_1_30?: string;
   aging_31_60?: string;
   aging_61_90?: string;
   aging_90_plus?: string;
 }
-
-export type RawDashboardData = 
-  | RawMetricData 
-  | RawProductData 
-  | RawHistoricalData 
-  | RawAccountsPayableData 
-  | RawCustomersData 
-  | RawInventoryData 
-  | RawSiteDistributionData 
-  | RawARAgingData;
 
 export interface ARAgingData {
   name: string;
@@ -86,6 +81,16 @@ export interface WebMetrics {
   value: number;
   date: string;
 }
+
+export type RawDashboardData = 
+  | RawMetricData 
+  | RawProductData 
+  | RawHistoricalData 
+  | RawAccountsPayableData 
+  | RawCustomersData 
+  | RawInventoryData 
+  | RawSiteDistributionData
+  | RawARAgingData;
 
 // Transformed Data Types
 export interface DashboardData {
