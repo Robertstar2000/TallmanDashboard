@@ -7,7 +7,7 @@ import { Input } from '@/components/ui/input';
 interface DataRowProps {
   row: AdminVariable;
   rowNumber: number;
-  editingCell: { id: number; field: string } | null;
+  editingCell: { id: string; field: string } | null;
   onEdit: (field: string, value: string) => void;
   onStartEdit: (field: string) => void;
   getValue: (field: string) => string;

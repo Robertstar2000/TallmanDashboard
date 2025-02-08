@@ -1,40 +1,10 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { DashboardData, RawDashboardData } from '@/lib/types/dashboard';
+import { DashboardData } from '@/lib/types/dashboard';
 import { transformDashboardData } from '@/lib/db/data-transformers';
 import { showSuccess, showError, showLoading } from '@/lib/utils/toast';
-import { rawDashboardData, DashboardVariable } from '@/lib/db/raw-data';
-
-function convertToDashboardData(data: DashboardVariable[]): RawDashboardData[] {
-  return data.map(item => ({
-    id: item.id,
-    name: item.name,
-    chartGroup: item.chartGroup,
-    calculation: item.calculation,
-    sqlExpression: item.sqlExpression,
-    p21DataDictionary: item.p21DataDictionary,
-    value: item.value || '',
-    historicalDate: item.historicalDate,
-    p21: item.p21,
-    por: item.por,
-    accountsPayableDate: item.accountsPayableDate,
-    total: item.total,
-    overdue: item.overdue,
-    customersDate: item.customersDate,
-    new: item.new,
-    prospects: item.prospects,
-    inventoryValueDate: item.inventoryValueDate,
-    inventory: item.inventory,
-    turnover: item.turnover,
-    arAgingDate: item.arAgingDate,
-    current: item.current,
-    aging_1_30: item.aging_1_30,
-    aging_31_60: item.aging_31_60,
-    aging_61_90: item.aging_61_90,
-    aging_90_plus: item.aging_90_plus
-  })) as RawDashboardData[];
-}
+import { rawDashboardData } from '@/lib/db/raw-data';
 
 export function useDashboardData() {
   const [data, setData] = useState<DashboardData>({
@@ -59,7 +29,7 @@ export function useDashboardData() {
     showLoading("Loading Dashboard", "Fetching data...");
 
     try {
-      const transformedData = transformDashboardData(convertToDashboardData(rawDashboardData));
+      const transformedData = transformDashboardData(rawDashboardData);
       setData(transformedData);
       showSuccess("Dashboard Updated", "Data loaded successfully");
     } catch (err) {
@@ -79,6 +49,12 @@ export function useDashboardData() {
     data,
     isLoading,
     error,
-    refreshData: loadData
+    refreshData: loadData,
+    updateData: (category: keyof DashboardData, newData: any) => {
+      setData(prev => ({
+        ...prev,
+        [category]: newData
+      }));
+    }
   };
 }

@@ -8,11 +8,11 @@ import type { AdminVariable } from '@/lib/types/dashboard';
 
 interface AdminSpreadsheetProps {
   data: AdminVariable[];
-  onUpdate: (id: number, field: string, value: string) => void;
+  onUpdate: (id: string, field: string, value: string) => void;
 }
 
 export function AdminSpreadsheet({ data, onUpdate }: AdminSpreadsheetProps) {
-  const [editingCell, setEditingCell] = useState<{ id: number; field: string } | null>(null);
+  const [editingCell, setEditingCell] = useState<{ id: string; field: string } | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
 
   const filteredData = data.filter(row => 
@@ -21,11 +21,11 @@ export function AdminSpreadsheet({ data, onUpdate }: AdminSpreadsheetProps) {
   );
 
   const handleStartEdit = (row: AdminVariable, field: string) => {
-    setEditingCell({ id: row.id, field });
+    setEditingCell({ id: row.id.toString(), field });
   };
 
   const handleEdit = (row: AdminVariable, field: string, value: string) => {
-    onUpdate(row.id, field, value);
+    onUpdate(row.id.toString(), field, value);
     setEditingCell(null);
   };
 
@@ -92,7 +92,7 @@ export function AdminSpreadsheet({ data, onUpdate }: AdminSpreadsheetProps) {
                 rowNumber={index + 1}
                 editingCell={editingCell}
                 onStartEdit={(field) => handleStartEdit(row, field)}
-                onEdit={(field, value) => handleEdit(row, field, value)}
+                onEdit={(field, value) => handleEdit(row, field, value as string)}
                 getValue={(field) => getValue(row, field)}
               />
             ))}

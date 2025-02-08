@@ -37,63 +37,64 @@ export const initialSpreadsheetState: SpreadsheetState = {
     }
   },
   dailyShipments: [],
+  p21: 0,
+  por: 0,
+  accountsPayable: { total: 0, overdue: 0 },
+  total: 0,
+  overdue: 0,
+  customers: { new: 0, prospects: 0 },
+  new: 0,
+  prospects: 0,
+  inventory: { averageValue: 0, averageTurnover: 0 },
+  averageValue: 0,
+  averageTurnover: 0,
+  sites: { columbus: 0, addison: 0, lakeCity: 0 },
+  columbus: 0,
+  addison: 0,
+  lakeCity: 0,
+  arAging: { current: 0, aging_1_30: 0, aging_31_60: 0, aging_61_90: 0, aging_90_plus: 0 },
+  current: 0,
+  aging_1_30: 0,
+  aging_31_60: 0,
+  aging_61_90: 0,
+  aging_90_plus: 0,
   variables: {
     // Key Metrics Variables
     'var-total-orders': {
-      id: 1,
+      id: 'var-total-orders',
       name: 'total_orders',
       displayName: 'Total Orders',
       value: 0,
       category: 'Key Metrics',
-      subcategory: '',
       chartId: 'metric-total-orders',
-      chartType: 'metric',
-      chartGroup: 'Metrics',
-      calculation: '',
-      sqlExpression: '',
-      p21DataDictionary: ''
+      chartType: 'metric'
     },
     'var-open-orders': {
-      id: 2,
+      id: 'var-open-orders',
       name: 'open_orders',
       displayName: 'Open Orders',
       value: 0,
       category: 'Key Metrics',
-      subcategory: '',
       chartId: 'metric-open-orders',
-      chartType: 'metric',
-      chartGroup: 'Metrics',
-      calculation: '',
-      sqlExpression: '',
-      p21DataDictionary: ''
+      chartType: 'metric'
     },
     'var-in-process': {
-      id: 3,
+      id: 'var-in-process',
       name: 'in_process',
       displayName: 'In Process',
       value: 0,
       category: 'Key Metrics',
-      subcategory: '',
       chartId: 'metric-in-process',
-      chartType: 'metric',
-      chartGroup: 'Metrics',
-      calculation: '',
-      sqlExpression: '',
-      p21DataDictionary: ''
+      chartType: 'metric'
     },
     'var-weekly-revenue': {
-      id: 4,
+      id: 'var-weekly-revenue',
       name: 'weekly_revenue',
       displayName: 'Weekly Revenue',
       value: 0,
       category: 'Key Metrics',
-      subcategory: '',
       chartId: 'metric-weekly-revenue',
-      chartType: 'metric',
-      chartGroup: 'Metrics',
-      calculation: '',
-      sqlExpression: '',
-      p21DataDictionary: ''
+      chartType: 'metric'
     }
   },
   charts: {
