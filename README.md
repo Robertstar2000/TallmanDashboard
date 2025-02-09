@@ -1,6 +1,9 @@
-# 12_26_Dashboard_sb1-d3u4pppd
+# TallmanDashboard
 
-[Edit in StackBlitz next generation editor ⚡️](https://stackblitz.com/~/github.com/Robertstar2000/12_26_Dashboard_sb1-d3u4pppd)
+## Project Setup
+- Project Location: `C:\Users\BobM\CascadeProjects\TallmanDashboardiss`
+- Development Server: `localhost:3200`
+- Production Server (IIS): `localhost:5000`
 
 ## Data Flow Architecture
 
