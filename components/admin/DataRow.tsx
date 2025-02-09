@@ -14,7 +14,7 @@ interface DataRowProps {
 }
 
 export function DataRow({ row, rowNumber, editingCell, onEdit, onStartEdit, getValue }: DataRowProps) {
-  const isEmptyRow = row.id < 0;
+  const isEmptyRow = Number(row.id) < 0;
   const [editValue, setEditValue] = useState('');
 
   const handleStartEdit = (field: string, value: string) => {

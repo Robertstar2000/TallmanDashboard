@@ -36,7 +36,7 @@ function generateMonthlyData(startId: number, prefix: string, baseValue: number,
 // Metrics Data
 const metricsData: RawProductData[] = [
   {
-    id: 1,
+    id: '1',
     name: 'in_process',
     value: '892',
     chartGroup: 'Metrics',
@@ -45,7 +45,7 @@ const metricsData: RawProductData[] = [
     p21DataDictionary: 'orders'
   },
   {
-    id: 2,
+    id: '2',
     name: 'weekly_revenue',
     value: '1924500',
     chartGroup: 'Metrics',
@@ -54,7 +54,7 @@ const metricsData: RawProductData[] = [
     p21DataDictionary: 'orders'
   },
   {
-    id: 3,
+    id: '3',
     name: 'open_invoices',
     value: '3842650',
     chartGroup: 'Metrics',
@@ -63,7 +63,7 @@ const metricsData: RawProductData[] = [
     p21DataDictionary: 'invoices'
   },
   {
-    id: 4,
+    id: '4',
     name: 'orders_backlogged',
     value: '743',
     chartGroup: 'Metrics',
@@ -72,7 +72,7 @@ const metricsData: RawProductData[] = [
     p21DataDictionary: 'orders'
   },
   {
-    id: 5,
+    id: '5',
     name: 'total_sales_monthly',
     value: '8325000',
     chartGroup: 'Metrics',
@@ -93,7 +93,7 @@ const historicalData: RawHistoricalData[] = Array.from({ length: 12 }, (_, i) =>
   const porValue = Math.round(baseValue * 0.89 * (1 + randomVariation));
 
   return {
-    id: 100 + i,
+    id: `100${i}`,
     name: `Historical_${monthStr}`,
     chartGroup: 'Historical Data',
     calculation: 'Compare month-over-month revenue trends by summing all completed order amounts for each calendar month',
@@ -117,7 +117,7 @@ const accountsPayableData: RawAccountsPayableData[] = Array.from({ length: 12 },
   const overdueValue = Math.round(baseOverdue * (1 + randomVariation));
 
   return {
-    id: 200 + i,
+    id: `200${i}`,
     name: `AP_${monthStr}`,
     chartGroup: 'Accounts Payable Overview',
     calculation: 'Track monthly accounts payable by summing all outstanding vendor invoices and categorizing by aging periods',
@@ -141,7 +141,7 @@ const customerData: RawCustomersData[] = Array.from({ length: 12 }, (_, i) => {
   const prospectsValue = Math.round(baseProspects * (1 + randomVariation));
 
   return {
-    id: 300 + i,
+    id: `300${i}`,
     name: `Customers_${monthStr}`,
     chartGroup: 'New Customers vs. New Prospects',
     calculation: 'Analyze customer acquisition by counting new customer accounts created each month and comparing to prospect conversions',
@@ -163,7 +163,7 @@ const inventoryData: RawInventoryData[] = Array.from({ length: 12 }, (_, i) => {
   const randomVariation = (Math.random() * 0.2 - 0.1);
 
   return {
-    id: 400 + i,
+    id: `400${i}`,
     name: `Inventory_${monthStr}`,
     chartGroup: 'Inventory Value & Turnover',
     calculation: 'Calculate inventory turnover by dividing total sales by average inventory value for the month',
@@ -182,7 +182,7 @@ const dailyShipmentsData: RawProductData[] = Array.from({ length: 7 }, (_, i) =>
   const dateStr = date.toISOString().slice(0, 10);
   
   return {
-    id: 500 + i,
+    id: `500${i}`,
     name: dateStr,
     value: Math.round(400 + Math.random() * 200).toString(),
     chartGroup: 'Daily Shipments',
@@ -195,7 +195,7 @@ const dailyShipmentsData: RawProductData[] = Array.from({ length: 7 }, (_, i) =>
 
 // Site Distribution Data
 const siteDistributionData: RawSiteDistributionData[] = [{
-  id: 600,
+  id: '600',
   name: 'site_distribution_current',
   chartGroup: 'Site Distribution',
   calculation: 'Calculate percentage of total orders processed through each site by dividing site orders by total orders',
@@ -211,7 +211,7 @@ const siteDistributionData: RawSiteDistributionData[] = [{
 const topProductsData: RawProductData[] = [
   // Inside Sales Products
   {
-    id: 801,
+    id: '801',
     name: 'Copper Fittings',
     value: '450000',
     chartGroup: 'Top Products',
@@ -221,7 +221,7 @@ const topProductsData: RawProductData[] = [
     subGroup: 'inside'
   },
   {
-    id: 802,
+    id: '802',
     name: 'PVC Pipes',
     value: '380000',
     chartGroup: 'Top Products',
@@ -232,7 +232,7 @@ const topProductsData: RawProductData[] = [
   },
   // Outside Sales Products
   {
-    id: 803,
+    id: '803',
     name: 'Steel Pipes',
     value: '520000',
     chartGroup: 'Top Products',
@@ -242,7 +242,7 @@ const topProductsData: RawProductData[] = [
     subGroup: 'outside'
   },
   {
-    id: 804,
+    id: '804',
     name: 'Valves',
     value: '420000',
     chartGroup: 'Top Products',
@@ -253,7 +253,7 @@ const topProductsData: RawProductData[] = [
   },
   // Online Sales Products
   {
-    id: 805,
+    id: '805',
     name: 'Tools',
     value: '280000',
     chartGroup: 'Top Products',
@@ -263,7 +263,7 @@ const topProductsData: RawProductData[] = [
     subGroup: 'online'
   },
   {
-    id: 806,
+    id: '806',
     name: 'Accessories',
     value: '180000',
     chartGroup: 'Top Products',
@@ -277,7 +277,7 @@ const topProductsData: RawProductData[] = [
 // AR Aging Data
 const arAgingData = [
   {
-    id: 600,
+    id: '600',
     name: 'ar_aging_current',
     value: '125000',
     chartGroup: 'AR Aging',
@@ -293,7 +293,7 @@ const arAgingData = [
     current: '125000'
   },
   {
-    id: 601,
+    id: '601',
     name: 'ar_aging_1_30',
     value: '75000',
     chartGroup: 'AR Aging',
@@ -309,7 +309,7 @@ const arAgingData = [
     aging_1_30: '75000'
   },
   {
-    id: 602,
+    id: '602',
     name: 'ar_aging_31_60',
     value: '45000',
     chartGroup: 'AR Aging',
@@ -325,7 +325,7 @@ const arAgingData = [
     aging_31_60: '45000'
   },
   {
-    id: 603,
+    id: '603',
     name: 'ar_aging_61_90',
     value: '25000',
     chartGroup: 'AR Aging',
@@ -341,7 +341,7 @@ const arAgingData = [
     aging_61_90: '25000'
   },
   {
-    id: 604,
+    id: '604',
     name: 'ar_aging_90_plus',
     value: '15000',
     chartGroup: 'AR Aging',

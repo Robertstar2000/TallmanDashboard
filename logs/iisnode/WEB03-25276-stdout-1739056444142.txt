@@ -1,0 +1,6 @@
+Node application is starting...
+Server is running on port \\.\pipe\708aef1c-e186-4a76-bd14-c0e11e203c2c
+2025-02-08T23:14:06.355Z - GET /
+ ✓ Compiled /page in 2.5s (1665 modules)
+AccountsPayableChart data: []
+ ✓ Compiled in 732ms (846 modules)

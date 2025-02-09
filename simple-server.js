@@ -1,10 +1,12 @@
-const http = require('http');
-const fs = require('fs');
+const express = require('express');
+const next = require('next');
 const path = require('path');
+const fs = require('fs');
+
 console.log("Node application is starting...");
 
 // Set absolute working directory
-const workDir = 'C:\\inetpub\\wwwroot\\TallmanDashboard';
+const workDir = 'C:\\Users\\BobM\\CascadeProjects\\TallmanDashboard';
 process.chdir(workDir);
 
 // Create log directory if it doesn't exist
@@ -25,51 +27,67 @@ function logError(error) {
     try {
         fs.appendFileSync(logFile, errorMessage);
     } catch (e) {
-        // Can't write to log file
         console.error('Failed to write to log:', e);
     }
 }
 
-// Handle uncaught errors
-process.on('uncaughtException', (err) => {
+// Set NODE_ENV to production
+process.env.NODE_ENV = 'production';
+
+// Initialize Next.js
+const dev = false; // Force production mode
+const nextApp = next({ dev, dir: workDir });
+const handle = nextApp.getRequestHandler();
+
+// Create Express app
+const app = express();
+
+// Add error handling middleware
+app.use((err, req, res, next) => {
+    console.error('Express error:', err);
     logError(err);
-    console.error('Uncaught Exception:', err);
+    next(err);
 });
 
-try {
-    // Log startup information
-    console.log('Starting server...');
-    console.log('Current directory:', process.cwd());
-    console.log('Node version:', process.version);
-    console.log('Environment:', process.env.NODE_ENV);
+// Serve static files from the .next directory
+app.use('/_next', express.static(path.join(workDir, '.next')));
 
-    const server = http.createServer((req, res) => {
-        try {
+// Prepare and start the server
+nextApp.prepare()
+    .then(() => {
+        // Log all requests
+        app.use((req, res, next) => {
             console.log(`${new Date().toISOString()} - ${req.method} ${req.url}`);
-            
-            res.writeHead(200, { 'Content-Type': 'text/plain' });
-            res.end(`Node.js is working!\nWorking Directory: ${process.cwd()}\nTime: ${new Date().toISOString()}`);
-        } catch (err) {
+            next();
+        });
+
+        // Handle all routes with Next.js
+        app.all('*', (req, res) => {
+            return handle(req, res);
+        });
+
+        // Start server
+        const port = process.env.PORT || 5000;
+        const server = app.listen(port, '0.0.0.0', (err) => {
+            if (err) {
+                console.error('Failed to start server:', err);
+                logError(err);
+                return;
+            }
+            console.log(`Server is running on http://0.0.0.0:${port}`);
+            console.log('Try accessing:');
+            console.log(`  - http://localhost:${port}`);
+            console.log(`  - http://127.0.0.1:${port}`);
+            logError(`Server started successfully on port ${port}`);
+        });
+
+        // Add error handler for the server
+        server.on('error', (err) => {
+            console.error('Server error:', err);
             logError(err);
-            res.writeHead(500);
-            res.end('Server Error');
-        }
-    });
-
-    const port = process.env.PORT || 3200;
-    server.listen(port, () => {
-        console.log(`Server running on port ${port}`);
-        console.log(`Working directory: ${process.cwd()}`);
-        // Try to write to a log file to test permissions
-        logError(new Error('Server started successfully'));
-    });
-
-    // Error handling for the server
-    server.on('error', (err) => {
+        });
+    })
+    .catch((err) => {
+        console.error('Error during Next.js initialization:', err);
         logError(err);
-        console.error('Server error:', err);
     });
-} catch (err) {
-    logError(err);
-    console.error('Failed to start server:', err);
-}

@@ -137,7 +137,7 @@ export function useAdminData() {
     // Update the edited data immediately for display
     setEditedData(prevData => 
       prevData.map(item => {
-        if (item.id === id) {
+        if (item.id === id.toString()) {
           // Handle special fields based on chart group
           if (field === 'value') {
             if (item.chartGroup === 'Historical Data') return { ...item, p21: value };

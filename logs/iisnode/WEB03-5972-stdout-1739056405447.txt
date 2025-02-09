@@ -1,0 +1,14 @@
+Node application is starting...
+Attention: Next.js now collects completely anonymous telemetry regarding usage.
+This information is used to shape Next.js' roadmap and prioritize features.
+You can learn more, including how to opt-out if you'd not like to participate in this anonymous program, by visiting the following URL:
+https://nextjs.org/telemetry
+
+Server is running on port \\.\pipe\0cb8a885-6f13-429b-9803-8a6c28ed2ba7
+2025-02-08T23:13:28.681Z - GET /
+ ○ compiling /page ...
+ ✓ Compiled /page in 3.9s (1667 modules)
+AccountsPayableChart data: []
+ ✓ Compiled in 601ms (846 modules)
+2025-02-08T23:13:46.919Z - GET /
+ ✓ Compiled /_error in 1563ms (1807 modules)

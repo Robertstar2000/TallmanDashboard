@@ -43,7 +43,7 @@ function generateLastNDays(n: number, baseDate: string = '2025-01-11'): string[]
 export const testDashboardData: RawDashboardData[] = [
   // Metrics - 6 unique metrics
   {
-    id: 1,
+    id: '1',
     name: 'Total Orders',
     chartGroup: 'Metrics',
     calculation: 'COUNT',
@@ -52,7 +52,7 @@ export const testDashboardData: RawDashboardData[] = [
     value: '150'
   },
   {
-    id: 2,
+    id: '2',
     name: 'Average Order Value',
     chartGroup: 'Metrics',
     calculation: 'AVG',
@@ -61,7 +61,7 @@ export const testDashboardData: RawDashboardData[] = [
     value: '2500'
   },
   {
-    id: 3,
+    id: '3',
     name: 'Active Customers',
     chartGroup: 'Metrics',
     calculation: 'COUNT',
@@ -70,7 +70,7 @@ export const testDashboardData: RawDashboardData[] = [
     value: '450'
   },
   {
-    id: 4,
+    id: '4',
     name: 'Open Support Tickets',
     chartGroup: 'Metrics',
     calculation: 'COUNT',
@@ -79,7 +79,7 @@ export const testDashboardData: RawDashboardData[] = [
     value: '25'
   },
   {
-    id: 5,
+    id: '5',
     name: 'Revenue MTD',
     chartGroup: 'Metrics',
     calculation: 'SUM',
@@ -88,7 +88,7 @@ export const testDashboardData: RawDashboardData[] = [
     value: '1250000'
   },
   {
-    id: 6,
+    id: '6',
     name: 'Website Visitors',
     chartGroup: 'Metrics',
     calculation: 'COUNT',
@@ -99,7 +99,7 @@ export const testDashboardData: RawDashboardData[] = [
 
   // Historical Data - 12 months
   ...generateLastNMonths(12).map((date, index) => ({
-    id: 100 + index,
+    id: `100${index}`,
     name: new Date(date).toLocaleString('default', { month: 'long', year: 'numeric' }),
     chartGroup: 'Historical Data',
     calculation: 'Monthly',
@@ -112,7 +112,7 @@ export const testDashboardData: RawDashboardData[] = [
 
   // Inventory Value & Turnover - 12 months
   ...generateLastNMonths(12).map((date, index) => ({
-    id: 150 + index,
+    id: `150${index}`,
     name: new Date(date).toLocaleString('default', { month: 'long', year: 'numeric' }),
     chartGroup: 'Inventory Value & Turnover',
     calculation: 'Monthly',
@@ -125,7 +125,7 @@ export const testDashboardData: RawDashboardData[] = [
 
   // Accounts Payable Overview - 12 months
   ...generateLastNMonths(12).map((date, index) => ({
-    id: 200 + index,
+    id: `200${index}`,
     name: new Date(date).toLocaleString('default', { month: 'long', year: 'numeric' }),
     chartGroup: 'Accounts Payable Overview',
     calculation: 'Monthly',
@@ -138,7 +138,7 @@ export const testDashboardData: RawDashboardData[] = [
 
   // New Customers vs. New Prospects - 12 months
   ...generateLastNMonths(12).map((date, index) => ({
-    id: 300 + index,
+    id: `300${index}`,
     name: new Date(date).toLocaleString('default', { month: 'long', year: 'numeric' }),
     chartGroup: 'New Customers vs. New Prospects',
     calculation: 'Monthly',
@@ -151,7 +151,7 @@ export const testDashboardData: RawDashboardData[] = [
 
   // Daily Shipments - 7 days
   ...generateLastNDays(7).map((date, index) => ({
-    id: 400 + index,
+    id: `400${index}`,
     name: new Date(date).toLocaleString('default', { month: 'long', day: 'numeric', year: 'numeric' }),
     chartGroup: 'Daily Shipments',
     calculation: 'Daily',
@@ -163,7 +163,7 @@ export const testDashboardData: RawDashboardData[] = [
 
   // Site Distribution - three separate lines
   {
-    id: 500,
+    id: '500',
     name: 'Columbus',
     chartGroup: 'Site Distribution',
     calculation: 'Distribution',
@@ -172,7 +172,7 @@ export const testDashboardData: RawDashboardData[] = [
     value: '2500000'
   },
   {
-    id: 501,
+    id: '501',
     name: 'Addison',
     chartGroup: 'Site Distribution',
     calculation: 'Distribution',
@@ -181,7 +181,7 @@ export const testDashboardData: RawDashboardData[] = [
     value: '1800000'
   },
   {
-    id: 502,
+    id: '502',
     name: 'Lake City',
     chartGroup: 'Site Distribution',
     calculation: 'Distribution',
@@ -192,7 +192,7 @@ export const testDashboardData: RawDashboardData[] = [
 
   // Top Products - 6 items
   {
-    id: 600,
+    id: '600',
     name: 'Copper Fittings',
     chartGroup: 'Top Products',
     subGroup: 'Inside Sales',
@@ -202,7 +202,7 @@ export const testDashboardData: RawDashboardData[] = [
     value: '450000'
   },
   {
-    id: 601,
+    id: '601',
     name: 'PVC Pipes',
     chartGroup: 'Top Products',
     subGroup: 'Inside Sales',
@@ -212,7 +212,7 @@ export const testDashboardData: RawDashboardData[] = [
     value: '380000'
   },
   {
-    id: 602,
+    id: '602',
     name: 'Steel Pipes',
     chartGroup: 'Top Products',
     subGroup: 'Outside Sales',
@@ -222,7 +222,7 @@ export const testDashboardData: RawDashboardData[] = [
     value: '520000'
   },
   {
-    id: 603,
+    id: '603',
     name: 'Valves',
     chartGroup: 'Top Products',
     subGroup: 'Outside Sales',
@@ -232,7 +232,7 @@ export const testDashboardData: RawDashboardData[] = [
     value: '420000'
   },
   {
-    id: 604,
+    id: '604',
     name: 'Tools',
     chartGroup: 'Top Products',
     subGroup: 'Online Sales',
@@ -242,7 +242,7 @@ export const testDashboardData: RawDashboardData[] = [
     value: '280000'
   },
   {
-    id: 605,
+    id: '605',
     name: 'Accessories',
     chartGroup: 'Top Products',
     subGroup: 'Online Sales',

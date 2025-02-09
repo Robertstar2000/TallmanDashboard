@@ -1,65 +1,13 @@
 import { SpreadsheetData, DashboardVariable, ChartMetadata } from '@/lib/types/dashboard';
 
-export interface SpreadsheetState extends SpreadsheetData {
+interface SpreadsheetState {
   variables: Record<string, DashboardVariable>;
   charts: Record<string, ChartMetadata>;
   categories: string[];
 }
 
 export const initialSpreadsheetState: SpreadsheetState = {
-  entries: [],
-  totals: {
-    p21: 0,
-    por: 0,
-    accountsPayable: {
-      total: 0,
-      overdue: 0
-    },
-    customers: {
-      new: 0,
-      prospects: 0
-    },
-    inventory: {
-      averageValue: 0,
-      averageTurnover: 0
-    },
-    sites: {
-      columbus: 0,
-      addison: 0,
-      lakeCity: 0
-    },
-    arAging: {
-      current: 0,
-      aging_1_30: 0,
-      aging_31_60: 0,
-      aging_61_90: 0,
-      aging_90_plus: 0
-    }
-  },
-  dailyShipments: [],
-  p21: 0,
-  por: 0,
-  accountsPayable: { total: 0, overdue: 0 },
-  total: 0,
-  overdue: 0,
-  customers: { new: 0, prospects: 0 },
-  new: 0,
-  prospects: 0,
-  inventory: { averageValue: 0, averageTurnover: 0 },
-  averageValue: 0,
-  averageTurnover: 0,
-  sites: { columbus: 0, addison: 0, lakeCity: 0 },
-  columbus: 0,
-  addison: 0,
-  lakeCity: 0,
-  arAging: { current: 0, aging_1_30: 0, aging_31_60: 0, aging_61_90: 0, aging_90_plus: 0 },
-  current: 0,
-  aging_1_30: 0,
-  aging_31_60: 0,
-  aging_61_90: 0,
-  aging_90_plus: 0,
   variables: {
-    // Key Metrics Variables
     'var-total-orders': {
       id: 'var-total-orders',
       name: 'total_orders',
@@ -67,7 +15,11 @@ export const initialSpreadsheetState: SpreadsheetState = {
       value: 0,
       category: 'Key Metrics',
       chartId: 'metric-total-orders',
-      chartType: 'metric'
+      chartType: 'metric',
+      chartGroup: 'Metrics',
+      calculation: 'COUNT',
+      sqlExpression: 'SELECT COUNT(*) FROM orders',
+      p21DataDictionary: 'orders'
     },
     'var-open-orders': {
       id: 'var-open-orders',
@@ -76,7 +28,11 @@ export const initialSpreadsheetState: SpreadsheetState = {
       value: 0,
       category: 'Key Metrics',
       chartId: 'metric-open-orders',
-      chartType: 'metric'
+      chartType: 'metric',
+      chartGroup: 'Metrics',
+      calculation: 'COUNT',
+      sqlExpression: 'SELECT COUNT(*) FROM orders WHERE status = "open"',
+      p21DataDictionary: 'orders'
     },
     'var-in-process': {
       id: 'var-in-process',
@@ -85,7 +41,11 @@ export const initialSpreadsheetState: SpreadsheetState = {
       value: 0,
       category: 'Key Metrics',
       chartId: 'metric-in-process',
-      chartType: 'metric'
+      chartType: 'metric',
+      chartGroup: 'Metrics',
+      calculation: 'COUNT',
+      sqlExpression: 'SELECT COUNT(*) FROM orders WHERE status = "in_process"',
+      p21DataDictionary: 'orders'
     },
     'var-weekly-revenue': {
       id: 'var-weekly-revenue',
@@ -94,7 +54,11 @@ export const initialSpreadsheetState: SpreadsheetState = {
       value: 0,
       category: 'Key Metrics',
       chartId: 'metric-weekly-revenue',
-      chartType: 'metric'
+      chartType: 'metric',
+      chartGroup: 'Metrics',
+      calculation: 'SUM',
+      sqlExpression: 'SELECT SUM(revenue) FROM orders WHERE date >= NOW() - INTERVAL 1 WEEK',
+      p21DataDictionary: 'orders'
     }
   },
   charts: {
@@ -127,5 +91,5 @@ export const initialSpreadsheetState: SpreadsheetState = {
       variables: ['var-weekly-revenue']
     }
   },
-  categories: ['Key Metrics']
+  categories: ['Key Metrics', 'Historical Data', 'Accounts Payable', 'Customers', 'Inventory', 'Site Distribution', 'AR Aging']
 };

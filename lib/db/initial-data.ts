@@ -42,7 +42,7 @@ function generateLastNDays(n: number, baseDate: string = '2025-01-11'): string[]
 }
 
 const historicalData = generateLastNMonths(12).map((date, index) => ({
-  id: 100 + index,
+  id: (100 + index).toString(),
   name: date,
   chartGroup: 'Historical Data',
   historicalDate: date,
@@ -64,7 +64,7 @@ const historicalData = generateLastNMonths(12).map((date, index) => ({
 }));
 
 const accountsPayableData = generateLastNDays(30).map((date, index) => ({
-  id: 200 + index,
+  id: (200 + index).toString(),
   name: date,
   chartGroup: 'Accounts Payable Overview',
   accountsPayableDate: date,
@@ -93,7 +93,7 @@ const accountsPayableData = generateLastNDays(30).map((date, index) => ({
 }));
 
 const customerData = generateLastNDays(30).map((date, index) => ({
-  id: 300 + index,
+  id: (300 + index).toString(),
   name: date,
   chartGroup: 'New Customers vs. New Prospects',
   customersDate: date,
@@ -119,7 +119,7 @@ const customerData = generateLastNDays(30).map((date, index) => ({
 }));
 
 const inventoryData = generateLastNMonths(12).map((date, index) => ({
-  id: 400 + index,
+  id: (400 + index).toString(),
   name: date,
   chartGroup: 'Inventory Value & Turnover',
   inventoryValueDate: date,
@@ -152,7 +152,7 @@ const inventoryData = generateLastNMonths(12).map((date, index) => ({
 
 const siteDistributionData = [
   {
-    id: 91,
+    id: '91',
     name: 'Columbus',
     chartGroup: 'Site Distribution',
     historicalDate: '2025-01-11',
@@ -169,7 +169,7 @@ const siteDistributionData = [
     por: (Math.random() * 400000 + 200000).toFixed(0),
   },
   {
-    id: 92,
+    id: '92',
     name: 'Addison',
     chartGroup: 'Site Distribution',
     historicalDate: '2025-01-11',
@@ -186,7 +186,7 @@ const siteDistributionData = [
     por: (Math.random() * 400000 + 200000).toFixed(0),
   },
   {
-    id: 93,
+    id: '93',
     name: 'Lake City',
     chartGroup: 'Site Distribution',
     historicalDate: '2025-01-11',
@@ -206,7 +206,7 @@ const siteDistributionData = [
 
 const topProducts = [
   {
-    id: 600,
+    id: '600',
     name: 'Inside Sales Leader',
     chartGroup: 'Top Products',
     subGroup: 'Inside Sales',
@@ -229,7 +229,7 @@ const topProducts = [
     value: '0'
   },
   {
-    id: 601,
+    id: '601',
     name: 'Copper Fittings',
     chartGroup: 'Top Products',
     subGroup: 'Inside Sales',
@@ -249,7 +249,7 @@ const topProducts = [
     value: '450000'
   },
   {
-    id: 602,
+    id: '602',
     name: 'PVC Pipes',
     chartGroup: 'Top Products',
     subGroup: 'Inside Sales',
@@ -269,7 +269,7 @@ const topProducts = [
     value: '380000'
   },
   {
-    id: 603,
+    id: '603',
     name: 'Steel Pipes',
     chartGroup: 'Top Products',
     subGroup: 'Outside Sales',
@@ -289,7 +289,7 @@ const topProducts = [
     value: '520000'
   },
   {
-    id: 604,
+    id: '604',
     name: 'Valves',
     chartGroup: 'Top Products',
     subGroup: 'Outside Sales',
@@ -308,7 +308,7 @@ const topProducts = [
     value: '420000'
   },
   {
-    id: 605,
+    id: '605',
     name: 'Tools',
     chartGroup: 'Top Products',
     subGroup: 'Online Sales',
@@ -328,7 +328,7 @@ const topProducts = [
     value: '280000'
   },
   {
-    id: 606,
+    id: '606',
     name: 'Accessories',
     chartGroup: 'Top Products',
     subGroup: 'Online Sales',
@@ -351,7 +351,7 @@ const topProducts = [
 
 const arAgingData: RawARAgingData[] = [
   {
-    id: 218,
+    id: '218',
     name: 'ar_aging_current',
     value: '125000',
     chartGroup: 'AR Aging',
@@ -367,7 +367,7 @@ const arAgingData: RawARAgingData[] = [
     current: '125000'
   },
   {
-    id: 219,
+    id: '219',
     name: 'ar_aging_1_30',
     value: '75000',
     chartGroup: 'AR Aging',
@@ -383,7 +383,7 @@ const arAgingData: RawARAgingData[] = [
     aging_1_30: '75000'
   },
   {
-    id: 220,
+    id: '220',
     name: 'ar_aging_31_60',
     value: '45000',
     chartGroup: 'AR Aging',
@@ -399,7 +399,7 @@ const arAgingData: RawARAgingData[] = [
     aging_31_60: '45000'
   },
   {
-    id: 221,
+    id: '221',
     name: 'ar_aging_61_90',
     value: '25000',
     chartGroup: 'AR Aging',
@@ -415,7 +415,7 @@ const arAgingData: RawARAgingData[] = [
     aging_61_90: '25000'
   },
   {
-    id: 222,
+    id: '222',
     name: 'ar_aging_90_plus',
     value: '15000',
     chartGroup: 'AR Aging',
@@ -463,7 +463,7 @@ function isARAgingData(item: RawDashboardData): item is RawARAgingData {
 const metricsData = [
   // Metrics - 6 unique metrics
   {
-    id: 1,
+    id: '1',
     name: 'Total Orders',
     chartGroup: 'Metrics',
     calculation: 'Count all unique order numbers from orders placed within the last 24 hours across all sales channels',
@@ -478,7 +478,7 @@ const metricsData = [
     value: '150'
   },
   {
-    id: 2,
+    id: '2',
     name: 'Average Order Value',
     chartGroup: 'Metrics',
     calculation: 'Calculate the mean value of all orders from the past day, including tax and shipping but excluding cancelled orders',
@@ -493,7 +493,7 @@ const metricsData = [
     value: '2500'
   },
   {
-    id: 3,
+    id: '3',
     name: 'Active Customers',
     chartGroup: 'Metrics',
     calculation: 'Count the number of unique customers who have made at least one purchase in the last 90 days',
@@ -508,7 +508,7 @@ const metricsData = [
     value: '450'
   },
   {
-    id: 4,
+    id: '4',
     name: 'Open Support Tickets',
     chartGroup: 'Metrics',
     calculation: 'Count all unresolved support tickets that have not been marked as closed or resolved',
@@ -522,7 +522,7 @@ const metricsData = [
     value: '25'
   },
   {
-    id: 5,
+    id: '5',
     name: 'Revenue MTD',
     chartGroup: 'Metrics',
     calculation: 'Sum the total revenue from all completed transactions since the start of the current calendar month',
@@ -537,7 +537,7 @@ const metricsData = [
     value: '1250000'
   },
   {
-    id: 6,
+    id: '6',
     name: 'Website Visitors',
     chartGroup: 'Metrics',
     calculation: 'Count unique visitors to the website over the past 24 hours based on unique visitor IDs',

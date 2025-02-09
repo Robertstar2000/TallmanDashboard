@@ -1,0 +1,52 @@
+(node:5972) [DEP0005] DeprecationWarning: Buffer() is deprecated due to security and usability issues. Please use the Buffer.alloc(), Buffer.allocUnsafe(), or Buffer.from() methods instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:5972) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+ X TypeError: Cannot read properties of undefined (reading 'call')
+    at __webpack_require__ (C:\Users\BobM\CascadeProjects\TallmanDashboard\.next\server\webpack-runtime.js:33:43)
+    at JSON.parse (<anonymous>)
+TypeError: Cannot read properties of undefined (reading 'call')
+    at __webpack_require__ (C:\Users\BobM\CascadeProjects\TallmanDashboard\.next\server\webpack-runtime.js:33:43)
+    at C:\Users\BobM\CascadeProjects\TallmanDashboard\node_modules\next\dist\compiled\next-server\app-page.runtime.dev.js:1:294302
+    at oe (C:\Users\BobM\CascadeProjects\TallmanDashboard\node_modules\next\dist\compiled\next-server\app-page.runtime.dev.js:1:294490)
+    at C:\Users\BobM\CascadeProjects\TallmanDashboard\node_modules\next\dist\compiled\next-server\app-page.runtime.dev.js:1:296297
+    at Object.<anonymous> (C:\Users\BobM\CascadeProjects\TallmanDashboard\node_modules\next\dist\compiled\next-server\app-page.runtime.dev.js:1:296692)
+    at JSON.parse (<anonymous>)
+    at de (C:\Users\BobM\CascadeProjects\TallmanDashboard\node_modules\next\dist\compiled\next-server\app-page.runtime.dev.js:1:299872)
+    at re (C:\Users\BobM\CascadeProjects\TallmanDashboard\node_modules\next\dist\compiled\next-server\app-page.runtime.dev.js:1:294049)
+    at J (C:\Users\BobM\CascadeProjects\TallmanDashboard\node_modules\next\dist\compiled\next-server\app-page.runtime.dev.js:1:293102)
+    at as (C:\Users\BobM\CascadeProjects\TallmanDashboard\node_modules\next\dist\compiled\next-server\app-page.runtime.dev.js:1:261313)
+    at os (C:\Users\BobM\CascadeProjects\TallmanDashboard\node_modules\next\dist\compiled\next-server\app-page.runtime.dev.js:1:260774)
+    at ts (C:\Users\BobM\CascadeProjects\TallmanDashboard\node_modules\next\dist\compiled\next-server\app-page.runtime.dev.js:1:249948)
+    at C:\Users\BobM\CascadeProjects\TallmanDashboard\node_modules\next\dist\compiled\next-server\app-page.runtime.dev.js:1:255098
+    at rs (C:\Users\BobM\CascadeProjects\TallmanDashboard\node_modules\next\dist\compiled\next-server\app-page.runtime.dev.js:1:255122)
+    at as (C:\Users\BobM\CascadeProjects\TallmanDashboard\node_modules\next\dist\compiled\next-server\app-page.runtime.dev.js:1:261055)
+    at os (C:\Users\BobM\CascadeProjects\TallmanDashboard\node_modules\next\dist\compiled\next-server\app-page.runtime.dev.js:1:260774)
+    at ps (C:\Users\BobM\CascadeProjects\TallmanDashboard\node_modules\next\dist\compiled\next-server\app-page.runtime.dev.js:1:266112)
+    at fs (C:\Users\BobM\CascadeProjects\TallmanDashboard\node_modules\next\dist\compiled\next-server\app-page.runtime.dev.js:1:267033)
+    at Timeout._onTimeout (C:\Users\BobM\CascadeProjects\TallmanDashboard\node_modules\next\dist\compiled\next-server\app-page.runtime.dev.js:1:246872)
+    at listOnTimeout (node:internal/timers:594:17)
+    at process.processTimers (node:internal/timers:529:7)
+ X TypeError: Cannot read properties of undefined (reading 'call')
+    at __webpack_require__ (C:\Users\BobM\CascadeProjects\TallmanDashboard\.next\server\webpack-runtime.js:33:43)
+    at C:\Users\BobM\CascadeProjects\TallmanDashboard\node_modules\next\dist\compiled\next-server\app-page.runtime.dev.js:1:294302
+    at oe (C:\Users\BobM\CascadeProjects\TallmanDashboard\node_modules\next\dist\compiled\next-server\app-page.runtime.dev.js:1:294490)
+    at C:\Users\BobM\CascadeProjects\TallmanDashboard\node_modules\next\dist\compiled\next-server\app-page.runtime.dev.js:1:296297
+    at Object.<anonymous> (C:\Users\BobM\CascadeProjects\TallmanDashboard\node_modules\next\dist\compiled\next-server\app-page.runtime.dev.js:1:296692)
+    at JSON.parse (<anonymous>)
+    at de (C:\Users\BobM\CascadeProjects\TallmanDashboard\node_modules\next\dist\compiled\next-server\app-page.runtime.dev.js:1:299872)
+    at re (C:\Users\BobM\CascadeProjects\TallmanDashboard\node_modules\next\dist\compiled\next-server\app-page.runtime.dev.js:1:294049)
+    at J (C:\Users\BobM\CascadeProjects\TallmanDashboard\node_modules\next\dist\compiled\next-server\app-page.runtime.dev.js:1:293102)
+    at as (C:\Users\BobM\CascadeProjects\TallmanDashboard\node_modules\next\dist\compiled\next-server\app-page.runtime.dev.js:1:261313)
+    at os (C:\Users\BobM\CascadeProjects\TallmanDashboard\node_modules\next\dist\compiled\next-server\app-page.runtime.dev.js:1:260774)
+    at ts (C:\Users\BobM\CascadeProjects\TallmanDashboard\node_modules\next\dist\compiled\next-server\app-page.runtime.dev.js:1:249948)
+    at C:\Users\BobM\CascadeProjects\TallmanDashboard\node_modules\next\dist\compiled\next-server\app-page.runtime.dev.js:1:255098
+    at rs (C:\Users\BobM\CascadeProjects\TallmanDashboard\node_modules\next\dist\compiled\next-server\app-page.runtime.dev.js:1:255122)
+    at as (C:\Users\BobM\CascadeProjects\TallmanDashboard\node_modules\next\dist\compiled\next-server\app-page.runtime.dev.js:1:261055)
+    at os (C:\Users\BobM\CascadeProjects\TallmanDashboard\node_modules\next\dist\compiled\next-server\app-page.runtime.dev.js:1:260774)
+    at ps (C:\Users\BobM\CascadeProjects\TallmanDashboard\node_modules\next\dist\compiled\next-server\app-page.runtime.dev.js:1:266112)
+    at fs (C:\Users\BobM\CascadeProjects\TallmanDashboard\node_modules\next\dist\compiled\next-server\app-page.runtime.dev.js:1:267033)
+    at Timeout._onTimeout (C:\Users\BobM\CascadeProjects\TallmanDashboard\node_modules\next\dist\compiled\next-server\app-page.runtime.dev.js:1:246872)
+    at listOnTimeout (node:internal/timers:594:17)
+    at process.processTimers (node:internal/timers:529:7) {
+  page: '/'
+}

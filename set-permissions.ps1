@@ -1,59 +1,85 @@
 # Get the application path
-$appPath = Split-Path $MyInvocation.MyCommand.Path
-$iisAppPool = "IIS AppPool\DefaultAppPool"
+$appPath = "C:\Users\BobM\CascadeProjects\TallmanDashboard"
+$iisAppPool = "IIS APPPOOL\DefaultAppPool"
 $networkService = "NT AUTHORITY\NETWORK SERVICE"
+$iisUser = "IUSR"
+$localService = "NT AUTHORITY\LOCAL SERVICE"
+
+# Create iisnode directory if it doesn't exist
+$iisnodePath = Join-Path $appPath "iisnode"
+if (-not (Test-Path $iisnodePath)) {
+    New-Item -ItemType Directory -Path $iisnodePath -Force
+}
 
 # Function to set permissions
 function Set-FolderPermissions {
-    param (
+    param(
         [string]$folderPath,
-        [string]$identity
+        [string]$identity,
+        [string]$permissions = "FullControl"
     )
     
-    if (-not (Test-Path $folderPath)) {
-        New-Item -ItemType Directory -Path $folderPath -Force
+    Write-Host "Setting $permissions permissions for $identity on $folderPath"
+    try {
+        $acl = Get-Acl $folderPath
+        $rule = New-Object System.Security.AccessControl.FileSystemAccessRule(
+            $identity, 
+            $permissions, 
+            "ContainerInherit,ObjectInherit", 
+            "None", 
+            "Allow"
+        )
+        $acl.SetAccessRule($rule)
+        Set-Acl $folderPath $acl
+        Write-Host "Successfully set permissions for $identity on $folderPath"
     }
-    
-    $acl = Get-Acl $folderPath
-    $rule = New-Object System.Security.AccessControl.FileSystemAccessRule(
-        $identity,
-        "FullControl",
-        "ContainerInherit,ObjectInherit",
-        "None",
-        "Allow"
-    )
-    
-    # Remove existing rules for this identity
-    $acl.Access | Where-Object { $_.IdentityReference.Value -eq $identity } | 
-        ForEach-Object { $acl.RemoveAccessRule($_) }
-    
-    # Add new rule
-    $acl.AddAccessRule($rule)
-    Set-Acl $folderPath $acl
-    Write-Host "Set permissions for $identity on $folderPath"
+    catch {
+        Write-Host "Error setting permissions for $identity on $folderPath: $_"
+    }
 }
 
-# Create and set permissions for required directories
-$directories = @(
-    (Join-Path $appPath "iisnode_logs"),
-    (Join-Path $appPath "logs"),
-    (Join-Path $appPath "node_modules")
+# Set permissions for all required identities
+$identities = @($iisAppPool, $networkService, $iisUser, $localService)
+$paths = @(
+    $appPath,
+    $iisnodePath,
+    (Join-Path $appPath "node_modules"),
+    (Join-Path $appPath ".next")
 )
 
-foreach ($dir in $directories) {
-    Set-FolderPermissions -folderPath $dir -identity $iisAppPool
-    Set-FolderPermissions -folderPath $dir -identity $networkService
+# Create directories if they don't exist
+foreach ($path in $paths) {
+    if (-not (Test-Path $path)) {
+        New-Item -ItemType Directory -Path $path -Force
+        Write-Host "Created directory: $path"
+    }
 }
 
-# Set permissions on the root application directory
-Set-FolderPermissions -folderPath $appPath -identity $iisAppPool
-Set-FolderPermissions -folderPath $appPath -identity $networkService
+# Set permissions for each path and identity
+foreach ($path in $paths) {
+    foreach ($identity in $identities) {
+        Set-FolderPermissions -folderPath $path -identity $identity
+    }
+}
 
-# Ensure IIS has permission to execute node.exe
-$nodePath = "C:\Program Files\nodejs"
-if (Test-Path $nodePath) {
-    Set-FolderPermissions -folderPath $nodePath -identity $iisAppPool
-    Set-FolderPermissions -folderPath $nodePath -identity $networkService
+# Grant permissions to port 5000
+try {
+    Write-Host "Granting port permissions..."
+    $urls = @(
+        "http://+:5000/",
+        "http://localhost:5000/"
+    )
+    
+    foreach ($url in $urls) {
+        foreach ($identity in @($networkService, $localService)) {
+            $netsh = "netsh http add urlacl url=$url user=`"$identity`""
+            Write-Host "Running: $netsh"
+            Invoke-Expression $netsh
+        }
+    }
+}
+catch {
+    Write-Host "Error granting port permissions: $_"
 }
 
 Write-Host "All permissions have been set successfully"

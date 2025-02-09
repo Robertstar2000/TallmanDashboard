@@ -1,0 +1,5 @@
+Node application is starting...
+Next.js: [?25h
+Next.js: 
+
+Next.js process exited with code 0
