@@ -1,0 +1,6 @@
+> Ready on http://localhost:\\.\pipe\679df89f-d239-4003-bd00-6310677885c1
+ ○ Compiling / ...
+ ✓ Compiled / in 2.6s (1849 modules)
+AccountsPayableChart data: []
+ GET / 200 in 3140ms
+ ✓ Compiled in 244ms (926 modules)
