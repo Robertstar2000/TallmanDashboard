@@ -1,0 +1,29 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlserver"
+  url      = env("DATABASE_URL")
+}
+
+// Define your models here based on your P21 and POR database schemas
+// Example:
+model Customer {
+  id        Int      @id @default(autoincrement())
+  name      String
+  balance   Float
+  createdAt DateTime @default(now())
+}
+
+model Order {
+  id          Int      @id @default(autoincrement())
+  customerId  Int
+  orderDate   DateTime @default(now())
+  totalAmount Float
+}
+
+// Add more models as needed based on your actual database schema

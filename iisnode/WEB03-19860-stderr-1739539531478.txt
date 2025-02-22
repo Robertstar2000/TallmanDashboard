@@ -1,0 +1,157 @@
+(node:19860) [DEP0005] DeprecationWarning: Buffer() is deprecated due to security and usability issues. Please use the Buffer.alloc(), Buffer.allocUnsafe(), or Buffer.from() methods instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+ ⨯ ./components/ui/button.tsx:2:0
+Module not found: Can't resolve '@radix-ui/react-slot'
+[0m [90m 1 |[39m [36mimport[39m [33m*[39m [36mas[39m [33mReact[39m [36mfrom[39m [32m'react'[39m[33m;[39m[0m
+[0m[31m[1m>[22m[39m[90m 2 |[39m [36mimport[39m { [33mSlot[39m } [36mfrom[39m [32m'@radix-ui/react-slot'[39m[33m;[39m[0m
+[0m [90m 3 |[39m [36mimport[39m { cva[33m,[39m type [33mVariantProps[39m } [36mfrom[39m [32m'class-variance-authority'[39m[33m;[39m[0m
+[0m [90m 4 |[39m[0m
+[0m [90m 5 |[39m [36mimport[39m { cn } [36mfrom[39m [32m'@/lib/utils'[39m[33m;[39m[0m
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./components/AdminButton.tsx
+./pages/index.tsx
+ ⨯ ./components/ui/dialog.tsx:4:0
+Module not found: Can't resolve '@radix-ui/react-dialog'
+[0m [90m 2 |[39m[0m
+[0m [90m 3 |[39m [36mimport[39m [33m*[39m [36mas[39m [33mReact[39m [36mfrom[39m [32m'react'[39m[33m;[39m[0m
+[0m[31m[1m>[22m[39m[90m 4 |[39m [36mimport[39m [33m*[39m [36mas[39m [33mDialogPrimitive[39m [36mfrom[39m [32m'@radix-ui/react-dialog'[39m[33m;[39m[0m
+[0m [90m 5 |[39m [36mimport[39m { [33mX[39m } [36mfrom[39m [32m'lucide-react'[39m[33m;[39m[0m
+[0m [90m 6 |[39m[0m
+[0m [90m 7 |[39m [36mimport[39m { cn } [36mfrom[39m [32m'@/lib/utils'[39m[33m;[39m[0m
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./components/DataDetailsDialog.tsx
+./components/charts/DailyOrdersChart.tsx
+./pages/index.tsx
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: ENOENT: no such file or directory, rename 'C:\Users\BobM\CascadeProjects\TallmanDashboard\.next\cache\webpack\client-development-fallback\0.pack.gz_' -> 'C:\Users\BobM\CascadeProjects\TallmanDashboard\.next\cache\webpack\client-development-fallback\0.pack.gz'
+ ⨯ ./components/ui/dialog.tsx:4:0
+Module not found: Can't resolve '@radix-ui/react-dialog'
+[0m [90m 2 |[39m[0m
+[0m [90m 3 |[39m [36mimport[39m [33m*[39m [36mas[39m [33mReact[39m [36mfrom[39m [32m'react'[39m[33m;[39m[0m
+[0m[31m[1m>[22m[39m[90m 4 |[39m [36mimport[39m [33m*[39m [36mas[39m [33mDialogPrimitive[39m [36mfrom[39m [32m'@radix-ui/react-dialog'[39m[33m;[39m[0m
+[0m [90m 5 |[39m [36mimport[39m { [33mX[39m } [36mfrom[39m [32m'lucide-react'[39m[33m;[39m[0m
+[0m [90m 6 |[39m[0m
+[0m [90m 7 |[39m [36mimport[39m { cn } [36mfrom[39m [32m'@/lib/utils'[39m[33m;[39m[0m
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./components/DataDetailsDialog.tsx
+./components/charts/DailyOrdersChart.tsx
+./pages/index.tsx
+ ⨯ ./components/ui/dialog.tsx:4:0
+Module not found: Can't resolve '@radix-ui/react-dialog'
+[0m [90m 2 |[39m[0m
+[0m [90m 3 |[39m [36mimport[39m [33m*[39m [36mas[39m [33mReact[39m [36mfrom[39m [32m'react'[39m[33m;[39m[0m
+[0m[31m[1m>[22m[39m[90m 4 |[39m [36mimport[39m [33m*[39m [36mas[39m [33mDialogPrimitive[39m [36mfrom[39m [32m'@radix-ui/react-dialog'[39m[33m;[39m[0m
+[0m [90m 5 |[39m [36mimport[39m { [33mX[39m } [36mfrom[39m [32m'lucide-react'[39m[33m;[39m[0m
+[0m [90m 6 |[39m[0m
+[0m [90m 7 |[39m [36mimport[39m { cn } [36mfrom[39m [32m'@/lib/utils'[39m[33m;[39m[0m
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./components/DataDetailsDialog.tsx
+./components/charts/DailyOrdersChart.tsx
+./pages/index.tsx
+ ⨯ ./components/ui/dialog.tsx:4:0
+Module not found: Can't resolve '@radix-ui/react-dialog'
+[0m [90m 2 |[39m[0m
+[0m [90m 3 |[39m [36mimport[39m [33m*[39m [36mas[39m [33mReact[39m [36mfrom[39m [32m'react'[39m[33m;[39m[0m
+[0m[31m[1m>[22m[39m[90m 4 |[39m [36mimport[39m [33m*[39m [36mas[39m [33mDialogPrimitive[39m [36mfrom[39m [32m'@radix-ui/react-dialog'[39m[33m;[39m[0m
+[0m [90m 5 |[39m [36mimport[39m { [33mX[39m } [36mfrom[39m [32m'lucide-react'[39m[33m;[39m[0m
+[0m [90m 6 |[39m[0m
+[0m [90m 7 |[39m [36mimport[39m { cn } [36mfrom[39m [32m'@/lib/utils'[39m[33m;[39m[0m
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./components/DataDetailsDialog.tsx
+./components/charts/DailyOrdersChart.tsx
+./pages/index.tsx
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: ENOENT: no such file or directory, rename 'C:\Users\BobM\CascadeProjects\TallmanDashboard\.next\cache\webpack\client-development-fallback\0.pack.gz_' -> 'C:\Users\BobM\CascadeProjects\TallmanDashboard\.next\cache\webpack\client-development-fallback\0.pack.gz'
+ ⨯ ./app/layout.tsx:1:0
+Module not found: Can't resolve './globals.css'
+[0m[31m[1m>[22m[39m[90m 1 |[39m [36mimport[39m [32m'./globals.css'[39m[33m;[39m[0m
+[0m [90m 2 |[39m [36mimport[39m type { [33mMetadata[39m } [36mfrom[39m [32m'next'[39m[33m;[39m[0m
+[0m [90m 3 |[39m [36mimport[39m { [33mInter[39m } [36mfrom[39m [32m'next/font/google'[39m[33m;[39m[0m
+[0m [90m 4 |[39m[0m
+
+https://nextjs.org/docs/messages/module-not-found
+Error: ENOENT: no such file or directory, scandir 'C:\Users\BobM\CascadeProjects\TallmanDashboard\app'
+    at async Object.readdir (node:internal/fs/promises:954:18)
+    at async C:\Users\BobM\CascadeProjects\TallmanDashboard\node_modules\next\dist\lib\recursive-readdir.js:39:29
+    at async Promise.all (index 0)
+    at async recursiveReadDir (C:\Users\BobM\CascadeProjects\TallmanDashboard\node_modules\next\dist\lib\recursive-readdir.js:32:25)
+    at async C:\Users\BobM\CascadeProjects\TallmanDashboard\node_modules\next\dist\server\future\route-matcher-providers\dev\helpers\file-reader\batched-file-reader.js:71:25
+    at async Promise.all (index 0)
+    at async BatchedFileReader.load (C:\Users\BobM\CascadeProjects\TallmanDashboard\node_modules\next\dist\server\future\route-matcher-providers\dev\helpers\file-reader\batched-file-reader.js:67:25)
+    at async C:\Users\BobM\CascadeProjects\TallmanDashboard\node_modules\next\dist\server\future\route-matcher-providers\dev\helpers\file-reader\batched-file-reader.js:41:26 {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'scandir',
+  path: 'C:\\Users\\BobM\\CascadeProjects\\TallmanDashboard\\app'
+}
+ ⨯ unhandledRejection: Error: ENOENT: no such file or directory, scandir 'C:\Users\BobM\CascadeProjects\TallmanDashboard\app'
+    at async Object.readdir (node:internal/fs/promises:954:18)
+    at async C:\Users\BobM\CascadeProjects\TallmanDashboard\node_modules\next\dist\lib\recursive-readdir.js:39:29
+    at async Promise.all (index 0)
+    at async recursiveReadDir (C:\Users\BobM\CascadeProjects\TallmanDashboard\node_modules\next\dist\lib\recursive-readdir.js:32:25)
+    at async C:\Users\BobM\CascadeProjects\TallmanDashboard\node_modules\next\dist\server\future\route-matcher-providers\dev\helpers\file-reader\batched-file-reader.js:71:25
+    at async Promise.all (index 0)
+    at async BatchedFileReader.load (C:\Users\BobM\CascadeProjects\TallmanDashboard\node_modules\next\dist\server\future\route-matcher-providers\dev\helpers\file-reader\batched-file-reader.js:67:25)
+    at async C:\Users\BobM\CascadeProjects\TallmanDashboard\node_modules\next\dist\server\future\route-matcher-providers\dev\helpers\file-reader\batched-file-reader.js:41:26 {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'scandir',
+  path: 'C:\\Users\\BobM\\CascadeProjects\\TallmanDashboard\\app'
+}
+ ⨯ unhandledRejection: Error: ENOENT: no such file or directory, scandir 'C:\Users\BobM\CascadeProjects\TallmanDashboard\app'
+    at async Object.readdir (node:internal/fs/promises:954:18)
+    at async C:\Users\BobM\CascadeProjects\TallmanDashboard\node_modules\next\dist\lib\recursive-readdir.js:39:29
+    at async Promise.all (index 0)
+    at async recursiveReadDir (C:\Users\BobM\CascadeProjects\TallmanDashboard\node_modules\next\dist\lib\recursive-readdir.js:32:25)
+    at async C:\Users\BobM\CascadeProjects\TallmanDashboard\node_modules\next\dist\server\future\route-matcher-providers\dev\helpers\file-reader\batched-file-reader.js:71:25
+    at async Promise.all (index 0)
+    at async BatchedFileReader.load (C:\Users\BobM\CascadeProjects\TallmanDashboard\node_modules\next\dist\server\future\route-matcher-providers\dev\helpers\file-reader\batched-file-reader.js:67:25)
+    at async C:\Users\BobM\CascadeProjects\TallmanDashboard\node_modules\next\dist\server\future\route-matcher-providers\dev\helpers\file-reader\batched-file-reader.js:41:26 {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'scandir',
+  path: 'C:\\Users\\BobM\\CascadeProjects\\TallmanDashboard\\app'
+}
+ ⨯ ./styles/globals.css:1:1
+Syntax error: C:\Users\BobM\CascadeProjects\TallmanDashboard\styles\globals.css The `border-border` class does not exist. If `border-border` is a custom class, make sure it is defined within a `@layer` directive.
+
+[1m[31m>[39m[22m[90m 1 | [39m[36m@tailwind[39m base[33m;[39m
+ [90m   | [39m[1m[31m^[39m[22m
+ [90m 2 | [39m[36m@tailwind[39m components[33m;[39m
+ [90m 3 | [39m[36m@tailwind[39m utilities[33m;[39m
+[Error: ENOENT: no such file or directory, stat 'C:\Users\BobM\CascadeProjects\TallmanDashboard\.next\cache\webpack\server-development\3.pack.gz'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'stat',
+  path: 'C:\\Users\\BobM\\CascadeProjects\\TallmanDashboard\\.next\\cache\\webpack\\server-development\\3.pack.gz'
+}
+ ⨯ unhandledRejection: [Error: ENOENT: no such file or directory, stat 'C:\Users\BobM\CascadeProjects\TallmanDashboard\.next\cache\webpack\server-development\3.pack.gz'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'stat',
+  path: 'C:\\Users\\BobM\\CascadeProjects\\TallmanDashboard\\.next\\cache\\webpack\\server-development\\3.pack.gz'
+}
+ ⨯ unhandledRejection: [Error: ENOENT: no such file or directory, stat 'C:\Users\BobM\CascadeProjects\TallmanDashboard\.next\cache\webpack\server-development\3.pack.gz'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'stat',
+  path: 'C:\\Users\\BobM\\CascadeProjects\\TallmanDashboard\\.next\\cache\\webpack\\server-development\\3.pack.gz'
+}
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: ENOENT: no such file or directory, stat 'C:\Users\BobM\CascadeProjects\TallmanDashboard\.next\cache\webpack\server-development\3.pack.gz'
+<w> [webpack.cache.PackFileCacheStrategy] Skipped not serializable cache item 'Compilation/modules|C:\Users\BobM\CascadeProjects\TallmanDashboard\node_modules\next\dist\build\webpack\loaders\css-loader\src\index.js??ruleSet[1].rules[11].oneOf[14].use[1]!C:\Users\BobM\CascadeProjects\TallmanDashboard\node_modules\next\dist\build\webpack\loaders\postcss-loader\src\index.js??ruleSet[1].rules[11].oneOf[14].use[2]!C:\Users\BobM\CascadeProjects\TallmanDashboard\styles\globals.css': No serializer registered for PostCSSSyntaxError
+<w> while serializing webpack/lib/cache/PackFileCacheStrategy.PackContentItems -> webpack/lib/NormalModule -> webpack/lib/ModuleBuildError -> PostCSSSyntaxError

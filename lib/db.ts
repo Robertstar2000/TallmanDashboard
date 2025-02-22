@@ -1,33 +1,49 @@
 import { createClient } from '@libsql/client';
 import { ARAgingData } from '@/lib/types/dashboard';
 
-// For browser environment, we'll use localStorage to simulate the database
+// In-memory store fallback
+let inMemoryStore: { [key: string]: any } = {};
+
+// Storage wrapper that falls back to memory when localStorage is not available
 const storage = {
   getItem: (key: string) => {
+    if (typeof window === 'undefined') {
+      return inMemoryStore[key] || null;
+    }
     try {
-      return localStorage.getItem(key);
+      const item = localStorage.getItem(key);
+      return item;
     } catch {
-      return null;
+      return inMemoryStore[key] || null;
     }
   },
   setItem: (key: string, value: any) => {
+    if (typeof window === 'undefined') {
+      inMemoryStore[key] = JSON.stringify(value);
+      return;
+    }
     try {
       localStorage.setItem(key, JSON.stringify(value));
     } catch {
-      console.error('Error saving to localStorage');
+      inMemoryStore[key] = JSON.stringify(value);
     }
   },
   clear: () => {
+    if (typeof window === 'undefined') {
+      inMemoryStore = {};
+      return;
+    }
     try {
       localStorage.clear();
+      inMemoryStore = {};
     } catch {
-      console.error('Error clearing localStorage');
+      inMemoryStore = {};
     }
   }
 };
 
 // Initial data for a $100M business
-const initialData = {
+export const initialData = {
   metrics: [
     { name: 'total_orders', value: 12847 },
     { name: 'open_orders', value: 1563 },
@@ -271,13 +287,16 @@ export const isServerConnected = (serverType: 'P21' | 'POR') => {
   return serverType === 'P21' ? p21Connection !== null : porConnection !== null;
 };
 
+export const getConnection = (serverType: 'P21' | 'POR') => {
+  return serverType === 'P21' ? p21Connection : porConnection;
+};
+
 export const executeQuery = async (serverType: 'P21' | 'POR', tableName: string, sqlExpression: string): Promise<number> => {
   try {
     // Get the appropriate connection
     const connection = serverType === 'P21' ? p21Connection : porConnection;
     if (!connection) {
-      console.error(`No ${serverType} connection available`);
-      return 0;
+      throw new Error(`No ${serverType} connection available. Please ensure you are connected to the server.`);
     }
 
     // Log the query for debugging
@@ -286,20 +305,62 @@ export const executeQuery = async (serverType: 'P21' | 'POR', tableName: string,
       Server: ${serverType}
       Table: ${tableName}
       Query: ${sqlExpression}
+      Connection: ${connection.serverName}
+      Database: ${connection.database}
       ===================================
     `);
 
-    // In development, we're using localStorage
-    if (typeof window !== 'undefined') {
-      return 1; // Simulate successful query
+    // In production, make a request to the API endpoint
+    if (process.env.NODE_ENV === 'production') {
+      const response = await fetch('/api/executeQuery', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          serverType,
+          tableName,
+          sqlExpression,
+          connection: {
+            serverName: connection.serverName,
+            database: connection.database,
+            username: connection.username,
+            password: connection.password,
+            domain: connection.domain
+          }
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({ error: 'Unknown error' }));
+        throw new Error(
+          `Failed to execute query on ${serverType}. Status: ${response.status}. ` +
+          `Error: ${errorData.error || response.statusText}`
+        );
+      }
+
+      const result = await response.json();
+      if (typeof result.value !== 'number') {
+        throw new Error(
+          `Invalid response from ${serverType}. Expected a number but got: ${typeof result.value}`
+        );
+      }
+      return result.value;
     }
 
-    // TODO: Implement actual SQL query execution
-    // For now, return 1 to simulate success
-    return 1;
+    // In development, return a simulated value
+    return Math.floor(Math.random() * 100);
+
   } catch (error) {
-    console.error(`Error executing query on ${serverType}:`, error);
-    throw error;
+    // Enhance error message with query details
+    const enhancedError = new Error(
+      `Error executing query on ${serverType}:\n` +
+      `Table: ${tableName}\n` +
+      `SQL: ${sqlExpression}\n` +
+      `Error: ${error instanceof Error ? error.message : String(error)}`
+    );
+    console.error(enhancedError);
+    throw enhancedError;
   }
 };
 
@@ -541,42 +602,70 @@ export const updateGrowthMetrics = (month: string, newCustomers: number, newProd
 };
 
 export const getWebMetrics = () => {
-  if (typeof window === 'undefined') return [];
+  if (typeof window === 'undefined') return initialData.webMetrics;
   try {
     const data = storage.getItem('webMetrics');
     if (!data) {
       console.log('No web metrics data found, using initial data');
+      storage.setItem('webMetrics', JSON.stringify(initialData.webMetrics));
       return initialData.webMetrics;
     }
     const parsedData = JSON.parse(data);
     if (!Array.isArray(parsedData) || parsedData.length === 0) {
       console.log('Invalid web metrics data format, using initial data');
+      storage.setItem('webMetrics', JSON.stringify(initialData.webMetrics));
       return initialData.webMetrics;
     }
     return parsedData;
   } catch (error) {
     console.error('Error getting web metrics:', error);
+    storage.setItem('webMetrics', JSON.stringify(initialData.webMetrics));
     return initialData.webMetrics;
   }
 };
 
 export const getCustomerMetrics = () => {
-  if (typeof window === 'undefined') return [];
+  if (typeof window === 'undefined') return initialData.customerMetrics;
   try {
     const data = storage.getItem('customerMetrics');
     if (!data) {
       console.log('No customer metrics data found, using initial data');
+      storage.setItem('customerMetrics', JSON.stringify(initialData.customerMetrics));
       return initialData.customerMetrics;
     }
     const parsedData = JSON.parse(data);
     if (!Array.isArray(parsedData) || parsedData.length === 0) {
       console.log('Invalid customer metrics data format, using initial data');
+      storage.setItem('customerMetrics', JSON.stringify(initialData.customerMetrics));
       return initialData.customerMetrics;
     }
     return parsedData;
   } catch (error) {
     console.error('Error getting customer metrics:', error);
+    storage.setItem('customerMetrics', JSON.stringify(initialData.customerMetrics));
     return initialData.customerMetrics;
+  }
+};
+
+export const updateCustomerMetrics = (month: string, prospects: number, newCustomers: number) => {
+  if (typeof window === 'undefined') return;
+  try {
+    const currentData = getCustomerMetrics();
+    const monthIndex = currentData.findIndex(item => item.month === month);
+    
+    if (monthIndex !== -1) {
+      currentData[monthIndex] = {
+        ...currentData[monthIndex],
+        prospects,
+        newCustomers
+      };
+    } else {
+      currentData.push({ month, prospects, newCustomers });
+    }
+    
+    storage.setItem('customerMetrics', JSON.stringify(currentData));
+  } catch (error) {
+    console.error('Error updating customer metrics:', error);
   }
 };
 

@@ -13,4 +13,4 @@ export async function updateDashboardVariable(id: string, field: string, value: 
   await updateVariable(id, field, value);
 }
 
-export { resetDatabase };
+export { resetDatabase, getAllVariables };

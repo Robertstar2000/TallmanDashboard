@@ -1,11 +1,12 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
 import { Card } from '@/components/ui/card';
 import { useToast } from '@/components/ui/use-toast';
+import { getMode } from '@/lib/state/dashboardState';
 
 interface AdminControlsProps {
   onRefresh: () => void;
@@ -54,31 +55,37 @@ export function AdminControls({
     }
   };
 
+  // Keep UI in sync with mode state
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const currentMode = getMode();
+      if (currentMode !== isRealTime) {
+        onTimeSourceChange(currentMode);
+      }
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [isRealTime, onTimeSourceChange]);
+
   return (
-    <Card className="p-4 mb-6">
-      <div className="flex items-center justify-between">
+    <Card className="p-4">
+      <div className="flex items-center justify-between mb-4">
         <div className="flex items-center space-x-4">
-          <Button onClick={handleRefresh} variant="default">
-            Refresh
+          <Button onClick={handleRefresh}>
+            Refresh Data
           </Button>
           <Button onClick={handleRestoreTestValues} variant="outline">
             Restore Test Values
           </Button>
         </div>
-        <div className="flex items-center space-x-4">
-          <div className="flex items-center space-x-2">
-            <Label htmlFor="time-source" className={!isRealTime ? "text-primary" : "text-muted-foreground"}>
-              Test Time
-            </Label>
-            <Switch
-              id="time-source"
-              checked={isRealTime}
-              onCheckedChange={onTimeSourceChange}
-            />
-            <Label htmlFor="time-source" className={isRealTime ? "text-primary" : "text-muted-foreground"}>
-              Real Time
-            </Label>
-          </div>
+        <div className="flex items-center space-x-2">
+          <Switch
+            id="time-source"
+            checked={isRealTime}
+            onCheckedChange={onTimeSourceChange}
+          />
+          <Label htmlFor="time-source">
+            {isRealTime ? "Production Mode" : "Test Mode"}
+          </Label>
         </div>
       </div>
     </Card>

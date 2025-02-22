@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { useRouter } from 'next/navigation';
+import { cn } from "@/lib/utils";
 import { Button } from '@/components/ui/button';
 import {
   Table,
@@ -32,12 +33,31 @@ import {
   updateAccounts,
   updatePOR,
   updateInventoryValue,
-  updateGrowthMetrics
+  updateGrowthMetrics,
+  getConnection,
+  initialData
 } from '@/lib/db';
+
+import {
+  getMode,
+  setMode,
+  getP21Connection,
+  getPORConnection,
+  setP21Connection,
+  setPORConnection
+} from '@/lib/state/dashboardState';
+
 import { ARAgingData } from '@/lib/types/dashboard';
 import { PlayIcon, PauseIcon, DatabaseIcon } from '@/components/icons';
 import { ServerConnectionDialog } from '@/components/dialogs/ServerConnectionDialog';
 import { EditableSqlCell } from "@/components/EditableSqlCell";
+import { AdminControls } from '@/components/admin/AdminControls';
+import { useToast } from '@/components/ui/use-toast';
+import { 
+  startSpreadsheetProcessing, 
+  stopSpreadsheetProcessing, 
+  isProcessingActive 
+} from '@/lib/state/spreadsheetRunner';
 
 interface ChartData {
   id: number;
@@ -111,358 +131,370 @@ interface MetricsData {
   value: number;
 }
 
+class ProcessingManager {
+  private timer: NodeJS.Timeout | null = null;
+  private currentIndex: number | null = null;
+  private updateTimeout: NodeJS.Timeout | null = null;
+  private pendingUpdates = new Map<number, number>();
+  private productionValues = new Map<number, number>();
+  
+  constructor(
+    private readonly onUpdate: (updates: Map<number, number>) => void,
+    private readonly onIndexChange: (index: number | null) => void,
+    private readonly onStop: () => void,
+    private readonly onError: (error: { title: string; description: string }) => void
+  ) {}
+
+  async processRow(
+    chartData: ChartData[],
+    isProd: boolean,
+    interval: number = 5000
+  ) {
+    if (!chartData.length) return;
+    
+    const index = this.currentIndex === null ? 0 : this.currentIndex;
+    const row = chartData[index];
+    const nextIndex = (index + 1) % chartData.length;
+
+    if (isProd) {
+      const serverType = row.serverName as 'P21' | 'POR';
+      const connection = getConnection(serverType);
+      
+      if (!connection) {
+        this.onError({
+          title: "Connection Error",
+          description: `No ${serverType} connection available. Please connect to the server first. Row: ${row.chartName} - ${row.variableName}`
+        });
+        // Set value to 0 and continue
+        this.handleValueUpdate(row, 0, isProd);
+        this.currentIndex = nextIndex;
+        this.onIndexChange(nextIndex);
+        return true;
+      }
+
+      if (row.serverName && row.tableName && row.sqlExpression) {
+        try {
+          const newValue = await executeQuery(
+            serverType,
+            row.tableName,
+            row.sqlExpression
+          );
+          
+          this.handleValueUpdate(row, newValue, isProd);
+
+          console.log(`
+            ========== SUCCESSFUL QUERY ==========
+            Chart: ${row.chartName}
+            Variable: ${row.variableName}
+            Server: ${serverType}
+            Table: ${row.tableName}
+            SQL: ${row.sqlExpression}
+            New Value: ${newValue}
+            ====================================
+          `);
+
+        } catch (error) {
+          console.error('Error executing query:', error);
+          this.onError({
+            title: `${serverType} Query Error`,
+            description: `Failed to execute SQL query for ${row.chartName} - ${row.variableName}.
+              Table: ${row.tableName}
+              SQL: ${row.sqlExpression}
+              Error: ${error instanceof Error ? error.message : String(error)}`
+          });
+          // Set value to 0 and continue
+          this.handleValueUpdate(row, 0, isProd);
+        }
+      } else {
+        this.onError({
+          title: "Invalid Query Configuration",
+          description: `Missing required query parameters for ${row.chartName} - ${row.variableName}.
+            Server: ${row.serverName || 'Not specified'}
+            Table: ${row.tableName || 'Not specified'}
+            SQL: ${row.sqlExpression || 'Not specified'}`
+        });
+        // Set value to 0 and continue
+        this.handleValueUpdate(row, 0, isProd);
+      }
+    }
+
+    this.currentIndex = nextIndex;
+    this.onIndexChange(nextIndex);
+    
+    if (isProd && nextIndex === 0) {
+      this.stop();
+      setTimeout(() => this.start(chartData, isProd, interval), 3600000);
+      return true;
+    }
+
+    return true;
+  }
+
+  // Helper method to handle value updates consistently
+  private handleValueUpdate(row: ChartData, newValue: number, isProd: boolean) {
+    // Store the production value
+    this.productionValues.set(row.id, newValue);
+    this.pendingUpdates.set(row.id, newValue);
+
+    // Update metrics immediately if it's a metrics row
+    if (row.chartName === 'Metrics' && row.variableName) {
+      updateMetric(row.variableName, newValue);
+      // Force an immediate update for metrics
+      this.flushUpdates(isProd);
+    } else {
+      // For non-metrics rows, use the normal update timeout
+      if (this.updateTimeout) {
+        clearTimeout(this.updateTimeout);
+      }
+      this.updateTimeout = setTimeout(() => this.flushUpdates(isProd), 1000);
+    }
+  }
+
+  // Helper method to flush pending updates
+  private flushUpdates(isProd: boolean) {
+    if (this.pendingUpdates.size > 0) {
+      // In production mode, merge with stored production values
+      if (isProd) {
+        const updates: { [key: number]: number } = {};
+        this.pendingUpdates.forEach((value, id) => {
+          updates[id] = value;
+        });
+        
+        // Add any previously stored production values that aren't being updated
+        this.productionValues.forEach((value, id) => {
+          if (!updates[id]) {
+            updates[id] = value;
+          }
+        });
+
+        // Convert the object back to a Map with number keys
+        const updatesMap = new Map<number, number>();
+        Object.entries(updates).forEach(([key, value]) => {
+          updatesMap.set(Number(key), value);
+        });
+        this.onUpdate(updatesMap);
+      } else {
+        this.onUpdate(this.pendingUpdates);
+      }
+      this.pendingUpdates.clear();
+    }
+  }
+
+  start(chartData: ChartData[], isProd: boolean, interval: number = 5000) {
+    if (isProd && !this.validateConnections(chartData)) {
+      return;
+    }
+    
+    // Clear production values when starting a new session
+    if (!isProd) {
+      this.productionValues.clear();
+    }
+    
+    this.processRow(chartData, isProd, interval);
+    this.timer = setInterval(() => this.processRow(chartData, isProd, interval), interval);
+  }
+
+  private validateConnections(chartData: ChartData[]): boolean {
+    const requiredServers = new Set(chartData.map(row => row.serverName));
+    
+    for (const server of requiredServers) {
+      const serverType = server as 'P21' | 'POR';
+      const connection = getConnection(serverType);
+      
+      if (!connection) {
+        this.onError({
+          title: "Connection Required",
+          description: `Please connect to ${serverType} server before starting. This dashboard requires both P21 and POR connections to function properly.`
+        });
+        return false;
+      }
+    }
+    return true;
+  }
+
+  stop() {
+    if (this.timer) {
+      clearInterval(this.timer);
+      this.timer = null;
+    }
+    if (this.updateTimeout) {
+      clearTimeout(this.updateTimeout);
+      this.updateTimeout = null;
+    }
+    this.currentIndex = null;
+    this.onStop();
+  }
+
+  cleanup() {
+    this.stop();
+    this.pendingUpdates.clear();
+    this.productionValues.clear();
+  }
+}
+
 export default function AdminPage() {
   const router = useRouter();
+  const { toast } = useToast();
+  const [mounted, setMounted] = React.useState(false);
   const [chartData, setChartData] = React.useState<ChartData[]>([]);
   const [isPlaying, setIsPlaying] = React.useState(false);
   const [currentRowIndex, setCurrentRowIndex] = React.useState<number | null>(null);
   const [isProd, setIsProd] = React.useState(false);
   const [p21Connected, setP21Connected] = React.useState(false);
   const [porConnected, setPorConnected] = React.useState(false);
+  const [errors, setErrors] = React.useState<Array<{ title: string; description: string; timestamp: string }>>([]);
+
+  // Initialize state values after mounting
+  React.useEffect(() => {
+    setMounted(true);
+    setIsProd(getMode());
+    setP21Connected(getP21Connection());
+    setPorConnected(getPORConnection());
+  }, []);
+
+  const chartDataRef = React.useRef<ChartData[]>([]);
+  const currentRowIndexRef = React.useRef<number | null>(null);
+
+  // Update refs when state changes
+  React.useEffect(() => {
+    chartDataRef.current = chartData;
+  }, [chartData]);
+
+  React.useEffect(() => {
+    currentRowIndexRef.current = currentRowIndex;
+  }, [currentRowIndex]);
+
+  const processingManager = React.useRef<ProcessingManager | null>(null);
+
+  // Reintroduce the initializeChartData function
+  const initializeChartData = () => {
+    console.log('Initializing chart data...');
+    // Logic to initialize chart data
+  };
 
   // Initialize chart data only on client side
   React.useEffect(() => {
+    const initializeAllData = () => {
+      console.log('Initializing all data...');
+      // Reset all data to initial values
+      resetData();
+      
+      // Force re-initialization of customer and web metrics
+      localStorage.setItem('customerMetrics', JSON.stringify(initialData.customerMetrics));
+      localStorage.setItem('webMetrics', JSON.stringify(initialData.webMetrics));
+    };
+
     // First, check if we have any data in localStorage
-    const hasData = localStorage.getItem('customerMetrics') && 
-                   localStorage.getItem('webMetrics') && 
-                   localStorage.getItem('metrics');
+    const hasCustomerMetrics = localStorage.getItem('customerMetrics');
+    const hasWebMetrics = localStorage.getItem('webMetrics');
+    const hasMetrics = localStorage.getItem('metrics');
                    
-    if (!hasData) {
-      console.log('No data found in localStorage, initializing with default data...');
-      resetData(); // Reset all data to initial values
+    if (!hasCustomerMetrics || !hasWebMetrics || !hasMetrics) {
+      console.log('Missing required data in localStorage, initializing with default data...');
+      initializeAllData();
     }
 
     const savedData = localStorage.getItem('spreadsheet_data');
-    if (savedData) {
-      try {
-        const parsedData = JSON.parse(savedData);
-        setChartData(parsedData);
-      } catch (error) {
-        console.error('Error loading saved spreadsheet data:', error);
-        initializeChartData(); // Fallback to initial data
-      }
-    } else {
-      initializeChartData(); // No saved data, load initial
-    }
-  }, []);
-
-  // Function to initialize chart data
-  const initializeChartData = React.useCallback(() => {
-    const tempData: ChartData[] = [];
+    const savedProdData = localStorage.getItem('production_values');
     
-    if (typeof window === 'undefined') return; // Guard against server-side execution
-
     try {
-      // Get data from various sources
-      const metricsData: MetricsData[] = getMetrics();
-      const dailyOrdersData: DailyOrdersData[] = getDailyOrders();
-      const siteDistData: SiteDistributionData[] = getSiteDistribution();
-      const customerData = getCustomerMetrics();
-      const accountsData: AccountsData[] = getAccounts();
-      const porData: PORData[] = getPOR();
-      const inventoryData: InventoryData[] = getInventoryValue();
-      const webData = getWebMetrics();
-      const historicalData: HistoricalData[] = getHistoricalData();
-      const arAgingData: ARAgingData[] = getARAgingData();
+      let initialData;
+      if (savedData) {
+        initialData = JSON.parse(savedData);
+      } else {
+        initialData = [];
+        initializeChartData(); // No saved data, load initial
+      }
 
-      // Process metrics data
-      let idCounter = 1;  // Add counter for unique IDs
-      if (Array.isArray(metricsData)) {
-        metricsData.forEach((metric: MetricsData) => {
-          const sqlInfo = getP21SqlInfo('Metrics', metric.name, 'Current');
-          tempData.push({
-            id: idCounter++,  // Add unique ID
-            chartName: 'Metrics',
-            variableName: metric.name,
-            value: metric.value,
-            x_axis: getXAxisValue('Metrics', 'Current', metric.name),
-            calculation: getCalculation('Metrics', metric.name, 'Current'),
-            serverName: sqlInfo.serverName,
-            sqlExpression: sqlInfo.sqlExpression,
-            tableName: sqlInfo.tableName
-          });
+      // If we have production values and we're in production mode, merge them
+      if (savedProdData && isProd) {
+        const prodValues = JSON.parse(savedProdData);
+        initialData = initialData.map((row: ChartData) => {
+          if (prodValues[row.id] !== undefined) {
+            return { ...row, value: prodValues[row.id] };
+          }
+          return row;
         });
       }
 
-      // Add daily orders data
-      if (Array.isArray(dailyOrdersData)) {
-        dailyOrdersData.forEach(order => {
-          const sqlInfo = getP21SqlInfo('Daily Orders', 'orders', order.day);
-          tempData.push({
-            id: idCounter++,  // Add unique ID
-            chartName: 'Daily Orders',
-            variableName: 'orders',
-            value: order.orders,
-            x_axis: getXAxisValue('Daily Orders', order.day, 'orders'),
-            calculation: getCalculation('Daily Orders', 'orders', order.day),
-            serverName: sqlInfo.serverName,
-            sqlExpression: sqlInfo.sqlExpression,
-            tableName: sqlInfo.tableName
-          });
-        });
-      }
-
-      // Add site distribution data
-      if (Array.isArray(siteDistData)) {
-        siteDistData.forEach(site => {
-          const sqlInfo = getP21SqlInfo('Site Distribution', 'value', site.name);
-          tempData.push({
-            id: idCounter++,  // Add unique ID
-            chartName: 'Site Distribution',
-            variableName: 'value',
-            value: site.value,
-            x_axis: getXAxisValue('Site Distribution', site.name, 'value'),
-            calculation: getCalculation('Site Distribution', 'value', site.name),
-            serverName: sqlInfo.serverName,
-            sqlExpression: sqlInfo.sqlExpression,
-            tableName: sqlInfo.tableName
-          });
-        });
-      }
-
-      // Add customer metrics data
-      if (Array.isArray(customerData)) {
-        customerData.forEach(customer => {
-          const sqlInfoNewCustomers = getP21SqlInfo('Customer Metrics', 'newCustomers', customer.month);
-          tempData.push({
-            id: idCounter++,
-            chartName: 'Customer Metrics',
-            variableName: 'newCustomers',
-            value: customer.newCustomers,
-            x_axis: getXAxisValue('Customer Metrics', customer.month, 'newCustomers'),
-            calculation: getCalculation('Customer Metrics', 'newCustomers', customer.month),
-            serverName: sqlInfoNewCustomers.serverName,
-            sqlExpression: sqlInfoNewCustomers.sqlExpression,
-            tableName: sqlInfoNewCustomers.tableName
-          });
-          
-          const sqlInfoProspects = getP21SqlInfo('Customer Metrics', 'prospects', customer.month);
-          tempData.push({
-            id: idCounter++,
-            chartName: 'Customer Metrics',
-            variableName: 'prospects',
-            value: customer.prospects,
-            x_axis: getXAxisValue('Customer Metrics', customer.month, 'prospects'),
-            calculation: getCalculation('Customer Metrics', 'prospects', customer.month),
-            serverName: sqlInfoProspects.serverName,
-            sqlExpression: sqlInfoProspects.sqlExpression,
-            tableName: sqlInfoProspects.tableName
-          });
-        });
-      }
-
-      // Add accounts data
-      if (Array.isArray(accountsData)) {
-        accountsData.forEach(account => {
-          const sqlInfo1 = getP21SqlInfo('Accounts', 'payable', account.month);
-          tempData.push({
-            id: idCounter++,  // Add unique ID
-            chartName: 'Accounts',
-            variableName: 'payable',
-            value: account.payable,
-            x_axis: getXAxisValue('Accounts', account.month, 'payable'),
-            calculation: getCalculation('Accounts', 'payable', account.month),
-            serverName: sqlInfo1.serverName,
-            sqlExpression: sqlInfo1.sqlExpression,
-            tableName: sqlInfo1.tableName
-          });
-          const sqlInfo2 = getP21SqlInfo('Accounts', 'overdue', account.month);
-          tempData.push({
-            id: idCounter++,  // Add unique ID
-            chartName: 'Accounts',
-            variableName: 'overdue',
-            value: account.overdue,
-            x_axis: getXAxisValue('Accounts', account.month, 'overdue'),
-            calculation: getCalculation('Accounts', 'overdue', account.month),
-            serverName: sqlInfo2.serverName,
-            sqlExpression: sqlInfo2.sqlExpression,
-            tableName: sqlInfo2.tableName
-          });
-          const sqlInfo3 = getP21SqlInfo('Accounts', 'receivable', account.month);
-          tempData.push({
-            id: idCounter++,  // Add unique ID
-            chartName: 'Accounts',
-            variableName: 'receivable',
-            value: account.receivable,
-            x_axis: getXAxisValue('Accounts', account.month, 'receivable'),
-            calculation: getCalculation('Accounts', 'receivable', account.month),
-            serverName: sqlInfo3.serverName,
-            sqlExpression: sqlInfo3.sqlExpression,
-            tableName: sqlInfo3.tableName
-          });
-        });
-      }
-
-      // Add POR data
-      if (Array.isArray(porData)) {
-        porData.forEach(por => {
-          const sqlInfo1 = getPORSqlInfo('POR', 'newRentals', por.month);
-          tempData.push({
-            id: idCounter++,  // Add unique ID
-            chartName: 'POR',
-            variableName: 'newRentals',
-            value: por.newRentals,
-            x_axis: getXAxisValue('POR', por.month, 'newRentals'),
-            calculation: getCalculation('POR', 'newRentals', por.month),
-            serverName: sqlInfo1.serverName,
-            sqlExpression: sqlInfo1.sqlExpression,
-            tableName: sqlInfo1.tableName
-          });
-          const sqlInfo2 = getPORSqlInfo('POR', 'openRentals', por.month);
-          tempData.push({
-            id: idCounter++,  // Add unique ID
-            chartName: 'POR',
-            variableName: 'openRentals',
-            value: por.openRentals,
-            x_axis: getXAxisValue('POR', por.month, 'openRentals'),
-            calculation: getCalculation('POR', 'openRentals', por.month),
-            serverName: sqlInfo2.serverName,
-            sqlExpression: sqlInfo2.sqlExpression,
-            tableName: sqlInfo2.tableName
-          });
-          const sqlInfo3 = getPORSqlInfo('POR', 'rentalValue', por.month);
-          tempData.push({
-            id: idCounter++,  // Add unique ID
-            chartName: 'POR',
-            variableName: 'rentalValue',
-            value: por.rentalValue,
-            x_axis: getXAxisValue('POR', por.month, 'rentalValue'),
-            calculation: getCalculation('POR', 'rentalValue', por.month),
-            serverName: sqlInfo3.serverName,
-            sqlExpression: sqlInfo3.sqlExpression,
-            tableName: sqlInfo3.tableName
-          });
-        });
-      }
-
-      // Process AR aging data
-      if (arAgingData && Array.isArray(arAgingData)) {
-        arAgingData.forEach((aging: ARAgingData) => {
-          const sqlInfo = getP21SqlInfo('AR Aging', aging.name, aging.date);
-          tempData.push({
-            id: idCounter++,  // Add unique ID
-            chartName: 'AR Aging',
-            variableName: aging.name.toLowerCase().replace(/\s+/g, '_'),
-            value: aging.value,
-            x_axis: aging.date,
-            calculation: getCalculation('AR Aging', aging.name, aging.date),
-            serverName: sqlInfo.serverName,
-            sqlExpression: sqlInfo.sqlExpression,
-            tableName: sqlInfo.tableName
-          });
-        });
-      }
-
-      // Add inventory data
-      const filteredInventoryData = inventoryData.filter(item => item.category !== '108' && item.category !== '109');
-      if (Array.isArray(filteredInventoryData)) {
-        filteredInventoryData.forEach(inventory => {
-          const sqlInfo1 = getP21SqlInfo('Inventory', 'inStock', inventory.category);
-          tempData.push({
-            id: idCounter++,  // Add unique ID
-            chartName: 'Inventory',
-            variableName: 'inStock',
-            value: inventory.inStock,
-            x_axis: getXAxisValue('Inventory', inventory.category, 'inStock'),
-            calculation: getCalculation('Inventory', 'inStock', inventory.category),
-            serverName: sqlInfo1.serverName,
-            sqlExpression: sqlInfo1.sqlExpression,
-            tableName: sqlInfo1.tableName
-          });
-          const sqlInfo2 = getP21SqlInfo('Inventory', 'onOrder', inventory.category);
-          tempData.push({
-            id: idCounter++,  // Add unique ID
-            chartName: 'Inventory',
-            variableName: 'onOrder',
-            value: inventory.onOrder,
-            x_axis: getXAxisValue('Inventory', inventory.category, 'onOrder'),
-            calculation: getCalculation('Inventory', 'onOrder', inventory.category),
-            serverName: sqlInfo2.serverName,
-            sqlExpression: sqlInfo2.sqlExpression,
-            tableName: sqlInfo2.tableName
-          });
-        });
-      }
-
-      // Add web metrics data
-      if (Array.isArray(webData)) {
-        webData.forEach(web => {
-          const sqlInfoOrders = getP21SqlInfo('Web Orders', 'W_Orders', web.month);
-          tempData.push({
-            id: idCounter++,
-            chartName: 'Web Orders',
-            variableName: 'W_Orders',
-            value: web.W_Orders,
-            x_axis: getXAxisValue('Web Orders', web.month, 'W_Orders'),
-            calculation: getCalculation('Web Orders', 'W_Orders', web.month),
-            serverName: sqlInfoOrders.serverName,
-            sqlExpression: sqlInfoOrders.sqlExpression,
-            tableName: sqlInfoOrders.tableName
-          });
-
-          const sqlInfoRevenue = getP21SqlInfo('Web Orders', 'W_Revenue', web.month);
-          tempData.push({
-            id: idCounter++,
-            chartName: 'Web Orders',
-            variableName: 'W_Revenue',
-            value: web.W_Revenue,
-            x_axis: getXAxisValue('Web Orders', web.month, 'W_Revenue'),
-            calculation: getCalculation('Web Orders', 'W_Revenue', web.month),
-            serverName: sqlInfoRevenue.serverName,
-            sqlExpression: sqlInfoRevenue.sqlExpression,
-            tableName: sqlInfoRevenue.tableName
-          });
-        });
-      }
-
-      // Add historical data
-      if (Array.isArray(historicalData)) {
-        historicalData.forEach(history => {
-          const sqlInfo1 = getP21SqlInfo('Historical Data', 'p21', history.month);
-          tempData.push({
-            id: idCounter++,  // Add unique ID
-            chartName: 'Historical Data',
-            variableName: 'p21',
-            value: history.p21,
-            x_axis: getXAxisValue('Historical Data', history.month, 'p21'),
-            calculation: getCalculation('Historical Data', 'p21', history.month),
-            serverName: sqlInfo1.serverName,
-            sqlExpression: sqlInfo1.sqlExpression,
-            tableName: sqlInfo1.tableName
-          });
-          const sqlInfo2 = getPORSqlInfo('Historical Data', 'por', history.month);
-          tempData.push({
-            id: idCounter++,  // Add unique ID
-            chartName: 'Historical Data',
-            variableName: 'por',
-            value: history.por,
-            x_axis: getXAxisValue('Historical Data', history.month, 'por'),
-            calculation: getCalculation('Historical Data', 'por', history.month),
-            serverName: sqlInfo2.serverName,
-            sqlExpression: sqlInfo2.sqlExpression,
-            tableName: sqlInfo2.tableName
-          });
-          const sqlInfo3 = getP21SqlInfo('Historical Data', 'total', history.month);
-          tempData.push({
-            id: idCounter++,  // Add unique ID
-            chartName: 'Historical Data',
-            variableName: 'total',
-            value: history.total,
-            x_axis: getXAxisValue('Historical Data', history.month, 'total'),
-            calculation: getCalculation('Historical Data', 'total', history.month),
-            serverName: sqlInfo3.serverName,
-            sqlExpression: sqlInfo3.sqlExpression,
-            tableName: sqlInfo3.tableName
-          });
-        });
-      }
-
-      // Set the chart data
-      setChartData(tempData);
+      setChartData(initialData);
     } catch (error) {
-      console.error('Error initializing chart data:', error);
+      console.error('Error loading saved data:', error);
+      initializeAllData(); // Fallback to initial data on any error
+      initializeChartData(); // Fallback to initial chart data
     }
+  }, [isProd]); // Re-run when production mode changes
+
+  // Convert string keys to numbers
+  const convertMapKeysToNumbers = (map: Map<string, number>): Map<number, number> => {
+    const newMap = new Map<number, number>();
+    map.forEach((value, key) => {
+      newMap.set(Number(key), value);
+    });
+    return newMap;
+  };
+
+  // Convert number keys to strings
+  const convertMapKeysToStrings = (map: Map<number, number>): Map<string, number> => {
+    const newMap = new Map<string, number>();
+    map.forEach((value, key) => {
+      newMap.set(String(key), value);
+    });
+    return newMap;
+  };
+
+  // Handle chart data updates
+  const handleChartDataUpdate = React.useCallback((updates: Map<number, number>) => {
+    const prodValues: { [key: number]: number } = {};
+    updates.forEach((value, id) => {
+      prodValues[id] = value;
+    });
+    localStorage.setItem('production_values', JSON.stringify(prodValues));
   }, []);
+
+  // Save updated values
+  const saveUpdatedValues = React.useCallback((updates: Map<number, number>) => {
+    const updatedValues: { [key: number]: number } = {};
+    updates.forEach((value, id) => {
+      updatedValues[id] = value;
+    });
+    
+    const updatedData = chartData.map((row: ChartData) => {
+      if (updatedValues[row.id] !== undefined) {
+        return { ...row, value: updatedValues[row.id] };
+      }
+      return row;
+    });
+    
+    setChartData(updatedData);
+    localStorage.setItem('spreadsheet_data', JSON.stringify(updatedData));
+  }, [chartData]);
+
+  // Initialize processing manager with error handling
+  React.useEffect(() => {
+    if (!mounted) return;
+
+    processingManager.current = new ProcessingManager(
+      handleChartDataUpdate,  // ProcessingManager expects Map<number, number>
+      setCurrentRowIndex,
+      () => setIsPlaying(false),
+      (error) => {
+        setErrors(prev => [
+          ...prev,
+          { ...error, timestamp: new Date().toISOString() }
+        ]);
+        toast({
+          title: error.title,
+          description: error.description,
+          variant: "destructive"
+        });
+      }
+    );
+
+    return () => {
+      processingManager.current?.cleanup();
+    };
+  }, [mounted, handleChartDataUpdate]);
 
   // Update chart data with latest values
   const updateChartData = () => {
@@ -476,7 +508,7 @@ export default function AdminPage() {
     const webData = getWebMetrics();
     const historicalData: HistoricalData[] = getHistoricalData();
 
-    setChartData(prev => prev.map(row => {
+    setChartData(prev => prev.map((row: ChartData) => {
       let newValue = row.value;
 
       switch(row.chartName) {
@@ -549,6 +581,42 @@ export default function AdminPage() {
     }));
   };
 
+  // Handle play/pause state changes
+  React.useEffect(() => {
+    const handleProcessingStateChange = () => {
+      const isActive = isProcessingActive();
+      if (isActive !== isPlaying) {
+        setIsPlaying(isActive);
+        if (!isActive) {
+          setCurrentRowIndex(null);
+        }
+      }
+    };
+
+    // Check initial state
+    handleProcessingStateChange();
+
+    // Set up interval to check processing state
+    const interval = setInterval(handleProcessingStateChange, 1000);
+
+    return () => clearInterval(interval);
+  }, [isPlaying]);
+
+  // Handle mode changes
+  const handleModeChange = React.useCallback((isProduction: boolean) => {
+    if (isPlaying) {
+      processingManager.current?.stop();
+      setIsPlaying(false);
+    }
+    setIsProd(isProduction);
+    
+    // If switching to development mode, clear production values
+    if (!isProduction) {
+      localStorage.removeItem('production_values');
+      initializeChartData(); // Reset to test data
+    }
+  }, [isPlaying]);
+
   // Real-time updates from database
   React.useEffect(() => {
     const updateInterval = setInterval(updateChartData, 5000);
@@ -562,12 +630,53 @@ export default function AdminPage() {
     }
   }, [chartData]);
 
+  // Keep mode state in sync
+  React.useEffect(() => {
+    setMode(isProd);
+  }, [isProd]);
+
+  // Save mode state when it changes
+  React.useEffect(() => {
+    console.log('Mode state updated:', isProd); // Debug log
+    localStorage.setItem('dashboard_mode', isProd ? 'prod' : 'test');
+  }, [isProd]);
+
+  // Function to clear errors
+  const clearErrors = () => setErrors([]);
+
+  // Handle start/stop
+  const handleStartStop = React.useCallback(async () => {
+    try {
+      if (isPlaying) {
+        processingManager.current?.stop();
+        await stopSpreadsheetProcessing();
+        setIsPlaying(false);
+        setCurrentRowIndex(null);
+      } else {
+        await startSpreadsheetProcessing(isProd);
+        setIsPlaying(true);
+        setCurrentRowIndex(0);
+        processingManager.current?.start(chartData, isProd);
+      }
+    } catch (error) {
+      console.error('Error handling start/stop:', error);
+      processingManager.current?.stop();
+      toast({
+        title: "Processing Error",
+        description: "Failed to start/stop processing. Please try again.",
+        variant: "destructive"
+      });
+      setIsPlaying(false);
+      setCurrentRowIndex(null);
+    }
+  }, [isPlaying, isProd, chartData]);
+
   // Helper function to determine server name
   const getServerName = (chartName: string, variableName: string) => {
     return chartName.includes('POR') || variableName.includes('por') ? 'POR' : 'P21';
   };
 
-  // Helper function to get calculation based on chart and variable
+  // Helper function to get calculation based on chart and date
   const getCalculation = (chartName: string, variableName: string, relativeDate: string) => {
     switch (chartName) {
       case 'Metrics':
@@ -824,18 +933,20 @@ export default function AdminPage() {
   };
 
   // Function to handle server connections
-  const handleServerConnection = (serverType: 'P21' | 'POR', isConnected: boolean) => {
+  const handleServerConnection = React.useCallback((serverType: 'P21' | 'POR', isConnected: boolean) => {
     if (serverType === 'P21') {
+      setP21Connection(isConnected);
       setP21Connected(isConnected);
     } else {
+      setPORConnection(isConnected);
       setPorConnected(isConnected);
     }
-  };
+  }, []);
 
   // Function to handle SQL expression updates
   const handleSqlUpdate = (id: number, newValue: string) => {
     setChartData(prev => {
-      const newData = prev.map(row => 
+      const newData = prev.map((row: ChartData) => 
         row.id === id ? { ...row, sqlExpression: newValue } : row
       );
       return newData;
@@ -845,7 +956,7 @@ export default function AdminPage() {
   // Function to handle Table Name updates
   const handleTableNameUpdate = (id: number, newValue: string) => {
     setChartData(prev => {
-      const newData = prev.map(row => 
+      const newData = prev.map((row: ChartData) => 
         row.id === id ? { ...row, tableName: newValue } : row
       );
       return newData;
@@ -855,7 +966,7 @@ export default function AdminPage() {
   // Function to handle X-axis updates
   const handleXAxisUpdate = (id: number, newValue: string) => {
     setChartData(prev => {
-      const newData = prev.map(row => 
+      const newData = prev.map((row: ChartData) => 
         row.id === id ? { ...row, x_axis: newValue } : row
       );
       return newData;
@@ -865,7 +976,7 @@ export default function AdminPage() {
   // Function to handle Calculation updates
   const handleCalculationUpdate = (id: number, newValue: string) => {
     setChartData(prev => {
-      const newData = prev.map(row => 
+      const newData = prev.map((row: ChartData) => 
         row.id === id ? { ...row, calculation: newValue } : row
       );
       return newData;
@@ -875,102 +986,100 @@ export default function AdminPage() {
   // Function to handle Server Name updates
   const handleServerNameUpdate = (id: number, newValue: string) => {
     setChartData(prev => {
-      const newData = prev.map(row => 
+      const newData = prev.map((row: ChartData) => 
         row.id === id ? { ...row, serverName: newValue } : row
       );
       return newData;
     });
   };
 
-  // Timer effect for row cycling
-  React.useEffect(() => {
-    let timer: NodeJS.Timeout;
-    
-    if (isPlaying && chartData.length > 0) {
-      timer = setInterval(async () => {
-        setCurrentRowIndex((prevIndex) => {
-          if (prevIndex === null) return 0;
-          const nextIndex = (prevIndex + 1) % chartData.length;
-          
-          // ========== PRODUCTION MODE SQL EXECUTION ==========
-          // Check if we're in production mode with both servers connected
-          if (isProd && p21Connected && porConnected) {
-            const currentRow = chartData[prevIndex];
-            
-            // Only execute if we have all required fields
-            if (currentRow.serverName && currentRow.tableName && currentRow.sqlExpression) {
-              // Execute the SQL query and update the value
-              executeQuery(
-                currentRow.serverName as 'P21' | 'POR',
-                currentRow.tableName,
-                currentRow.sqlExpression
-              ).then(newValue => {
-                // Update the database with the new value
-                if (currentRow.chartName === 'Metrics' && currentRow.variableName) {
-                  updateMetric(currentRow.variableName, newValue);
-                }
-                // Note: Add similar update logic for other chart types as needed
-                
-                // Update the row's value in the spreadsheet
-                setChartData(prev => prev.map(row => 
-                  row.id === currentRow.id ? { ...row, value: newValue } : row
-                ));
+  const handleRestoreTestValues = React.useCallback(() => {
+    try {
+      // Stop any ongoing processing
+      if (isPlaying) {
+        processingManager.current?.stop();
+        setIsPlaying(false);
+      }
 
-                console.log(`
-                  ========== SQL EXECUTION REPORT ==========
-                  Time: ${new Date().toISOString()}
-                  Mode: PRODUCTION
-                  Server: ${currentRow.serverName}
-                  Table: ${currentRow.tableName}
-                  SQL: ${currentRow.sqlExpression}
-                  New Value: ${newValue}
-                  =======================================
-                `);
-              });
-            }
-          }
-          
-          // If in prod mode and we're at the end of the list
-          if (isProd && nextIndex === 0) {
-            // Clear the current interval
-            if (timer) clearInterval(timer);
-            // Wait for 1 hour before starting again
-            setTimeout(() => {
-              setCurrentRowIndex(0);
-              // Restart the normal interval
-              timer = setInterval(() => {
-                setCurrentRowIndex(prev => (prev === null ? 0 : (prev + 1) % chartData.length));
-              }, 3000);
-            }, 3600000); // 1 hour in milliseconds
-            return null; // Pause the highlighting
-          }
-          return nextIndex;
-        });
-      }, 3000);
-    }
-
-    return () => {
-      if (timer) clearInterval(timer);
-    };
-  }, [isPlaying, chartData.length, isProd, p21Connected, porConnected]);
-
-  // Reset currentRowIndex when stopping
-  React.useEffect(() => {
-    if (!isPlaying) {
-      setCurrentRowIndex(null);
+      // Reset data to initial values
+      resetData();
+      
+      // Re-initialize chart data with test values
+      initializeChartData();
+      
+      toast({
+        title: "Test Values Restored",
+        description: "All values have been reset to their initial test state.",
+        duration: 3000,
+      });
+    } catch (error) {
+      console.error('Error restoring test values:', error);
+      toast({
+        title: "Error",
+        description: "Failed to restore test values. Please try again.",
+        variant: "destructive",
+      });
     }
   }, [isPlaying]);
 
+  const handleRefresh = React.useCallback(() => {
+    try {
+      // Stop any ongoing processing
+      if (isPlaying) {
+        processingManager.current?.stop();
+        setIsPlaying(false);
+      }
+
+      // Reload data from localStorage
+      const savedData = localStorage.getItem('spreadsheet_data');
+      if (savedData) {
+        setChartData(JSON.parse(savedData));
+      }
+
+      toast({
+        title: "Data Refreshed",
+        description: "Data has been reloaded from storage.",
+        duration: 3000,
+      });
+    } catch (error) {
+      console.error('Error refreshing data:', error);
+      toast({
+        title: "Error",
+        description: "Failed to refresh data. Please try again.",
+        variant: "destructive",
+      });
+    }
+  }, [isPlaying]);
+
+  if (!mounted) {
+    return null;
+  }
+
   return (
-    <div className="container mx-auto p-2">
-      <div className="flex justify-between items-center mb-2">
-        <h1 className="text-lg font-bold">Admin Dashboard</h1>
-        <div className="flex space-x-2 items-center">
+    <div className="container mx-auto p-4">
+      <div className="flex items-center justify-between mb-4">
+        <h1 className="text-lg font-semibold">Admin Dashboard</h1>
+        <div className="flex items-center space-x-2">
+          <AdminControls
+            onRefresh={handleRefresh}
+            onRestoreTestValues={handleRestoreTestValues}
+            isRealTime={isProd}
+            onTimeSourceChange={handleModeChange}
+          />
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={handleStartStop}
+            className={cn(
+              "h-8 w-8",
+              isPlaying && "bg-accent"
+            )}
+          >
+            {isPlaying ? <PauseIcon className="h-4 w-4" /> : <PlayIcon className="h-4 w-4" />}
+          </Button>
           <ServerConnectionDialog
             serverType="P21"
-            onConnectionChange={(connected) => {
-              setP21Connected(connected);
-            }}
+            onConnectionChange={(isConnected) => handleServerConnection('P21', isConnected)}
             trigger={
               <Button
                 variant="outline"
@@ -988,9 +1097,7 @@ export default function AdminPage() {
           />
           <ServerConnectionDialog
             serverType="POR"
-            onConnectionChange={(connected) => {
-              setPorConnected(connected);
-            }}
+            onConnectionChange={(isConnected) => handleServerConnection('POR', isConnected)}
             trigger={
               <Button
                 variant="outline"
@@ -1006,41 +1113,6 @@ export default function AdminPage() {
               </Button>
             }
           />
-          <Button
-            variant="outline"
-            size="sm"
-            className={`h-7 text-xs ${
-              isProd 
-                ? 'bg-green-700 hover:bg-green-800 text-white border-green-700' 
-                : 'bg-red-700 hover:bg-red-800 text-white border-red-700'
-            }`}
-            onClick={() => setIsProd(!isProd)}
-            disabled={!p21Connected || !porConnected}
-          >
-            Mode: {isProd ? 'PROD' : 'TEST'}
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            className={`h-7 text-xs ${
-              isPlaying
-                ? 'bg-green-700 hover:bg-green-800 text-white border-green-700' 
-                : 'bg-red-700 hover:bg-red-800 text-white border-red-700'
-            }`}
-            onClick={() => setIsPlaying(!isPlaying)}
-          >
-            {isPlaying ? (
-              <>
-                <PauseIcon className="h-3 w-3 mr-1" />
-                Stop
-              </>
-            ) : (
-              <>
-                <PlayIcon className="h-3 w-3 mr-1" />
-                Run
-              </>
-            )}
-          </Button>
           <Button 
             onClick={() => router.push('/')}
             variant="outline"
@@ -1051,6 +1123,36 @@ export default function AdminPage() {
           </Button>
         </div>
       </div>
+
+      {errors.length > 0 && (
+        <div className="mb-4 p-4 border border-red-200 rounded-lg bg-red-50">
+          <div className="flex justify-between items-center mb-2">
+            <h2 className="text-red-800 font-semibold">Processing Errors</h2>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={clearErrors}
+              className="text-red-800 hover:text-red-900 hover:bg-red-100"
+            >
+              Clear All
+            </Button>
+          </div>
+          <div className="space-y-2">
+            {errors.map((error, index) => (
+              <div key={index} className="bg-white p-3 rounded border border-red-200">
+                <div className="flex justify-between">
+                  <span className="font-medium text-red-800">{error.title}</span>
+                  <span className="text-sm text-gray-500">{error.timestamp}</span>
+                </div>
+                <p className="text-sm text-red-700 whitespace-pre-line mt-1">
+                  {error.description}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
       <div className="p-2">
         <Table>
           <TableHeader>
@@ -1067,7 +1169,7 @@ export default function AdminPage() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {chartData.map((row, index) => (
+            {chartData.map((row: ChartData, index) => (
               <TableRow 
                 key={row.id} 
                 className={`text-[10px] ${

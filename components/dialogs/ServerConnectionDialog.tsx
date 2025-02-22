@@ -13,6 +13,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { X } from "lucide-react";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 import { connectToServer } from '@/lib/db';
 
 interface ConnectionData {
@@ -20,10 +21,10 @@ interface ConnectionData {
   ipAddress: string;
   port: string;
   database: string;
-  username: string;
-  password: string;
-  instance: string;
+  username?: string;
+  instance?: string;
   domain: string;
+  password: string;
 }
 
 interface ServerConnectionDialogProps {
@@ -33,22 +34,41 @@ interface ServerConnectionDialogProps {
 }
 
 export function ServerConnectionDialog({ serverType, trigger, onConnectionChange }: ServerConnectionDialogProps) {
-  const [formData, setFormData] = React.useState<ConnectionData>({
-    serverName: '',
-    ipAddress: '',
-    port: '',
-    database: '',
-    username: '',
+  const defaultP21Config = {
+    serverName: 'SQL01',
+    ipAddress: '10.10.20.28',
+    port: '1433',
+    database: 'P21play',
+    username: 'SA',
+    domain: 'tallman.com',
     password: '',
-    instance: '',
-    domain: '',
-  });
+  };
+
+  const defaultPORConfig = {
+    serverName: 'TS03',
+    ipAddress: '10.10.20.13',
+    port: '1433',
+    database: 'POR',
+    domain: 'tallman.com',
+    password: '',
+  };
+
+  const [formData, setFormData] = React.useState<ConnectionData>(
+    serverType === 'P21' ? defaultP21Config : defaultPORConfig
+  );
 
   const [isConnected, setIsConnected] = React.useState(false);
+  const [isLoading, setIsLoading] = React.useState(true);
+  const [isConnecting, setIsConnecting] = React.useState(false);
+  const [error, setError] = React.useState<string | null>(null);
+  const [showDialog, setShowDialog] = React.useState(false);
+  const initialLoadRef = React.useRef(false);
 
-  // Load saved connection data on mount
+  // Load saved connection data and status on mount
   React.useEffect(() => {
     const savedData = localStorage.getItem(`${serverType}_connection`);
+    const savedStatus = localStorage.getItem(`${serverType}_connected`);
+    
     if (savedData) {
       try {
         const parsedData = JSON.parse(savedData);
@@ -57,19 +77,36 @@ export function ServerConnectionDialog({ serverType, trigger, onConnectionChange
         console.error('Error loading saved connection data:', error);
       }
     }
+
+    if (savedStatus) {
+      const isConnectedSaved = savedStatus === 'true';
+      setIsConnected(isConnectedSaved);
+    }
+    
+    setIsLoading(false);
   }, [serverType]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  // Notify parent of connection changes
+  React.useEffect(() => {
+    if (!isLoading) {
+      onConnectionChange(isConnected);
+    }
+  }, [isConnected, onConnectionChange, isLoading]);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError(null);
+
     // If already connected, disconnect
     if (isConnected) {
       try {
-        const success = connectToServer(serverType, null);
+        const success = await connectToServer(serverType, null);
         setIsConnected(false);
-        onConnectionChange(false);
+        localStorage.setItem(`${serverType}_connected`, 'false');
         console.log('Disconnected from', serverType);
       } catch (error) {
         console.error('Failed to disconnect from', serverType, ':', error);
+        setError(`Failed to disconnect: ${error instanceof Error ? error.message : 'Unknown error'}`);
       }
       return;
     }
@@ -78,15 +115,41 @@ export function ServerConnectionDialog({ serverType, trigger, onConnectionChange
     localStorage.setItem(`${serverType}_connection`, JSON.stringify(formData));
     
     // Attempt to connect to server
+    setIsConnecting(true);
     try {
-      const success = connectToServer(serverType, formData);
+      const success = await connectToServer(serverType, formData);
       setIsConnected(success);
-      onConnectionChange(success);
-      console.log('Connected to', serverType, 'with:', formData);
+      localStorage.setItem(`${serverType}_connected`, success.toString());
+      
+      if (success) {
+        console.log('Connected to', serverType);
+        setShowDialog(false); // Close dialog on successful connection
+      } else {
+        throw new Error('Connection failed');
+      }
     } catch (error) {
       console.error('Failed to connect to', serverType, ':', error);
-      onConnectionChange(false);
+      setError(getConnectionErrorMessage(error));
+      localStorage.setItem(`${serverType}_connected`, 'false');
+    } finally {
+      setIsConnecting(false);
     }
+  };
+
+  const getConnectionErrorMessage = (error: unknown): string => {
+    if (error instanceof Error) {
+      if (error.message.includes('ECONNREFUSED')) {
+        return `Could not reach ${serverType} server at ${formData.ipAddress}. Please verify the server is running and the IP address is correct.`;
+      }
+      if (error.message.includes('Login failed')) {
+        return `Authentication failed. Please verify your username and domain.`;
+      }
+      if (error.message.includes('database')) {
+        return `Database "${formData.database}" not found. Please verify the database name.`;
+      }
+      return error.message;
+    }
+    return 'Failed to connect. Please check your connection details and try again.';
   };
 
   const handleSave = () => {
@@ -98,20 +161,35 @@ export function ServerConnectionDialog({ serverType, trigger, onConnectionChange
     const { name, value } = e.target;
     setFormData(prev => {
       const newData = { ...prev, [name]: value };
+      localStorage.setItem(`${serverType}_connection`, JSON.stringify(newData));
       return newData;
     });
   };
 
   return (
-    <Dialog>
-      <DialogTrigger asChild>
-        {trigger}
+    <Dialog open={showDialog} onOpenChange={setShowDialog}>
+      <DialogTrigger asChild onClick={() => setShowDialog(true)}>
+        {isLoading ? (
+          <Button variant="outline" disabled>
+            Loading...
+          </Button>
+        ) : (
+          <Button
+            variant={isConnected ? "default" : "outline"}
+            className={isConnected ? "bg-green-600 hover:bg-green-700" : ""}
+          >
+            {isConnected ? "Connected" : "Disconnected"}
+          </Button>
+        )}
       </DialogTrigger>
       <DialogContent className="sm:max-w-[350px] !p-0">
         <div className="p-4 pb-0">
           <div className="flex justify-between items-start">
             <DialogHeader className="pb-2">
-              <DialogTitle className="text-base">Connect to {serverType}</DialogTitle>
+              <div className="flex items-center gap-2">
+                <DialogTitle className="text-base">Connect to {serverType}</DialogTitle>
+                <div className={`w-2 h-2 rounded-full ${isConnected ? 'bg-green-500' : 'bg-red-500'}`} />
+              </div>
               <DialogDescription className="text-xs">
                 Enter connection details
               </DialogDescription>
@@ -121,6 +199,15 @@ export function ServerConnectionDialog({ serverType, trigger, onConnectionChange
               <span className="sr-only">Close</span>
             </DialogClose>
           </div>
+
+          {error && (
+            <Alert variant="destructive" className="mb-4">
+              <AlertDescription className="text-xs">
+                {error}
+              </AlertDescription>
+            </Alert>
+          )}
+
           <form onSubmit={handleSubmit} className="space-y-2">
             <div className="grid grid-cols-3 items-center gap-2">
               <Label htmlFor="serverName" className="text-xs">Server Name</Label>
@@ -166,19 +253,6 @@ export function ServerConnectionDialog({ serverType, trigger, onConnectionChange
                 placeholder="Database Name"
               />
             </div>
-            {serverType === 'P21' && (
-              <div className="grid grid-cols-3 items-center gap-2">
-                <Label htmlFor="instance" className="text-xs">Instance</Label>
-                <Input
-                  id="instance"
-                  name="instance"
-                  value={formData.instance}
-                  onChange={handleChange}
-                  className="col-span-2 h-7 text-xs"
-                  placeholder="SQL Instance"
-                />
-              </div>
-            )}
             <div className="grid grid-cols-3 items-center gap-2">
               <Label htmlFor="domain" className="text-xs">Domain</Label>
               <Input
@@ -190,17 +264,19 @@ export function ServerConnectionDialog({ serverType, trigger, onConnectionChange
                 placeholder="Windows Domain"
               />
             </div>
-            <div className="grid grid-cols-3 items-center gap-2">
-              <Label htmlFor="username" className="text-xs">Username</Label>
-              <Input
-                id="username"
-                name="username"
-                value={formData.username}
-                onChange={handleChange}
-                className="col-span-2 h-7 text-xs"
-                placeholder="Username"
-              />
-            </div>
+            {serverType === 'P21' && (
+              <div className="grid grid-cols-3 items-center gap-2">
+                <Label htmlFor="username" className="text-xs">Username</Label>
+                <Input
+                  id="username"
+                  name="username"
+                  value={formData.username}
+                  onChange={handleChange}
+                  className="col-span-2 h-7 text-xs"
+                  placeholder="Username"
+                />
+              </div>
+            )}
             <div className="grid grid-cols-3 items-center gap-2">
               <Label htmlFor="password" className="text-xs">Password</Label>
               <Input
@@ -213,20 +289,18 @@ export function ServerConnectionDialog({ serverType, trigger, onConnectionChange
                 placeholder="Password"
               />
             </div>
-            <DialogFooter className="flex justify-between pt-2">
-              <Button
-                type="button"
-                variant="outline"
-                onClick={handleSave}
-                className="h-7 text-xs"
-              >
+            <DialogFooter className="flex justify-between p-4">
+              <Button type="button" variant="outline" size="sm" className="h-7 text-xs" onClick={handleSave}>
                 Save
               </Button>
               <Button 
                 type="submit" 
-                className="h-7 text-xs bg-blue-600 hover:bg-blue-700"
+                variant="default" 
+                size="sm" 
+                className="h-7 text-xs"
+                disabled={isConnecting}
               >
-                {isConnected ? 'Disconnect' : 'Connect'}
+                {isConnecting ? 'Connecting...' : isConnected ? 'Disconnect' : 'Connect'}
               </Button>
             </DialogFooter>
           </form>

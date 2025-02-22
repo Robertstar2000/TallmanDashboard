@@ -3,8 +3,8 @@ export interface RawDataBase {
   id: string;
   chartGroup: string;
   calculation: string;
-  sqlExpression: string;
-  p21DataDictionary: string;
+  sqlExpression?: string;
+  p21DataDictionary?: string;
 }
 
 export interface RawMetricData extends RawDataBase {
@@ -41,9 +41,9 @@ export interface RawCustomersData extends RawDataBase {
 
 export interface RawInventoryData extends RawDataBase {
   name: string;
-  inventoryValueDate: string;
-  inventory: string;
-  turnover: string;
+  inventoryDate: string;
+  value: string;
+  utilization: string;
 }
 
 export interface RawSiteDistributionData extends RawDataBase {
@@ -216,34 +216,18 @@ export interface SpreadsheetData {
 export interface DashboardVariable extends RawDataBase {
   id: string;
   name: string;
-  value: string | number;
-  category: string;
-  subcategory?: string;
-  chartId: string;
-  chartType: 'metric' | 'chart' | 'graph';
   displayName: string;
+  value: number;
+  category: string;
+  chartId: string;
+  chartType: string;
   chartGroup: string;
   calculation: string;
-  sqlExpression: string;
-  p21DataDictionary: string;
-  historicalDate?: string;
-  p21?: string;
-  por?: string;
-  accountsPayableDate?: string;
-  total?: string;
-  overdue?: string;
-  customersDate?: string;
-  new?: string;
-  prospects?: string;
-  inventoryValueDate?: string;
-  inventory?: string;
-  turnover?: string;
-  arAgingDate?: string;
-  current?: string;
-  aging_1_30?: string;
-  aging_31_60?: string;
-  aging_61_90?: string;
-  aging_90_plus?: string;
+  sqlExpression?: string;  // Production SQL query
+  p21DataDictionary?: string; // Production data dictionary reference
+  prodSqlExpression?: string;  // Production SQL query
+  prodDataDictionary?: string; // Production data dictionary reference
+  subGroup?: string;
 }
 
 export interface ChartMetadata {
@@ -252,6 +236,18 @@ export interface ChartMetadata {
   type: 'metric' | 'chart' | 'graph';
   category: string;
   variables: string[]; // List of variable IDs associated with this chart
+}
+
+export interface ChartData {
+  id: number;
+  chartName: string;
+  variableName: string;
+  value: number;
+  x_axis: string;
+  calculation: string;
+  serverName: string;
+  sqlExpression: string;
+  tableName: string;
 }
 
 export interface SpreadsheetDataWithPopupSupport extends SpreadsheetData {
@@ -281,8 +277,13 @@ export interface DatabaseConnectionState {
   lastError?: string;
 }
 
-export interface AdminVariable extends RawDataBase {
+export interface AdminVariable {
+  id: string;
+  chartGroup: string;
+  calculation: string;
   name?: string;
+  chartName?: string;  // Added for chart identification
+  variableName?: string;  // Added for variable identification
   extractedValue?: string;
   secondaryValue?: string;
   updateTime?: string;
@@ -310,4 +311,6 @@ export interface AdminVariable extends RawDataBase {
   aging_61_90?: string;
   aging_90_plus?: string;
   connectionState?: DatabaseConnectionState;
+  sqlExpression?: string;
+  p21DataDictionary?: string;
 }

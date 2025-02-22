@@ -48,17 +48,15 @@ const historicalData = generateLastNMonths(12).map((date, index) => ({
   historicalDate: date,
   calculation: 'Monthly revenue comparison between P21 and POR systems',
   sqlExpression: `
-    SELECT CAST(SUM(CASE 
-      WHEN oh.order_source = 'P21' THEN oh.order_total + COALESCE(oh.freight_amount, 0) + COALESCE(oh.tax_amount, 0)
-      ELSE 0 
-    END) as VARCHAR) as p21_revenue
-    FROM pub.oe_hdr oh
-    WHERE oh.company_id = 1
-      AND oh.order_status <> 'X'
-      AND oh.order_date >= DATE_TRUNC('month', '${date}'::date)
-      AND oh.order_date < DATE_TRUNC('month', '${date}'::date + INTERVAL '1 month')
+    -- POR Revenue Query
+    SELECT CAST(SUM(r.TotalAmount) as VARCHAR) as por_revenue
+    FROM tblContract r
+    WHERE r.StartDate >= DATE_TRUNC('month', '${date}'::date)
+      AND r.StartDate < DATE_TRUNC('month', '${date}'::date + INTERVAL '1 month')
+      AND r.StatusCode <> 'X'
+      AND r.LocationID = @location_id
   `,
-  p21DataDictionary: 'oe_hdr',
+  p21DataDictionary: 'tblContract',
   p21: (Math.random() * 1000000 + 500000).toFixed(0),
   por: (Math.random() * 800000 + 400000).toFixed(0)
 }));
@@ -70,24 +68,26 @@ const accountsPayableData = generateLastNDays(30).map((date, index) => ({
   accountsPayableDate: date,
   calculation: 'Daily tracking of total accounts payable and overdue amounts',
   sqlExpression: `
-    SELECT CAST(SUM(ap.invoice_amount) as VARCHAR) as total_payable
-    FROM pub.ap_invoices ap
-    WHERE ap.company_id = 1
-      AND ap.invoice_date <= '${date}'
-      AND (ap.paid_date IS NULL OR ap.paid_date > '${date}')
+    -- Total Payable Query
+    SELECT CAST(SUM(t.Amount) as VARCHAR) as total_payable
+    FROM tblTransaction t
+    WHERE t.TransactionType = 'AP'
+      AND t.TransactionDate <= '${date}'
+      AND t.StatusCode = 'O'
+      AND t.LocationID = @location_id
 
-    -- Second Query ------------------------------------------
-
+    -- Overdue Amount Query
     SELECT CAST(SUM(CASE 
-      WHEN ap.due_date < CURRENT_DATE THEN ap.invoice_amount 
+      WHEN t.PostedDate < CURRENT_DATE THEN t.Amount 
       ELSE 0 
     END) as VARCHAR) as overdue_amount
-    FROM pub.ap_invoices ap
-    WHERE ap.company_id = 1
-      AND ap.invoice_date <= '${date}'
-      AND (ap.paid_date IS NULL OR ap.paid_date > '${date}')
+    FROM tblTransaction t
+    WHERE t.TransactionType = 'AP'
+      AND t.TransactionDate <= '${date}'
+      AND t.StatusCode = 'O'
+      AND t.LocationID = @location_id
   `,
-  p21DataDictionary: 'ap_invoices',
+  p21DataDictionary: 'tblTransaction',
   total: (Math.random() * 100000 + 50000).toFixed(0),
   overdue: (Math.random() * 20000 + 5000).toFixed(0)
 }));
@@ -99,55 +99,51 @@ const customerData = generateLastNDays(30).map((date, index) => ({
   customersDate: date,
   calculation: 'Daily comparison of new customer acquisitions versus new prospect registrations',
   sqlExpression: `
+    -- New Customers Query
     SELECT CAST(COUNT(*) as VARCHAR) as new_customers
-    FROM pub.customer c 
-    WHERE c.company_id = 1
-      AND c.created_date::date = '${date}'
-      AND c.status = 'A'
+    FROM tblCustomer c
+    WHERE c.CustomerType = 'C'
+      AND c.LastRentalDate >= '${date}'
+      AND c.StatusCode = 'A'
+      AND c.DefaultLocation = @location_id
 
-    -- Second Query ------------------------------------------
-
+    -- New Prospects Query
     SELECT CAST(COUNT(*) as VARCHAR) as new_prospects
-    FROM pub.prospects p 
-    WHERE p.company_id = 1
-      AND p.created_date::date = '${date}'
-      AND p.status = 'NEW'
+    FROM tblCustomer c
+    WHERE c.CustomerType = 'P'
+      AND c.LastRentalDate >= '${date}'
+      AND c.StatusCode = 'A'
+      AND c.DefaultLocation = @location_id
   `,
-  p21DataDictionary: 'customer, prospects',
-  new: (Math.floor(Math.random() * 10)).toString(),
-  prospects: (Math.floor(Math.random() * 20)).toString()
+  p21DataDictionary: 'tblCustomer',
+  new: (Math.random() * 50 + 10).toFixed(0),
+  prospects: (Math.random() * 30 + 5).toFixed(0)
 }));
 
 const inventoryData = generateLastNMonths(12).map((date, index) => ({
   id: (400 + index).toString(),
   name: date,
-  chartGroup: 'Inventory Value & Turnover',
-  inventoryValueDate: date,
-  calculation: 'Monthly tracking of total inventory value and inventory turnover rate',
+  chartGroup: 'Inventory Metrics',
+  inventoryDate: date,
+  calculation: 'Monthly inventory value and equipment utilization',
   sqlExpression: `
-    WITH MonthlyInventory AS (
-      SELECT 
-        CAST(SUM(im.qty_on_hand * im.unit_cost) as VARCHAR) as inventory_value,
-        CAST(SUM(il.qty_shipped * il.unit_cost) as VARCHAR) as cogs
-      FROM pub.inv_mast im
-      LEFT JOIN pub.inv_lot il ON il.item_id = im.item_id 
-        AND il.company_id = im.company_id
-        AND il.transaction_date >= DATE_TRUNC('month', '${date}'::date)
-        AND il.transaction_date < DATE_TRUNC('month', '${date}'::date + INTERVAL '1 month')
-      WHERE im.company_id = 1
-        AND im.status = 'A'
-    )
-    SELECT 
-      inventory_value,
-      CASE 
-        WHEN inventory_value > 0 THEN CAST((cogs * 12.0 / inventory_value) as VARCHAR)
-        ELSE '0' 
-      END as turnover_rate
-    FROM MonthlyInventory
+    -- Total Equipment Value Query
+    SELECT CAST(SUM(e.ReplacementCost) as VARCHAR) as total_value
+    FROM tblEquipment e
+    WHERE e.StatusCode = 'A'
+      AND e.LocationID = @location_id
+
+    -- Equipment Utilization Query
+    SELECT CAST(
+      (COUNT(CASE WHEN e.StatusCode = 'R' THEN 1 END) * 100.0 / 
+       NULLIF(COUNT(*), 0)) as VARCHAR
+    ) as utilization_rate
+    FROM tblEquipment e
+    WHERE e.LocationID = @location_id
   `,
-  p21DataDictionary: 'inv_mast, inv_lot',
-  inventory: (Math.random() * 5000000 + 2000000).toFixed(0),
-  turnover: (Math.random() * 2 + 2).toFixed(2)
+  p21DataDictionary: 'tblEquipment',
+  value: (Math.random() * 2000000 + 1000000).toFixed(0),
+  utilization: (Math.random() * 40 + 60).toFixed(1)
 }));
 
 const siteDistributionData = [
@@ -349,86 +345,74 @@ const topProducts = [
   }
 ];
 
-const arAgingData: RawARAgingData[] = [
+const arAgingData = [
   {
     id: '218',
-    name: 'ar_aging_current',
-    value: '125000',
+    name: '0-30 Days',
     chartGroup: 'AR Aging',
-    calculation: 'Current AR (0-30 days)',
+    arAgingDate: '2024-01-25',
+    calculation: 'Accounts receivable aging analysis',
     sqlExpression: `
-      SELECT SUM(invoice_amt) as current_amount
-      FROM ap_hdr
-      WHERE DATEDIFF(day, due_date, GETDATE()) <= 30
-      AND invoice_status != 'P'
+      SELECT CAST(SUM(t.Amount) as VARCHAR) as aging_amount
+      FROM tblTransaction t
+      WHERE t.TransactionType = 'AR'
+        AND t.StatusCode = 'O'
+        AND t.TransactionDate >= DATEADD(day, -30, CURRENT_DATE)
+        AND t.LocationID = @location_id
     `,
-    p21DataDictionary: 'ap_hdr.invoice_amt,ap_hdr.due_date,ap_hdr.invoice_status',
-    arAgingDate: new Date().toISOString().slice(0, 10),
-    current: '125000'
+    p21DataDictionary: 'tblTransaction',
+    value: '100000'
   },
   {
     id: '219',
-    name: 'ar_aging_1_30',
-    value: '75000',
+    name: '31-60 Days',
     chartGroup: 'AR Aging',
-    calculation: 'AR 1-30 days past due',
+    arAgingDate: '2024-01-25',
+    calculation: 'Accounts receivable aging analysis',
     sqlExpression: `
-      SELECT SUM(invoice_amt) as amount_1_30
-      FROM ap_hdr
-      WHERE DATEDIFF(day, due_date, GETDATE()) BETWEEN 1 AND 30
-      AND invoice_status != 'P'
+      SELECT CAST(SUM(t.Amount) as VARCHAR) as aging_amount
+      FROM tblTransaction t
+      WHERE t.TransactionType = 'AR'
+        AND t.StatusCode = 'O'
+        AND t.TransactionDate BETWEEN DATEADD(day, -60, CURRENT_DATE) AND DATEADD(day, -31, CURRENT_DATE)
+        AND t.LocationID = @location_id
     `,
-    p21DataDictionary: 'ap_hdr.invoice_amt,ap_hdr.due_date,ap_hdr.invoice_status',
-    arAgingDate: new Date().toISOString().slice(0, 10),
-    aging_1_30: '75000'
+    p21DataDictionary: 'tblTransaction',
+    value: '75000'
+  }
+];
+
+const metricsData = [
+  {
+    id: '1',
+    name: 'Active Rentals',
+    chartGroup: 'Key Metrics',
+    calculation: 'Current count of active rental contracts',
+    sqlExpression: `
+      SELECT CAST(COUNT(*) as VARCHAR) as active_rentals,
+             CAST(SUM(TotalAmount) as VARCHAR) as total_value
+      FROM tblContract
+      WHERE StatusCode = 'A'
+        AND ReturnDate >= CURRENT_DATE
+        AND LocationID = @location_id
+    `,
+    p21DataDictionary: 'tblContract',
+    value: (Math.random() * 500 + 200).toFixed(0)
   },
   {
-    id: '220',
-    name: 'ar_aging_31_60',
-    value: '45000',
-    chartGroup: 'AR Aging',
-    calculation: 'AR 31-60 days past due',
+    id: '2',
+    name: 'Equipment Maintenance',
+    chartGroup: 'Key Metrics',
+    calculation: 'Equipment items due for maintenance',
     sqlExpression: `
-      SELECT SUM(invoice_amt) as amount_31_60
-      FROM ap_hdr
-      WHERE DATEDIFF(day, due_date, GETDATE()) BETWEEN 31 AND 60
-      AND invoice_status != 'P'
+      SELECT CAST(COUNT(*) as VARCHAR) as maintenance_due
+      FROM tblEquipment
+      WHERE LastMaintenanceDate <= DATEADD(day, 30, CURRENT_DATE)
+        AND StatusCode = 'A'
+        AND LocationID = @location_id
     `,
-    p21DataDictionary: 'ap_hdr.invoice_amt,ap_hdr.due_date,ap_hdr.invoice_status',
-    arAgingDate: new Date().toISOString().slice(0, 10),
-    aging_31_60: '45000'
-  },
-  {
-    id: '221',
-    name: 'ar_aging_61_90',
-    value: '25000',
-    chartGroup: 'AR Aging',
-    calculation: 'AR 61-90 days past due',
-    sqlExpression: `
-      SELECT SUM(invoice_amt) as amount_61_90
-      FROM ap_hdr
-      WHERE DATEDIFF(day, due_date, GETDATE()) BETWEEN 61 AND 90
-      AND invoice_status != 'P'
-    `,
-    p21DataDictionary: 'ap_hdr.invoice_amt,ap_hdr.due_date,ap_hdr.invoice_status',
-    arAgingDate: new Date().toISOString().slice(0, 10),
-    aging_61_90: '25000'
-  },
-  {
-    id: '222',
-    name: 'ar_aging_90_plus',
-    value: '15000',
-    chartGroup: 'AR Aging',
-    calculation: 'AR over 90 days past due',
-    sqlExpression: `
-      SELECT SUM(invoice_amt) as amount_90_plus
-      FROM ap_hdr
-      WHERE DATEDIFF(day, due_date, GETDATE()) > 90
-      AND invoice_status != 'P'
-    `,
-    p21DataDictionary: 'ap_hdr.invoice_amt,ap_hdr.due_date,ap_hdr.invoice_status',
-    arAgingDate: new Date().toISOString().slice(0, 10),
-    aging_90_plus: '15000'
+    p21DataDictionary: 'tblEquipment',
+    value: (Math.random() * 50 + 10).toFixed(0)
   }
 ];
 
@@ -445,7 +429,7 @@ function isCustomersData(item: RawDashboardData): item is RawCustomersData {
 }
 
 function isInventoryData(item: RawDashboardData): item is RawInventoryData {
-  return item.chartGroup === 'Inventory Value & Turnover';
+  return item.chartGroup === 'Inventory Metrics';
 }
 
 function isSiteDistributionData(item: RawDashboardData): item is RawSiteDistributionData {
@@ -460,96 +444,17 @@ function isARAgingData(item: RawDashboardData): item is RawARAgingData {
   return item.chartGroup === 'AR Aging';
 }
 
-const metricsData = [
-  // Metrics - 6 unique metrics
+const initialARAgingData = [
   {
-    id: '1',
-    name: 'Total Orders',
-    chartGroup: 'Metrics',
-    calculation: 'Count all unique order numbers from orders placed within the last 24 hours across all sales channels',
-    sqlExpression: `
-      SELECT CAST(COUNT(DISTINCT oh.order_no) as VARCHAR) as total_orders
-      FROM oe_hdr oh
-      WHERE oh.order_date >= DATEADD(hour, -24, GETDATE())
-        AND oh.order_status <> 'X'
-        AND oh.company_id = @company_id
-    `,
-    p21DataDictionary: 'orders',
-    value: '150'
+    name: '0-30 Days',
+    value: 100000,
+    arAgingDate: '2024-01-25'
   },
   {
-    id: '2',
-    name: 'Average Order Value',
-    chartGroup: 'Metrics',
-    calculation: 'Calculate the mean value of all orders from the past day, including tax and shipping but excluding cancelled orders',
-    sqlExpression: `
-      SELECT CAST(AVG(oh.order_total) as VARCHAR) as avg_order_value
-      FROM oe_hdr oh
-      WHERE oh.order_date >= DATEADD(day, -30, GETDATE())
-        AND oh.order_status <> 'X'
-        AND oh.company_id = @company_id
-    `,
-    p21DataDictionary: 'orders',
-    value: '2500'
-  },
-  {
-    id: '3',
-    name: 'Active Customers',
-    chartGroup: 'Metrics',
-    calculation: 'Count the number of unique customers who have made at least one purchase in the last 90 days',
-    sqlExpression: `
-      SELECT CAST(COUNT(DISTINCT oh.customer_id) as VARCHAR) as active_customers
-      FROM oe_hdr oh
-      WHERE oh.order_date >= DATEADD(day, -90, GETDATE())
-        AND oh.order_status <> 'X'
-        AND oh.company_id = @company_id
-    `,
-    p21DataDictionary: 'customers',
-    value: '450'
-  },
-  {
-    id: '4',
-    name: 'Open Support Tickets',
-    chartGroup: 'Metrics',
-    calculation: 'Count all unresolved support tickets that have not been marked as closed or resolved',
-    sqlExpression: `
-      SELECT CAST(COUNT(*) as VARCHAR) as open_tickets
-      FROM service_ticket st
-      WHERE st.ticket_status IN ('O', 'P', 'W')
-        AND st.company_id = @company_id
-    `,
-    p21DataDictionary: 'support',
-    value: '25'
-  },
-  {
-    id: '5',
-    name: 'Revenue MTD',
-    chartGroup: 'Metrics',
-    calculation: 'Sum the total revenue from all completed transactions since the start of the current calendar month',
-    sqlExpression: `
-      SELECT CAST(SUM(oh.order_total) as VARCHAR) as revenue_mtd
-      FROM oe_hdr oh
-      WHERE oh.order_date >= DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)
-        AND oh.order_status = 'C'
-        AND oh.company_id = @company_id
-    `,
-    p21DataDictionary: 'finance',
-    value: '1250000'
-  },
-  {
-    id: '6',
-    name: 'Website Visitors',
-    chartGroup: 'Metrics',
-    calculation: 'Count unique visitors to the website over the past 24 hours based on unique visitor IDs',
-    sqlExpression: `
-      SELECT CAST(COUNT(DISTINCT session_id) as VARCHAR) as visitors
-      FROM web_session_log
-      WHERE session_start >= DATEADD(day, -1, GETDATE())
-        AND company_id = @company_id
-    `,
-    p21DataDictionary: 'analytics',
-    value: '3200'
-  },
+    name: '31-60 Days',
+    value: 75000,
+    arAgingDate: '2024-01-25'
+  }
 ];
 
 // Combine all data into initialData
@@ -575,20 +480,11 @@ export const rawDashboardData: RawDashboardData[] = [
 
 export const spreadsheetData: SpreadsheetData = {
   entries: rawDashboardData
-    .filter(item => 
-      isHistoricalData(item) || 
-      isAccountsPayableData(item) || 
-      isCustomersData(item) || 
-      isInventoryData(item) || 
-      isSiteDistributionData(item) ||
-      isARAgingData(item))
     .map(item => {
-      const entry = {
+      const entry: MonthlyData = {
         date: '',
         p21Value: 0,
         porValue: 0,
-        p21: 0,
-        por: 0,
         accountsPayable: { total: 0, overdue: 0 },
         customers: { new: 0, prospects: 0 },
         inventory: { value: 0, turnover: 0 },
@@ -600,8 +496,6 @@ export const spreadsheetData: SpreadsheetData = {
         entry.date = item.historicalDate;
         entry.p21Value = parseInt(item.p21);
         entry.porValue = parseInt(item.por);
-        entry.p21 = parseInt(item.p21);
-        entry.por = parseInt(item.por);
       }
 
       if (isAccountsPayableData(item)) {
@@ -617,62 +511,33 @@ export const spreadsheetData: SpreadsheetData = {
       }
 
       if (isInventoryData(item)) {
-        entry.date = item.inventoryValueDate;
-        entry.inventory.value = parseInt(item.inventory);
-        entry.inventory.turnover = parseInt(item.turnover);
+        entry.date = item.inventoryDate;
+        entry.inventory.value = parseInt(item.value);
+        entry.inventory.turnover = parseInt(item.utilization);
       }
 
       if (isSiteDistributionData(item)) {
-        entry.sites.columbus = parseInt(item.columbus);
-        entry.sites.addison = parseInt(item.addison);
-        entry.sites.lakeCity = parseInt(item.lakeCity);
+        entry.date = item.historicalDate;
+        entry.sites = { columbus: parseInt(item.columbus), addison: parseInt(item.addison), lakeCity: parseInt(item.lakeCity) };
       }
 
       if (isARAgingData(item)) {
         entry.date = item.arAgingDate;
-        entry.arAging.current = parseInt(item.current || '0');
-        entry.arAging.aging_1_30 = parseInt(item.aging_1_30 || '0');
-        entry.arAging.aging_31_60 = parseInt(item.aging_31_60 || '0');
-        entry.arAging.aging_61_90 = parseInt(item.aging_61_90 || '0');
-        entry.arAging.aging_90_plus = parseInt(item.aging_90_plus || '0');
+        entry.arAging.current = parseInt(item.value);
       }
 
       return entry;
-    }),
+    })
+    .filter(entry => entry.date !== ''),
   totals: {
     p21: 0,
     por: 0,
-    accountsPayable: {
-      total: 0,
-      overdue: 0
-    },
-    customers: {
-      new: 0,
-      prospects: 0
-    },
-    inventory: {
-      averageValue: 0,
-      averageTurnover: 0
-    },
-    sites: {
-      columbus: 0,
-      addison: 0,
-      lakeCity: 0
-    },
-    arAging: {
-      current: 0,
-      aging_1_30: 0,
-      aging_31_60: 0,
-      aging_61_90: 0,
-      aging_90_plus: 0
-    }
-  },
-  dailyShipments: rawDashboardData
-    .filter(item => isHistoricalData(item))
-    .map(item => ({
-      date: isHistoricalData(item) ? item.historicalDate : '',
-      shipments: isHistoricalData(item) ? parseInt(item.p21) : 0
-    }))
+    accountsPayable: { total: 0, overdue: 0 },
+    customers: { new: 0, prospects: 0 },
+    inventory: { averageValue: 0, averageTurnover: 0 },
+    sites: { columbus: 0, addison: 0, lakeCity: 0 },
+    arAging: { current: 0, aging_1_30: 0, aging_31_60: 0, aging_61_90: 0, aging_90_plus: 0 }
+  }
 };
 
 export const adminSpreadsheetData = rawDashboardData.map(item => ({
@@ -694,44 +559,15 @@ export const adminSpreadsheetData = rawDashboardData.map(item => ({
   customersDate: isCustomersData(item) ? item.customersDate : undefined,
   new: isCustomersData(item) ? item.new : undefined,
   prospects: isCustomersData(item) ? item.prospects : undefined,
-  inventoryValueDate: isInventoryData(item) ? item.inventoryValueDate : undefined,
-  inventory: isInventoryData(item) ? item.inventory : undefined,
-  turnover: isInventoryData(item) ? item.turnover : undefined,
+  inventoryDate: isInventoryData(item) ? item.inventoryDate : undefined,
+  value: isInventoryData(item) ? item.value : undefined,
+  utilization: isInventoryData(item) ? item.utilization : undefined,
   columbus: isSiteDistributionData(item) ? item.columbus : undefined,
   addison: isSiteDistributionData(item) ? item.addison : undefined,
   lakeCity: isSiteDistributionData(item) ? item.lakeCity : undefined,
-  value: isProductData(item) ? item.value : undefined,
-  subGroup: isProductData(item) ? item.subGroup : undefined,
   arAgingDate: isARAgingData(item) ? item.arAgingDate : undefined,
-  current: isARAgingData(item) ? item.current : undefined,
-  aging_1_30: isARAgingData(item) ? item.aging_1_30 : undefined,
-  aging_31_60: isARAgingData(item) ? item.aging_31_60 : undefined,
-  aging_61_90: isARAgingData(item) ? item.aging_61_90 : undefined,
-  aging_90_plus: isARAgingData(item) ? item.aging_90_plus : undefined
+  current: isARAgingData(item) ? item.value : undefined,
 }));
-
-export const initialARAgingData = [
-  {
-    name: '0-30 Days',
-    value: 100000,
-    arAgingDate: '2024-01-25'
-  },
-  {
-    name: '31-60 Days',
-    value: 75000,
-    arAgingDate: '2024-01-25'
-  },
-  {
-    name: '61-90 Days',
-    value: 50000,
-    arAgingDate: '2024-01-25'
-  },
-  {
-    name: '90+ Days',
-    value: 25000,
-    arAgingDate: '2024-01-25'
-  }
-];
 
 // Initialize storage with initial data
 export const initializeStorage = () => {
@@ -747,16 +583,6 @@ export const initializeStorage = () => {
     {
       name: '31-60 Days',
       value: 75000,
-      arAgingDate: '2024-01-25'
-    },
-    {
-      name: '61-90 Days',
-      value: 50000,
-      arAgingDate: '2024-01-25'
-    },
-    {
-      name: '90+ Days',
-      value: 25000,
       arAgingDate: '2024-01-25'
     }
   ];

@@ -1,13 +1,21 @@
-'use client';
+'use server';
 
 import { createClient } from '@libsql/client';
 import { P21_SCHEMA } from './p21-schema';
 import { P21_DATA_DICTIONARY } from './data-dictionary';
 import { rawDashboardData } from './raw-data';
 
-const db = createClient({
-  url: 'file:dashboard?mode=memory&cache=shared'
-});
+let db: ReturnType<typeof createClient>;
+
+if (process.env.NODE_ENV === 'production') {
+  db = createClient({
+    url: process.env.DATABASE_URL || 'file:dashboard.db',
+  });
+} else {
+  db = createClient({
+    url: 'file:dashboard?mode=memory&cache=shared'
+  });
+}
 
 async function initializeDatabase() {
   try {
@@ -21,88 +29,92 @@ async function initializeDatabase() {
         })
         .join(',\n          ');
 
-      await db.execute(`
-        CREATE TABLE IF NOT EXISTS ${schema.table} (
-          ${fields}
-        )
-      `);
+      await db.execute({
+        sql: `
+          CREATE TABLE IF NOT EXISTS ${schema.table} (
+            ${fields}
+          )
+        `,
+        args: []
+      });
     }
 
     // Create dashboard variables table
-    await db.execute(`
-      CREATE TABLE IF NOT EXISTS dashboard_variables (
-        id INTEGER PRIMARY KEY,
-        name TEXT NOT NULL,
-        chartGroup TEXT,
-        calculation TEXT,
-        sqlExpression TEXT,
-        p21DataDictionary TEXT,
-        historicalDate TEXT,
-        p21 TEXT,
-        por TEXT,
-        accountsPayableDate TEXT,
-        total TEXT,
-        overdue TEXT,
-        customersDate TEXT,
-        new TEXT,
-        prospects TEXT,
-        inventoryValueDate TEXT,
-        inventory TEXT,
-        turnover TEXT,
-        arAgingDate TEXT,
-        current TEXT,
-        aging_1_30 TEXT,
-        aging_31_60 TEXT,
-        aging_61_90 TEXT,
-        aging_90_plus TEXT
-      )
-    `);
+    await db.execute({
+      sql: `
+        CREATE TABLE IF NOT EXISTS dashboard_variables (
+          id INTEGER PRIMARY KEY,
+          name TEXT NOT NULL,
+          chartGroup TEXT,
+          calculation TEXT,
+          sqlExpression TEXT,
+          p21DataDictionary TEXT,
+          historicalDate TEXT,
+          p21 TEXT,
+          por TEXT,
+          accountsPayableDate TEXT,
+          total TEXT,
+          overdue TEXT,
+          customersDate TEXT,
+          new TEXT,
+          prospects TEXT,
+          inventoryValueDate TEXT,
+          inventory TEXT,
+          turnover TEXT,
+          arAgingDate TEXT,
+          current TEXT,
+          aging_1_30 TEXT,
+          aging_31_60 TEXT,
+          aging_61_90 TEXT,
+          aging_90_plus TEXT
+        )
+      `,
+      args: []
+    });
 
-    // Insert initial data if table is empty
-    const count = await db.execute('SELECT COUNT(*) as count FROM dashboard_variables');
-    if (count.rows[0].count === 0) {
-      for (const variable of rawDashboardData) {
-        await db.execute({
-          sql: `
-            INSERT INTO dashboard_variables (
-              id, name, chartGroup, calculation, sqlExpression, p21DataDictionary,
-              historicalDate, p21, por, accountsPayableDate, total, overdue,
-              customersDate, new, prospects, inventoryValueDate, inventory,
-              turnover, arAgingDate, current, aging_1_30, aging_31_60,
-              aging_61_90, aging_90_plus
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-          `,
-          args: [
-            variable.id,
-            variable.name,
-            variable.chartGroup,
-            variable.calculation,
-            variable.sqlExpression,
-            variable.p21DataDictionary,
-            ('historicalDate' in variable ? variable.historicalDate : ''),
-            ('p21' in variable ? variable.p21 : ''),
-            ('por' in variable ? variable.por : ''),
-            ('accountsPayableDate' in variable ? variable.accountsPayableDate : ''),
-            ('total' in variable ? variable.total : ''),
-            ('overdue' in variable ? variable.overdue : ''),
-            ('customersDate' in variable ? (variable.customersDate ?? '') : ''),
-            ('new' in variable ? (variable.new ?? '') : ''),
-            ('prospects' in variable ? (variable.prospects ?? '') : ''),
-            ('inventoryValueDate' in variable ? (variable.inventoryValueDate ?? '') : ''),
-            ('inventory' in variable ? (variable.inventory ?? '') : ''),
-            ('turnover' in variable ? (variable.turnover ?? '') : ''),
-            ('arAgingDate' in variable ? (variable.arAgingDate ?? '') : ''),
-            ('current' in variable ? (variable.current ?? '') : ''),
-            ('aging_1_30' in variable ? (variable.aging_1_30 ?? '') : ''),
-            ('aging_31_60' in variable ? (variable.aging_31_60 ?? '') : ''),
-            ('aging_61_90' in variable ? (variable.aging_61_90 ?? '') : ''),
-            ('aging_90_plus' in variable ? (variable.aging_90_plus ?? '') : '')
-          ]
-        });
-      }
+    // Insert raw data
+    for (const variable of rawDashboardData) {
+      await db.execute({
+        sql: `
+          INSERT OR REPLACE INTO dashboard_variables (
+            name, chartGroup, calculation, sqlExpression, p21DataDictionary,
+            historicalDate, p21, por, accountsPayableDate, total, overdue,
+            customersDate, new, prospects, inventoryValueDate, inventory,
+            turnover, arAgingDate, current, aging_1_30, aging_31_60,
+            aging_61_90, aging_90_plus
+          ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        `,
+        args: [
+          variable.name || '',
+          variable.chartGroup || '',
+          variable.calculation || '',
+          variable.sqlExpression || '',
+          variable.p21DataDictionary || '',
+          variable.historicalDate || '',
+          variable.p21 || '',
+          variable.por || '',
+          variable.accountsPayableDate || '',
+          variable.total || '',
+          variable.overdue || '',
+          variable.customersDate || '',
+          variable.new || '',
+          variable.prospects || '',
+          variable.inventoryValueDate || '',
+          variable.inventory || '',
+          variable.turnover || '',
+          variable.arAgingDate || '',
+          variable.current || '',
+          variable.aging_1_30 || '',
+          variable.aging_31_60 || '',
+          variable.aging_61_90 || '',
+          variable.aging_90_plus || ''
+        ]
+      });
     }
+
+    console.log('Database initialized successfully');
   } catch (error) {
-    console.error('Failed to initialize database:', error);
+    console.error('Error initializing database:', error);
   }
 }
 
@@ -110,9 +122,12 @@ async function initializeDatabase() {
 initializeDatabase();
 
 // Database utility functions
-export async function executeQuery(sql: string, params: any[] = []) {
+async function executeQuery(sql: string, params: any[] = []) {
   try {
-    const result = await db.execute({ sql, args: params });
+    const result = await db.execute({
+      sql,
+      args: params
+    });
     return result.rows;
   } catch (error) {
     console.error('Error executing query:', error);
@@ -120,12 +135,11 @@ export async function executeQuery(sql: string, params: any[] = []) {
   }
 }
 
-export async function isServerConnected() {
+async function isServerConnected() {
   try {
-    await db.execute('SELECT 1');
+    await db.execute({ sql: 'SELECT 1', args: [] });
     return true;
-  } catch (error) {
-    console.error('Error connecting to database:', error);
+  } catch {
     return false;
   }
 }

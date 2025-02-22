@@ -1,0 +1,36 @@
+(node:27872) [DEP0005] DeprecationWarning: Buffer() is deprecated due to security and usability issues. Please use the Buffer.alloc(), Buffer.allocUnsafe(), or Buffer.from() methods instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+ ⨯ ./styles/globals.css:1:1
+Syntax error: C:\Users\BobM\CascadeProjects\TallmanDashboard\styles\globals.css The `border-border` class does not exist. If `border-border` is a custom class, make sure it is defined within a `@layer` directive.
+
+[1m[31m>[39m[22m[90m 1 | [39m[36m@tailwind[39m base[33m;[39m
+ [90m   | [39m[1m[31m^[39m[22m
+ [90m 2 | [39m[36m@tailwind[39m components[33m;[39m
+ [90m 3 | [39m[36m@tailwind[39m utilities[33m;[39m
+<w> [webpack.cache.PackFileCacheStrategy] Skipped not serializable cache item 'Compilation/modules|C:\Users\BobM\CascadeProjects\TallmanDashboard\node_modules\next\dist\build\webpack\loaders\css-loader\src\index.js??ruleSet[1].rules[7].oneOf[14].use[1]!C:\Users\BobM\CascadeProjects\TallmanDashboard\node_modules\next\dist\build\webpack\loaders\postcss-loader\src\index.js??ruleSet[1].rules[7].oneOf[14].use[2]!C:\Users\BobM\CascadeProjects\TallmanDashboard\styles\globals.css': No serializer registered for PostCSSSyntaxError
+<w> while serializing webpack/lib/cache/PackFileCacheStrategy.PackContentItems -> webpack/lib/NormalModule -> webpack/lib/ModuleBuildError -> PostCSSSyntaxError
+ ⨯ ./styles/globals.css:1:1
+Syntax error: C:\Users\BobM\CascadeProjects\TallmanDashboard\styles\globals.css The `border-border` class does not exist. If `border-border` is a custom class, make sure it is defined within a `@layer` directive.
+
+[1m[31m>[39m[22m[90m 1 | [39m[36m@tailwind[39m base[33m;[39m
+ [90m   | [39m[1m[31m^[39m[22m
+ [90m 2 | [39m[36m@tailwind[39m components[33m;[39m
+ [90m 3 | [39m[36m@tailwind[39m utilities[33m;[39m
+ ⨯ ./styles/globals.css:1:1
+Syntax error: C:\Users\BobM\CascadeProjects\TallmanDashboard\styles\globals.css The `border-border` class does not exist. If `border-border` is a custom class, make sure it is defined within a `@layer` directive.
+
+[1m[31m>[39m[22m[90m 1 | [39m[36m@tailwind[39m base[33m;[39m
+ [90m   | [39m[1m[31m^[39m[22m
+ [90m 2 | [39m[36m@tailwind[39m components[33m;[39m
+ [90m 3 | [39m[36m@tailwind[39m utilities[33m;[39m
+<w> [webpack.cache.PackFileCacheStrategy] Skipped not serializable cache item 'Compilation/modules|C:\Users\BobM\CascadeProjects\TallmanDashboard\node_modules\next\dist\build\webpack\loaders\css-loader\src\index.js??ruleSet[1].rules[7].oneOf[14].use[1]!C:\Users\BobM\CascadeProjects\TallmanDashboard\node_modules\next\dist\build\webpack\loaders\postcss-loader\src\index.js??ruleSet[1].rules[7].oneOf[14].use[2]!C:\Users\BobM\CascadeProjects\TallmanDashboard\styles\globals.css': No serializer registered for PostCSSSyntaxError
+<w> while serializing webpack/lib/cache/PackFileCacheStrategy.PackContentItems -> webpack/lib/NormalModule -> webpack/lib/ModuleBuildError -> PostCSSSyntaxError
+ ⨯ ./styles/globals.css:1:1
+Syntax error: C:\Users\BobM\CascadeProjects\TallmanDashboard\styles\globals.css The `border-border` class does not exist. If `border-border` is a custom class, make sure it is defined within a `@layer` directive.
+
+[1m[31m>[39m[22m[90m 1 | [39m[36m@tailwind[39m base[33m;[39m
+ [90m   | [39m[1m[31m^[39m[22m
+ [90m 2 | [39m[36m@tailwind[39m components[33m;[39m
+ [90m 3 | [39m[36m@tailwind[39m utilities[33m;[39m
+<w> [webpack.cache.PackFileCacheStrategy] Skipped not serializable cache item 'Compilation/modules|C:\Users\BobM\CascadeProjects\TallmanDashboard\node_modules\next\dist\build\webpack\loaders\css-loader\src\index.js??ruleSet[1].rules[7].oneOf[14].use[1]!C:\Users\BobM\CascadeProjects\TallmanDashboard\node_modules\next\dist\build\webpack\loaders\postcss-loader\src\index.js??ruleSet[1].rules[7].oneOf[14].use[2]!C:\Users\BobM\CascadeProjects\TallmanDashboard\styles\globals.css': No serializer registered for PostCSSSyntaxError
+<w> while serializing webpack/lib/cache/PackFileCacheStrategy.PackContentItems -> webpack/lib/NormalModule -> webpack/lib/ModuleBuildError -> PostCSSSyntaxError

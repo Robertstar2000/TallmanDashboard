@@ -22,7 +22,19 @@ export function EditableMetricCard({
   onUpdate
 }: EditableMetricCardProps) {
   const [isEditing, setIsEditing] = useState(false);
-  const [editValue, setEditValue] = useState(value);
+  const [editValue, setEditValue] = useState<string | number>('');
+
+  const handleStartEditing = () => {
+    setEditValue(value);
+    setIsEditing(true);
+  };
+
+  const handleUpdate = (newValue: string | number) => {
+    if (newValue && !isNaN(Number(newValue))) {
+      onUpdate(Number(newValue));
+    }
+    setIsEditing(false);
+  };
 
   return (
     <Card className={`w-full h-full ${gradient} text-white`}>
@@ -40,16 +52,10 @@ export function EditableMetricCard({
             type="text"
             value={editValue}
             onChange={(e) => setEditValue(e.target.value)}
-            onBlur={() => {
-              setIsEditing(false);
-              if (editValue && !isNaN(Number(editValue))) {
-                onUpdate(Number(editValue));
-              }
-            }}
+            onBlur={() => handleUpdate(editValue)}
             onKeyDown={(e) => {
               if (e.key === 'Enter') {
-                setIsEditing(false);
-                onUpdate(Number(editValue));
+                handleUpdate(editValue);
               }
             }}
             className="w-full text-[clamp(0.8rem,1.2vw,1rem)] font-bold text-center bg-transparent border-b border-white text-white focus:outline-none focus:border-blue-300"
@@ -57,7 +63,7 @@ export function EditableMetricCard({
           />
         ) : (
           <div
-            onClick={() => setIsEditing(true)}
+            onClick={handleStartEditing}
             className="text-[clamp(0.8rem,1.2vw,1rem)] font-bold text-center cursor-pointer text-white"
           >
             {value}

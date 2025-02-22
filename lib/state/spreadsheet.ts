@@ -19,7 +19,9 @@ export const initialSpreadsheetState: SpreadsheetState = {
       chartGroup: 'Metrics',
       calculation: 'COUNT',
       sqlExpression: 'SELECT COUNT(*) FROM orders',
-      p21DataDictionary: 'orders'
+      p21DataDictionary: 'orders',
+      prodSqlExpression: 'SELECT COUNT(*) FROM oe_hdr WHERE company_id = 1',
+      prodDataDictionary: 'P21.oe_hdr'
     },
     'var-open-orders': {
       id: 'var-open-orders',
@@ -32,7 +34,9 @@ export const initialSpreadsheetState: SpreadsheetState = {
       chartGroup: 'Metrics',
       calculation: 'COUNT',
       sqlExpression: 'SELECT COUNT(*) FROM orders WHERE status = "open"',
-      p21DataDictionary: 'orders'
+      p21DataDictionary: 'orders',
+      prodSqlExpression: 'SELECT COUNT(*) FROM oe_hdr WHERE company_id = 1 AND order_status = "O"',
+      prodDataDictionary: 'P21.oe_hdr'
     },
     'var-in-process': {
       id: 'var-in-process',
@@ -45,7 +49,9 @@ export const initialSpreadsheetState: SpreadsheetState = {
       chartGroup: 'Metrics',
       calculation: 'COUNT',
       sqlExpression: 'SELECT COUNT(*) FROM orders WHERE status = "in_process"',
-      p21DataDictionary: 'orders'
+      p21DataDictionary: 'orders',
+      prodSqlExpression: 'SELECT COUNT(*) FROM oe_hdr WHERE company_id = 1 AND order_status = "P"',
+      prodDataDictionary: 'P21.oe_hdr'
     },
     'var-weekly-revenue': {
       id: 'var-weekly-revenue',
@@ -58,7 +64,9 @@ export const initialSpreadsheetState: SpreadsheetState = {
       chartGroup: 'Metrics',
       calculation: 'SUM',
       sqlExpression: 'SELECT SUM(revenue) FROM orders WHERE date >= NOW() - INTERVAL 1 WEEK',
-      p21DataDictionary: 'orders'
+      p21DataDictionary: 'orders',
+      prodSqlExpression: 'SELECT SUM(ext_price) FROM oe_hdr WHERE company_id = 1 AND order_date >= DATEADD(week, -1, GETDATE())',
+      prodDataDictionary: 'P21.oe_hdr'
     }
   },
   charts: {

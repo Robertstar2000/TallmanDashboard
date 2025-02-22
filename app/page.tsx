@@ -1,8 +1,9 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { TrendingUp, Package, Truck, DollarSign, CreditCard, TrendingDown } from 'lucide-react';
+import { TrendingUp, Package, Truck, DollarSign, CreditCard, TrendingDown, Settings } from 'lucide-react';
 import { EditableMetricCard } from '@/components/EditableMetricCard';
+import { Button } from '@/components/ui/button';
 import { DailyOrdersChart } from '@/components/charts/DailyOrdersChart';
 import { AccountsPayableChart } from '@/components/charts/AccountsPayableChart';
 import { PORChart } from '@/components/charts/PORChart';
@@ -12,6 +13,7 @@ import { InventoryChart } from '@/components/charts/InventoryChart';
 import { HistoricalDataChart } from '@/components/charts/HistoricalDataChart';
 import { CustomerChart } from '@/components/charts/CustomerChart';
 import { ARAgingChart } from '@/components/charts/ARAgingChart';
+import dynamic from 'next/dynamic';
 import { 
   getMetrics, 
   updateMetric,
@@ -25,7 +27,7 @@ import {
   resetData,
   getHistoricalData
 } from '@/lib/db';
-import { AdminButton } from '@/components/AdminButton';
+import Link from 'next/link';
 
 interface Metric {
   [key: string]: string | number;
@@ -98,20 +100,15 @@ interface ARAging {
 }
 
 export default function Dashboard() {
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [isClient, setIsClient] = useState(false);
   const [metrics, setMetrics] = useState<Metric[]>([]);
-  const [dailyOrders, setDailyOrders] = useState<DailyOrder[]>([
-    { date: '2024-01-01', orders: 150 },
-    { date: '2024-01-02', orders: 230 },
-    { date: '2024-01-03', orders: 224 },
-    { date: '2024-01-04', orders: 218 },
-    { date: '2024-01-05', orders: 335 },
-    { date: '2024-01-06', orders: 247 },
-    { date: '2024-01-07', orders: 284 },
-  ]);
+  const [dailyOrders, setDailyOrders] = useState<DailyOrder[]>([]);
   const [siteDistribution, setSiteDistribution] = useState<SiteDistribution[]>([]);
-  const [customerData, setCustomerData] = useState<CustomerMetric[]>([]);
+  const [customerMetrics, setCustomerMetrics] = useState<CustomerMetric[]>([]);
   const [accountsPayable, setAccountsPayable] = useState<AccountsPayable[]>([]);
-  const [porData, setPorData] = useState<PORData[]>([]);
+  const [porData, setPORData] = useState<PORData[]>([]);
   const [inventoryData, setInventoryData] = useState<InventoryData[]>([]);
   const [webMetrics, setWebMetrics] = useState<WebMetric[]>([]);
   const [historicalData, setHistoricalData] = useState<HistoricalData[]>([]);
@@ -124,35 +121,70 @@ export default function Dashboard() {
   ]);
 
   useEffect(() => {
-    resetData(); // Reset all data to initial state
-    const metricsData = getMetrics();
-    console.log('Loaded metrics data:', metricsData);
-    setMetrics(Array.isArray(metricsData) ? metricsData : []);
-    const dailyOrdersData = getDailyOrders();
-    console.log('Loaded daily orders data:', dailyOrdersData);
-    setDailyOrders(Array.isArray(dailyOrdersData) ? dailyOrdersData : []);
-    const siteDistData = getSiteDistribution();
-    console.log('Loaded site distribution data:', siteDistData);
-    setSiteDistribution(Array.isArray(siteDistData) ? siteDistData : []);
-    const custData = getCustomerMetrics();
-    console.log('Loaded customer metrics data:', custData);
-    setCustomerData(Array.isArray(custData) ? custData : []);
-    const accounts = getAccounts();
-    console.log('Loaded accounts data:', accounts);
-    setAccountsPayable(Array.isArray(accounts) ? accounts : []);
-    const porMetrics = getPOR();
-    console.log('Loaded POR metrics data:', porMetrics);
-    setPorData(Array.isArray(porMetrics) ? porMetrics : []);
-    const inventory = getInventoryValue();
-    console.log('Loaded inventory data:', inventory);
-    setInventoryData(Array.isArray(inventory) ? inventory : []);
-    const webData = getWebMetrics();
-    console.log('Loaded web metrics data:', webData);
-    setWebMetrics(Array.isArray(webData) ? webData : []);
-    const historicalData = getHistoricalData();
-    console.log('Loaded historical data:', historicalData);
-    setHistoricalData(Array.isArray(historicalData) ? historicalData : []);
+    setIsClient(true);
   }, []);
+
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        // Reset data to ensure we have initial values
+        resetData();
+        
+        // Load all data
+        const metricsData = getMetrics();
+        const dailyOrdersData = getDailyOrders();
+        const siteDistData = getSiteDistribution();
+        const custData = getCustomerMetrics();
+        const accounts = getAccounts();
+        const porMetrics = getPOR();
+        const inventory = getInventoryValue();
+        const webData = getWebMetrics();
+        const histData = getHistoricalData();
+
+        // Update state with loaded data
+        setMetrics(metricsData);
+        setDailyOrders(dailyOrdersData);
+        setSiteDistribution(siteDistData);
+        setCustomerMetrics(custData);
+        setAccountsPayable(accounts);
+        setPORData(porMetrics);
+        setInventoryData(inventory);
+        setWebMetrics(webData);
+        setHistoricalData(histData);
+        
+        setLoading(false);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Failed to load dashboard data');
+        setLoading(false);
+      }
+    };
+
+    if (isClient) {
+      loadData();
+    }
+  }, [isClient]);
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-center">
+          <div className="text-2xl font-semibold mb-2">Loading Dashboard...</div>
+          <div className="text-gray-600">Please wait while we fetch your data</div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-center text-red-600">
+          <div className="text-2xl font-semibold mb-2">Error Loading Dashboard</div>
+          <div>{error}</div>
+        </div>
+      </div>
+    );
+  }
 
   const handleMetricUpdate = (name: string, value: number) => {
     const updatedMetrics = updateMetric(name, value);
@@ -160,15 +192,23 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="h-[414px] bg-gray-50 flex flex-col max-w-[98vw] mx-auto overflow-hidden">
-      <AdminButton />
-      <div className="flex justify-between items-center h-[28px] shrink-0 px-2">
-        <h1 className="text-[clamp(12px,1.2vw,14px)] text-red-600 font-bold text-center flex-grow truncate">
+    <div className="flex flex-col h-screen bg-gray-100 p-4">
+      <div className="flex flex-col mb-4">
+        <div className="flex justify-between items-center mb-2">
+          <h1 className="text-2xl font-bold">Dashboard</h1>
+          <Link href="/admin">
+            <Button variant="outline" size="sm" className="flex items-center gap-2">
+              <Settings className="w-4 h-4" />
+              Admin
+            </Button>
+          </Link>
+        </div>
+        <h2 className="text-[clamp(12px,1.2vw,14px)] text-red-600 font-bold">
           Tallman Leadership Dashboard
-        </h1>
+        </h2>
       </div>
-      
-      <div className="flex gap-0.5 p-0.5 h-[336px]">
+
+      <div className="flex gap-4 flex-1 w-full">
         {/* Left Column - Metrics */}
         <div className="w-1/6 grid grid-rows-6 gap-0.5 h-full">
           {metrics.map((metric: Metric) => (
@@ -212,7 +252,7 @@ export default function Dashboard() {
               <AccountsPayableChart data={accountsPayable} />
             </div>
             <div className="h-[108px]">
-              <CustomerChart data={customerData} />
+              <CustomerChart data={customerMetrics} />
             </div>
             <div className="h-[108px]">
               <HistoricalDataChart data={historicalData} />
