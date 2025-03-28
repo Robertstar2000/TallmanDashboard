@@ -31,20 +31,20 @@ export class DatabaseManager {
 
   public async connect(connections: DatabaseConnections): Promise<DatabaseConnectionState> {
     try {
-      if (connections.p21Connection) {
+      if (connections.p21) {
         // Connect to P21
-        this.p21Pool = connections.p21Connection;
+        this.p21Pool = connections.p21;
         this.connectionState.p21Connected = true;
       }
 
-      if (connections.porConnection) {
+      if (connections.por) {
         // Connect to POR
-        this.porPool = connections.porConnection;
+        this.porPool = connections.por;
         this.connectionState.porConnected = true;
       }
 
       // Overall connection state is true if either database is connected
-      this.connectionState.isConnected = this.connectionState.p21Connected || this.connectionState.porConnected;
+      this.connectionState.isConnected = !!this.connectionState.p21Connected || !!this.connectionState.porConnected;
       
       return { ...this.connectionState };
     } catch (error: unknown) {
@@ -147,21 +147,34 @@ export function useDatabase() {
     return Promise.all(
       adminData.map(async (item) => {
         try {
-          const sqlExpressions = item.sqlExpression.split('-- Second Query ------------------------------------------');
-          const primaryValue = await dbManager.executeQuery(sqlExpressions[0].trim(), item.p21DataDictionary);
-          let secondaryValue = undefined;
-          
-          if (sqlExpressions.length > 1) {
-            secondaryValue = await dbManager.executeQuery(sqlExpressions[1].trim(), item.p21DataDictionary);
+          if (!item.sqlExpression) {
+            return {
+              ...item,
+              extractedValue: 'No SQL expression',
+              updateTime: new Date().toISOString(),
+              connectionState: dbManager.getConnectionState()
+            };
           }
 
-          return {
-            ...item,
-            extractedValue: primaryValue,
-            secondaryValue: secondaryValue,
-            updateTime: new Date().toISOString(),
-            connectionState: dbManager.getConnectionState()
-          };
+          const sqlExpressions = item.sqlExpression.split('-- Second Query ------------------------------------------');
+          const primaryValue = await dbManager.executeQuery(sqlExpressions[0].trim(), item.tableName || '');
+          if (sqlExpressions.length > 1 && sqlExpressions[1].trim()) {
+            const secondaryValue = await dbManager.executeQuery(sqlExpressions[1].trim(), item.tableName || '');
+            return {
+              ...item,
+              extractedValue: primaryValue,
+              secondaryValue,
+              updateTime: new Date().toISOString(),
+              connectionState: dbManager.getConnectionState()
+            };
+          } else {
+            return {
+              ...item,
+              extractedValue: primaryValue,
+              updateTime: new Date().toISOString(),
+              connectionState: dbManager.getConnectionState()
+            };
+          }
         } catch (error: unknown) {
           const errorMessage = error instanceof Error ? error.message : 'Unknown query execution error';
           return {

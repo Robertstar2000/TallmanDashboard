@@ -1,0 +1,33 @@
+﻿**********************
+Windows PowerShell transcript start
+Start time: 20250324230014
+Username: TALLMAN\BobM
+RunAs User: TALLMAN\BobM
+Configuration Name: 
+Machine: WEB03 (Microsoft Windows NT 10.0.20348.0)
+Host Application: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -File C:\Users\BobM\CascadeProjects\TallmanDashboard_new\scripts\process-p21-chart-group.ps1
+Process ID: 29084
+PSVersion: 5.1.20348.2849
+PSEdition: Desktop
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.20348.2849
+BuildVersion: 10.0.20348.2849
+CLRVersion: 4.0.30319.42000
+WSManStackVersion: 3.0
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
+**********************
+Transcript started, output file is C:\Users\BobM\CascadeProjects\TallmanDashboard_new\scripts\p21-chart-group-update.log
+Starting P21 chart data update at 03/24/2025 23:00:14
+Created backup at C:\Users\BobM\CascadeProjects\TallmanDashboard_new\lib\db\complete-chart-data.ts.bak
+Found chart groups: AR Aging, Accounts, Customer Metrics, Daily Orders, Historical Data, Inventory, Key Metrics, Site Distribution, POR Overview, Web Orders
+Available chart groups:
+1. AR Aging
+2. Accounts
+3. Customer Metrics
+4. Daily Orders
+5. Historical Data
+6. Inventory
+7. Key Metrics
+8. Site Distribution
+9. POR Overview
+10. Web Orders

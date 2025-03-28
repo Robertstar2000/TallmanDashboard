@@ -1,0 +1,245 @@
+[2025-03-24T14:51:30.242Z] Extracting SQL expressions from complete-chart-data.ts file...
+[2025-03-24T14:51:30.243Z] Extracted 162 SQL expressions after grouping
+[2025-03-24T14:51:30.244Z] Starting SQL expression testing...
+[2025-03-24T14:51:30.244Z] Reading chart data from: C:\Users\BobM\CascadeProjects\TallmanDashboard_new\lib\db\complete-chart-data.ts
+[2025-03-24T14:51:30.245Z] Chart data file read successfully. Size: 95527 bytes
+[2025-03-24T14:51:30.245Z] Extracting SQL expressions from complete-chart-data.ts file...
+[2025-03-24T14:51:30.245Z] Extracted 162 SQL expressions after grouping
+[2025-03-24T14:51:30.245Z] Found 162 SQL expressions to test.
+[2025-03-24T14:51:30.246Z] Creating report file: C:\Users\BobM\CascadeProjects\TallmanDashboard_new\reports\sql-test-report-2025-03-24T14-51-30.246Z.json
+[2025-03-24T14:51:30.246Z] Testing SQL expressions...
+[2025-03-24T14:51:30.246Z] 
+[1/162] Testing SQL expression: AR Aging - Current - Amount Due
+[2025-03-24T14:51:30.246Z] 
+[2/162] Testing SQL expression: AR Aging - 1-30 Days - Amount Due
+[2025-03-24T14:51:30.246Z] 
+[3/162] Testing SQL expression: AR Aging - 31-60 Days - Amount Due
+[2025-03-24T14:51:30.246Z] 
+[4/162] Testing SQL expression: AR Aging - 61-90 Days - Amount Due
+[2025-03-24T14:51:30.246Z] 
+[5/162] Testing SQL expression: AR Aging - 90+ Days - Amount Due
+[2025-03-24T14:51:30.246Z] 
+[6/162] Testing SQL expression: Accounts - January - Payable
+[2025-03-24T14:51:30.246Z] 
+[7/162] Testing SQL expression: Accounts - January - Receivable
+[2025-03-24T14:51:30.246Z] 
+[8/162] Testing SQL expression: Accounts - January - Overdue
+[2025-03-24T14:51:30.246Z] 
+[9/162] Testing SQL expression: Accounts - February - Payable
+[2025-03-24T14:51:30.246Z] 
+[10/162] Testing SQL expression: Accounts - February - Receivable
+[2025-03-24T14:51:30.246Z] 
+[11/162] Testing SQL expression: Accounts - February - Overdue
+[2025-03-24T14:51:30.246Z] 
+[12/162] Testing SQL expression: Accounts - March - Payable
+[2025-03-24T14:51:30.246Z] 
+[13/162] Testing SQL expression: Accounts - March - Receivable
+[2025-03-24T14:51:30.246Z] 
+[14/162] Testing SQL expression: Accounts - March - Overdue
+[2025-03-24T14:51:30.246Z] 
+[15/162] Testing SQL expression: Accounts - April - Payable
+[2025-03-24T14:51:30.246Z] 
+[16/162] Testing SQL expression: Accounts - April - Receivable
+[2025-03-24T14:51:30.246Z] 
+[17/162] Testing SQL expression: Accounts - April - Overdue
+[2025-03-24T14:51:30.246Z] 
+[18/162] Testing SQL expression: Accounts - May - Payable
+[2025-03-24T14:51:30.246Z] 
+[19/162] Testing SQL expression: Accounts - May - Receivable
+[2025-03-24T14:51:30.246Z] 
+[20/162] Testing SQL expression: Accounts - May - Overdue
+[2025-03-24T14:51:30.246Z] 
+[21/162] Testing SQL expression: Accounts - June - Payable
+[2025-03-24T14:51:30.246Z] 
+[22/162] Testing SQL expression: Accounts - June - Receivable
+[2025-03-24T14:51:30.246Z] 
+[23/162] Testing SQL expression: Accounts - June - Overdue
+[2025-03-24T14:51:30.246Z] 
+[24/162] Testing SQL expression: Accounts - July - Payable
+[2025-03-24T14:51:30.246Z] 
+[25/162] Testing SQL expression: Accounts - July - Receivable
+[2025-03-24T14:51:30.246Z] 
+[26/162] Testing SQL expression: Accounts - July - Overdue
+[2025-03-24T14:51:30.246Z] 
+[27/162] Testing SQL expression: Accounts - August - Payable
+[2025-03-24T14:51:30.246Z] 
+[28/162] Testing SQL expression: Accounts - August - Receivable
+[2025-03-24T14:51:30.246Z] 
+[29/162] Testing SQL expression: Accounts - August - Overdue
+[2025-03-24T14:51:30.246Z] 
+[30/162] Testing SQL expression: Accounts - September - Payable
+[2025-03-24T14:51:30.246Z] 
+[31/162] Testing SQL expression: Accounts - September - Receivable
+[2025-03-24T14:51:30.246Z] 
+[32/162] Testing SQL expression: Accounts - September - Overdue
+[2025-03-24T14:51:30.246Z] 
+[33/162] Testing SQL expression: Accounts - October - Payable
+[2025-03-24T14:51:30.246Z] 
+[34/162] Testing SQL expression: Accounts - October - Receivable
+[2025-03-24T14:51:30.246Z] 
+[35/162] Testing SQL expression: Accounts - October - Overdue
+[2025-03-24T14:51:30.246Z] 
+[36/162] Testing SQL expression: Accounts - November - Payable
+[2025-03-24T14:51:30.246Z] 
+[37/162] Testing SQL expression: Accounts - November - Receivable
+[2025-03-24T14:51:30.246Z] 
+[38/162] Testing SQL expression: Accounts - November - Overdue
+[2025-03-24T14:51:30.246Z] 
+[39/162] Testing SQL expression: Accounts - December - Payable
+[2025-03-24T14:51:30.246Z] 
+[40/162] Testing SQL expression: Accounts - December - Receivable
+[2025-03-24T14:51:30.246Z] 
+[41/162] Testing SQL expression: Accounts - December - Overdue
+[2025-03-24T14:51:30.246Z] 
+[42/162] Testing SQL expression: Customer Metrics - January - New Customers
+[2025-03-24T14:51:30.246Z] 
+[43/162] Testing SQL expression: Customer Metrics - January - Prospects
+[2025-03-24T14:51:30.246Z] 
+[44/162] Testing SQL expression: Customer Metrics - February - New Customers
+[2025-03-24T14:51:30.246Z] 
+[45/162] Testing SQL expression: Customer Metrics - February - Prospects
+[2025-03-24T14:51:30.246Z] 
+[46/162] Testing SQL expression: Customer Metrics - March - New Customers
+[2025-03-24T14:51:30.246Z] 
+[47/162] Testing SQL expression: Customer Metrics - March - Prospects
+[2025-03-24T14:51:30.246Z] 
+[48/162] Testing SQL expression: Customer Metrics - April - New Customers
+[2025-03-24T14:51:30.246Z] 
+[49/162] Testing SQL expression: Customer Metrics - April - Prospects
+[2025-03-24T14:51:30.246Z] 
+[50/162] Testing SQL expression: Customer Metrics - May - New Customers
+[2025-03-24T14:51:30.246Z] 
+[51/162] Testing SQL expression: Customer Metrics - May - Prospects
+[2025-03-24T14:51:30.246Z] 
+[52/162] Testing SQL expression: Customer Metrics - June - New Customers
+[2025-03-24T14:51:30.246Z] 
+[53/162] Testing SQL expression: Customer Metrics - June - Prospects
+[2025-03-24T14:51:30.246Z] 
+[54/162] Testing SQL expression: Customer Metrics - July - New Customers
+[2025-03-24T14:51:30.246Z] 
+[55/162] Testing SQL expression: Customer Metrics - July - Prospects
+[2025-03-24T14:51:30.246Z] 
+[56/162] Testing SQL expression: Customer Metrics - August - New Customers
+[2025-03-24T14:51:30.246Z] 
+[57/162] Testing SQL expression: Customer Metrics - August - Prospects
+[2025-03-24T14:51:30.246Z] 
+[58/162] Testing SQL expression: Customer Metrics - September - New Customers
+[2025-03-24T14:51:30.246Z] 
+[59/162] Testing SQL expression: Customer Metrics - September - Prospects
+[2025-03-24T14:51:30.246Z] 
+[60/162] Testing SQL expression: Customer Metrics - October - New Customers
+[2025-03-24T14:51:30.246Z] 
+[61/162] Testing SQL expression: Customer Metrics - October - Prospects
+[2025-03-24T14:51:30.246Z] 
+[62/162] Testing SQL expression: Customer Metrics - November - New Customers
+[2025-03-24T14:51:30.246Z] 
+[63/162] Testing SQL expression: Customer Metrics - November - Prospects
+[2025-03-24T14:51:30.246Z] 
+[64/162] Testing SQL expression: Customer Metrics - December - New Customers
+[2025-03-24T14:51:30.246Z] 
+[65/162] Testing SQL expression: Customer Metrics - December - Prospects
+[2025-03-24T14:51:30.246Z] 
+[66/162] Testing SQL expression: Daily Orders - Today - Orders
+[2025-03-24T14:51:30.246Z] 
+[67/162] Testing SQL expression: Daily Orders - Yesterday - Orders
+[2025-03-24T14:51:30.246Z] 
+[68/162] Testing SQL expression: Daily Orders - Day-2 - Orders
+[2025-03-24T14:51:30.246Z] 
+[69/162] Testing SQL expression: Daily Orders - Day-3 - Orders
+[2025-03-24T14:51:30.246Z] 
+[70/162] Testing SQL expression: Daily Orders - Day-4 - Orders
+[2025-03-24T14:51:30.246Z] 
+[71/162] Testing SQL expression: Daily Orders - Day-5 - Orders
+[2025-03-24T14:51:30.246Z] 
+[72/162] Testing SQL expression: Daily Orders - Day-6 - Orders
+[2025-03-24T14:51:30.246Z] 
+[73/162] Testing SQL expression: Historical Data - January
+[2025-03-24T14:51:30.246Z] 
+[74/162] Testing SQL expression: Historical Data - January - Total
+[2025-03-24T14:51:30.246Z] 
+[75/162] Testing SQL expression: Historical Data - February
+[2025-03-24T14:51:30.246Z] 
+[76/162] Testing SQL expression: Historical Data - February - Total
+[2025-03-24T14:51:30.246Z] 
+[77/162] Testing SQL expression: Historical Data - March
+[2025-03-24T14:51:30.246Z] 
+[78/162] Testing SQL expression: Historical Data - March - Total
+[2025-03-24T14:51:30.246Z] 
+[79/162] Testing SQL expression: Historical Data - April
+[2025-03-24T14:51:30.246Z] 
+[80/162] Testing SQL expression: Historical Data - April - Total
+[2025-03-24T14:51:30.246Z] 
+[81/162] Testing SQL expression: Historical Data - May
+[2025-03-24T14:51:30.246Z] 
+[82/162] Testing SQL expression: Historical Data - May - Total
+[2025-03-24T14:51:30.246Z] 
+[83/162] Testing SQL expression: Historical Data - June
+[2025-03-24T14:51:30.246Z] 
+[84/162] Testing SQL expression: Historical Data - June - Total
+[2025-03-24T14:51:30.246Z] 
+[85/162] Testing SQL expression: Historical Data - July
+[2025-03-24T14:51:30.246Z] 
+[86/162] Testing SQL expression: Historical Data - July - Total
+[2025-03-24T14:51:30.246Z] 
+[87/162] Testing SQL expression: Historical Data - August
+[2025-03-24T14:51:30.246Z] 
+[88/162] Testing SQL expression: Historical Data - August - Total
+[2025-03-24T14:51:30.246Z] 
+[89/162] Testing SQL expression: Historical Data - September
+[2025-03-24T14:51:30.246Z] 
+[90/162] Testing SQL expression: Historical Data - September - Total
+[2025-03-24T14:51:30.246Z] 
+[91/162] Testing SQL expression: Historical Data - October
+[2025-03-24T14:51:30.246Z] 
+[92/162] Testing SQL expression: Historical Data - October - Total
+[2025-03-24T14:51:30.246Z] 
+[93/162] Testing SQL expression: Historical Data - November
+[2025-03-24T14:51:30.246Z] 
+[94/162] Testing SQL expression: Historical Data - November - Total
+[2025-03-24T14:51:30.246Z] 
+[95/162] Testing SQL expression: Historical Data - December
+[2025-03-24T14:51:30.246Z] 
+[96/162] Testing SQL expression: Historical Data - December - Total
+[2025-03-24T14:51:30.246Z] 
+[97/162] Testing SQL expression: Inventory - Columbus - In Stock
+[2025-03-24T14:51:30.246Z] 
+[98/162] Testing SQL expression: Inventory - Columbus - On Order
+[2025-03-24T14:51:30.246Z] 
+[99/162] Testing SQL expression: Inventory - Addison - In Stock
+[2025-03-24T14:51:30.246Z] 
+[100/162] Testing SQL expression: Inventory - Addison - On Order
+[2025-03-24T14:51:30.246Z] 
+[101/162] Testing SQL expression: Inventory - Lake City - In Stock
+[2025-03-24T14:51:30.246Z] 
+[102/162] Testing SQL expression: Inventory - Lake City - On Order
+[2025-03-24T14:51:30.246Z] 
+[103/162] Testing SQL expression: Inventory - Warehouse - In Stock
+[2025-03-24T14:51:30.246Z] 
+[104/162] Testing SQL expression: Inventory - Warehouse - On Order
+[2025-03-24T14:51:30.246Z] 
+[105/162] Testing SQL expression: Key Metrics - Total Orders - Value
+[2025-03-24T14:51:30.246Z] 
+[106/162] Testing SQL expression: Key Metrics - Open Orders - Value
+[2025-03-24T14:51:30.246Z] 
+[107/162] Testing SQL expression: Key Metrics - Shipped Orders - Value
+[2025-03-24T14:51:30.246Z] 
+[108/162] Testing SQL expression: Key Metrics - Total Sales - Value
+[2025-03-24T14:51:30.246Z] 
+[109/162] Testing SQL expression: Key Metrics - Average Order Value - Value
+[2025-03-24T14:51:30.246Z] 
+[110/162] Testing SQL expression: Key Metrics - Order Fill Rate - Value
+[2025-03-24T14:51:30.246Z] 
+[111/162] Testing SQL expression: Key Metrics - On-Time Delivery - Value
+[2025-03-24T14:51:30.246Z] 
+[112/162] Testing SQL expression: Site Distribution - Columbus - Inventory
+[2025-03-24T14:51:30.246Z] 
+[113/162] Testing SQL expression: Site Distribution - Addison - Inventory
+[2025-03-24T14:51:30.246Z] 
+[114/162] Testing SQL expression: Site Distribution - Lake City - Inventory
+[2025-03-24T14:51:30.246Z] 
+[115/162] Testing SQL expression: POR Overview - January - New Rentals
+[2025-03-24T14:51:30.247Z] ❌ Error in testAndUpdateSqlExpressions: Cannot read properties of undefined (reading 'tested')
+[2025-03-24T14:51:30.247Z] Error stack: TypeError: Cannot read properties of undefined (reading 'tested')
+    at testAndUpdateSqlExpressions (C:\Users\BobM\CascadeProjects\TallmanDashboard_new\test-and-update-sql-expressions.js:1458:16)
+    at main (C:\Users\BobM\CascadeProjects\TallmanDashboard_new\test-and-update-sql-expressions.js:2059:26)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)

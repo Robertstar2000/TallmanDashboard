@@ -1,0 +1,482 @@
+[
+  {
+    "id": "127",
+    "dataPoint": "POR Overview New Rentals Jan",
+    "month": "Jan",
+    "metricType": "New Rentals",
+    "originalSql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active'",
+    "bestSql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "id": "128",
+    "dataPoint": "POR Overview New Rentals Feb",
+    "month": "Feb",
+    "metricType": "New Rentals",
+    "originalSql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active'",
+    "bestSql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "id": "129",
+    "dataPoint": "POR Overview New Rentals Mar",
+    "month": "Mar",
+    "metricType": "New Rentals",
+    "originalSql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active'",
+    "bestSql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "id": "130",
+    "dataPoint": "POR Overview New Rentals Apr",
+    "month": "Apr",
+    "metricType": "New Rentals",
+    "originalSql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active'",
+    "bestSql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "id": "131",
+    "dataPoint": "POR Overview New Rentals May",
+    "month": "May",
+    "metricType": "New Rentals",
+    "originalSql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active'",
+    "bestSql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "id": "132",
+    "dataPoint": "POR Overview New Rentals Jun",
+    "month": "Jun",
+    "metricType": "New Rentals",
+    "originalSql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active'",
+    "bestSql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "id": "133",
+    "dataPoint": "POR Overview New Rentals Jul",
+    "month": "Jul",
+    "metricType": "New Rentals",
+    "originalSql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active'",
+    "bestSql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "id": "134",
+    "dataPoint": "POR Overview New Rentals Aug",
+    "month": "Aug",
+    "metricType": "New Rentals",
+    "originalSql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active'",
+    "bestSql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "id": "135",
+    "dataPoint": "POR Overview New Rentals Sep",
+    "month": "Sep",
+    "metricType": "New Rentals",
+    "originalSql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active'",
+    "bestSql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "id": "136",
+    "dataPoint": "POR Overview New Rentals Oct",
+    "month": "Oct",
+    "metricType": "New Rentals",
+    "originalSql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active'",
+    "bestSql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "id": "137",
+    "dataPoint": "POR Overview New Rentals Nov",
+    "month": "Nov",
+    "metricType": "New Rentals",
+    "originalSql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active'",
+    "bestSql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "id": "138",
+    "dataPoint": "POR Overview New Rentals Dec",
+    "month": "Dec",
+    "metricType": "New Rentals",
+    "originalSql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active'",
+    "bestSql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "id": "139",
+    "dataPoint": "POR Overview Open Rentals Jan",
+    "month": "Jan",
+    "metricType": "Open Rentals",
+    "originalSql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active'",
+    "bestSql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "id": "140",
+    "dataPoint": "POR Overview Open Rentals Feb",
+    "month": "Feb",
+    "metricType": "Open Rentals",
+    "originalSql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active'",
+    "bestSql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "id": "141",
+    "dataPoint": "POR Overview Open Rentals Mar",
+    "month": "Mar",
+    "metricType": "Open Rentals",
+    "originalSql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active'",
+    "bestSql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "id": "142",
+    "dataPoint": "POR Overview Open Rentals Apr",
+    "month": "Apr",
+    "metricType": "Open Rentals",
+    "originalSql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active'",
+    "bestSql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "id": "143",
+    "dataPoint": "POR Overview Open Rentals May",
+    "month": "May",
+    "metricType": "Open Rentals",
+    "originalSql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active'",
+    "bestSql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "id": "144",
+    "dataPoint": "POR Overview Open Rentals Jun",
+    "month": "Jun",
+    "metricType": "Open Rentals",
+    "originalSql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active'",
+    "bestSql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "id": "145",
+    "dataPoint": "POR Overview Open Rentals Jul",
+    "month": "Jul",
+    "metricType": "Open Rentals",
+    "originalSql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active'",
+    "bestSql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "id": "146",
+    "dataPoint": "POR Overview Open Rentals Aug",
+    "month": "Aug",
+    "metricType": "Open Rentals",
+    "originalSql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active'",
+    "bestSql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "id": "147",
+    "dataPoint": "POR Overview Open Rentals Sep",
+    "month": "Sep",
+    "metricType": "Open Rentals",
+    "originalSql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active'",
+    "bestSql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "id": "148",
+    "dataPoint": "POR Overview Open Rentals Oct",
+    "month": "Oct",
+    "metricType": "Open Rentals",
+    "originalSql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active'",
+    "bestSql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "id": "149",
+    "dataPoint": "POR Overview Open Rentals Nov",
+    "month": "Nov",
+    "metricType": "Open Rentals",
+    "originalSql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active'",
+    "bestSql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "id": "150",
+    "dataPoint": "POR Overview Open Rentals Dec",
+    "month": "Dec",
+    "metricType": "Open Rentals",
+    "originalSql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active'",
+    "bestSql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "id": "151",
+    "dataPoint": "POR Overview Rental Value Jan",
+    "month": "Jan",
+    "metricType": "Rental Value",
+    "originalSql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active'",
+    "bestSql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "id": "152",
+    "dataPoint": "POR Overview Rental Value Feb",
+    "month": "Feb",
+    "metricType": "Rental Value",
+    "originalSql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active'",
+    "bestSql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "id": "153",
+    "dataPoint": "POR Overview Rental Value Mar",
+    "month": "Mar",
+    "metricType": "Rental Value",
+    "originalSql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active'",
+    "bestSql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "id": "154",
+    "dataPoint": "POR Overview Rental Value Apr",
+    "month": "Apr",
+    "metricType": "Rental Value",
+    "originalSql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active'",
+    "bestSql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "id": "155",
+    "dataPoint": "POR Overview Rental Value May",
+    "month": "May",
+    "metricType": "Rental Value",
+    "originalSql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active'",
+    "bestSql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "id": "156",
+    "dataPoint": "POR Overview Rental Value Jun",
+    "month": "Jun",
+    "metricType": "Rental Value",
+    "originalSql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active'",
+    "bestSql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "id": "157",
+    "dataPoint": "POR Overview Rental Value Jul",
+    "month": "Jul",
+    "metricType": "Rental Value",
+    "originalSql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active'",
+    "bestSql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "id": "158",
+    "dataPoint": "POR Overview Rental Value Aug",
+    "month": "Aug",
+    "metricType": "Rental Value",
+    "originalSql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active'",
+    "bestSql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "id": "159",
+    "dataPoint": "POR Overview Rental Value Sep",
+    "month": "Sep",
+    "metricType": "Rental Value",
+    "originalSql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active'",
+    "bestSql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "id": "160",
+    "dataPoint": "POR Overview Rental Value Oct",
+    "month": "Oct",
+    "metricType": "Rental Value",
+    "originalSql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active'",
+    "bestSql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "id": "161",
+    "dataPoint": "POR Overview Rental Value Nov",
+    "month": "Nov",
+    "metricType": "Rental Value",
+    "originalSql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active'",
+    "bestSql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "id": "162",
+    "dataPoint": "POR Overview Rental Value Dec",
+    "month": "Dec",
+    "metricType": "Rental Value",
+    "originalSql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active'",
+    "bestSql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "id": "163",
+    "dataPoint": "Web Orders Orders Jan",
+    "month": "Jan",
+    "metricType": "",
+    "originalSql": "SELECT Count(*) AS value FROM Orders WHERE Source = 'Web' AND Month(OrderDate) = 1 AND Year(OrderDate) = Year(Date())",
+    "bestSql": "SELECT Count(*) AS value FROM Orders WHERE Source = 'Web' AND Month(OrderDate) = 1 AND Year(OrderDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "id": "164",
+    "dataPoint": "Web Orders Orders Feb",
+    "month": "Feb",
+    "metricType": "",
+    "originalSql": "SELECT Count(*) AS value FROM Orders WHERE Source = 'Web' AND Month(OrderDate) = 2 AND Year(OrderDate) = Year(Date())",
+    "bestSql": "SELECT Count(*) AS value FROM Orders WHERE Source = 'Web' AND Month(OrderDate) = 2 AND Year(OrderDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "id": "165",
+    "dataPoint": "Web Orders Orders Mar",
+    "month": "Mar",
+    "metricType": "",
+    "originalSql": "SELECT Count(*) AS value FROM Orders WHERE Source = 'Web' AND Month(OrderDate) = 3 AND Year(OrderDate) = Year(Date())",
+    "bestSql": "SELECT Count(*) AS value FROM Orders WHERE Source = 'Web' AND Month(OrderDate) = 3 AND Year(OrderDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "id": "166",
+    "dataPoint": "Web Orders Orders Apr",
+    "month": "Apr",
+    "metricType": "",
+    "originalSql": "SELECT Count(*) AS value FROM Orders WHERE Source = 'Web' AND Month(OrderDate) = 4 AND Year(OrderDate) = Year(Date())",
+    "bestSql": "SELECT Count(*) AS value FROM Orders WHERE Source = 'Web' AND Month(OrderDate) = 4 AND Year(OrderDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "id": "167",
+    "dataPoint": "Web Orders Orders May",
+    "month": "May",
+    "metricType": "",
+    "originalSql": "SELECT Count(*) AS value FROM Orders WHERE Source = 'Web' AND Month(OrderDate) = 5 AND Year(OrderDate) = Year(Date())",
+    "bestSql": "SELECT Count(*) AS value FROM Orders WHERE Source = 'Web' AND Month(OrderDate) = 5 AND Year(OrderDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "id": "168",
+    "dataPoint": "Web Orders Orders Jun",
+    "month": "Jun",
+    "metricType": "",
+    "originalSql": "SELECT Count(*) AS value FROM Orders WHERE Source = 'Web' AND Month(OrderDate) = 6 AND Year(OrderDate) = Year(Date())",
+    "bestSql": "SELECT Count(*) AS value FROM Orders WHERE Source = 'Web' AND Month(OrderDate) = 6 AND Year(OrderDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "id": "169",
+    "dataPoint": "Web Orders Orders Jul",
+    "month": "Jul",
+    "metricType": "",
+    "originalSql": "SELECT Count(*) AS value FROM Orders WHERE Source = 'Web' AND Month(OrderDate) = 7 AND Year(OrderDate) = Year(Date())",
+    "bestSql": "SELECT Count(*) AS value FROM Orders WHERE Source = 'Web' AND Month(OrderDate) = 7 AND Year(OrderDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "id": "170",
+    "dataPoint": "Web Orders Orders Aug",
+    "month": "Aug",
+    "metricType": "",
+    "originalSql": "SELECT Count(*) AS value FROM Orders WHERE Source = 'Web' AND Month(OrderDate) = 8 AND Year(OrderDate) = Year(Date())",
+    "bestSql": "SELECT Count(*) AS value FROM Orders WHERE Source = 'Web' AND Month(OrderDate) = 8 AND Year(OrderDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "id": "171",
+    "dataPoint": "Web Orders Orders Sep",
+    "month": "Sep",
+    "metricType": "",
+    "originalSql": "SELECT Count(*) AS value FROM Orders WHERE Source = 'Web' AND Month(OrderDate) = 9 AND Year(OrderDate) = Year(Date())",
+    "bestSql": "SELECT Count(*) AS value FROM Orders WHERE Source = 'Web' AND Month(OrderDate) = 9 AND Year(OrderDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "id": "172",
+    "dataPoint": "Web Orders Orders Oct",
+    "month": "Oct",
+    "metricType": "",
+    "originalSql": "SELECT Count(*) AS value FROM Orders WHERE Source = 'Web' AND Month(OrderDate) = 10 AND Year(OrderDate) = Year(Date())",
+    "bestSql": "SELECT Count(*) AS value FROM Orders WHERE Source = 'Web' AND Month(OrderDate) = 10 AND Year(OrderDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "id": "173",
+    "dataPoint": "Web Orders Orders Nov",
+    "month": "Nov",
+    "metricType": "",
+    "originalSql": "SELECT Count(*) AS value FROM Orders WHERE Source = 'Web' AND Month(OrderDate) = 11 AND Year(OrderDate) = Year(Date())",
+    "bestSql": "SELECT Count(*) AS value FROM Orders WHERE Source = 'Web' AND Month(OrderDate) = 11 AND Year(OrderDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "id": "174",
+    "dataPoint": "Web Orders Orders Dec",
+    "month": "Dec",
+    "metricType": "",
+    "originalSql": "SELECT Count(*) AS value FROM Orders WHERE Source = 'Web' AND Month(OrderDate) = 12 AND Year(OrderDate) = Year(Date())",
+    "bestSql": "SELECT Count(*) AS value FROM Orders WHERE Source = 'Web' AND Month(OrderDate) = 12 AND Year(OrderDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  }
+]

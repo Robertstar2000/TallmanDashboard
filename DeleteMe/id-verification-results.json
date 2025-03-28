@@ -1,0 +1,13 @@
+{
+  "databaseSummary": {
+    "totalRows": 174,
+    "rowFormatCount": 174,
+    "numericFormatCount": 0,
+    "nullOrEmptyCount": 0,
+    "otherFormatCount": 0
+  },
+  "componentChecks": {
+    "idDisplayFound": true,
+    "rowHighlightingFound": true
+  }
+}

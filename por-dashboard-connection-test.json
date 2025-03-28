@@ -1,0 +1,83 @@
+{
+  "success": true,
+  "message": "POR dashboard connection test successful",
+  "databasePath": "C:\\Users\\BobM\\Desktop\\POR.MDB",
+  "tableCount": 446,
+  "purchaseOrderCount": 6747,
+  "currentMonthTotal": 121957.12,
+  "currentMonthOrders": 15,
+  "historicalResults": [
+    {
+      "month": 1,
+      "monthYear": "2025-03",
+      "value": 121957.12,
+      "rowCount": 15
+    },
+    {
+      "month": 2,
+      "monthYear": "2025-02",
+      "value": 186476.93,
+      "rowCount": 31
+    },
+    {
+      "month": 3,
+      "monthYear": "2025-01",
+      "value": 75056.78,
+      "rowCount": 41
+    },
+    {
+      "month": 4,
+      "monthYear": "2024-12",
+      "value": 59846.9,
+      "rowCount": 39
+    },
+    {
+      "month": 5,
+      "monthYear": "2024-11",
+      "value": 108848.26999999999,
+      "rowCount": 38
+    },
+    {
+      "month": 6,
+      "monthYear": "2024-10",
+      "value": 141277.1,
+      "rowCount": 38
+    },
+    {
+      "month": 7,
+      "monthYear": "2024-09",
+      "value": 550543.9000000001,
+      "rowCount": 58
+    },
+    {
+      "month": 8,
+      "monthYear": "2024-08",
+      "value": 84530.25999999997,
+      "rowCount": 37
+    },
+    {
+      "month": 9,
+      "monthYear": "2024-07",
+      "value": 339836.94000000006,
+      "rowCount": 46
+    },
+    {
+      "month": 10,
+      "monthYear": "2024-06",
+      "value": 213490.91,
+      "rowCount": 36
+    },
+    {
+      "month": 11,
+      "monthYear": "2024-05",
+      "value": 34635.31999999999,
+      "rowCount": 24
+    },
+    {
+      "month": 12,
+      "monthYear": "2024-04",
+      "value": 47367.82,
+      "rowCount": 27
+    }
+  ]
+}

@@ -15,6 +15,7 @@ import { Button } from "@/components/ui/button";
 import { X } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { connectToServer } from '@/lib/db';
+import { DatabaseConfig } from '@/lib/types/dashboard';
 
 interface ConnectionData {
   serverName: string;
@@ -114,10 +115,21 @@ export function ServerConnectionDialog({ serverType, trigger, onConnectionChange
     // Save connection data before connecting
     localStorage.setItem(`${serverType}_connection`, JSON.stringify(formData));
     
+    // Convert ConnectionData to DatabaseConfig
+    const databaseConfig: DatabaseConfig = {
+      server: formData.ipAddress,
+      database: formData.database,
+      username: formData.username || '',
+      password: formData.password,
+      port: parseInt(formData.port) || 1433,
+      domain: formData.domain,
+      instance: formData.instance
+    };
+    
     // Attempt to connect to server
     setIsConnecting(true);
     try {
-      const success = await connectToServer(serverType, formData);
+      const success = await connectToServer(serverType, databaseConfig);
       setIsConnected(success);
       localStorage.setItem(`${serverType}_connected`, success.toString());
       

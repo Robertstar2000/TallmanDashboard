@@ -1,0 +1,72 @@
+=== Testing Production SQL Queries ===
+Starting at 2025-03-20T11:20:47.193Z
+Connection string: DSN=P21Play;Trusted_Connection=Yes;
+Connecting to ODBC data source...
+✅ CONNECTED SUCCESSFULLY to ODBC data source!
+
+=== Testing Total Orders ===
+SELECT COUNT(*) as value FROM oe_hdr WITH (NOLOCK) WHERE order_date >= DATEADD(day, -7, GETDATE())
+✅ Query executed successfully!
+Result: 18
+Non-zero? YES
+
+=== Testing Open Orders ===
+SELECT COUNT(*) as value FROM oe_hdr WITH (NOLOCK) WHERE completed = 'N'
+✅ Query executed successfully!
+Result: 2034
+Non-zero? YES
+
+=== Testing Open Orders 2 ===
+SELECT ISNULL(SUM(l.extended_price), 0) as value FROM oe_hdr h WITH (NOLOCK) JOIN oe_line l WITH (NOLOCK) ON h.order_no = l.order_no WHERE h.completed = 'N'
+✅ Query executed successfully!
+Result: 24643150.24
+Non-zero? YES
+
+=== Testing Daily Revenue ===
+SELECT ISNULL(SUM(l.extended_price), 0) as value FROM oe_hdr h WITH (NOLOCK) JOIN oe_line l WITH (NOLOCK) ON h.order_no = l.order_no WHERE CONVERT(date, h.order_date) = CONVERT(date, DATEADD(day, -1, GETDATE()))
+✅ Query executed successfully!
+Result: 75500
+Non-zero? YES
+
+=== Testing Open Invoices ===
+SELECT COUNT(*) as value FROM invoice_hdr WITH (NOLOCK) WHERE invoice_date >= DATEADD(month, -1, GETDATE())
+✅ Query executed successfully!
+Result: 1
+Non-zero? YES
+
+=== Testing Orders Backlogged ===
+SELECT COUNT(*) as value FROM oe_hdr WITH (NOLOCK) WHERE completed = 'N' AND order_date >= DATEADD(day, -30, GETDATE())
+✅ Query executed successfully!
+Result: 27
+Non-zero? YES
+
+=== Testing Total Monthly Sales ===
+SELECT ISNULL(SUM(l.extended_price), 0) as value FROM oe_hdr h WITH (NOLOCK) JOIN oe_line l WITH (NOLOCK) ON h.order_no = l.order_no WHERE h.order_date >= DATEADD(day, -30, GETDATE())
+✅ Query executed successfully!
+Result: 1708263.24
+Non-zero? YES
+
+=== SUMMARY OF SUCCESSFUL QUERIES ===
+Total Orders (Value: 18):
+SELECT COUNT(*) as value FROM oe_hdr WITH (NOLOCK) WHERE order_date >= DATEADD(day, -7, GETDATE())
+
+Open Orders (Value: 2034):
+SELECT COUNT(*) as value FROM oe_hdr WITH (NOLOCK) WHERE completed = 'N'
+
+Open Orders 2 (Value: 24643150.24):
+SELECT ISNULL(SUM(l.extended_price), 0) as value FROM oe_hdr h WITH (NOLOCK) JOIN oe_line l WITH (NOLOCK) ON h.order_no = l.order_no WHERE h.completed = 'N'
+
+Daily Revenue (Value: 75500):
+SELECT ISNULL(SUM(l.extended_price), 0) as value FROM oe_hdr h WITH (NOLOCK) JOIN oe_line l WITH (NOLOCK) ON h.order_no = l.order_no WHERE CONVERT(date, h.order_date) = CONVERT(date, DATEADD(day, -1, GETDATE()))
+
+Open Invoices (Value: 1):
+SELECT COUNT(*) as value FROM invoice_hdr WITH (NOLOCK) WHERE invoice_date >= DATEADD(month, -1, GETDATE())
+
+Orders Backlogged (Value: 27):
+SELECT COUNT(*) as value FROM oe_hdr WITH (NOLOCK) WHERE completed = 'N' AND order_date >= DATEADD(day, -30, GETDATE())
+
+Total Monthly Sales (Value: 1708263.24):
+SELECT ISNULL(SUM(l.extended_price), 0) as value FROM oe_hdr h WITH (NOLOCK) JOIN oe_line l WITH (NOLOCK) ON h.order_no = l.order_no WHERE h.order_date >= DATEADD(day, -30, GETDATE())
+
+
+✅ Connection closed successfully

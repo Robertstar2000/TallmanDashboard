@@ -1,0 +1,164 @@
+P21 Database Tables
+oe_hdr - Order header information
+ar_open_items - Accounts receivable open items
+ap_open_items - Accounts payable open items
+customer - Customer information
+inv_mast - Inventory master data
+customer_mst - Customer master data
+invoice_hdr - Invoice header information
+order_hdr - Order header information
+inv_mst - Inventory master data
+location_mst - Location/site master data
+
+SQL Table Name	Description	Typical Columns (Most Common in P21)
+
+OE_HDR	Order header information	
+ORDER_NUM – Order number (primary key)
+ORD_DATE – Order date
+ORD_STATUS – Order status (e.g. 0 = Open, 1 = Closed)
+CUST_ID – Customer ID
+ORDER_TOTAL – Order total amount
+NET_TOTAL – Net total amount
+SHIP_DATE – Scheduled ship date
+CLOSE_DATE – Date order was closed
+ORDER_TYPE – Type of order
+SALES_REP – Sales representative ID or name
+
+AR_OPEN_ITEMS	Accounts receivable open items	AR_ITEM_NUM – AR item number
+CUST_ID – Customer ID
+INVOICE_NUM – Invoice number
+INVOICE_DATE – Invoice date
+DUE_DATE – Due date for payment
+BALANCE – Outstanding balance
+TERMS – Payment terms
+STATUS – Item status or flag
+
+AP_OPEN_ITEMS	Accounts payable open items	AP_ITEM_NUM – AP item number
+VENDOR_ID – Vendor identifier
+INVOICE_NUM – Invoice number
+INVOICE_DATE – Invoice date
+DUE_DATE – Due date for payment
+BALANCE – Outstanding balance
+TERMS – Payment terms
+STATUS – Item status or flag
+
+CUSTOMER	Customer information	CUST_ID – Customer identifier
+CUST_NAME – Customer name
+ADDRESS1 – Primary address
+ADDRESS2 – Secondary address (if any)
+CITY
+STATE
+ZIP
+PHONE
+EMAIL
+CONTACT – Contact person or department
+
+INV_MAST	Inventory master data	ITEM_ID – Inventory item identifier
+ITEM_DESC – Item description
+ITEM_CODE – Item code
+CATEGORY – Item category
+PRICE – Sales price
+COST – Cost price
+QTY_ON_HAND – Quantity on hand
+REORDER_LEVEL – Reorder point quantity
+
+CUSTOMER_MST	Customer master data	CUST_ID – Customer identifier
+CUST_NAME – Customer name
+CUST_TYPE – Customer type (e.g., Retail, Wholesale)
+BILL_TO_ADDR – Billing address
+SHIP_TO_ADDR – Shipping address
+CREDIT_LIMIT – Credit limit
+TERMS – Payment terms
+
+INVOICE_HDR	Invoice header information	INVOICE_NUM – Invoice number
+CUST_ID – Customer identifier
+INVOICE_DATE – Invoice date
+DUE_DATE – Due date for payment
+TOTAL_AMT – Total invoice amount
+TAX_AMT – Tax amount
+STATUS – Invoice status
+PAID_AMT – Amount paid
+BALANCE – Remaining balance
+ORDER_HDR	Order header information (alternate)	(Often similar to OE_HDR)
+ORDER_NUM – Order number
+CUST_ID – Customer ID
+ORD_DATE – Order date
+ORDER_TOTAL – Order total
+ORD_STATUS – Order status
+SHIP_DATE – Ship date
+CLOSE_DATE – Close date
+
+INV_MAST	Inventory master data (duplicate entry)	(Same as above)
+ITEM_ID, ITEM_DESC, ITEM_CODE, CATEGORY, PRICE, COST, QTY_ON_HAND, REORDER_LEVEL
+
+LOCATION_MST	Location/site master data	LOC_ID – Location identifier
+LOC_NAME – Location or site name
+ADDRESS – Address
+CITY
+STATE
+ZIP
+PHONE
+MANAGER – Manager or contact for the location
+===========================================
+
+POR Database Tables
+PurchaseOrder - Purchase order information (MS Access format)
+purchase_orders - Purchase order information (SQLite format)
+
+===========================================
+
+SQLite Tables
+orders - Orders data
+invoices - Invoices data
+customers - Customer data
+accounts - Accounts data
+inventory - Inventory data
+ar_aging - Accounts receivable aging data
+por_rentals - POR rentals data
+historical_data - Historical data
+chart_data - Dashboard chart data
+  - id (TEXT) - Unique identifier for the row
+  - chart_name (TEXT) - Name of the chart (e.g., "Key Metrics", "Accounts")
+  - chart_group (TEXT) - Group the chart belongs to (same as chart_name)
+  - variable_name (TEXT) - Specific metric being tracked (e.g., "Total Orders", "Payable")
+  - server_name (TEXT) - Data source server ("P21" or "POR")
+  - table_name (TEXT) - Database table containing the data
+  - sql_expression (TEXT) - SQL query for test environment
+  - production_sql_expression (TEXT) - SQL query for production environment
+  - value (TEXT) - Current value of the metric
+  - db_table_name (TEXT) - Specific database table name
+  - transformer (TEXT) - Data transformer function name
+  - last_updated (TEXT) - Timestamp of last update
+
+Chart Data Row Requirements:
+Each chart requires a specific number of rows based on its variables and time periods:
+
+- Key Metrics: 7 rows (7 variables × 1 timepoint)
+  Variables: Total Orders, Gross Revenue, Net Profit, Average Order Value, Return Rate, Inventory Value, Backorder Value
+
+- Site Distribution: 3 rows (3 variables × 1 timepoint)
+  Variables: Addison Inventory, Chicago Inventory, Dallas Inventory
+
+- Accounts: 36 rows (3 variables × 12 months)
+  Variables: Payable, Receivable, Overdue
+
+- Customer Metrics: 24 rows (2 variables × 12 months)
+  Variables: New Customers, Repeat Customers
+
+- Historical Data: 24 rows (2 variables × 12 months)
+  Variables: Orders, Revenue
+
+- Inventory: 24 rows (2 variables × 12 months)
+  Variables: On Hand, On Order
+
+- POR Overview: 36 rows (3 variables × 12 months)
+  Variables: Orders, Revenue, Profit
+
+- Open Orders: 12 rows (1 variable × 12 months)
+  Variable: Orders
+
+- Daily Orders: 7 rows (1 variable × 7 days)
+  Variable: Orders
+
+- AR Aging: 5 rows (5 aging categories × 1 timepoint)
+  Variables: Current, 1-30 Days, 31-60 Days, 61-90 Days, 90+ Days

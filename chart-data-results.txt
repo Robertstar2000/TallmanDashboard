@@ -1,0 +1,91 @@
+=== CHART DATA SEARCH AND UPDATE ===
+Date: 2025-03-20T12:28:00.107Z
+
+Using database at ./dashboard.db
+chart_data table not found. Creating it...
+chart_data table created successfully.
+Inserting initial data for key metrics...
+Inserted data for Total Orders
+Inserted data for Open Orders
+Inserted data for Open Orders 2
+Inserted data for Daily Revenue
+Inserted data for Open Invoices
+Inserted data for Orders Backlogged
+Inserted data for Total Monthly Sales
+
+Verifying chart_data table...
+Found 7 rows in chart_data table.
+
+Sample data:
+
+--- Row 1 ---
+ID: 1
+Chart Name: Key Metrics
+Variable Name: Total Orders
+Server Name: P21
+Table Name: oe_hdr
+SQL Expression: SELECT COUNT(*) as value FROM oe_hdr WITH (NOLOCK) WHERE order_date >= DATEADD(day, -7, GETDATE())
+Production SQL Expression: SELECT COUNT(*) as value FROM oe_hdr WITH (NOLOCK) WHERE order_date >= DATEADD(day, -7, GETDATE())
+Value: 0
+
+--- Row 2 ---
+ID: 2
+Chart Name: Key Metrics
+Variable Name: Open Orders
+Server Name: P21
+Table Name: oe_hdr
+SQL Expression: SELECT COUNT(*) as value FROM oe_hdr WITH (NOLOCK) WHERE completed = 'N'
+Production SQL Expression: SELECT COUNT(*) as value FROM oe_hdr WITH (NOLOCK) WHERE completed = 'N'
+Value: 0
+
+--- Row 3 ---
+ID: 3
+Chart Name: Key Metrics
+Variable Name: Open Orders 2
+Server Name: P21
+Table Name: oe_hdr
+SQL Expression: SELECT ISNULL(SUM(l.extended_price), 0) as value FROM oe_hdr h WITH (NOLOCK) JOIN oe_line l WITH (NOLOCK) ON h.order_no = l.order_no WHERE h.completed = 'N'
+Production SQL Expression: SELECT ISNULL(SUM(l.extended_price), 0) as value FROM oe_hdr h WITH (NOLOCK) JOIN oe_line l WITH (NOLOCK) ON h.order_no = l.order_no WHERE h.completed = 'N'
+Value: 0
+
+--- Row 4 ---
+ID: 4
+Chart Name: Key Metrics
+Variable Name: Daily Revenue
+Server Name: P21
+Table Name: oe_hdr
+SQL Expression: SELECT ISNULL(SUM(l.extended_price), 0) as value FROM oe_hdr h WITH (NOLOCK) JOIN oe_line l WITH (NOLOCK) ON h.order_no = l.order_no WHERE CONVERT(date, h.order_date) = CONVERT(date, DATEADD(day, -1, GETDATE()))
+Production SQL Expression: SELECT ISNULL(SUM(l.extended_price), 0) as value FROM oe_hdr h WITH (NOLOCK) JOIN oe_line l WITH (NOLOCK) ON h.order_no = l.order_no WHERE CONVERT(date, h.order_date) = CONVERT(date, DATEADD(day, -1, GETDATE()))
+Value: 0
+
+--- Row 5 ---
+ID: 5
+Chart Name: Key Metrics
+Variable Name: Open Invoices
+Server Name: P21
+Table Name: invoice_hdr
+SQL Expression: SELECT COUNT(*) as value FROM invoice_hdr WITH (NOLOCK) WHERE invoice_date >= DATEADD(month, -1, GETDATE())
+Production SQL Expression: SELECT COUNT(*) as value FROM invoice_hdr WITH (NOLOCK) WHERE invoice_date >= DATEADD(month, -1, GETDATE())
+Value: 0
+
+--- Row 6 ---
+ID: 6
+Chart Name: Key Metrics
+Variable Name: Orders Backlogged
+Server Name: P21
+Table Name: oe_hdr
+SQL Expression: SELECT COUNT(*) as value FROM oe_hdr WITH (NOLOCK) WHERE completed = 'N' AND order_date >= DATEADD(day, -30, GETDATE())
+Production SQL Expression: SELECT COUNT(*) as value FROM oe_hdr WITH (NOLOCK) WHERE completed = 'N' AND order_date >= DATEADD(day, -30, GETDATE())
+Value: 0
+
+--- Row 7 ---
+ID: 7
+Chart Name: Key Metrics
+Variable Name: Total Monthly Sales
+Server Name: P21
+Table Name: oe_hdr
+SQL Expression: SELECT ISNULL(SUM(l.extended_price), 0) as value FROM oe_hdr h WITH (NOLOCK) JOIN oe_line l WITH (NOLOCK) ON h.order_no = l.order_no WHERE h.order_date >= DATEADD(day, -30, GETDATE())
+Production SQL Expression: SELECT ISNULL(SUM(l.extended_price), 0) as value FROM oe_hdr h WITH (NOLOCK) JOIN oe_line l WITH (NOLOCK) ON h.order_no = l.order_no WHERE h.order_date >= DATEADD(day, -30, GETDATE())
+Value: 0
+
+Operation completed successfully.

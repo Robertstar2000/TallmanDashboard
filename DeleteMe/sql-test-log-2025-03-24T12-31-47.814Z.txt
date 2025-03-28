@@ -1,0 +1,1 @@
+[2025-03-24T12:31:47.817Z] Log file created at: logs\sql-test-log-2025-03-24T12-31-47.814Z.txt

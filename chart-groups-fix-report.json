@@ -1,0 +1,46 @@
+{
+  "chartGroupStatistics": [
+    {
+      "group": "Inventory",
+      "count": 3,
+      "required": 8,
+      "difference": 5
+    },
+    {
+      "group": "Site Distribution",
+      "count": 6,
+      "required": 3,
+      "difference": -3
+    },
+    {
+      "group": "Key Metrics",
+      "count": 7,
+      "required": 7,
+      "difference": 0
+    },
+    {
+      "group": "Historical Data",
+      "count": 36,
+      "required": 36,
+      "difference": 0
+    },
+    {
+      "group": "Ar Aging",
+      "count": 5,
+      "required": 5,
+      "difference": 0
+    },
+    {
+      "group": "Daily Orders",
+      "count": 6,
+      "required": 7,
+      "difference": 1
+    },
+    {
+      "group": "Customer Metrics",
+      "count": 3,
+      "required": 24,
+      "difference": 21
+    }
+  ]
+}

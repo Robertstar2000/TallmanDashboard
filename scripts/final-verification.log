@@ -1,0 +1,206 @@
+﻿**********************
+Windows PowerShell transcript start
+Start time: 20250325001455
+Username: TALLMAN\BobM
+RunAs User: TALLMAN\BobM
+Configuration Name: 
+Machine: WEB03 (Microsoft Windows NT 10.0.20348.0)
+Host Application: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -File C:\Users\BobM\CascadeProjects\TallmanDashboard_new\scripts\final-verification.ps1
+Process ID: 16952
+PSVersion: 5.1.20348.2849
+PSEdition: Desktop
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.20348.2849
+BuildVersion: 10.0.20348.2849
+CLRVersion: 4.0.30319.42000
+WSManStackVersion: 3.0
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
+**********************
+Transcript started, output file is C:\Users\BobM\CascadeProjects\TallmanDashboard_new\scripts\final-verification.log
+Starting final SQL verification at 03/25/2025 00:14:55
+
+Summary:
+Total P21 entries: 58
+Total POR entries: 116
+Mismatched entries: 58
+
+Entries with mismatched SQL syntax:
+ID: 1, Server: P21, Status: P21 entry with non-P21 SQL syntax
+  SQL: SELECT AVG(DATEDIFF(DAY, DUE_DATE, GETDATE())) as value FROM dbo.ARINV WITH (NOLOCK) WHERE AR_DATE <= GETDATE() AND DATEDIFF(DAY, DUE_DATE, GETDATE()) > 0
+
+ID: 2, Server: P21, Status: P21 entry with non-P21 SQL syntax
+  SQL: SELECT AVG(DATEDIFF(DAY, DUE_DATE, GETDATE())) as value FROM dbo.ARINV WITH (NOLOCK) WHERE AR_DATE <= GETDATE() AND DATEDIFF(DAY, DUE_DATE, GETDATE()) > 0
+
+ID: 3, Server: P21, Status: P21 entry with non-P21 SQL syntax
+  SQL: SELECT AVG(DATEDIFF(DAY, DUE_DATE, GETDATE())) as value FROM dbo.ARINV WITH (NOLOCK) WHERE AR_DATE <= GETDATE() AND DATEDIFF(DAY, DUE_DATE, GETDATE()) > 0
+
+ID: 4, Server: P21, Status: P21 entry with non-P21 SQL syntax
+  SQL: SELECT AVG(DATEDIFF(DAY, DUE_DATE, GETDATE())) as value FROM dbo.ARINV WITH (NOLOCK) WHERE AR_DATE <= GETDATE() AND DATEDIFF(DAY, DUE_DATE, GETDATE()) > 0
+
+ID: 5, Server: P21, Status: P21 entry with non-P21 SQL syntax
+  SQL: SELECT AVG(DATEDIFF(DAY, DUE_DATE, GETDATE())) as value FROM dbo.ARINV WITH (NOLOCK) WHERE AR_DATE <= GETDATE() AND DATEDIFF(DAY, DUE_DATE, GETDATE()) > 0
+
+ID: 66, Server: P21, Status: P21 entry with non-P21 SQL syntax
+  SQL: SELECT COUNT(*) as value FROM dbo.SOMAST WITH (NOLOCK) WHERE SO_DATE = CAST(GETDATE() AS DATE)
+
+ID: 67, Server: P21, Status: P21 entry with non-P21 SQL syntax
+  SQL: SELECT COUNT(*) as value FROM dbo.SOMAST WITH (NOLOCK) WHERE SO_DATE = CAST(GETDATE() AS DATE)
+
+ID: 68, Server: P21, Status: P21 entry with non-P21 SQL syntax
+  SQL: SELECT COUNT(*) as value FROM dbo.SOMAST WITH (NOLOCK) WHERE SO_DATE = CAST(GETDATE() AS DATE)
+
+ID: 69, Server: P21, Status: P21 entry with non-P21 SQL syntax
+  SQL: SELECT COUNT(*) as value FROM dbo.SOMAST WITH (NOLOCK) WHERE SO_DATE = CAST(GETDATE() AS DATE)
+
+ID: 70, Server: P21, Status: P21 entry with non-P21 SQL syntax
+  SQL: SELECT COUNT(*) as value FROM dbo.SOMAST WITH (NOLOCK) WHERE SO_DATE = CAST(GETDATE() AS DATE)
+
+ID: 71, Server: P21, Status: P21 entry with non-P21 SQL syntax
+  SQL: SELECT COUNT(*) as value FROM dbo.SOMAST WITH (NOLOCK) WHERE SO_DATE = CAST(GETDATE() AS DATE)
+
+ID: 72, Server: P21, Status: P21 entry with non-P21 SQL syntax
+  SQL: SELECT COUNT(*) as value FROM dbo.SOMAST WITH (NOLOCK) WHERE SO_DATE = CAST(GETDATE() AS DATE)
+
+ID: 73, Server: P21, Status: P21 entry with non-P21 SQL syntax
+  SQL: SELECT SUM(Total) as value FROM dbo.SOMAST WITH (NOLOCK) WHERE SO_DATE <= GETDATE()
+
+ID: 74, Server: P21, Status: P21 entry with non-P21 SQL syntax
+  SQL: SELECT SUM(Total) as value FROM dbo.SOMAST WITH (NOLOCK) WHERE SO_DATE <= GETDATE()
+
+ID: 75, Server: P21, Status: P21 entry with non-P21 SQL syntax
+  SQL: SELECT SUM(Total) as value FROM dbo.SOMAST WITH (NOLOCK) WHERE SO_DATE <= GETDATE()
+
+ID: 76, Server: P21, Status: P21 entry with non-P21 SQL syntax
+  SQL: SELECT SUM(Total) as value FROM dbo.SOMAST WITH (NOLOCK) WHERE SO_DATE <= GETDATE()
+
+ID: 77, Server: P21, Status: P21 entry with non-P21 SQL syntax
+  SQL: SELECT SUM(Total) as value FROM dbo.SOMAST WITH (NOLOCK) WHERE SO_DATE <= GETDATE()
+
+ID: 78, Server: P21, Status: P21 entry with non-P21 SQL syntax
+  SQL: SELECT SUM(Total) as value FROM dbo.SOMAST WITH (NOLOCK) WHERE SO_DATE <= GETDATE()
+
+ID: 79, Server: P21, Status: P21 entry with non-P21 SQL syntax
+  SQL: SELECT SUM(Total) as value FROM dbo.SOMAST WITH (NOLOCK) WHERE SO_DATE <= GETDATE()
+
+ID: 80, Server: P21, Status: P21 entry with non-P21 SQL syntax
+  SQL: SELECT SUM(Total) as value FROM dbo.SOMAST WITH (NOLOCK) WHERE SO_DATE <= GETDATE()
+
+ID: 81, Server: P21, Status: P21 entry with non-P21 SQL syntax
+  SQL: SELECT SUM(Total) as value FROM dbo.SOMAST WITH (NOLOCK) WHERE SO_DATE <= GETDATE()
+
+ID: 82, Server: P21, Status: P21 entry with non-P21 SQL syntax
+  SQL: SELECT SUM(Total) as value FROM dbo.SOMAST WITH (NOLOCK) WHERE SO_DATE <= GETDATE()
+
+ID: 83, Server: P21, Status: P21 entry with non-P21 SQL syntax
+  SQL: SELECT SUM(Total) as value FROM dbo.SOMAST WITH (NOLOCK) WHERE SO_DATE <= GETDATE()
+
+ID: 84, Server: P21, Status: P21 entry with non-P21 SQL syntax
+  SQL: SELECT SUM(Total) as value FROM dbo.SOMAST WITH (NOLOCK) WHERE SO_DATE <= GETDATE()
+
+ID: 85, Server: P21, Status: P21 entry with non-P21 SQL syntax
+  SQL: SELECT SUM(Total) as value FROM dbo.SOMAST WITH (NOLOCK) WHERE SO_DATE <= GETDATE()
+
+ID: 86, Server: P21, Status: P21 entry with non-P21 SQL syntax
+  SQL: SELECT SUM(Total) as value FROM dbo.SOMAST WITH (NOLOCK) WHERE SO_DATE <= GETDATE()
+
+ID: 87, Server: P21, Status: P21 entry with non-P21 SQL syntax
+  SQL: SELECT SUM(Total) as value FROM dbo.SOMAST WITH (NOLOCK) WHERE SO_DATE <= GETDATE()
+
+ID: 88, Server: P21, Status: P21 entry with non-P21 SQL syntax
+  SQL: SELECT SUM(Total) as value FROM dbo.SOMAST WITH (NOLOCK) WHERE SO_DATE <= GETDATE()
+
+ID: 89, Server: P21, Status: P21 entry with non-P21 SQL syntax
+  SQL: SELECT SUM(Total) as value FROM dbo.SOMAST WITH (NOLOCK) WHERE SO_DATE <= GETDATE()
+
+ID: 90, Server: P21, Status: P21 entry with non-P21 SQL syntax
+  SQL: SELECT SUM(Total) as value FROM dbo.SOMAST WITH (NOLOCK) WHERE SO_DATE <= GETDATE()
+
+ID: 91, Server: P21, Status: P21 entry with non-P21 SQL syntax
+  SQL: SELECT SUM(Total) as value FROM dbo.SOMAST WITH (NOLOCK) WHERE SO_DATE <= GETDATE()
+
+ID: 92, Server: P21, Status: P21 entry with non-P21 SQL syntax
+  SQL: SELECT SUM(Total) as value FROM dbo.SOMAST WITH (NOLOCK) WHERE SO_DATE <= GETDATE()
+
+ID: 93, Server: P21, Status: P21 entry with non-P21 SQL syntax
+  SQL: SELECT SUM(Total) as value FROM dbo.SOMAST WITH (NOLOCK) WHERE SO_DATE <= GETDATE()
+
+ID: 94, Server: P21, Status: P21 entry with non-P21 SQL syntax
+  SQL: SELECT SUM(Total) as value FROM dbo.SOMAST WITH (NOLOCK) WHERE SO_DATE <= GETDATE()
+
+ID: 95, Server: P21, Status: P21 entry with non-P21 SQL syntax
+  SQL: SELECT SUM(Total) as value FROM dbo.SOMAST WITH (NOLOCK) WHERE SO_DATE <= GETDATE()
+
+ID: 96, Server: P21, Status: P21 entry with non-P21 SQL syntax
+  SQL: SELECT SUM(Total) as value FROM dbo.SOMAST WITH (NOLOCK) WHERE SO_DATE <= GETDATE()
+
+ID: 97, Server: P21, Status: P21 entry with non-P21 SQL syntax
+  SQL: SELECT SUM(Total) as value FROM dbo.SOMAST WITH (NOLOCK) WHERE SO_DATE <= GETDATE()
+
+ID: 98, Server: P21, Status: P21 entry with non-P21 SQL syntax
+  SQL: SELECT SUM(Total) as value FROM dbo.SOMAST WITH (NOLOCK) WHERE SO_DATE <= GETDATE()
+
+ID: 99, Server: P21, Status: P21 entry with non-P21 SQL syntax
+  SQL: SELECT SUM(Total) as value FROM dbo.SOMAST WITH (NOLOCK) WHERE SO_DATE <= GETDATE()
+
+ID: 100, Server: P21, Status: P21 entry with non-P21 SQL syntax
+  SQL: SELECT SUM(Total) as value FROM dbo.SOMAST WITH (NOLOCK) WHERE SO_DATE <= GETDATE()
+
+ID: 101, Server: P21, Status: P21 entry with non-P21 SQL syntax
+  SQL: SELECT SUM(Total) as value FROM dbo.SOMAST WITH (NOLOCK) WHERE SO_DATE <= GETDATE()
+
+ID: 102, Server: P21, Status: P21 entry with non-P21 SQL syntax
+  SQL: SELECT SUM(Total) as value FROM dbo.SOMAST WITH (NOLOCK) WHERE SO_DATE <= GETDATE()
+
+ID: 103, Server: P21, Status: P21 entry with non-P21 SQL syntax
+  SQL: SELECT SUM(Total) as value FROM dbo.SOMAST WITH (NOLOCK) WHERE SO_DATE <= GETDATE()
+
+ID: 104, Server: P21, Status: P21 entry with non-P21 SQL syntax
+  SQL: SELECT SUM(Total) as value FROM dbo.SOMAST WITH (NOLOCK) WHERE SO_DATE <= GETDATE()
+
+ID: 105, Server: P21, Status: P21 entry with non-P21 SQL syntax
+  SQL: SELECT SUM(Total) as value FROM dbo.SOMAST WITH (NOLOCK) WHERE SO_DATE <= GETDATE()
+
+ID: 106, Server: P21, Status: P21 entry with non-P21 SQL syntax
+  SQL: SELECT SUM(Total) as value FROM dbo.SOMAST WITH (NOLOCK) WHERE SO_DATE <= GETDATE()
+
+ID: 107, Server: P21, Status: P21 entry with non-P21 SQL syntax
+  SQL: SELECT SUM(Total) as value FROM dbo.SOMAST WITH (NOLOCK) WHERE SO_DATE <= GETDATE()
+
+ID: 108, Server: P21, Status: P21 entry with non-P21 SQL syntax
+  SQL: SELECT SUM(Total) as value FROM dbo.SOMAST WITH (NOLOCK) WHERE SO_DATE <= GETDATE()
+
+ID: 117, Server: P21, Status: P21 entry with non-P21 SQL syntax
+  SQL: SELECT AVG(Total) as value FROM dbo.SOMAST WITH (NOLOCK) WHERE SO_DATE <= GETDATE()
+
+ID: 118, Server: P21, Status: P21 entry with non-P21 SQL syntax
+  SQL: SELECT AVG(Total) as value FROM dbo.SOMAST WITH (NOLOCK) WHERE SO_DATE <= GETDATE()
+
+ID: 119, Server: P21, Status: P21 entry with non-P21 SQL syntax
+  SQL: SELECT AVG(Total) as value FROM dbo.SOMAST WITH (NOLOCK) WHERE SO_DATE <= GETDATE()
+
+ID: 120, Server: P21, Status: P21 entry with non-P21 SQL syntax
+  SQL: SELECT AVG(Total) as value FROM dbo.SOMAST WITH (NOLOCK) WHERE SO_DATE <= GETDATE()
+
+ID: 121, Server: P21, Status: P21 entry with non-P21 SQL syntax
+  SQL: SELECT AVG(Total) as value FROM dbo.SOMAST WITH (NOLOCK) WHERE SO_DATE <= GETDATE()
+
+ID: 122, Server: P21, Status: P21 entry with non-P21 SQL syntax
+  SQL: SELECT AVG(Total) as value FROM dbo.SOMAST WITH (NOLOCK) WHERE SO_DATE <= GETDATE()
+
+ID: 123, Server: P21, Status: P21 entry with non-P21 SQL syntax
+  SQL: SELECT AVG(Total) as value FROM dbo.SOMAST WITH (NOLOCK) WHERE SO_DATE <= GETDATE()
+
+ID: 124, Server: P21, Status: P21 entry with non-P21 SQL syntax
+  SQL: SELECT COUNT(DISTINCT SiteID) as value FROM dbo.SOMAST WITH (NOLOCK) WHERE SO_DATE <= GETDATE()
+
+ID: 125, Server: P21, Status: P21 entry with non-P21 SQL syntax
+  SQL: SELECT COUNT(DISTINCT SiteID) as value FROM dbo.SOMAST WITH (NOLOCK) WHERE SO_DATE <= GETDATE()
+
+ID: 126, Server: P21, Status: P21 entry with non-P21 SQL syntax
+  SQL: SELECT COUNT(DISTINCT SiteID) as value FROM dbo.SOMAST WITH (NOLOCK) WHERE SO_DATE <= GETDATE()
+
+Final SQL verification completed at 03/25/2025 00:14:56
+**********************
+Windows PowerShell transcript end
+End time: 20250325001456
+**********************

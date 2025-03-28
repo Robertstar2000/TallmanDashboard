@@ -1,0 +1,77 @@
+{
+  "timestamp": "2025-03-21T01:29:03.431Z",
+  "totalExpressions": 12,
+  "fixedExpressions": 10,
+  "errors": [
+    {
+      "name": "Customers - Active",
+      "error": "[odbc] Error executing the sql statement"
+    },
+    {
+      "name": "Customers - Inactive",
+      "error": "[odbc] Error executing the sql statement"
+    }
+  ],
+  "fixes": [
+    {
+      "name": "Orders - New - Month 1",
+      "originalSql": "SELECT ISNULL(COUNT(*), 0) as value FROM P21.dbo.oe_hdr WITH (NOLOCK) WHERE order_date >= DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0) AND order_date < DATEADD(month, DATEDIFF(month, 0, GETDATE()) + 1, 0)",
+      "fixedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE YEAR(order_date) = YEAR(GETDATE()) AND MONTH(order_date) = MONTH(GETDATE()) AND completed = 'N'",
+      "value": 25
+    },
+    {
+      "name": "Orders - Completed - Month 1",
+      "originalSql": "SELECT ISNULL(COUNT(*), 0) as value FROM P21.dbo.invoice_hdr WITH (NOLOCK) WHERE invoice_date >= DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0) AND invoice_date < DATEADD(month, DATEDIFF(month, 0, GETDATE()) + 1, 0)",
+      "fixedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE YEAR(order_date) = YEAR(GETDATE()) AND MONTH(order_date) = MONTH(GETDATE()) AND completed = 'Y'",
+      "value": "NULL"
+    },
+    {
+      "name": "Orders - Cancelled - Month 1",
+      "originalSql": "SELECT ISNULL(COUNT(*), 0) as value FROM P21.dbo.oe_hdr WITH (NOLOCK) WHERE cancelled_flag = 'Y' AND order_date >= DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0) AND order_date < DATEADD(month, DATEDIFF(month, 0, GETDATE()) + 1, 0)",
+      "fixedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE YEAR(order_date) = YEAR(GETDATE()) AND MONTH(order_date) = MONTH(GETDATE()) AND delete_flag = 'Y'",
+      "value": "NULL"
+    },
+    {
+      "name": "Orders - New - Month 2",
+      "originalSql": "SELECT ISNULL(COUNT(*), 0) as value FROM P21.dbo.oe_hdr WITH (NOLOCK) WHERE order_date >= DATEADD(month, DATEDIFF(month, 0, GETDATE()) - 1, 0) AND order_date < DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)",
+      "fixedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE YEAR(order_date) = YEAR(DATEADD(month, -1, GETDATE())) AND MONTH(order_date) = MONTH(DATEADD(month, -1, GETDATE())) AND completed = 'N'",
+      "value": 5
+    },
+    {
+      "name": "Orders - Completed - Month 2",
+      "originalSql": "SELECT ISNULL(COUNT(*), 0) as value FROM P21.dbo.invoice_hdr WITH (NOLOCK) WHERE invoice_date >= DATEADD(month, DATEDIFF(month, 0, GETDATE()) - 1, 0) AND invoice_date < DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)",
+      "fixedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE YEAR(order_date) = YEAR(DATEADD(month, -1, GETDATE())) AND MONTH(order_date) = MONTH(DATEADD(month, -1, GETDATE())) AND completed = 'Y'",
+      "value": "NULL"
+    },
+    {
+      "name": "Orders - Cancelled - Month 2",
+      "originalSql": "SELECT ISNULL(COUNT(*), 0) as value FROM P21.dbo.oe_hdr WITH (NOLOCK) WHERE cancelled_flag = 'Y' AND order_date >= DATEADD(month, DATEDIFF(month, 0, GETDATE()) - 1, 0) AND order_date < DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)",
+      "fixedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE YEAR(order_date) = YEAR(DATEADD(month, -1, GETDATE())) AND MONTH(order_date) = MONTH(DATEADD(month, -1, GETDATE())) AND delete_flag = 'Y'",
+      "value": "NULL"
+    },
+    {
+      "name": "Inventory - Total Items",
+      "originalSql": "SELECT ISNULL(COUNT(*), 0) as value FROM P21.dbo.inv_mast WITH (NOLOCK) WHERE delete_flag <> 'Y'",
+      "fixedSql": "SELECT COUNT(*) as value FROM dbo.inv_mast WITH (NOLOCK)",
+      "value": 351423
+    },
+    {
+      "name": "Inventory - Active Items",
+      "originalSql": "SELECT ISNULL(COUNT(*), 0) as value FROM P21.dbo.inv_mast WITH (NOLOCK) WHERE delete_flag <> 'Y' AND inactive <> 'Y'",
+      "fixedSql": "SELECT COUNT(*) as value FROM dbo.inv_mast WITH (NOLOCK) WHERE delete_flag <> 'Y'",
+      "value": 319066
+    },
+    {
+      "name": "Inventory - Inactive Items",
+      "originalSql": "SELECT ISNULL(COUNT(*), 0) as value FROM P21.dbo.inv_mast WITH (NOLOCK) WHERE delete_flag <> 'Y' AND inactive = 'Y'",
+      "fixedSql": "SELECT COUNT(*) as value FROM dbo.inv_mast WITH (NOLOCK) WHERE delete_flag = 'Y'",
+      "value": 32357
+    },
+    {
+      "name": "Customers - Total",
+      "originalSql": "SELECT ISNULL(COUNT(*), 0) as value FROM P21.dbo.customer WITH (NOLOCK)",
+      "fixedSql": "SELECT COUNT(*) as value FROM dbo.customer WITH (NOLOCK)",
+      "value": 8342
+    }
+  ]
+}

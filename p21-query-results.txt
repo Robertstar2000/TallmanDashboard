@@ -1,0 +1,46 @@
+=== P21 SQL Query Test with File Output ===
+Starting test at 2025-03-19T17:20:37.788Z
+Connection string: DSN=P21Play;Trusted_Connection=Yes;
+Connecting to ODBC data source...
+✅ CONNECTED SUCCESSFULLY to ODBC data source!
+
+=== Testing query for: Accounts - Payable - Month 1 ===
+Table: apinv_hdr
+SQL Query: SELECT ISNULL(SUM(invoice_amount - check_amount), 0) AS value FROM dbo.apinv_hdr WITH (NOLOCK) WHERE invoice_date >= DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0) AND invoice_date < DATEADD(month, DATEDIFF(month, 0, GETDATE()) + 1, 0)
+❌ Error executing query: [odbc] Error executing the sql statement
+
+=== Testing query for: Accounts - Receivable - Month 1 ===
+Table: ar_receipts
+SQL Query: SELECT ISNULL(SUM(amount), 0) AS value FROM dbo.ar_receipts WITH (NOLOCK) WHERE date_received >= DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0) AND date_received < DATEADD(month, DATEDIFF(month, 0, GETDATE()) + 1, 0)
+❌ Error executing query: [odbc] Error executing the sql statement
+
+=== Testing query for: AR Aging - Current ===
+Table: weboe_open_account_balance_data
+SQL Query: SELECT ISNULL(SUM(total_amount), 0) as value FROM dbo.weboe_open_account_balance_data WITH (NOLOCK) WHERE DATEDIFF(day, due_date, GETDATE()) <= 0
+❌ Error executing query: [odbc] Error executing the sql statement
+
+=== Testing query for: Orders - New - Month 1 ===
+Table: oe_hdr
+SQL Query: SELECT ISNULL(COUNT(*), 0) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_date >= DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0) AND order_date < DATEADD(month, DATEDIFF(month, 0, GETDATE()) + 1, 0)
+✅ Query executed successfully
+Result: {"value":22}
+✅ RETURNED NON-ZERO VALUE: 22
+
+=== Testing query for: Inventory - Total Items ===
+Table: inv_mast
+SQL Query: SELECT ISNULL(COUNT(*), 0) as value FROM dbo.inv_mast WITH (NOLOCK) WHERE delete_flag <> 'Y'
+✅ Query executed successfully
+Result: {"value":319066}
+✅ RETURNED NON-ZERO VALUE: 319066
+
+=== Testing query for: Customers - Total ===
+Table: customer
+SQL Query: SELECT ISNULL(COUNT(*), 0) as value FROM dbo.customer WITH (NOLOCK)
+✅ Query executed successfully
+Result: {"value":8342}
+✅ RETURNED NON-ZERO VALUE: 8342
+
+✅ Connection closed successfully
+
+=== Test completed at 2025-03-19T17:20:43.975Z ===
+Results have been saved to: C:\Users\BobM\CascadeProjects\TallmanDashboard_new\p21-query-results.txt

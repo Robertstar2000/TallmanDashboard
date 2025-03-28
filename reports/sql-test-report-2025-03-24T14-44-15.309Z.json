@@ -1,0 +1,3911 @@
+{
+  "timestamp": "2025-03-24T14:44:17.166Z",
+  "p21": {
+    "total": 162,
+    "tested": 126,
+    "passed": 0,
+    "failed": 126,
+    "skipped": 36,
+    "failures": [
+      {
+        "id": "1",
+        "name": "AR Aging - Current - Amount Due",
+        "sql": "SELECT ISNULL(SUM(amount_due), 0) as value FROM dbo.ar_open_items WITH (NOLOCK) WHERE aging_bucket = 'Current'",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "2",
+        "name": "AR Aging - 1-30 Days - Amount Due",
+        "sql": "SELECT ISNULL(SUM(amount_due), 0) as value FROM dbo.ar_open_items WITH (NOLOCK) WHERE aging_bucket = '1-30 Days'",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "3",
+        "name": "AR Aging - 31-60 Days - Amount Due",
+        "sql": "SELECT ISNULL(SUM(amount_due), 0) as value FROM dbo.ar_open_items WITH (NOLOCK) WHERE aging_bucket = '31-60 Days'",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "4",
+        "name": "AR Aging - 61-90 Days - Amount Due",
+        "sql": "SELECT ISNULL(SUM(amount_due), 0) as value FROM dbo.ar_open_items WITH (NOLOCK) WHERE aging_bucket = '61-90 Days'",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "5",
+        "name": "AR Aging - 90+ Days - Amount Due",
+        "sql": "SELECT ISNULL(SUM(amount_due), 0) as value FROM dbo.ar_open_items WITH (NOLOCK) WHERE aging_bucket = 'Over 90 Days'",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "6",
+        "name": "Accounts - January - Payable",
+        "sql": "SELECT ISNULL(SUM(invoice_amt), 0) as value FROM dbo.ap_invoices WITH (NOLOCK) WHERE MONTH(invoice_date) = 1 AND YEAR(invoice_date) = YEAR(GETDATE())",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "7",
+        "name": "Accounts - January - Receivable",
+        "sql": "SELECT ISNULL(SUM(ar_amount), 0) as value FROM dbo.ar_headers WITH (NOLOCK) WHERE MONTH(invoice_date) = 1 AND YEAR(invoice_date) = YEAR(GETDATE())",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "8",
+        "name": "Accounts - January - Overdue",
+        "sql": "SELECT ISNULL(SUM(ar_amount), 0) as value FROM dbo.ar_headers WITH (NOLOCK) WHERE MONTH(invoice_date) = 1 AND YEAR(invoice_date) = YEAR(GETDATE()) AND DATEDIFF(day, invoice_date, GETDATE()) > 30",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "9",
+        "name": "Accounts - February - Payable",
+        "sql": "SELECT SUM(amount) as value FROM dbo.payable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 2 AND YEAR(transaction_date) = YEAR(GETDATE())",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "10",
+        "name": "Accounts - February - Receivable",
+        "sql": "SELECT SUM(amount) as value FROM dbo.receivable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 2 AND YEAR(transaction_date) = YEAR(GETDATE())",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "11",
+        "name": "Accounts - February - Overdue",
+        "sql": "SELECT SUM(amount) as value FROM dbo.overdue_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 2 AND YEAR(transaction_date) = YEAR(GETDATE())",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "12",
+        "name": "Accounts - March - Payable",
+        "sql": "SELECT SUM(amount) as value FROM dbo.payable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 3 AND YEAR(transaction_date) = YEAR(GETDATE())",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "13",
+        "name": "Accounts - March - Receivable",
+        "sql": "SELECT SUM(amount) as value FROM dbo.receivable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 3 AND YEAR(transaction_date) = YEAR(GETDATE())",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "14",
+        "name": "Accounts - March - Overdue",
+        "sql": "SELECT SUM(amount) as value FROM dbo.overdue_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 3 AND YEAR(transaction_date) = YEAR(GETDATE())",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "15",
+        "name": "Accounts - April - Payable",
+        "sql": "SELECT SUM(amount) as value FROM dbo.payable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 4 AND YEAR(transaction_date) = YEAR(GETDATE())",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "16",
+        "name": "Accounts - April - Receivable",
+        "sql": "SELECT SUM(amount) as value FROM dbo.receivable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 4 AND YEAR(transaction_date) = YEAR(GETDATE())",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "17",
+        "name": "Accounts - April - Overdue",
+        "sql": "SELECT SUM(amount) as value FROM dbo.overdue_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 4 AND YEAR(transaction_date) = YEAR(GETDATE())",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "18",
+        "name": "Accounts - May - Payable",
+        "sql": "SELECT SUM(amount) as value FROM dbo.payable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 5 AND YEAR(transaction_date) = YEAR(GETDATE())",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "19",
+        "name": "Accounts - May - Receivable",
+        "sql": "SELECT SUM(amount) as value FROM dbo.receivable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 5 AND YEAR(transaction_date) = YEAR(GETDATE())",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "20",
+        "name": "Accounts - May - Overdue",
+        "sql": "SELECT SUM(amount) as value FROM dbo.overdue_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 5 AND YEAR(transaction_date) = YEAR(GETDATE())",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "21",
+        "name": "Accounts - June - Payable",
+        "sql": "SELECT SUM(amount) as value FROM dbo.payable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 6 AND YEAR(transaction_date) = YEAR(GETDATE())",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "22",
+        "name": "Accounts - June - Receivable",
+        "sql": "SELECT SUM(amount) as value FROM dbo.receivable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 6 AND YEAR(transaction_date) = YEAR(GETDATE())",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "23",
+        "name": "Accounts - June - Overdue",
+        "sql": "SELECT SUM(amount) as value FROM dbo.overdue_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 6 AND YEAR(transaction_date) = YEAR(GETDATE())",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "24",
+        "name": "Accounts - July - Payable",
+        "sql": "SELECT SUM(amount) as value FROM dbo.payable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 7 AND YEAR(transaction_date) = YEAR(GETDATE())",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "25",
+        "name": "Accounts - July - Receivable",
+        "sql": "SELECT SUM(amount) as value FROM dbo.receivable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 7 AND YEAR(transaction_date) = YEAR(GETDATE())",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "26",
+        "name": "Accounts - July - Overdue",
+        "sql": "SELECT SUM(amount) as value FROM dbo.overdue_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 7 AND YEAR(transaction_date) = YEAR(GETDATE())",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "27",
+        "name": "Accounts - August - Payable",
+        "sql": "SELECT SUM(amount) as value FROM dbo.payable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 8 AND YEAR(transaction_date) = YEAR(GETDATE())",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "28",
+        "name": "Accounts - August - Receivable",
+        "sql": "SELECT SUM(amount) as value FROM dbo.receivable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 8 AND YEAR(transaction_date) = YEAR(GETDATE())",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "29",
+        "name": "Accounts - August - Overdue",
+        "sql": "SELECT SUM(amount) as value FROM dbo.overdue_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 8 AND YEAR(transaction_date) = YEAR(GETDATE())",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "30",
+        "name": "Accounts - September - Payable",
+        "sql": "SELECT SUM(amount) as value FROM dbo.payable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 9 AND YEAR(transaction_date) = YEAR(GETDATE())",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "31",
+        "name": "Accounts - September - Receivable",
+        "sql": "SELECT SUM(amount) as value FROM dbo.receivable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 9 AND YEAR(transaction_date) = YEAR(GETDATE())",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "32",
+        "name": "Accounts - September - Overdue",
+        "sql": "SELECT SUM(amount) as value FROM dbo.overdue_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 9 AND YEAR(transaction_date) = YEAR(GETDATE())",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "33",
+        "name": "Accounts - October - Payable",
+        "sql": "SELECT SUM(amount) as value FROM dbo.payable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 10 AND YEAR(transaction_date) = YEAR(GETDATE())",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "34",
+        "name": "Accounts - October - Receivable",
+        "sql": "SELECT SUM(amount) as value FROM dbo.receivable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 10 AND YEAR(transaction_date) = YEAR(GETDATE())",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "35",
+        "name": "Accounts - October - Overdue",
+        "sql": "SELECT SUM(amount) as value FROM dbo.overdue_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 10 AND YEAR(transaction_date) = YEAR(GETDATE())",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "36",
+        "name": "Accounts - November - Payable",
+        "sql": "SELECT SUM(amount) as value FROM dbo.payable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 11 AND YEAR(transaction_date) = YEAR(GETDATE())",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "37",
+        "name": "Accounts - November - Receivable",
+        "sql": "SELECT SUM(amount) as value FROM dbo.receivable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 11 AND YEAR(transaction_date) = YEAR(GETDATE())",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "38",
+        "name": "Accounts - November - Overdue",
+        "sql": "SELECT SUM(amount) as value FROM dbo.overdue_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 11 AND YEAR(transaction_date) = YEAR(GETDATE())",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "39",
+        "name": "Accounts - December - Payable",
+        "sql": "SELECT SUM(amount) as value FROM dbo.payable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 12 AND YEAR(transaction_date) = YEAR(GETDATE())",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "40",
+        "name": "Accounts - December - Receivable",
+        "sql": "SELECT SUM(amount) as value FROM dbo.receivable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 12 AND YEAR(transaction_date) = YEAR(GETDATE())",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "41",
+        "name": "Accounts - December - Overdue",
+        "sql": "SELECT SUM(amount) as value FROM dbo.overdue_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 12 AND YEAR(transaction_date) = YEAR(GETDATE())",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "42",
+        "name": "Customer Metrics - January - New Customers",
+        "sql": "SELECT 1 as value",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "43",
+        "name": "Customer Metrics - January - Prospects",
+        "sql": "SELECT ISNULL(COUNT(*), 0) as value FROM dbo.customer WITH (NOLOCK) WHERE prospect_flag = 'Y' AND MONTH(created_date) = 1 AND YEAR(created_date) = YEAR(GETDATE())",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "44",
+        "name": "Customer Metrics - February - New Customers",
+        "sql": "SELECT ISNULL(COUNT(*), 0) as value FROM dbo.customer WITH (NOLOCK) WHERE prospect_flag = 'N' AND MONTH(created_date) = 1 AND YEAR(created_date) = YEAR(GETDATE())",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "45",
+        "name": "Customer Metrics - February - Prospects",
+        "sql": "SELECT 1 as value",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "46",
+        "name": "Customer Metrics - March - New Customers",
+        "sql": "SELECT 1 as value",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "47",
+        "name": "Customer Metrics - March - Prospects",
+        "sql": "SELECT 1 as value",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "48",
+        "name": "Customer Metrics - April - New Customers",
+        "sql": "SELECT 1 as value",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "49",
+        "name": "Customer Metrics - April - Prospects",
+        "sql": "SELECT 1 as value",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "50",
+        "name": "Customer Metrics - May - New Customers",
+        "sql": "SELECT 1 as value",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "51",
+        "name": "Customer Metrics - May - Prospects",
+        "sql": "SELECT 1 as value",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "52",
+        "name": "Customer Metrics - June - New Customers",
+        "sql": "SELECT 1 as value",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "53",
+        "name": "Customer Metrics - June - Prospects",
+        "sql": "SELECT 1 as value",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "54",
+        "name": "Customer Metrics - July - New Customers",
+        "sql": "SELECT 1 as value",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "55",
+        "name": "Customer Metrics - July - Prospects",
+        "sql": "SELECT 1 as value",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "56",
+        "name": "Customer Metrics - August - New Customers",
+        "sql": "SELECT 1 as value",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "57",
+        "name": "Customer Metrics - August - Prospects",
+        "sql": "SELECT 1 as value",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "58",
+        "name": "Customer Metrics - September - New Customers",
+        "sql": "SELECT 1 as value",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "59",
+        "name": "Customer Metrics - September - Prospects",
+        "sql": "SELECT 1 as value",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "60",
+        "name": "Customer Metrics - October - New Customers",
+        "sql": "SELECT 1 as value",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "61",
+        "name": "Customer Metrics - October - Prospects",
+        "sql": "SELECT 1 as value",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "62",
+        "name": "Customer Metrics - November - New Customers",
+        "sql": "SELECT 1 as value",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "63",
+        "name": "Customer Metrics - November - Prospects",
+        "sql": "SELECT 1 as value",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "64",
+        "name": "Customer Metrics - December - New Customers",
+        "sql": "SELECT 1 as value",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "65",
+        "name": "Customer Metrics - December - Prospects",
+        "sql": "SELECT 1 as value",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "66",
+        "name": "Daily Orders - Today - Orders",
+        "sql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_date = DATEADD(day, -0, CAST(GETDATE() AS date))",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "67",
+        "name": "Daily Orders - Yesterday - Orders",
+        "sql": "SELECT ISNULL(COUNT(*), 0) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE CONVERT(date, order_date) = CONVERT(date, GETDATE())",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "68",
+        "name": "Daily Orders - Day-2 - Orders",
+        "sql": "SELECT ISNULL(COUNT(*), 0) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE CONVERT(date, order_date) = CONVERT(date, DATEADD(day, -1, GETDATE()))",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "69",
+        "name": "Daily Orders - Day-3 - Orders",
+        "sql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_date = DATEADD(day, -3, CAST(GETDATE() AS date))",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "70",
+        "name": "Daily Orders - Day-4 - Orders",
+        "sql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_date = DATEADD(day, -4, CAST(GETDATE() AS date))",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "71",
+        "name": "Daily Orders - Day-5 - Orders",
+        "sql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_date = DATEADD(day, -5, CAST(GETDATE() AS date))",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "72",
+        "name": "Daily Orders - Day-6 - Orders",
+        "sql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_date = DATEADD(day, -6, CAST(GETDATE() AS date))",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "73",
+        "name": "Historical Data - January",
+        "sql": "SELECT 0 as value",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "75",
+        "name": "Historical Data - January - Total",
+        "sql": "SELECT 0 as value",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "76",
+        "name": "Historical Data - February",
+        "sql": "SELECT 0 as value",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "78",
+        "name": "Historical Data - February - Total",
+        "sql": "SELECT 0 as value",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "79",
+        "name": "Historical Data - March",
+        "sql": "SELECT 0 as value",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "81",
+        "name": "Historical Data - March - Total",
+        "sql": "SELECT 0 as value",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "82",
+        "name": "Historical Data - April",
+        "sql": "SELECT 0 as value",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "84",
+        "name": "Historical Data - April - Total",
+        "sql": "SELECT 0 as value",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "85",
+        "name": "Historical Data - May",
+        "sql": "SELECT 0 as value",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "87",
+        "name": "Historical Data - May - Total",
+        "sql": "SELECT 0 as value",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "88",
+        "name": "Historical Data - June",
+        "sql": "SELECT 0 as value",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "90",
+        "name": "Historical Data - June - Total",
+        "sql": "SELECT 0 as value",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "91",
+        "name": "Historical Data - July",
+        "sql": "SELECT 0 as value",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "93",
+        "name": "Historical Data - July - Total",
+        "sql": "SELECT 0 as value",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "94",
+        "name": "Historical Data - August",
+        "sql": "SELECT 0 as value",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "96",
+        "name": "Historical Data - August - Total",
+        "sql": "SELECT 0 as value",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "97",
+        "name": "Historical Data - September",
+        "sql": "SELECT 0 as value",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "99",
+        "name": "Historical Data - September - Total",
+        "sql": "SELECT 0 as value",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "100",
+        "name": "Historical Data - October",
+        "sql": "SELECT 0 as value",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "102",
+        "name": "Historical Data - October - Total",
+        "sql": "SELECT 0 as value",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "103",
+        "name": "Historical Data - November",
+        "sql": "SELECT 0 as value",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "105",
+        "name": "Historical Data - November - Total",
+        "sql": "SELECT 0 as value",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "106",
+        "name": "Historical Data - December",
+        "sql": "SELECT 0 as value",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "108",
+        "name": "Historical Data - December - Total",
+        "sql": "SELECT 0 as value",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "109",
+        "name": "Inventory - Columbus - In Stock",
+        "sql": "SELECT SUM(qty_on_hand) as value FROM dbo.item_warehouse WITH (NOLOCK) WHERE warehouse_id = 'COL' AND qty_on_hand > 0",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "110",
+        "name": "Inventory - Columbus - On Order",
+        "sql": "SELECT SUM(qty_on_hand) as value FROM dbo.item_warehouse WITH (NOLOCK) WHERE warehouse_id = 'COL' AND qty_on_order > 0",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "111",
+        "name": "Inventory - Addison - In Stock",
+        "sql": "SELECT SUM(qty_on_hand) as value FROM dbo.item_warehouse WITH (NOLOCK) WHERE warehouse_id = 'ADD' AND qty_on_hand > 0",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "112",
+        "name": "Inventory - Addison - On Order",
+        "sql": "SELECT SUM(qty_on_hand) as value FROM dbo.item_warehouse WITH (NOLOCK) WHERE warehouse_id = 'ADD' AND qty_on_order > 0",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "113",
+        "name": "Inventory - Lake City - In Stock",
+        "sql": "SELECT SUM(qty_on_hand) as value FROM dbo.item_warehouse WITH (NOLOCK) WHERE warehouse_id = 'LKC' AND qty_on_hand > 0",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "114",
+        "name": "Inventory - Lake City - On Order",
+        "sql": "SELECT SUM(qty_on_hand) as value FROM dbo.item_warehouse WITH (NOLOCK) WHERE warehouse_id = 'LKC' AND qty_on_order > 0",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "115",
+        "name": "Inventory - Warehouse - In Stock",
+        "sql": "SELECT SUM(qty_on_hand) as value FROM dbo.item_warehouse WITH (NOLOCK) WHERE warehouse_id = 'WHS' AND qty_on_hand > 0",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "116",
+        "name": "Inventory - Warehouse - On Order",
+        "sql": "SELECT SUM(qty_on_hand) as value FROM dbo.item_warehouse WITH (NOLOCK) WHERE warehouse_id = 'WHS' AND qty_on_order > 0",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "117",
+        "name": "Key Metrics - Total Orders - Value",
+        "sql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_date >= DATEADD(day, -30, GETDATE())",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "118",
+        "name": "Key Metrics - Open Orders - Value",
+        "sql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_status = 'Open'",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "119",
+        "name": "Key Metrics - Shipped Orders - Value",
+        "sql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_status = 'Shipped' AND ship_date >= DATEADD(day, -30, GETDATE())",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "120",
+        "name": "Key Metrics - Total Sales - Value",
+        "sql": "SELECT SUM(order_amt) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_date >= DATEADD(day, -30, GETDATE())",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "121",
+        "name": "Key Metrics - Average Order Value - Value",
+        "sql": "SELECT AVG(order_amt) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_date >= DATEADD(day, -30, GETDATE())",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "122",
+        "name": "Key Metrics - Order Fill Rate - Value",
+        "sql": "SELECT 1 as value",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "123",
+        "name": "Key Metrics - On-Time Delivery - Value",
+        "sql": "SELECT CAST(COUNT(CASE WHEN ship_date <= promised_date THEN 1 END) * 100.0 / NULLIF(COUNT(*), 0) as DECIMAL(10,2)) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE ship_date IS NOT NULL AND order_date >= DATEADD(day, -30, GETDATE())",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "124",
+        "name": "Site Distribution - Columbus - Inventory",
+        "sql": "SELECT SUM(qty_on_hand) as value FROM dbo.item_warehouse WITH (NOLOCK) WHERE warehouse_id = 'COL'",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "125",
+        "name": "Site Distribution - Addison - Inventory",
+        "sql": "SELECT SUM(qty_on_hand) as value FROM dbo.item_warehouse WITH (NOLOCK) WHERE warehouse_id = 'ADD'",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "126",
+        "name": "Site Distribution - Lake City - Inventory",
+        "sql": "SELECT SUM(qty_on_hand) as value FROM dbo.item_warehouse WITH (NOLOCK) WHERE warehouse_id = 'LKC'",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "163",
+        "name": "Web Orders - January - Orders",
+        "sql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_source = 'Web' AND MONTH(order_date) = 1 AND YEAR(order_date) = YEAR(GETDATE())",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "164",
+        "name": "Web Orders - February - Orders",
+        "sql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_source = 'Web' AND MONTH(order_date) = 2 AND YEAR(order_date) = YEAR(GETDATE())",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "165",
+        "name": "Web Orders - March - Orders",
+        "sql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_source = 'Web' AND MONTH(order_date) = 3 AND YEAR(order_date) = YEAR(GETDATE())",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "166",
+        "name": "Web Orders - April - Orders",
+        "sql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_source = 'Web' AND MONTH(order_date) = 4 AND YEAR(order_date) = YEAR(GETDATE())",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "167",
+        "name": "Web Orders - May - Orders",
+        "sql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_source = 'Web' AND MONTH(order_date) = 5 AND YEAR(order_date) = YEAR(GETDATE())",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "168",
+        "name": "Web Orders - June - Orders",
+        "sql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_source = 'Web' AND MONTH(order_date) = 6 AND YEAR(order_date) = YEAR(GETDATE())",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "169",
+        "name": "Web Orders - July - Orders",
+        "sql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_source = 'Web' AND MONTH(order_date) = 7 AND YEAR(order_date) = YEAR(GETDATE())",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "170",
+        "name": "Web Orders - August - Orders",
+        "sql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_source = 'Web' AND MONTH(order_date) = 8 AND YEAR(order_date) = YEAR(GETDATE())",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "171",
+        "name": "Web Orders - September - Orders",
+        "sql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_source = 'Web' AND MONTH(order_date) = 9 AND YEAR(order_date) = YEAR(GETDATE())",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "172",
+        "name": "Web Orders - October - Orders",
+        "sql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_source = 'Web' AND MONTH(order_date) = 10 AND YEAR(order_date) = YEAR(GETDATE())",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "173",
+        "name": "Web Orders - November - Orders",
+        "sql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_source = 'Web' AND MONTH(order_date) = 11 AND YEAR(order_date) = YEAR(GETDATE())",
+        "error": "Server responded with status: 500"
+      },
+      {
+        "id": "174",
+        "name": "Web Orders - December - Orders",
+        "sql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_source = 'Web' AND MONTH(order_date) = 12 AND YEAR(order_date) = YEAR(GETDATE())",
+        "error": "Server responded with status: 500"
+      }
+    ]
+  },
+  "por": {
+    "total": 162,
+    "tested": 36,
+    "passed": 0,
+    "failed": 36,
+    "skipped": 126,
+    "failures": [
+      {
+        "id": "127",
+        "name": "POR Overview - January - New Rentals",
+        "sql": "SELECT 1 as value",
+        "error": "Server responded with status: 400"
+      },
+      {
+        "id": "128",
+        "name": "POR Overview - January - Open Rentals",
+        "sql": "SELECT 1 as value",
+        "error": "Server responded with status: 400"
+      },
+      {
+        "id": "129",
+        "name": "POR Overview - January - Rental Value",
+        "sql": "SELECT 1 as value",
+        "error": "Server responded with status: 400"
+      },
+      {
+        "id": "130",
+        "name": "POR Overview - February - New Rentals",
+        "sql": "SELECT 1 as value",
+        "error": "Server responded with status: 400"
+      },
+      {
+        "id": "131",
+        "name": "POR Overview - February - Open Rentals",
+        "sql": "SELECT 1 as value",
+        "error": "Server responded with status: 400"
+      },
+      {
+        "id": "132",
+        "name": "POR Overview - February - Rental Value",
+        "sql": "SELECT 1 as value",
+        "error": "Server responded with status: 400"
+      },
+      {
+        "id": "133",
+        "name": "POR Overview - March - New Rentals",
+        "sql": "SELECT 1 as value",
+        "error": "Server responded with status: 400"
+      },
+      {
+        "id": "134",
+        "name": "POR Overview - March - Open Rentals",
+        "sql": "SELECT Count(*) as value FROM Rentals WHERE Status = 'Open' AND Month(CreatedDate) = 3 AND Year(CreatedDate) = Year(Date())",
+        "error": "Server responded with status: 400"
+      },
+      {
+        "id": "135",
+        "name": "POR Overview - March - Rental Value",
+        "sql": "SELECT Count(*) as value FROM Rentals WHERE Status = 'New' AND Month(CreatedDate) = 3 AND Year(CreatedDate) = Year(Date())",
+        "error": "Server responded with status: 400"
+      },
+      {
+        "id": "136",
+        "name": "POR Overview - April - New Rentals",
+        "sql": "SELECT Sum(Nz(RentalValue, 0)) as value FROM Rentals WHERE Month(CreatedDate) = 3 AND Year(CreatedDate) = Year(Date())",
+        "error": "Server responded with status: 400"
+      },
+      {
+        "id": "137",
+        "name": "POR Overview - April - Open Rentals",
+        "sql": "SELECT 1 as value",
+        "error": "Server responded with status: 400"
+      },
+      {
+        "id": "138",
+        "name": "POR Overview - April - Rental Value",
+        "sql": "SELECT 1 as value",
+        "error": "Server responded with status: 400"
+      },
+      {
+        "id": "139",
+        "name": "POR Overview - May - New Rentals",
+        "sql": "SELECT 1 as value",
+        "error": "Server responded with status: 400"
+      },
+      {
+        "id": "140",
+        "name": "POR Overview - May - Open Rentals",
+        "sql": "SELECT 1 as value",
+        "error": "Server responded with status: 400"
+      },
+      {
+        "id": "141",
+        "name": "POR Overview - May - Rental Value",
+        "sql": "SELECT 1 as value",
+        "error": "Server responded with status: 400"
+      },
+      {
+        "id": "142",
+        "name": "POR Overview - June - New Rentals",
+        "sql": "SELECT 1 as value",
+        "error": "Server responded with status: 400"
+      },
+      {
+        "id": "143",
+        "name": "POR Overview - June - Open Rentals",
+        "sql": "SELECT 1 as value",
+        "error": "Server responded with status: 400"
+      },
+      {
+        "id": "144",
+        "name": "POR Overview - June - Rental Value",
+        "sql": "SELECT 1 as value",
+        "error": "Server responded with status: 400"
+      },
+      {
+        "id": "145",
+        "name": "POR Overview - July - New Rentals",
+        "sql": "SELECT 1 as value",
+        "error": "Server responded with status: 400"
+      },
+      {
+        "id": "146",
+        "name": "POR Overview - July - Open Rentals",
+        "sql": "SELECT 1 as value",
+        "error": "Server responded with status: 400"
+      },
+      {
+        "id": "147",
+        "name": "POR Overview - July - Rental Value",
+        "sql": "SELECT 1 as value",
+        "error": "Server responded with status: 400"
+      },
+      {
+        "id": "148",
+        "name": "POR Overview - August - New Rentals",
+        "sql": "SELECT 1 as value",
+        "error": "Server responded with status: 400"
+      },
+      {
+        "id": "149",
+        "name": "POR Overview - August - Open Rentals",
+        "sql": "SELECT 1 as value",
+        "error": "Server responded with status: 400"
+      },
+      {
+        "id": "150",
+        "name": "POR Overview - August - Rental Value",
+        "sql": "SELECT 1 as value",
+        "error": "Server responded with status: 400"
+      },
+      {
+        "id": "151",
+        "name": "POR Overview - September - New Rentals",
+        "sql": "SELECT 1 as value",
+        "error": "Server responded with status: 400"
+      },
+      {
+        "id": "152",
+        "name": "POR Overview - September - Open Rentals",
+        "sql": "SELECT 1 as value",
+        "error": "Server responded with status: 400"
+      },
+      {
+        "id": "153",
+        "name": "POR Overview - September - Rental Value",
+        "sql": "SELECT 1 as value",
+        "error": "Server responded with status: 400"
+      },
+      {
+        "id": "154",
+        "name": "POR Overview - October - New Rentals",
+        "sql": "SELECT 1 as value",
+        "error": "Server responded with status: 400"
+      },
+      {
+        "id": "155",
+        "name": "POR Overview - October - Open Rentals",
+        "sql": "SELECT 1 as value",
+        "error": "Server responded with status: 400"
+      },
+      {
+        "id": "156",
+        "name": "POR Overview - October - Rental Value",
+        "sql": "SELECT 1 as value",
+        "error": "Server responded with status: 400"
+      },
+      {
+        "id": "157",
+        "name": "POR Overview - November - New Rentals",
+        "sql": "SELECT 1 as value",
+        "error": "Server responded with status: 400"
+      },
+      {
+        "id": "158",
+        "name": "POR Overview - November - Open Rentals",
+        "sql": "SELECT 1 as value",
+        "error": "Server responded with status: 400"
+      },
+      {
+        "id": "159",
+        "name": "POR Overview - November - Rental Value",
+        "sql": "SELECT 1 as value",
+        "error": "Server responded with status: 400"
+      },
+      {
+        "id": "160",
+        "name": "POR Overview - December - New Rentals",
+        "sql": "SELECT 1 as value",
+        "error": "Server responded with status: 400"
+      },
+      {
+        "id": "161",
+        "name": "POR Overview - December - Open Rentals",
+        "sql": "SELECT 1 as value",
+        "error": "Server responded with status: 400"
+      },
+      {
+        "id": "162",
+        "name": "POR Overview - December - Rental Value",
+        "sql": "SELECT 1 as value",
+        "error": "Server responded with status: 400"
+      }
+    ]
+  },
+  "expressions": [
+    {
+      "id": "1",
+      "name": "AR Aging - Current - Amount Due",
+      "p21": {
+        "sql": "SELECT ISNULL(SUM(amount_due), 0) as value FROM dbo.ar_open_items WITH (NOLOCK) WHERE aging_bucket = 'Current'",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "2",
+      "name": "AR Aging - 1-30 Days - Amount Due",
+      "p21": {
+        "sql": "SELECT ISNULL(SUM(amount_due), 0) as value FROM dbo.ar_open_items WITH (NOLOCK) WHERE aging_bucket = '1-30 Days'",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "3",
+      "name": "AR Aging - 31-60 Days - Amount Due",
+      "p21": {
+        "sql": "SELECT ISNULL(SUM(amount_due), 0) as value FROM dbo.ar_open_items WITH (NOLOCK) WHERE aging_bucket = '31-60 Days'",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "4",
+      "name": "AR Aging - 61-90 Days - Amount Due",
+      "p21": {
+        "sql": "SELECT ISNULL(SUM(amount_due), 0) as value FROM dbo.ar_open_items WITH (NOLOCK) WHERE aging_bucket = '61-90 Days'",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "5",
+      "name": "AR Aging - 90+ Days - Amount Due",
+      "p21": {
+        "sql": "SELECT ISNULL(SUM(amount_due), 0) as value FROM dbo.ar_open_items WITH (NOLOCK) WHERE aging_bucket = 'Over 90 Days'",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "6",
+      "name": "Accounts - January - Payable",
+      "p21": {
+        "sql": "SELECT ISNULL(SUM(invoice_amt), 0) as value FROM dbo.ap_invoices WITH (NOLOCK) WHERE MONTH(invoice_date) = 1 AND YEAR(invoice_date) = YEAR(GETDATE())",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "7",
+      "name": "Accounts - January - Receivable",
+      "p21": {
+        "sql": "SELECT ISNULL(SUM(ar_amount), 0) as value FROM dbo.ar_headers WITH (NOLOCK) WHERE MONTH(invoice_date) = 1 AND YEAR(invoice_date) = YEAR(GETDATE())",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "8",
+      "name": "Accounts - January - Overdue",
+      "p21": {
+        "sql": "SELECT ISNULL(SUM(ar_amount), 0) as value FROM dbo.ar_headers WITH (NOLOCK) WHERE MONTH(invoice_date) = 1 AND YEAR(invoice_date) = YEAR(GETDATE()) AND DATEDIFF(day, invoice_date, GETDATE()) > 30",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "9",
+      "name": "Accounts - February - Payable",
+      "p21": {
+        "sql": "SELECT SUM(amount) as value FROM dbo.payable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 2 AND YEAR(transaction_date) = YEAR(GETDATE())",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "10",
+      "name": "Accounts - February - Receivable",
+      "p21": {
+        "sql": "SELECT SUM(amount) as value FROM dbo.receivable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 2 AND YEAR(transaction_date) = YEAR(GETDATE())",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "11",
+      "name": "Accounts - February - Overdue",
+      "p21": {
+        "sql": "SELECT SUM(amount) as value FROM dbo.overdue_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 2 AND YEAR(transaction_date) = YEAR(GETDATE())",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "12",
+      "name": "Accounts - March - Payable",
+      "p21": {
+        "sql": "SELECT SUM(amount) as value FROM dbo.payable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 3 AND YEAR(transaction_date) = YEAR(GETDATE())",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "13",
+      "name": "Accounts - March - Receivable",
+      "p21": {
+        "sql": "SELECT SUM(amount) as value FROM dbo.receivable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 3 AND YEAR(transaction_date) = YEAR(GETDATE())",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "14",
+      "name": "Accounts - March - Overdue",
+      "p21": {
+        "sql": "SELECT SUM(amount) as value FROM dbo.overdue_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 3 AND YEAR(transaction_date) = YEAR(GETDATE())",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "15",
+      "name": "Accounts - April - Payable",
+      "p21": {
+        "sql": "SELECT SUM(amount) as value FROM dbo.payable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 4 AND YEAR(transaction_date) = YEAR(GETDATE())",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "16",
+      "name": "Accounts - April - Receivable",
+      "p21": {
+        "sql": "SELECT SUM(amount) as value FROM dbo.receivable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 4 AND YEAR(transaction_date) = YEAR(GETDATE())",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "17",
+      "name": "Accounts - April - Overdue",
+      "p21": {
+        "sql": "SELECT SUM(amount) as value FROM dbo.overdue_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 4 AND YEAR(transaction_date) = YEAR(GETDATE())",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "18",
+      "name": "Accounts - May - Payable",
+      "p21": {
+        "sql": "SELECT SUM(amount) as value FROM dbo.payable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 5 AND YEAR(transaction_date) = YEAR(GETDATE())",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "19",
+      "name": "Accounts - May - Receivable",
+      "p21": {
+        "sql": "SELECT SUM(amount) as value FROM dbo.receivable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 5 AND YEAR(transaction_date) = YEAR(GETDATE())",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "20",
+      "name": "Accounts - May - Overdue",
+      "p21": {
+        "sql": "SELECT SUM(amount) as value FROM dbo.overdue_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 5 AND YEAR(transaction_date) = YEAR(GETDATE())",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "21",
+      "name": "Accounts - June - Payable",
+      "p21": {
+        "sql": "SELECT SUM(amount) as value FROM dbo.payable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 6 AND YEAR(transaction_date) = YEAR(GETDATE())",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "22",
+      "name": "Accounts - June - Receivable",
+      "p21": {
+        "sql": "SELECT SUM(amount) as value FROM dbo.receivable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 6 AND YEAR(transaction_date) = YEAR(GETDATE())",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "23",
+      "name": "Accounts - June - Overdue",
+      "p21": {
+        "sql": "SELECT SUM(amount) as value FROM dbo.overdue_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 6 AND YEAR(transaction_date) = YEAR(GETDATE())",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "24",
+      "name": "Accounts - July - Payable",
+      "p21": {
+        "sql": "SELECT SUM(amount) as value FROM dbo.payable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 7 AND YEAR(transaction_date) = YEAR(GETDATE())",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "25",
+      "name": "Accounts - July - Receivable",
+      "p21": {
+        "sql": "SELECT SUM(amount) as value FROM dbo.receivable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 7 AND YEAR(transaction_date) = YEAR(GETDATE())",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "26",
+      "name": "Accounts - July - Overdue",
+      "p21": {
+        "sql": "SELECT SUM(amount) as value FROM dbo.overdue_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 7 AND YEAR(transaction_date) = YEAR(GETDATE())",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "27",
+      "name": "Accounts - August - Payable",
+      "p21": {
+        "sql": "SELECT SUM(amount) as value FROM dbo.payable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 8 AND YEAR(transaction_date) = YEAR(GETDATE())",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "28",
+      "name": "Accounts - August - Receivable",
+      "p21": {
+        "sql": "SELECT SUM(amount) as value FROM dbo.receivable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 8 AND YEAR(transaction_date) = YEAR(GETDATE())",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "29",
+      "name": "Accounts - August - Overdue",
+      "p21": {
+        "sql": "SELECT SUM(amount) as value FROM dbo.overdue_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 8 AND YEAR(transaction_date) = YEAR(GETDATE())",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "30",
+      "name": "Accounts - September - Payable",
+      "p21": {
+        "sql": "SELECT SUM(amount) as value FROM dbo.payable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 9 AND YEAR(transaction_date) = YEAR(GETDATE())",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "31",
+      "name": "Accounts - September - Receivable",
+      "p21": {
+        "sql": "SELECT SUM(amount) as value FROM dbo.receivable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 9 AND YEAR(transaction_date) = YEAR(GETDATE())",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "32",
+      "name": "Accounts - September - Overdue",
+      "p21": {
+        "sql": "SELECT SUM(amount) as value FROM dbo.overdue_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 9 AND YEAR(transaction_date) = YEAR(GETDATE())",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "33",
+      "name": "Accounts - October - Payable",
+      "p21": {
+        "sql": "SELECT SUM(amount) as value FROM dbo.payable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 10 AND YEAR(transaction_date) = YEAR(GETDATE())",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "34",
+      "name": "Accounts - October - Receivable",
+      "p21": {
+        "sql": "SELECT SUM(amount) as value FROM dbo.receivable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 10 AND YEAR(transaction_date) = YEAR(GETDATE())",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "35",
+      "name": "Accounts - October - Overdue",
+      "p21": {
+        "sql": "SELECT SUM(amount) as value FROM dbo.overdue_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 10 AND YEAR(transaction_date) = YEAR(GETDATE())",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "36",
+      "name": "Accounts - November - Payable",
+      "p21": {
+        "sql": "SELECT SUM(amount) as value FROM dbo.payable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 11 AND YEAR(transaction_date) = YEAR(GETDATE())",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "37",
+      "name": "Accounts - November - Receivable",
+      "p21": {
+        "sql": "SELECT SUM(amount) as value FROM dbo.receivable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 11 AND YEAR(transaction_date) = YEAR(GETDATE())",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "38",
+      "name": "Accounts - November - Overdue",
+      "p21": {
+        "sql": "SELECT SUM(amount) as value FROM dbo.overdue_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 11 AND YEAR(transaction_date) = YEAR(GETDATE())",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "39",
+      "name": "Accounts - December - Payable",
+      "p21": {
+        "sql": "SELECT SUM(amount) as value FROM dbo.payable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 12 AND YEAR(transaction_date) = YEAR(GETDATE())",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "40",
+      "name": "Accounts - December - Receivable",
+      "p21": {
+        "sql": "SELECT SUM(amount) as value FROM dbo.receivable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 12 AND YEAR(transaction_date) = YEAR(GETDATE())",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "41",
+      "name": "Accounts - December - Overdue",
+      "p21": {
+        "sql": "SELECT SUM(amount) as value FROM dbo.overdue_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 12 AND YEAR(transaction_date) = YEAR(GETDATE())",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "42",
+      "name": "Customer Metrics - January - New Customers",
+      "p21": {
+        "sql": "SELECT 1 as value",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "43",
+      "name": "Customer Metrics - January - Prospects",
+      "p21": {
+        "sql": "SELECT ISNULL(COUNT(*), 0) as value FROM dbo.customer WITH (NOLOCK) WHERE prospect_flag = 'Y' AND MONTH(created_date) = 1 AND YEAR(created_date) = YEAR(GETDATE())",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "44",
+      "name": "Customer Metrics - February - New Customers",
+      "p21": {
+        "sql": "SELECT ISNULL(COUNT(*), 0) as value FROM dbo.customer WITH (NOLOCK) WHERE prospect_flag = 'N' AND MONTH(created_date) = 1 AND YEAR(created_date) = YEAR(GETDATE())",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "45",
+      "name": "Customer Metrics - February - Prospects",
+      "p21": {
+        "sql": "SELECT 1 as value",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "46",
+      "name": "Customer Metrics - March - New Customers",
+      "p21": {
+        "sql": "SELECT 1 as value",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "47",
+      "name": "Customer Metrics - March - Prospects",
+      "p21": {
+        "sql": "SELECT 1 as value",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "48",
+      "name": "Customer Metrics - April - New Customers",
+      "p21": {
+        "sql": "SELECT 1 as value",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "49",
+      "name": "Customer Metrics - April - Prospects",
+      "p21": {
+        "sql": "SELECT 1 as value",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "50",
+      "name": "Customer Metrics - May - New Customers",
+      "p21": {
+        "sql": "SELECT 1 as value",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "51",
+      "name": "Customer Metrics - May - Prospects",
+      "p21": {
+        "sql": "SELECT 1 as value",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "52",
+      "name": "Customer Metrics - June - New Customers",
+      "p21": {
+        "sql": "SELECT 1 as value",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "53",
+      "name": "Customer Metrics - June - Prospects",
+      "p21": {
+        "sql": "SELECT 1 as value",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "54",
+      "name": "Customer Metrics - July - New Customers",
+      "p21": {
+        "sql": "SELECT 1 as value",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "55",
+      "name": "Customer Metrics - July - Prospects",
+      "p21": {
+        "sql": "SELECT 1 as value",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "56",
+      "name": "Customer Metrics - August - New Customers",
+      "p21": {
+        "sql": "SELECT 1 as value",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "57",
+      "name": "Customer Metrics - August - Prospects",
+      "p21": {
+        "sql": "SELECT 1 as value",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "58",
+      "name": "Customer Metrics - September - New Customers",
+      "p21": {
+        "sql": "SELECT 1 as value",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "59",
+      "name": "Customer Metrics - September - Prospects",
+      "p21": {
+        "sql": "SELECT 1 as value",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "60",
+      "name": "Customer Metrics - October - New Customers",
+      "p21": {
+        "sql": "SELECT 1 as value",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "61",
+      "name": "Customer Metrics - October - Prospects",
+      "p21": {
+        "sql": "SELECT 1 as value",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "62",
+      "name": "Customer Metrics - November - New Customers",
+      "p21": {
+        "sql": "SELECT 1 as value",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "63",
+      "name": "Customer Metrics - November - Prospects",
+      "p21": {
+        "sql": "SELECT 1 as value",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "64",
+      "name": "Customer Metrics - December - New Customers",
+      "p21": {
+        "sql": "SELECT 1 as value",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "65",
+      "name": "Customer Metrics - December - Prospects",
+      "p21": {
+        "sql": "SELECT 1 as value",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "66",
+      "name": "Daily Orders - Today - Orders",
+      "p21": {
+        "sql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_date = DATEADD(day, -0, CAST(GETDATE() AS date))",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "67",
+      "name": "Daily Orders - Yesterday - Orders",
+      "p21": {
+        "sql": "SELECT ISNULL(COUNT(*), 0) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE CONVERT(date, order_date) = CONVERT(date, GETDATE())",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "68",
+      "name": "Daily Orders - Day-2 - Orders",
+      "p21": {
+        "sql": "SELECT ISNULL(COUNT(*), 0) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE CONVERT(date, order_date) = CONVERT(date, DATEADD(day, -1, GETDATE()))",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "69",
+      "name": "Daily Orders - Day-3 - Orders",
+      "p21": {
+        "sql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_date = DATEADD(day, -3, CAST(GETDATE() AS date))",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "70",
+      "name": "Daily Orders - Day-4 - Orders",
+      "p21": {
+        "sql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_date = DATEADD(day, -4, CAST(GETDATE() AS date))",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "71",
+      "name": "Daily Orders - Day-5 - Orders",
+      "p21": {
+        "sql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_date = DATEADD(day, -5, CAST(GETDATE() AS date))",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "72",
+      "name": "Daily Orders - Day-6 - Orders",
+      "p21": {
+        "sql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_date = DATEADD(day, -6, CAST(GETDATE() AS date))",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "73",
+      "name": "Historical Data - January",
+      "p21": {
+        "sql": "SELECT 0 as value",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "75",
+      "name": "Historical Data - January - Total",
+      "p21": {
+        "sql": "SELECT 0 as value",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "76",
+      "name": "Historical Data - February",
+      "p21": {
+        "sql": "SELECT 0 as value",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "78",
+      "name": "Historical Data - February - Total",
+      "p21": {
+        "sql": "SELECT 0 as value",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "79",
+      "name": "Historical Data - March",
+      "p21": {
+        "sql": "SELECT 0 as value",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "81",
+      "name": "Historical Data - March - Total",
+      "p21": {
+        "sql": "SELECT 0 as value",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "82",
+      "name": "Historical Data - April",
+      "p21": {
+        "sql": "SELECT 0 as value",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "84",
+      "name": "Historical Data - April - Total",
+      "p21": {
+        "sql": "SELECT 0 as value",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "85",
+      "name": "Historical Data - May",
+      "p21": {
+        "sql": "SELECT 0 as value",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "87",
+      "name": "Historical Data - May - Total",
+      "p21": {
+        "sql": "SELECT 0 as value",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "88",
+      "name": "Historical Data - June",
+      "p21": {
+        "sql": "SELECT 0 as value",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "90",
+      "name": "Historical Data - June - Total",
+      "p21": {
+        "sql": "SELECT 0 as value",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "91",
+      "name": "Historical Data - July",
+      "p21": {
+        "sql": "SELECT 0 as value",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "93",
+      "name": "Historical Data - July - Total",
+      "p21": {
+        "sql": "SELECT 0 as value",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "94",
+      "name": "Historical Data - August",
+      "p21": {
+        "sql": "SELECT 0 as value",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "96",
+      "name": "Historical Data - August - Total",
+      "p21": {
+        "sql": "SELECT 0 as value",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "97",
+      "name": "Historical Data - September",
+      "p21": {
+        "sql": "SELECT 0 as value",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "99",
+      "name": "Historical Data - September - Total",
+      "p21": {
+        "sql": "SELECT 0 as value",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "100",
+      "name": "Historical Data - October",
+      "p21": {
+        "sql": "SELECT 0 as value",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "102",
+      "name": "Historical Data - October - Total",
+      "p21": {
+        "sql": "SELECT 0 as value",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "103",
+      "name": "Historical Data - November",
+      "p21": {
+        "sql": "SELECT 0 as value",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "105",
+      "name": "Historical Data - November - Total",
+      "p21": {
+        "sql": "SELECT 0 as value",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "106",
+      "name": "Historical Data - December",
+      "p21": {
+        "sql": "SELECT 0 as value",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "108",
+      "name": "Historical Data - December - Total",
+      "p21": {
+        "sql": "SELECT 0 as value",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "109",
+      "name": "Inventory - Columbus - In Stock",
+      "p21": {
+        "sql": "SELECT SUM(qty_on_hand) as value FROM dbo.item_warehouse WITH (NOLOCK) WHERE warehouse_id = 'COL' AND qty_on_hand > 0",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "110",
+      "name": "Inventory - Columbus - On Order",
+      "p21": {
+        "sql": "SELECT SUM(qty_on_hand) as value FROM dbo.item_warehouse WITH (NOLOCK) WHERE warehouse_id = 'COL' AND qty_on_order > 0",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "111",
+      "name": "Inventory - Addison - In Stock",
+      "p21": {
+        "sql": "SELECT SUM(qty_on_hand) as value FROM dbo.item_warehouse WITH (NOLOCK) WHERE warehouse_id = 'ADD' AND qty_on_hand > 0",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "112",
+      "name": "Inventory - Addison - On Order",
+      "p21": {
+        "sql": "SELECT SUM(qty_on_hand) as value FROM dbo.item_warehouse WITH (NOLOCK) WHERE warehouse_id = 'ADD' AND qty_on_order > 0",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "113",
+      "name": "Inventory - Lake City - In Stock",
+      "p21": {
+        "sql": "SELECT SUM(qty_on_hand) as value FROM dbo.item_warehouse WITH (NOLOCK) WHERE warehouse_id = 'LKC' AND qty_on_hand > 0",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "114",
+      "name": "Inventory - Lake City - On Order",
+      "p21": {
+        "sql": "SELECT SUM(qty_on_hand) as value FROM dbo.item_warehouse WITH (NOLOCK) WHERE warehouse_id = 'LKC' AND qty_on_order > 0",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "115",
+      "name": "Inventory - Warehouse - In Stock",
+      "p21": {
+        "sql": "SELECT SUM(qty_on_hand) as value FROM dbo.item_warehouse WITH (NOLOCK) WHERE warehouse_id = 'WHS' AND qty_on_hand > 0",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "116",
+      "name": "Inventory - Warehouse - On Order",
+      "p21": {
+        "sql": "SELECT SUM(qty_on_hand) as value FROM dbo.item_warehouse WITH (NOLOCK) WHERE warehouse_id = 'WHS' AND qty_on_order > 0",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "117",
+      "name": "Key Metrics - Total Orders - Value",
+      "p21": {
+        "sql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_date >= DATEADD(day, -30, GETDATE())",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "118",
+      "name": "Key Metrics - Open Orders - Value",
+      "p21": {
+        "sql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_status = 'Open'",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "119",
+      "name": "Key Metrics - Shipped Orders - Value",
+      "p21": {
+        "sql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_status = 'Shipped' AND ship_date >= DATEADD(day, -30, GETDATE())",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "120",
+      "name": "Key Metrics - Total Sales - Value",
+      "p21": {
+        "sql": "SELECT SUM(order_amt) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_date >= DATEADD(day, -30, GETDATE())",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "121",
+      "name": "Key Metrics - Average Order Value - Value",
+      "p21": {
+        "sql": "SELECT AVG(order_amt) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_date >= DATEADD(day, -30, GETDATE())",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "122",
+      "name": "Key Metrics - Order Fill Rate - Value",
+      "p21": {
+        "sql": "SELECT 1 as value",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "123",
+      "name": "Key Metrics - On-Time Delivery - Value",
+      "p21": {
+        "sql": "SELECT CAST(COUNT(CASE WHEN ship_date <= promised_date THEN 1 END) * 100.0 / NULLIF(COUNT(*), 0) as DECIMAL(10,2)) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE ship_date IS NOT NULL AND order_date >= DATEADD(day, -30, GETDATE())",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "124",
+      "name": "Site Distribution - Columbus - Inventory",
+      "p21": {
+        "sql": "SELECT SUM(qty_on_hand) as value FROM dbo.item_warehouse WITH (NOLOCK) WHERE warehouse_id = 'COL'",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "125",
+      "name": "Site Distribution - Addison - Inventory",
+      "p21": {
+        "sql": "SELECT SUM(qty_on_hand) as value FROM dbo.item_warehouse WITH (NOLOCK) WHERE warehouse_id = 'ADD'",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "126",
+      "name": "Site Distribution - Lake City - Inventory",
+      "p21": {
+        "sql": "SELECT SUM(qty_on_hand) as value FROM dbo.item_warehouse WITH (NOLOCK) WHERE warehouse_id = 'LKC'",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "127",
+      "name": "POR Overview - January - New Rentals",
+      "p21": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      },
+      "por": {
+        "sql": "SELECT 1 as value",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 400",
+        "value": null
+      }
+    },
+    {
+      "id": "128",
+      "name": "POR Overview - January - Open Rentals",
+      "p21": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      },
+      "por": {
+        "sql": "SELECT 1 as value",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 400",
+        "value": null
+      }
+    },
+    {
+      "id": "129",
+      "name": "POR Overview - January - Rental Value",
+      "p21": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      },
+      "por": {
+        "sql": "SELECT 1 as value",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 400",
+        "value": null
+      }
+    },
+    {
+      "id": "130",
+      "name": "POR Overview - February - New Rentals",
+      "p21": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      },
+      "por": {
+        "sql": "SELECT 1 as value",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 400",
+        "value": null
+      }
+    },
+    {
+      "id": "131",
+      "name": "POR Overview - February - Open Rentals",
+      "p21": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      },
+      "por": {
+        "sql": "SELECT 1 as value",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 400",
+        "value": null
+      }
+    },
+    {
+      "id": "132",
+      "name": "POR Overview - February - Rental Value",
+      "p21": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      },
+      "por": {
+        "sql": "SELECT 1 as value",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 400",
+        "value": null
+      }
+    },
+    {
+      "id": "133",
+      "name": "POR Overview - March - New Rentals",
+      "p21": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      },
+      "por": {
+        "sql": "SELECT 1 as value",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 400",
+        "value": null
+      }
+    },
+    {
+      "id": "134",
+      "name": "POR Overview - March - Open Rentals",
+      "p21": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      },
+      "por": {
+        "sql": "SELECT Count(*) as value FROM Rentals WHERE Status = 'Open' AND Month(CreatedDate) = 3 AND Year(CreatedDate) = Year(Date())",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 400",
+        "value": null
+      }
+    },
+    {
+      "id": "135",
+      "name": "POR Overview - March - Rental Value",
+      "p21": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      },
+      "por": {
+        "sql": "SELECT Count(*) as value FROM Rentals WHERE Status = 'New' AND Month(CreatedDate) = 3 AND Year(CreatedDate) = Year(Date())",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 400",
+        "value": null
+      }
+    },
+    {
+      "id": "136",
+      "name": "POR Overview - April - New Rentals",
+      "p21": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      },
+      "por": {
+        "sql": "SELECT Sum(Nz(RentalValue, 0)) as value FROM Rentals WHERE Month(CreatedDate) = 3 AND Year(CreatedDate) = Year(Date())",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 400",
+        "value": null
+      }
+    },
+    {
+      "id": "137",
+      "name": "POR Overview - April - Open Rentals",
+      "p21": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      },
+      "por": {
+        "sql": "SELECT 1 as value",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 400",
+        "value": null
+      }
+    },
+    {
+      "id": "138",
+      "name": "POR Overview - April - Rental Value",
+      "p21": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      },
+      "por": {
+        "sql": "SELECT 1 as value",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 400",
+        "value": null
+      }
+    },
+    {
+      "id": "139",
+      "name": "POR Overview - May - New Rentals",
+      "p21": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      },
+      "por": {
+        "sql": "SELECT 1 as value",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 400",
+        "value": null
+      }
+    },
+    {
+      "id": "140",
+      "name": "POR Overview - May - Open Rentals",
+      "p21": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      },
+      "por": {
+        "sql": "SELECT 1 as value",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 400",
+        "value": null
+      }
+    },
+    {
+      "id": "141",
+      "name": "POR Overview - May - Rental Value",
+      "p21": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      },
+      "por": {
+        "sql": "SELECT 1 as value",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 400",
+        "value": null
+      }
+    },
+    {
+      "id": "142",
+      "name": "POR Overview - June - New Rentals",
+      "p21": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      },
+      "por": {
+        "sql": "SELECT 1 as value",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 400",
+        "value": null
+      }
+    },
+    {
+      "id": "143",
+      "name": "POR Overview - June - Open Rentals",
+      "p21": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      },
+      "por": {
+        "sql": "SELECT 1 as value",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 400",
+        "value": null
+      }
+    },
+    {
+      "id": "144",
+      "name": "POR Overview - June - Rental Value",
+      "p21": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      },
+      "por": {
+        "sql": "SELECT 1 as value",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 400",
+        "value": null
+      }
+    },
+    {
+      "id": "145",
+      "name": "POR Overview - July - New Rentals",
+      "p21": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      },
+      "por": {
+        "sql": "SELECT 1 as value",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 400",
+        "value": null
+      }
+    },
+    {
+      "id": "146",
+      "name": "POR Overview - July - Open Rentals",
+      "p21": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      },
+      "por": {
+        "sql": "SELECT 1 as value",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 400",
+        "value": null
+      }
+    },
+    {
+      "id": "147",
+      "name": "POR Overview - July - Rental Value",
+      "p21": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      },
+      "por": {
+        "sql": "SELECT 1 as value",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 400",
+        "value": null
+      }
+    },
+    {
+      "id": "148",
+      "name": "POR Overview - August - New Rentals",
+      "p21": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      },
+      "por": {
+        "sql": "SELECT 1 as value",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 400",
+        "value": null
+      }
+    },
+    {
+      "id": "149",
+      "name": "POR Overview - August - Open Rentals",
+      "p21": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      },
+      "por": {
+        "sql": "SELECT 1 as value",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 400",
+        "value": null
+      }
+    },
+    {
+      "id": "150",
+      "name": "POR Overview - August - Rental Value",
+      "p21": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      },
+      "por": {
+        "sql": "SELECT 1 as value",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 400",
+        "value": null
+      }
+    },
+    {
+      "id": "151",
+      "name": "POR Overview - September - New Rentals",
+      "p21": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      },
+      "por": {
+        "sql": "SELECT 1 as value",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 400",
+        "value": null
+      }
+    },
+    {
+      "id": "152",
+      "name": "POR Overview - September - Open Rentals",
+      "p21": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      },
+      "por": {
+        "sql": "SELECT 1 as value",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 400",
+        "value": null
+      }
+    },
+    {
+      "id": "153",
+      "name": "POR Overview - September - Rental Value",
+      "p21": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      },
+      "por": {
+        "sql": "SELECT 1 as value",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 400",
+        "value": null
+      }
+    },
+    {
+      "id": "154",
+      "name": "POR Overview - October - New Rentals",
+      "p21": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      },
+      "por": {
+        "sql": "SELECT 1 as value",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 400",
+        "value": null
+      }
+    },
+    {
+      "id": "155",
+      "name": "POR Overview - October - Open Rentals",
+      "p21": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      },
+      "por": {
+        "sql": "SELECT 1 as value",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 400",
+        "value": null
+      }
+    },
+    {
+      "id": "156",
+      "name": "POR Overview - October - Rental Value",
+      "p21": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      },
+      "por": {
+        "sql": "SELECT 1 as value",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 400",
+        "value": null
+      }
+    },
+    {
+      "id": "157",
+      "name": "POR Overview - November - New Rentals",
+      "p21": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      },
+      "por": {
+        "sql": "SELECT 1 as value",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 400",
+        "value": null
+      }
+    },
+    {
+      "id": "158",
+      "name": "POR Overview - November - Open Rentals",
+      "p21": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      },
+      "por": {
+        "sql": "SELECT 1 as value",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 400",
+        "value": null
+      }
+    },
+    {
+      "id": "159",
+      "name": "POR Overview - November - Rental Value",
+      "p21": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      },
+      "por": {
+        "sql": "SELECT 1 as value",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 400",
+        "value": null
+      }
+    },
+    {
+      "id": "160",
+      "name": "POR Overview - December - New Rentals",
+      "p21": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      },
+      "por": {
+        "sql": "SELECT 1 as value",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 400",
+        "value": null
+      }
+    },
+    {
+      "id": "161",
+      "name": "POR Overview - December - Open Rentals",
+      "p21": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      },
+      "por": {
+        "sql": "SELECT 1 as value",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 400",
+        "value": null
+      }
+    },
+    {
+      "id": "162",
+      "name": "POR Overview - December - Rental Value",
+      "p21": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      },
+      "por": {
+        "sql": "SELECT 1 as value",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 400",
+        "value": null
+      }
+    },
+    {
+      "id": "163",
+      "name": "Web Orders - January - Orders",
+      "p21": {
+        "sql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_source = 'Web' AND MONTH(order_date) = 1 AND YEAR(order_date) = YEAR(GETDATE())",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "164",
+      "name": "Web Orders - February - Orders",
+      "p21": {
+        "sql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_source = 'Web' AND MONTH(order_date) = 2 AND YEAR(order_date) = YEAR(GETDATE())",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "165",
+      "name": "Web Orders - March - Orders",
+      "p21": {
+        "sql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_source = 'Web' AND MONTH(order_date) = 3 AND YEAR(order_date) = YEAR(GETDATE())",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "166",
+      "name": "Web Orders - April - Orders",
+      "p21": {
+        "sql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_source = 'Web' AND MONTH(order_date) = 4 AND YEAR(order_date) = YEAR(GETDATE())",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "167",
+      "name": "Web Orders - May - Orders",
+      "p21": {
+        "sql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_source = 'Web' AND MONTH(order_date) = 5 AND YEAR(order_date) = YEAR(GETDATE())",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "168",
+      "name": "Web Orders - June - Orders",
+      "p21": {
+        "sql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_source = 'Web' AND MONTH(order_date) = 6 AND YEAR(order_date) = YEAR(GETDATE())",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "169",
+      "name": "Web Orders - July - Orders",
+      "p21": {
+        "sql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_source = 'Web' AND MONTH(order_date) = 7 AND YEAR(order_date) = YEAR(GETDATE())",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "170",
+      "name": "Web Orders - August - Orders",
+      "p21": {
+        "sql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_source = 'Web' AND MONTH(order_date) = 8 AND YEAR(order_date) = YEAR(GETDATE())",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "171",
+      "name": "Web Orders - September - Orders",
+      "p21": {
+        "sql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_source = 'Web' AND MONTH(order_date) = 9 AND YEAR(order_date) = YEAR(GETDATE())",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "172",
+      "name": "Web Orders - October - Orders",
+      "p21": {
+        "sql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_source = 'Web' AND MONTH(order_date) = 10 AND YEAR(order_date) = YEAR(GETDATE())",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "173",
+      "name": "Web Orders - November - Orders",
+      "p21": {
+        "sql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_source = 'Web' AND MONTH(order_date) = 11 AND YEAR(order_date) = YEAR(GETDATE())",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    },
+    {
+      "id": "174",
+      "name": "Web Orders - December - Orders",
+      "p21": {
+        "sql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_source = 'Web' AND MONTH(order_date) = 12 AND YEAR(order_date) = YEAR(GETDATE())",
+        "tested": true,
+        "passed": false,
+        "error": "Server responded with status: 500",
+        "value": null
+      },
+      "por": {
+        "sql": "",
+        "tested": false,
+        "passed": false,
+        "error": null,
+        "value": null
+      }
+    }
+  ]
+}

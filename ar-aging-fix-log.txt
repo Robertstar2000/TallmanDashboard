@@ -1,0 +1,39 @@
+Starting AR Aging query fixes...
+Found 5 AR Aging rows to fix.
+
+Fixing queries for Current:
+Original test SQL: SELECT COALESCE(SUM(amount_open), 0) as value FROM pub_ar_open_items WHERE days_past_due = 0
+Fixed test SQL: SELECT COALESCE(SUM(amount_open), 0) as value FROM pub_ar_open_items WHERE days_past_due = 0
+Original production SQL: SELECT ISNULL(SUM(amount_open), 0) as value FROM dbo.ar_open_items WITH (NOLOCK) WHERE days_past_due = 0
+Fixed production SQL: SELECT ISNULL(SUM(amount_open), 0) as value FROM ar_open_items WHERE days_past_due = 0
+Updated SQL expressions for Current
+
+Fixing queries for 1-30 Days:
+Original test SQL: SELECT COALESCE(SUM(amount_open), 0) as value FROM pub_ar_open_items WHERE days_past_due > 0 AND days_past_due <= 30
+Fixed test SQL: SELECT COALESCE(SUM(amount_open), 0) as value FROM pub_ar_open_items WHERE days_past_due > 0 AND days_past_due <= 30
+Original production SQL: SELECT ISNULL(SUM(amount_open), 0) as value FROM dbo.ar_open_items WITH (NOLOCK) WHERE days_past_due > 0 AND days_past_due <= 30
+Fixed production SQL: SELECT ISNULL(SUM(amount_open), 0) as value FROM ar_open_items WHERE days_past_due > 0 AND days_past_due <= 30
+Updated SQL expressions for 1-30 Days
+
+Fixing queries for 31-60 Days:
+Original test SQL: SELECT COALESCE(SUM(amount_open), 0) as value FROM pub_ar_open_items WHERE days_past_due > 30 AND days_past_due <= 60
+Fixed test SQL: SELECT COALESCE(SUM(amount_open), 0) as value FROM pub_ar_open_items WHERE days_past_due > 30 AND days_past_due <= 60
+Original production SQL: SELECT ISNULL(SUM(amount_open), 0) as value FROM dbo.ar_open_items WITH (NOLOCK) WHERE days_past_due > 30 AND days_past_due <= 60
+Fixed production SQL: SELECT ISNULL(SUM(amount_open), 0) as value FROM ar_open_items WHERE days_past_due > 30 AND days_past_due <= 60
+Updated SQL expressions for 31-60 Days
+
+Fixing queries for 61-90 Days:
+Original test SQL: SELECT COALESCE(SUM(amount_open), 0) as value FROM pub_ar_open_items WHERE days_past_due > 60 AND days_past_due <= 90
+Fixed test SQL: SELECT COALESCE(SUM(amount_open), 0) as value FROM pub_ar_open_items WHERE days_past_due > 60 AND days_past_due <= 90
+Original production SQL: SELECT ISNULL(SUM(amount_open), 0) as value FROM dbo.ar_open_items WITH (NOLOCK) WHERE days_past_due > 60 AND days_past_due <= 90
+Fixed production SQL: SELECT ISNULL(SUM(amount_open), 0) as value FROM ar_open_items WHERE days_past_due > 60 AND days_past_due <= 90
+Updated SQL expressions for 61-90 Days
+
+Fixing queries for 90+ Days:
+Original test SQL: SELECT COALESCE(SUM(amount_open), 0) as value FROM pub_ar_open_items WHERE days_past_due > 90
+Fixed test SQL: SELECT COALESCE(SUM(amount_open), 0) as value FROM pub_ar_open_items WHERE days_past_due > 90
+Original production SQL: SELECT ISNULL(SUM(amount_open), 0) as value FROM dbo.ar_open_items WITH (NOLOCK) WHERE days_past_due > 90
+Fixed production SQL: SELECT ISNULL(SUM(amount_open), 0) as value FROM ar_open_items WHERE days_past_due > 90
+Updated SQL expressions for 90+ Days
+
+AR Aging query fixes completed successfully.

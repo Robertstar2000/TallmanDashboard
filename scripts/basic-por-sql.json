@@ -1,0 +1,74 @@
+[
+  {
+    "id": "POR-PURCHASE-ORDER-DETAIL-JAN",
+    "name": "POR Purchase Order Detail Jan",
+    "description": "Count of records in PurchaseOrderDetail for Jan",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrderDetail"
+  },
+  {
+    "id": "POR-PURCHASE-ORDER-DETAIL-FEB",
+    "name": "POR Purchase Order Detail Feb",
+    "description": "Count of records in PurchaseOrderDetail for Feb",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrderDetail"
+  },
+  {
+    "id": "POR-PURCHASE-ORDER-DETAIL-MAR",
+    "name": "POR Purchase Order Detail Mar",
+    "description": "Count of records in PurchaseOrderDetail for Mar",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrderDetail"
+  },
+  {
+    "id": "POR-PURCHASE-ORDER-DETAIL-APR",
+    "name": "POR Purchase Order Detail Apr",
+    "description": "Count of records in PurchaseOrderDetail for Apr",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrderDetail"
+  },
+  {
+    "id": "POR-PURCHASE-ORDER-DETAIL-MAY",
+    "name": "POR Purchase Order Detail May",
+    "description": "Count of records in PurchaseOrderDetail for May",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrderDetail"
+  },
+  {
+    "id": "POR-PURCHASE-ORDER-DETAIL-JUN",
+    "name": "POR Purchase Order Detail Jun",
+    "description": "Count of records in PurchaseOrderDetail for Jun",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrderDetail"
+  },
+  {
+    "id": "POR-PURCHASE-ORDER-DETAIL-JUL",
+    "name": "POR Purchase Order Detail Jul",
+    "description": "Count of records in PurchaseOrderDetail for Jul",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrderDetail"
+  },
+  {
+    "id": "POR-PURCHASE-ORDER-DETAIL-AUG",
+    "name": "POR Purchase Order Detail Aug",
+    "description": "Count of records in PurchaseOrderDetail for Aug",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrderDetail"
+  },
+  {
+    "id": "POR-PURCHASE-ORDER-DETAIL-SEP",
+    "name": "POR Purchase Order Detail Sep",
+    "description": "Count of records in PurchaseOrderDetail for Sep",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrderDetail"
+  },
+  {
+    "id": "POR-PURCHASE-ORDER-DETAIL-OCT",
+    "name": "POR Purchase Order Detail Oct",
+    "description": "Count of records in PurchaseOrderDetail for Oct",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrderDetail"
+  },
+  {
+    "id": "POR-PURCHASE-ORDER-DETAIL-NOV",
+    "name": "POR Purchase Order Detail Nov",
+    "description": "Count of records in PurchaseOrderDetail for Nov",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrderDetail"
+  },
+  {
+    "id": "POR-PURCHASE-ORDER-DETAIL-DEC",
+    "name": "POR Purchase Order Detail Dec",
+    "description": "Count of records in PurchaseOrderDetail for Dec",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrderDetail"
+  }
+]

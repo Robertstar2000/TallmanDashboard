@@ -1,0 +1,24 @@
+=== P21 Inv_Mast Query Test ===
+Starting test at 2025-03-19T17:47:28.613Z
+Connection string: DSN=P21Play;Trusted_Connection=Yes;
+Connecting to ODBC data source...
+✅ CONNECTED SUCCESSFULLY to ODBC data source!
+
+=== Testing query for: Accounts - Payable - Month 1 ===
+Table: inv_mast
+SQL Query: SELECT ISNULL(COUNT(*), 0) AS value FROM dbo.inv_mast WITH (NOLOCK) WHERE delete_flag <> 'Y' AND date_created >= DATEADD(month, -1, GETDATE())
+✅ Query executed successfully
+Result: {"value":0}
+⚠️ WARNING: Returned zero value
+
+=== Testing query for: Accounts - Payable - Month 2 ===
+Table: inv_mast
+SQL Query: SELECT ISNULL(COUNT(*), 0) AS value FROM dbo.inv_mast WITH (NOLOCK) WHERE delete_flag <> 'Y' AND date_created >= DATEADD(month, -2, GETDATE()) AND date_created < DATEADD(month, -1, GETDATE())
+✅ Query executed successfully
+Result: {"value":0}
+⚠️ WARNING: Returned zero value
+
+✅ Connection closed successfully
+
+=== Test completed at 2025-03-19T17:47:30.756Z ===
+Results have been saved to: C:\Users\BobM\CascadeProjects\TallmanDashboard_new\inv-mast-query-results.txt

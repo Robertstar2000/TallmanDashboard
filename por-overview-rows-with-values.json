@@ -1,0 +1,326 @@
+[
+  {
+    "chartName": "POR Overview",
+    "variableName": "New Rentals March '25",
+    "server": "POR",
+    "tableName": "PurchaseOrder",
+    "sqlExpression": "(SELECT Count(*) FROM PurchaseOrder \n                          WHERE [Date] >= #3/1/2025# \n                          AND [Date] <= #3/31/2025#) - (SELECT Count(*) FROM PurchaseOrder \n                          WHERE [Date] >= #2/1/2025# \n                          AND [Date] <= #2/28/2025#\n                          AND [Status] <> 'Closed')",
+    "value": null,
+    "productionSqlExpression": "(SELECT Count(*) FROM PurchaseOrder \n                          WHERE [Date] >= #3/1/2025# \n                          AND [Date] <= #3/31/2025#) - (SELECT Count(*) FROM PurchaseOrder \n                          WHERE [Date] >= #2/1/2025# \n                          AND [Date] <= #2/28/2025#\n                          AND [Status] <> 'Closed')"
+  },
+  {
+    "chartName": "POR Overview",
+    "variableName": "New Rentals February '25",
+    "server": "POR",
+    "tableName": "PurchaseOrder",
+    "sqlExpression": "(SELECT Count(*) FROM PurchaseOrder \n                          WHERE [Date] >= #2/1/2025# \n                          AND [Date] <= #2/28/2025#) - (SELECT Count(*) FROM PurchaseOrder \n                          WHERE [Date] >= #1/1/2025# \n                          AND [Date] <= #1/31/2025#\n                          AND [Status] <> 'Closed')",
+    "value": null,
+    "productionSqlExpression": "(SELECT Count(*) FROM PurchaseOrder \n                          WHERE [Date] >= #2/1/2025# \n                          AND [Date] <= #2/28/2025#) - (SELECT Count(*) FROM PurchaseOrder \n                          WHERE [Date] >= #1/1/2025# \n                          AND [Date] <= #1/31/2025#\n                          AND [Status] <> 'Closed')"
+  },
+  {
+    "chartName": "POR Overview",
+    "variableName": "New Rentals January '25",
+    "server": "POR",
+    "tableName": "PurchaseOrder",
+    "sqlExpression": "(SELECT Count(*) FROM PurchaseOrder \n                          WHERE [Date] >= #1/1/2025# \n                          AND [Date] <= #1/31/2025#) - (SELECT Count(*) FROM PurchaseOrder \n                          WHERE [Date] >= #12/1/2024# \n                          AND [Date] <= #12/31/2024#\n                          AND [Status] <> 'Closed')",
+    "value": null,
+    "productionSqlExpression": "(SELECT Count(*) FROM PurchaseOrder \n                          WHERE [Date] >= #1/1/2025# \n                          AND [Date] <= #1/31/2025#) - (SELECT Count(*) FROM PurchaseOrder \n                          WHERE [Date] >= #12/1/2024# \n                          AND [Date] <= #12/31/2024#\n                          AND [Status] <> 'Closed')"
+  },
+  {
+    "chartName": "POR Overview",
+    "variableName": "New Rentals December '24",
+    "server": "POR",
+    "tableName": "PurchaseOrder",
+    "sqlExpression": "(SELECT Count(*) FROM PurchaseOrder \n                          WHERE [Date] >= #12/1/2024# \n                          AND [Date] <= #12/31/2024#) - (SELECT Count(*) FROM PurchaseOrder \n                          WHERE [Date] >= #11/1/2024# \n                          AND [Date] <= #11/30/2024#\n                          AND [Status] <> 'Closed')",
+    "value": null,
+    "productionSqlExpression": "(SELECT Count(*) FROM PurchaseOrder \n                          WHERE [Date] >= #12/1/2024# \n                          AND [Date] <= #12/31/2024#) - (SELECT Count(*) FROM PurchaseOrder \n                          WHERE [Date] >= #11/1/2024# \n                          AND [Date] <= #11/30/2024#\n                          AND [Status] <> 'Closed')"
+  },
+  {
+    "chartName": "POR Overview",
+    "variableName": "New Rentals November '24",
+    "server": "POR",
+    "tableName": "PurchaseOrder",
+    "sqlExpression": "(SELECT Count(*) FROM PurchaseOrder \n                          WHERE [Date] >= #11/1/2024# \n                          AND [Date] <= #11/30/2024#) - (SELECT Count(*) FROM PurchaseOrder \n                          WHERE [Date] >= #10/1/2024# \n                          AND [Date] <= #10/31/2024#\n                          AND [Status] <> 'Closed')",
+    "value": null,
+    "productionSqlExpression": "(SELECT Count(*) FROM PurchaseOrder \n                          WHERE [Date] >= #11/1/2024# \n                          AND [Date] <= #11/30/2024#) - (SELECT Count(*) FROM PurchaseOrder \n                          WHERE [Date] >= #10/1/2024# \n                          AND [Date] <= #10/31/2024#\n                          AND [Status] <> 'Closed')"
+  },
+  {
+    "chartName": "POR Overview",
+    "variableName": "New Rentals October '24",
+    "server": "POR",
+    "tableName": "PurchaseOrder",
+    "sqlExpression": "(SELECT Count(*) FROM PurchaseOrder \n                          WHERE [Date] >= #10/1/2024# \n                          AND [Date] <= #10/31/2024#) - (SELECT Count(*) FROM PurchaseOrder \n                          WHERE [Date] >= #9/1/2024# \n                          AND [Date] <= #9/30/2024#\n                          AND [Status] <> 'Closed')",
+    "value": null,
+    "productionSqlExpression": "(SELECT Count(*) FROM PurchaseOrder \n                          WHERE [Date] >= #10/1/2024# \n                          AND [Date] <= #10/31/2024#) - (SELECT Count(*) FROM PurchaseOrder \n                          WHERE [Date] >= #9/1/2024# \n                          AND [Date] <= #9/30/2024#\n                          AND [Status] <> 'Closed')"
+  },
+  {
+    "chartName": "POR Overview",
+    "variableName": "New Rentals September '24",
+    "server": "POR",
+    "tableName": "PurchaseOrder",
+    "sqlExpression": "(SELECT Count(*) FROM PurchaseOrder \n                          WHERE [Date] >= #9/1/2024# \n                          AND [Date] <= #9/30/2024#) - (SELECT Count(*) FROM PurchaseOrder \n                          WHERE [Date] >= #8/1/2024# \n                          AND [Date] <= #8/31/2024#\n                          AND [Status] <> 'Closed')",
+    "value": null,
+    "productionSqlExpression": "(SELECT Count(*) FROM PurchaseOrder \n                          WHERE [Date] >= #9/1/2024# \n                          AND [Date] <= #9/30/2024#) - (SELECT Count(*) FROM PurchaseOrder \n                          WHERE [Date] >= #8/1/2024# \n                          AND [Date] <= #8/31/2024#\n                          AND [Status] <> 'Closed')"
+  },
+  {
+    "chartName": "POR Overview",
+    "variableName": "New Rentals August '24",
+    "server": "POR",
+    "tableName": "PurchaseOrder",
+    "sqlExpression": "(SELECT Count(*) FROM PurchaseOrder \n                          WHERE [Date] >= #8/1/2024# \n                          AND [Date] <= #8/31/2024#) - (SELECT Count(*) FROM PurchaseOrder \n                          WHERE [Date] >= #7/1/2024# \n                          AND [Date] <= #7/31/2024#\n                          AND [Status] <> 'Closed')",
+    "value": null,
+    "productionSqlExpression": "(SELECT Count(*) FROM PurchaseOrder \n                          WHERE [Date] >= #8/1/2024# \n                          AND [Date] <= #8/31/2024#) - (SELECT Count(*) FROM PurchaseOrder \n                          WHERE [Date] >= #7/1/2024# \n                          AND [Date] <= #7/31/2024#\n                          AND [Status] <> 'Closed')"
+  },
+  {
+    "chartName": "POR Overview",
+    "variableName": "New Rentals July '24",
+    "server": "POR",
+    "tableName": "PurchaseOrder",
+    "sqlExpression": "(SELECT Count(*) FROM PurchaseOrder \n                          WHERE [Date] >= #7/1/2024# \n                          AND [Date] <= #7/31/2024#) - (SELECT Count(*) FROM PurchaseOrder \n                          WHERE [Date] >= #6/1/2024# \n                          AND [Date] <= #6/30/2024#\n                          AND [Status] <> 'Closed')",
+    "value": null,
+    "productionSqlExpression": "(SELECT Count(*) FROM PurchaseOrder \n                          WHERE [Date] >= #7/1/2024# \n                          AND [Date] <= #7/31/2024#) - (SELECT Count(*) FROM PurchaseOrder \n                          WHERE [Date] >= #6/1/2024# \n                          AND [Date] <= #6/30/2024#\n                          AND [Status] <> 'Closed')"
+  },
+  {
+    "chartName": "POR Overview",
+    "variableName": "New Rentals June '24",
+    "server": "POR",
+    "tableName": "PurchaseOrder",
+    "sqlExpression": "(SELECT Count(*) FROM PurchaseOrder \n                          WHERE [Date] >= #6/1/2024# \n                          AND [Date] <= #6/30/2024#) - (SELECT Count(*) FROM PurchaseOrder \n                          WHERE [Date] >= #5/1/2024# \n                          AND [Date] <= #5/31/2024#\n                          AND [Status] <> 'Closed')",
+    "value": null,
+    "productionSqlExpression": "(SELECT Count(*) FROM PurchaseOrder \n                          WHERE [Date] >= #6/1/2024# \n                          AND [Date] <= #6/30/2024#) - (SELECT Count(*) FROM PurchaseOrder \n                          WHERE [Date] >= #5/1/2024# \n                          AND [Date] <= #5/31/2024#\n                          AND [Status] <> 'Closed')"
+  },
+  {
+    "chartName": "POR Overview",
+    "variableName": "New Rentals May '24",
+    "server": "POR",
+    "tableName": "PurchaseOrder",
+    "sqlExpression": "(SELECT Count(*) FROM PurchaseOrder \n                          WHERE [Date] >= #5/1/2024# \n                          AND [Date] <= #5/31/2024#) - (SELECT Count(*) FROM PurchaseOrder \n                          WHERE [Date] >= #4/1/2024# \n                          AND [Date] <= #4/30/2024#\n                          AND [Status] <> 'Closed')",
+    "value": null,
+    "productionSqlExpression": "(SELECT Count(*) FROM PurchaseOrder \n                          WHERE [Date] >= #5/1/2024# \n                          AND [Date] <= #5/31/2024#) - (SELECT Count(*) FROM PurchaseOrder \n                          WHERE [Date] >= #4/1/2024# \n                          AND [Date] <= #4/30/2024#\n                          AND [Status] <> 'Closed')"
+  },
+  {
+    "chartName": "POR Overview",
+    "variableName": "New Rentals April '24",
+    "server": "POR",
+    "tableName": "PurchaseOrder",
+    "sqlExpression": "(SELECT Count(*) FROM PurchaseOrder \n                          WHERE [Date] >= #4/1/2024# \n                          AND [Date] <= #4/30/2024#) - (SELECT Count(*) FROM PurchaseOrder \n                          WHERE [Date] >= #3/1/2024# \n                          AND [Date] <= #3/31/2024#\n                          AND [Status] <> 'Closed')",
+    "value": null,
+    "productionSqlExpression": "(SELECT Count(*) FROM PurchaseOrder \n                          WHERE [Date] >= #4/1/2024# \n                          AND [Date] <= #4/30/2024#) - (SELECT Count(*) FROM PurchaseOrder \n                          WHERE [Date] >= #3/1/2024# \n                          AND [Date] <= #3/31/2024#\n                          AND [Status] <> 'Closed')"
+  },
+  {
+    "chartName": "POR Overview",
+    "variableName": "Open Rentals March '25",
+    "server": "POR",
+    "tableName": "PurchaseOrder",
+    "sqlExpression": "SELECT Count(*) FROM PurchaseOrder \n                WHERE [Date] >= #3/1/2025# \n                AND [Date] <= #3/31/2025#",
+    "value": 0,
+    "productionSqlExpression": "SELECT Count(*) FROM PurchaseOrder \n                WHERE [Date] >= #3/1/2025# \n                AND [Date] <= #3/31/2025#"
+  },
+  {
+    "chartName": "POR Overview",
+    "variableName": "Open Rentals February '25",
+    "server": "POR",
+    "tableName": "PurchaseOrder",
+    "sqlExpression": "SELECT Count(*) FROM PurchaseOrder \n                WHERE [Date] >= #2/1/2025# \n                AND [Date] <= #2/28/2025#",
+    "value": 0,
+    "productionSqlExpression": "SELECT Count(*) FROM PurchaseOrder \n                WHERE [Date] >= #2/1/2025# \n                AND [Date] <= #2/28/2025#"
+  },
+  {
+    "chartName": "POR Overview",
+    "variableName": "Open Rentals January '25",
+    "server": "POR",
+    "tableName": "PurchaseOrder",
+    "sqlExpression": "SELECT Count(*) FROM PurchaseOrder \n                WHERE [Date] >= #1/1/2025# \n                AND [Date] <= #1/31/2025#",
+    "value": 0,
+    "productionSqlExpression": "SELECT Count(*) FROM PurchaseOrder \n                WHERE [Date] >= #1/1/2025# \n                AND [Date] <= #1/31/2025#"
+  },
+  {
+    "chartName": "POR Overview",
+    "variableName": "Open Rentals December '24",
+    "server": "POR",
+    "tableName": "PurchaseOrder",
+    "sqlExpression": "SELECT Count(*) FROM PurchaseOrder \n                WHERE [Date] >= #12/1/2024# \n                AND [Date] <= #12/31/2024#",
+    "value": 0,
+    "productionSqlExpression": "SELECT Count(*) FROM PurchaseOrder \n                WHERE [Date] >= #12/1/2024# \n                AND [Date] <= #12/31/2024#"
+  },
+  {
+    "chartName": "POR Overview",
+    "variableName": "Open Rentals November '24",
+    "server": "POR",
+    "tableName": "PurchaseOrder",
+    "sqlExpression": "SELECT Count(*) FROM PurchaseOrder \n                WHERE [Date] >= #11/1/2024# \n                AND [Date] <= #11/30/2024#",
+    "value": 0,
+    "productionSqlExpression": "SELECT Count(*) FROM PurchaseOrder \n                WHERE [Date] >= #11/1/2024# \n                AND [Date] <= #11/30/2024#"
+  },
+  {
+    "chartName": "POR Overview",
+    "variableName": "Open Rentals October '24",
+    "server": "POR",
+    "tableName": "PurchaseOrder",
+    "sqlExpression": "SELECT Count(*) FROM PurchaseOrder \n                WHERE [Date] >= #10/1/2024# \n                AND [Date] <= #10/31/2024#",
+    "value": 0,
+    "productionSqlExpression": "SELECT Count(*) FROM PurchaseOrder \n                WHERE [Date] >= #10/1/2024# \n                AND [Date] <= #10/31/2024#"
+  },
+  {
+    "chartName": "POR Overview",
+    "variableName": "Open Rentals September '24",
+    "server": "POR",
+    "tableName": "PurchaseOrder",
+    "sqlExpression": "SELECT Count(*) FROM PurchaseOrder \n                WHERE [Date] >= #9/1/2024# \n                AND [Date] <= #9/30/2024#",
+    "value": 0,
+    "productionSqlExpression": "SELECT Count(*) FROM PurchaseOrder \n                WHERE [Date] >= #9/1/2024# \n                AND [Date] <= #9/30/2024#"
+  },
+  {
+    "chartName": "POR Overview",
+    "variableName": "Open Rentals August '24",
+    "server": "POR",
+    "tableName": "PurchaseOrder",
+    "sqlExpression": "SELECT Count(*) FROM PurchaseOrder \n                WHERE [Date] >= #8/1/2024# \n                AND [Date] <= #8/31/2024#",
+    "value": 0,
+    "productionSqlExpression": "SELECT Count(*) FROM PurchaseOrder \n                WHERE [Date] >= #8/1/2024# \n                AND [Date] <= #8/31/2024#"
+  },
+  {
+    "chartName": "POR Overview",
+    "variableName": "Open Rentals July '24",
+    "server": "POR",
+    "tableName": "PurchaseOrder",
+    "sqlExpression": "SELECT Count(*) FROM PurchaseOrder \n                WHERE [Date] >= #7/1/2024# \n                AND [Date] <= #7/31/2024#",
+    "value": 0,
+    "productionSqlExpression": "SELECT Count(*) FROM PurchaseOrder \n                WHERE [Date] >= #7/1/2024# \n                AND [Date] <= #7/31/2024#"
+  },
+  {
+    "chartName": "POR Overview",
+    "variableName": "Open Rentals June '24",
+    "server": "POR",
+    "tableName": "PurchaseOrder",
+    "sqlExpression": "SELECT Count(*) FROM PurchaseOrder \n                WHERE [Date] >= #6/1/2024# \n                AND [Date] <= #6/30/2024#",
+    "value": 0,
+    "productionSqlExpression": "SELECT Count(*) FROM PurchaseOrder \n                WHERE [Date] >= #6/1/2024# \n                AND [Date] <= #6/30/2024#"
+  },
+  {
+    "chartName": "POR Overview",
+    "variableName": "Open Rentals May '24",
+    "server": "POR",
+    "tableName": "PurchaseOrder",
+    "sqlExpression": "SELECT Count(*) FROM PurchaseOrder \n                WHERE [Date] >= #5/1/2024# \n                AND [Date] <= #5/31/2024#",
+    "value": 0,
+    "productionSqlExpression": "SELECT Count(*) FROM PurchaseOrder \n                WHERE [Date] >= #5/1/2024# \n                AND [Date] <= #5/31/2024#"
+  },
+  {
+    "chartName": "POR Overview",
+    "variableName": "Open Rentals April '24",
+    "server": "POR",
+    "tableName": "PurchaseOrder",
+    "sqlExpression": "SELECT Count(*) FROM PurchaseOrder \n                WHERE [Date] >= #4/1/2024# \n                AND [Date] <= #4/30/2024#",
+    "value": 0,
+    "productionSqlExpression": "SELECT Count(*) FROM PurchaseOrder \n                WHERE [Date] >= #4/1/2024# \n                AND [Date] <= #4/30/2024#"
+  },
+  {
+    "chartName": "POR Overview",
+    "variableName": "Rental Value March '25",
+    "server": "POR",
+    "tableName": "PurchaseOrder",
+    "sqlExpression": "SELECT Sum([ShippingCost]) FROM PurchaseOrder \n                WHERE [Date] >= #3/1/2025# \n                AND [Date] <= #3/31/2025#",
+    "value": 0,
+    "productionSqlExpression": "SELECT Sum([ShippingCost]) FROM PurchaseOrder \n                WHERE [Date] >= #3/1/2025# \n                AND [Date] <= #3/31/2025#"
+  },
+  {
+    "chartName": "POR Overview",
+    "variableName": "Rental Value February '25",
+    "server": "POR",
+    "tableName": "PurchaseOrder",
+    "sqlExpression": "SELECT Sum([ShippingCost]) FROM PurchaseOrder \n                WHERE [Date] >= #2/1/2025# \n                AND [Date] <= #2/28/2025#",
+    "value": 0,
+    "productionSqlExpression": "SELECT Sum([ShippingCost]) FROM PurchaseOrder \n                WHERE [Date] >= #2/1/2025# \n                AND [Date] <= #2/28/2025#"
+  },
+  {
+    "chartName": "POR Overview",
+    "variableName": "Rental Value January '25",
+    "server": "POR",
+    "tableName": "PurchaseOrder",
+    "sqlExpression": "SELECT Sum([ShippingCost]) FROM PurchaseOrder \n                WHERE [Date] >= #1/1/2025# \n                AND [Date] <= #1/31/2025#",
+    "value": 0,
+    "productionSqlExpression": "SELECT Sum([ShippingCost]) FROM PurchaseOrder \n                WHERE [Date] >= #1/1/2025# \n                AND [Date] <= #1/31/2025#"
+  },
+  {
+    "chartName": "POR Overview",
+    "variableName": "Rental Value December '24",
+    "server": "POR",
+    "tableName": "PurchaseOrder",
+    "sqlExpression": "SELECT Sum([ShippingCost]) FROM PurchaseOrder \n                WHERE [Date] >= #12/1/2024# \n                AND [Date] <= #12/31/2024#",
+    "value": 0,
+    "productionSqlExpression": "SELECT Sum([ShippingCost]) FROM PurchaseOrder \n                WHERE [Date] >= #12/1/2024# \n                AND [Date] <= #12/31/2024#"
+  },
+  {
+    "chartName": "POR Overview",
+    "variableName": "Rental Value November '24",
+    "server": "POR",
+    "tableName": "PurchaseOrder",
+    "sqlExpression": "SELECT Sum([ShippingCost]) FROM PurchaseOrder \n                WHERE [Date] >= #11/1/2024# \n                AND [Date] <= #11/30/2024#",
+    "value": 0,
+    "productionSqlExpression": "SELECT Sum([ShippingCost]) FROM PurchaseOrder \n                WHERE [Date] >= #11/1/2024# \n                AND [Date] <= #11/30/2024#"
+  },
+  {
+    "chartName": "POR Overview",
+    "variableName": "Rental Value October '24",
+    "server": "POR",
+    "tableName": "PurchaseOrder",
+    "sqlExpression": "SELECT Sum([ShippingCost]) FROM PurchaseOrder \n                WHERE [Date] >= #10/1/2024# \n                AND [Date] <= #10/31/2024#",
+    "value": 0,
+    "productionSqlExpression": "SELECT Sum([ShippingCost]) FROM PurchaseOrder \n                WHERE [Date] >= #10/1/2024# \n                AND [Date] <= #10/31/2024#"
+  },
+  {
+    "chartName": "POR Overview",
+    "variableName": "Rental Value September '24",
+    "server": "POR",
+    "tableName": "PurchaseOrder",
+    "sqlExpression": "SELECT Sum([ShippingCost]) FROM PurchaseOrder \n                WHERE [Date] >= #9/1/2024# \n                AND [Date] <= #9/30/2024#",
+    "value": 0,
+    "productionSqlExpression": "SELECT Sum([ShippingCost]) FROM PurchaseOrder \n                WHERE [Date] >= #9/1/2024# \n                AND [Date] <= #9/30/2024#"
+  },
+  {
+    "chartName": "POR Overview",
+    "variableName": "Rental Value August '24",
+    "server": "POR",
+    "tableName": "PurchaseOrder",
+    "sqlExpression": "SELECT Sum([ShippingCost]) FROM PurchaseOrder \n                WHERE [Date] >= #8/1/2024# \n                AND [Date] <= #8/31/2024#",
+    "value": 0,
+    "productionSqlExpression": "SELECT Sum([ShippingCost]) FROM PurchaseOrder \n                WHERE [Date] >= #8/1/2024# \n                AND [Date] <= #8/31/2024#"
+  },
+  {
+    "chartName": "POR Overview",
+    "variableName": "Rental Value July '24",
+    "server": "POR",
+    "tableName": "PurchaseOrder",
+    "sqlExpression": "SELECT Sum([ShippingCost]) FROM PurchaseOrder \n                WHERE [Date] >= #7/1/2024# \n                AND [Date] <= #7/31/2024#",
+    "value": 0,
+    "productionSqlExpression": "SELECT Sum([ShippingCost]) FROM PurchaseOrder \n                WHERE [Date] >= #7/1/2024# \n                AND [Date] <= #7/31/2024#"
+  },
+  {
+    "chartName": "POR Overview",
+    "variableName": "Rental Value June '24",
+    "server": "POR",
+    "tableName": "PurchaseOrder",
+    "sqlExpression": "SELECT Sum([ShippingCost]) FROM PurchaseOrder \n                WHERE [Date] >= #6/1/2024# \n                AND [Date] <= #6/30/2024#",
+    "value": 0,
+    "productionSqlExpression": "SELECT Sum([ShippingCost]) FROM PurchaseOrder \n                WHERE [Date] >= #6/1/2024# \n                AND [Date] <= #6/30/2024#"
+  },
+  {
+    "chartName": "POR Overview",
+    "variableName": "Rental Value May '24",
+    "server": "POR",
+    "tableName": "PurchaseOrder",
+    "sqlExpression": "SELECT Sum([ShippingCost]) FROM PurchaseOrder \n                WHERE [Date] >= #5/1/2024# \n                AND [Date] <= #5/31/2024#",
+    "value": 0,
+    "productionSqlExpression": "SELECT Sum([ShippingCost]) FROM PurchaseOrder \n                WHERE [Date] >= #5/1/2024# \n                AND [Date] <= #5/31/2024#"
+  },
+  {
+    "chartName": "POR Overview",
+    "variableName": "Rental Value April '24",
+    "server": "POR",
+    "tableName": "PurchaseOrder",
+    "sqlExpression": "SELECT Sum([ShippingCost]) FROM PurchaseOrder \n                WHERE [Date] >= #4/1/2024# \n                AND [Date] <= #4/30/2024#",
+    "value": 0,
+    "productionSqlExpression": "SELECT Sum([ShippingCost]) FROM PurchaseOrder \n                WHERE [Date] >= #4/1/2024# \n                AND [Date] <= #4/30/2024#"
+  }
+]

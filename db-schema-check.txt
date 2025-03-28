@@ -1,0 +1,55 @@
+Connected to the database at C:\Users\BobM\CascadeProjects\TallmanDashboard_new\data\dashboard.db
+
+Columns in chart_data table:
+0: id (TEXT)
+1: chart_name (TEXT)
+2: variable_name (TEXT)
+3: server_name (TEXT)
+4: db_table_name (TEXT)
+5: sql_expression (TEXT)
+6: production_sql (TEXT)
+7: value (TEXT)
+8: transformer (TEXT)
+9: last_updated (TEXT)
+10: production_sql_expression (TEXT)
+11: chart_group (TEXT)
+
+Has chart_name column: true
+Has chart_group column: true
+
+AR Aging Queries:
+
+ID: 309
+Chart Group: AR Aging
+Variable: Current
+Server: P21
+Test SQL: SELECT COALESCE(SUM(amount_open), 0) as value FROM pub_ar_open_items WHERE days_past_due = 0
+Production SQL: SELECT ISNULL(SUM(amount_open), 0) as value FROM dbo.ar_open_items WITH (NOLOCK) WHERE days_past_due = 0
+
+ID: 310
+Chart Group: AR Aging
+Variable: 1-30 Days
+Server: P21
+Test SQL: SELECT COALESCE(SUM(amount_open), 0) as value FROM pub_ar_open_items WHERE days_past_due > 0 AND days_past_due <= 30
+Production SQL: SELECT ISNULL(SUM(amount_open), 0) as value FROM dbo.ar_open_items WITH (NOLOCK) WHERE days_past_due > 0 AND days_past_due <= 30
+
+ID: 311
+Chart Group: AR Aging
+Variable: 31-60 Days
+Server: P21
+Test SQL: SELECT COALESCE(SUM(amount_open), 0) as value FROM pub_ar_open_items WHERE days_past_due > 30 AND days_past_due <= 60
+Production SQL: SELECT ISNULL(SUM(amount_open), 0) as value FROM dbo.ar_open_items WITH (NOLOCK) WHERE days_past_due > 30 AND days_past_due <= 60
+
+ID: 312
+Chart Group: AR Aging
+Variable: 61-90 Days
+Server: P21
+Test SQL: SELECT COALESCE(SUM(amount_open), 0) as value FROM pub_ar_open_items WHERE days_past_due > 60 AND days_past_due <= 90
+Production SQL: SELECT ISNULL(SUM(amount_open), 0) as value FROM dbo.ar_open_items WITH (NOLOCK) WHERE days_past_due > 60 AND days_past_due <= 90
+
+ID: 313
+Chart Group: AR Aging
+Variable: 90+ Days
+Server: P21
+Test SQL: SELECT COALESCE(SUM(amount_open), 0) as value FROM pub_ar_open_items WHERE days_past_due > 90
+Production SQL: SELECT ISNULL(SUM(amount_open), 0) as value FROM dbo.ar_open_items WITH (NOLOCK) WHERE days_past_due > 90

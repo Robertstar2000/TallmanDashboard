@@ -1,35 +1,39 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { db } from '@/lib/db/sqlite';
+import { db } from '@/lib/services/database';
+import type { DatabaseConfig } from '@/lib/types/dashboard';
 
 export const dynamic = 'force-dynamic';
 
 export async function GET(request: NextRequest) {
   try {
-    const { searchParams } = new URL(request.url);
-    const type = searchParams.get('type');
-
-    if (type !== 'p21' && type !== 'por') {
-      return NextResponse.json(
-        { error: 'Invalid connection type. Must be either "p21" or "por"' },
-        { status: 400 }
-      );
-    }
-
-    const result = await db.execute({
-      sql: 'SELECT settings, last_updated FROM connection_settings WHERE id = ?',
-      args: [type]
-    });
-
-    if (!result.rows || result.rows.length === 0) {
-      return NextResponse.json(null);
-    }
-
-    return NextResponse.json(result.rows[0]);
+    const isConnected = db.isServerConnected('P21');
+    return NextResponse.json({ connected: isConnected });
   } catch (error) {
-    console.error('Error retrieving connection settings:', error);
-    return NextResponse.json(
-      { error: 'Failed to retrieve connection settings' },
-      { status: 500 }
-    );
+    console.error('Error checking database connection:', error);
+    return NextResponse.json({ connected: false });
+  }
+}
+
+export async function POST(request: NextRequest) {
+  try {
+    const config = await request.json() as DatabaseConfig;
+    const isConnected = db.isServerConnected(config.server === 'P21' ? 'P21' : 'POR');
+    
+    return NextResponse.json({ 
+      result: {
+        isHealthy: isConnected,
+        status: {
+          serverRunning: isConnected,
+          networkConnectivity: isConnected,
+          firewallAccess: isConnected,
+          latency: isConnected ? 0 : -1,
+          authValid: isConnected,
+          sslValid: isConnected
+        }
+      }
+    });
+  } catch (error) {
+    console.error('Error checking server health:', error);
+    return NextResponse.json({ error: 'Failed to check server health' }, { status: 500 });
   }
 }

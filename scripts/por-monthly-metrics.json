@@ -1,0 +1,5186 @@
+[
+  {
+    "month": "Jan",
+    "monthNumber": 1,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Month(CreatedDate) = 1 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jan",
+    "monthNumber": 1,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Month(Date) = 1 AND Year(Date) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jan",
+    "monthNumber": 1,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Source = 'Web' AND Month(CreatedDate) = 1 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jan",
+    "monthNumber": 1,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active' AND Month(CreatedDate) = 1 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jan",
+    "monthNumber": 1,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Month(CreatedDate) = 1 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jan",
+    "monthNumber": 1,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Month(Date) = 1 AND Year(Date) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jan",
+    "monthNumber": 1,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Source = 'Web' AND Month(CreatedDate) = 1 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jan",
+    "monthNumber": 1,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Status = 'Active' AND Month(CreatedDate) = 1 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jan",
+    "monthNumber": 1,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerFile WHERE Month(CreatedDate) = 1 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jan",
+    "monthNumber": 1,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerFile WHERE Month(Date) = 1 AND Year(Date) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jan",
+    "monthNumber": 1,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerFile WHERE Source = 'Web' AND Month(CreatedDate) = 1 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jan",
+    "monthNumber": 1,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerFile WHERE Status = 'Active' AND Month(CreatedDate) = 1 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jan",
+    "monthNumber": 1,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrder WHERE Month(CreatedDate) = 1 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jan",
+    "monthNumber": 1,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrder WHERE Month(Date) = 1 AND Year(Date) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jan",
+    "monthNumber": 1,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrder WHERE Source = 'Web' AND Month(CreatedDate) = 1 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jan",
+    "monthNumber": 1,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrder WHERE Status = 'Active' AND Month(CreatedDate) = 1 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jan",
+    "monthNumber": 1,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerEdit WHERE Month(CreatedDate) = 1 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jan",
+    "monthNumber": 1,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerEdit WHERE Month(Date) = 1 AND Year(Date) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jan",
+    "monthNumber": 1,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerEdit WHERE Source = 'Web' AND Month(CreatedDate) = 1 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jan",
+    "monthNumber": 1,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerEdit WHERE Status = 'Active' AND Month(CreatedDate) = 1 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jan",
+    "monthNumber": 1,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSFences WHERE Month(CreatedDate) = 1 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jan",
+    "monthNumber": 1,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSFences WHERE Month(Date) = 1 AND Year(Date) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jan",
+    "monthNumber": 1,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSFences WHERE Source = 'Web' AND Month(CreatedDate) = 1 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jan",
+    "monthNumber": 1,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSFences WHERE Status = 'Active' AND Month(CreatedDate) = 1 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jan",
+    "monthNumber": 1,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jan",
+    "monthNumber": 1,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Open'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jan",
+    "monthNumber": 1,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active' AND Month(CreatedDate) = 1 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jan",
+    "monthNumber": 1,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jan",
+    "monthNumber": 1,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Status = 'Open'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jan",
+    "monthNumber": 1,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Status = 'Active' AND Month(CreatedDate) = 1 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jan",
+    "monthNumber": 1,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerFile WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jan",
+    "monthNumber": 1,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerFile WHERE Status = 'Open'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jan",
+    "monthNumber": 1,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerFile WHERE Status = 'Active' AND Month(CreatedDate) = 1 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jan",
+    "monthNumber": 1,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrder WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jan",
+    "monthNumber": 1,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrder WHERE Status = 'Open'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jan",
+    "monthNumber": 1,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrder WHERE Status = 'Active' AND Month(CreatedDate) = 1 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jan",
+    "monthNumber": 1,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerEdit WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jan",
+    "monthNumber": 1,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerEdit WHERE Status = 'Open'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jan",
+    "monthNumber": 1,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerEdit WHERE Status = 'Active' AND Month(CreatedDate) = 1 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jan",
+    "monthNumber": 1,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSFences WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jan",
+    "monthNumber": 1,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSFences WHERE Status = 'Open'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jan",
+    "monthNumber": 1,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSFences WHERE Status = 'Active' AND Month(CreatedDate) = 1 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jan",
+    "monthNumber": 1,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jan",
+    "monthNumber": 1,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active' AND Month(CreatedDate) = 1 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jan",
+    "monthNumber": 1,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jan",
+    "monthNumber": 1,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Status = 'Active' AND Month(CreatedDate) = 1 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jan",
+    "monthNumber": 1,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM CustomerFile WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jan",
+    "monthNumber": 1,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM CustomerFile WHERE Status = 'Active' AND Month(CreatedDate) = 1 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jan",
+    "monthNumber": 1,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrder WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jan",
+    "monthNumber": 1,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrder WHERE Status = 'Active' AND Month(CreatedDate) = 1 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jan",
+    "monthNumber": 1,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM CustomerEdit WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jan",
+    "monthNumber": 1,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM CustomerEdit WHERE Status = 'Active' AND Month(CreatedDate) = 1 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jan",
+    "monthNumber": 1,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM MapGPSFences WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jan",
+    "monthNumber": 1,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM MapGPSFences WHERE Status = 'Active' AND Month(CreatedDate) = 1 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Feb",
+    "monthNumber": 2,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Month(CreatedDate) = 2 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Feb",
+    "monthNumber": 2,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Month(Date) = 2 AND Year(Date) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Feb",
+    "monthNumber": 2,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Source = 'Web' AND Month(CreatedDate) = 2 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Feb",
+    "monthNumber": 2,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active' AND Month(CreatedDate) = 2 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Feb",
+    "monthNumber": 2,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Month(CreatedDate) = 2 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Feb",
+    "monthNumber": 2,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Month(Date) = 2 AND Year(Date) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Feb",
+    "monthNumber": 2,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Source = 'Web' AND Month(CreatedDate) = 2 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Feb",
+    "monthNumber": 2,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Status = 'Active' AND Month(CreatedDate) = 2 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Feb",
+    "monthNumber": 2,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerFile WHERE Month(CreatedDate) = 2 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Feb",
+    "monthNumber": 2,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerFile WHERE Month(Date) = 2 AND Year(Date) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Feb",
+    "monthNumber": 2,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerFile WHERE Source = 'Web' AND Month(CreatedDate) = 2 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Feb",
+    "monthNumber": 2,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerFile WHERE Status = 'Active' AND Month(CreatedDate) = 2 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Feb",
+    "monthNumber": 2,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrder WHERE Month(CreatedDate) = 2 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Feb",
+    "monthNumber": 2,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrder WHERE Month(Date) = 2 AND Year(Date) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Feb",
+    "monthNumber": 2,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrder WHERE Source = 'Web' AND Month(CreatedDate) = 2 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Feb",
+    "monthNumber": 2,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrder WHERE Status = 'Active' AND Month(CreatedDate) = 2 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Feb",
+    "monthNumber": 2,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerEdit WHERE Month(CreatedDate) = 2 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Feb",
+    "monthNumber": 2,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerEdit WHERE Month(Date) = 2 AND Year(Date) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Feb",
+    "monthNumber": 2,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerEdit WHERE Source = 'Web' AND Month(CreatedDate) = 2 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Feb",
+    "monthNumber": 2,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerEdit WHERE Status = 'Active' AND Month(CreatedDate) = 2 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Feb",
+    "monthNumber": 2,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSFences WHERE Month(CreatedDate) = 2 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Feb",
+    "monthNumber": 2,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSFences WHERE Month(Date) = 2 AND Year(Date) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Feb",
+    "monthNumber": 2,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSFences WHERE Source = 'Web' AND Month(CreatedDate) = 2 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Feb",
+    "monthNumber": 2,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSFences WHERE Status = 'Active' AND Month(CreatedDate) = 2 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Feb",
+    "monthNumber": 2,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Feb",
+    "monthNumber": 2,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Open'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Feb",
+    "monthNumber": 2,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active' AND Month(CreatedDate) = 2 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Feb",
+    "monthNumber": 2,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Feb",
+    "monthNumber": 2,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Status = 'Open'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Feb",
+    "monthNumber": 2,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Status = 'Active' AND Month(CreatedDate) = 2 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Feb",
+    "monthNumber": 2,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerFile WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Feb",
+    "monthNumber": 2,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerFile WHERE Status = 'Open'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Feb",
+    "monthNumber": 2,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerFile WHERE Status = 'Active' AND Month(CreatedDate) = 2 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Feb",
+    "monthNumber": 2,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrder WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Feb",
+    "monthNumber": 2,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrder WHERE Status = 'Open'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Feb",
+    "monthNumber": 2,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrder WHERE Status = 'Active' AND Month(CreatedDate) = 2 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Feb",
+    "monthNumber": 2,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerEdit WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Feb",
+    "monthNumber": 2,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerEdit WHERE Status = 'Open'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Feb",
+    "monthNumber": 2,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerEdit WHERE Status = 'Active' AND Month(CreatedDate) = 2 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Feb",
+    "monthNumber": 2,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSFences WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Feb",
+    "monthNumber": 2,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSFences WHERE Status = 'Open'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Feb",
+    "monthNumber": 2,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSFences WHERE Status = 'Active' AND Month(CreatedDate) = 2 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Feb",
+    "monthNumber": 2,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Feb",
+    "monthNumber": 2,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active' AND Month(CreatedDate) = 2 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Feb",
+    "monthNumber": 2,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Feb",
+    "monthNumber": 2,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Status = 'Active' AND Month(CreatedDate) = 2 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Feb",
+    "monthNumber": 2,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM CustomerFile WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Feb",
+    "monthNumber": 2,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM CustomerFile WHERE Status = 'Active' AND Month(CreatedDate) = 2 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Feb",
+    "monthNumber": 2,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrder WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Feb",
+    "monthNumber": 2,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrder WHERE Status = 'Active' AND Month(CreatedDate) = 2 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Feb",
+    "monthNumber": 2,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM CustomerEdit WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Feb",
+    "monthNumber": 2,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM CustomerEdit WHERE Status = 'Active' AND Month(CreatedDate) = 2 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Feb",
+    "monthNumber": 2,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM MapGPSFences WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Feb",
+    "monthNumber": 2,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM MapGPSFences WHERE Status = 'Active' AND Month(CreatedDate) = 2 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Mar",
+    "monthNumber": 3,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Month(CreatedDate) = 3 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Mar",
+    "monthNumber": 3,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Month(Date) = 3 AND Year(Date) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Mar",
+    "monthNumber": 3,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Source = 'Web' AND Month(CreatedDate) = 3 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Mar",
+    "monthNumber": 3,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active' AND Month(CreatedDate) = 3 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Mar",
+    "monthNumber": 3,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Month(CreatedDate) = 3 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Mar",
+    "monthNumber": 3,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Month(Date) = 3 AND Year(Date) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Mar",
+    "monthNumber": 3,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Source = 'Web' AND Month(CreatedDate) = 3 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Mar",
+    "monthNumber": 3,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Status = 'Active' AND Month(CreatedDate) = 3 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Mar",
+    "monthNumber": 3,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerFile WHERE Month(CreatedDate) = 3 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Mar",
+    "monthNumber": 3,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerFile WHERE Month(Date) = 3 AND Year(Date) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Mar",
+    "monthNumber": 3,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerFile WHERE Source = 'Web' AND Month(CreatedDate) = 3 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Mar",
+    "monthNumber": 3,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerFile WHERE Status = 'Active' AND Month(CreatedDate) = 3 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Mar",
+    "monthNumber": 3,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrder WHERE Month(CreatedDate) = 3 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Mar",
+    "monthNumber": 3,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrder WHERE Month(Date) = 3 AND Year(Date) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Mar",
+    "monthNumber": 3,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrder WHERE Source = 'Web' AND Month(CreatedDate) = 3 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Mar",
+    "monthNumber": 3,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrder WHERE Status = 'Active' AND Month(CreatedDate) = 3 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Mar",
+    "monthNumber": 3,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerEdit WHERE Month(CreatedDate) = 3 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Mar",
+    "monthNumber": 3,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerEdit WHERE Month(Date) = 3 AND Year(Date) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Mar",
+    "monthNumber": 3,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerEdit WHERE Source = 'Web' AND Month(CreatedDate) = 3 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Mar",
+    "monthNumber": 3,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerEdit WHERE Status = 'Active' AND Month(CreatedDate) = 3 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Mar",
+    "monthNumber": 3,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSFences WHERE Month(CreatedDate) = 3 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Mar",
+    "monthNumber": 3,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSFences WHERE Month(Date) = 3 AND Year(Date) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Mar",
+    "monthNumber": 3,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSFences WHERE Source = 'Web' AND Month(CreatedDate) = 3 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Mar",
+    "monthNumber": 3,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSFences WHERE Status = 'Active' AND Month(CreatedDate) = 3 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Mar",
+    "monthNumber": 3,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Mar",
+    "monthNumber": 3,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Open'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Mar",
+    "monthNumber": 3,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active' AND Month(CreatedDate) = 3 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Mar",
+    "monthNumber": 3,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Mar",
+    "monthNumber": 3,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Status = 'Open'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Mar",
+    "monthNumber": 3,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Status = 'Active' AND Month(CreatedDate) = 3 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Mar",
+    "monthNumber": 3,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerFile WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Mar",
+    "monthNumber": 3,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerFile WHERE Status = 'Open'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Mar",
+    "monthNumber": 3,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerFile WHERE Status = 'Active' AND Month(CreatedDate) = 3 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Mar",
+    "monthNumber": 3,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrder WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Mar",
+    "monthNumber": 3,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrder WHERE Status = 'Open'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Mar",
+    "monthNumber": 3,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrder WHERE Status = 'Active' AND Month(CreatedDate) = 3 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Mar",
+    "monthNumber": 3,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerEdit WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Mar",
+    "monthNumber": 3,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerEdit WHERE Status = 'Open'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Mar",
+    "monthNumber": 3,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerEdit WHERE Status = 'Active' AND Month(CreatedDate) = 3 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Mar",
+    "monthNumber": 3,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSFences WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Mar",
+    "monthNumber": 3,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSFences WHERE Status = 'Open'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Mar",
+    "monthNumber": 3,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSFences WHERE Status = 'Active' AND Month(CreatedDate) = 3 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Mar",
+    "monthNumber": 3,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Mar",
+    "monthNumber": 3,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active' AND Month(CreatedDate) = 3 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Mar",
+    "monthNumber": 3,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Mar",
+    "monthNumber": 3,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Status = 'Active' AND Month(CreatedDate) = 3 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Mar",
+    "monthNumber": 3,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM CustomerFile WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Mar",
+    "monthNumber": 3,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM CustomerFile WHERE Status = 'Active' AND Month(CreatedDate) = 3 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Mar",
+    "monthNumber": 3,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrder WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Mar",
+    "monthNumber": 3,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrder WHERE Status = 'Active' AND Month(CreatedDate) = 3 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Mar",
+    "monthNumber": 3,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM CustomerEdit WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Mar",
+    "monthNumber": 3,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM CustomerEdit WHERE Status = 'Active' AND Month(CreatedDate) = 3 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Mar",
+    "monthNumber": 3,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM MapGPSFences WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Mar",
+    "monthNumber": 3,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM MapGPSFences WHERE Status = 'Active' AND Month(CreatedDate) = 3 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Apr",
+    "monthNumber": 4,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Month(CreatedDate) = 4 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Apr",
+    "monthNumber": 4,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Month(Date) = 4 AND Year(Date) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Apr",
+    "monthNumber": 4,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Source = 'Web' AND Month(CreatedDate) = 4 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Apr",
+    "monthNumber": 4,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active' AND Month(CreatedDate) = 4 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Apr",
+    "monthNumber": 4,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Month(CreatedDate) = 4 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Apr",
+    "monthNumber": 4,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Month(Date) = 4 AND Year(Date) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Apr",
+    "monthNumber": 4,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Source = 'Web' AND Month(CreatedDate) = 4 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Apr",
+    "monthNumber": 4,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Status = 'Active' AND Month(CreatedDate) = 4 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Apr",
+    "monthNumber": 4,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerFile WHERE Month(CreatedDate) = 4 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Apr",
+    "monthNumber": 4,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerFile WHERE Month(Date) = 4 AND Year(Date) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Apr",
+    "monthNumber": 4,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerFile WHERE Source = 'Web' AND Month(CreatedDate) = 4 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Apr",
+    "monthNumber": 4,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerFile WHERE Status = 'Active' AND Month(CreatedDate) = 4 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Apr",
+    "monthNumber": 4,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrder WHERE Month(CreatedDate) = 4 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Apr",
+    "monthNumber": 4,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrder WHERE Month(Date) = 4 AND Year(Date) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Apr",
+    "monthNumber": 4,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrder WHERE Source = 'Web' AND Month(CreatedDate) = 4 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Apr",
+    "monthNumber": 4,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrder WHERE Status = 'Active' AND Month(CreatedDate) = 4 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Apr",
+    "monthNumber": 4,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerEdit WHERE Month(CreatedDate) = 4 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Apr",
+    "monthNumber": 4,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerEdit WHERE Month(Date) = 4 AND Year(Date) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Apr",
+    "monthNumber": 4,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerEdit WHERE Source = 'Web' AND Month(CreatedDate) = 4 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Apr",
+    "monthNumber": 4,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerEdit WHERE Status = 'Active' AND Month(CreatedDate) = 4 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Apr",
+    "monthNumber": 4,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSFences WHERE Month(CreatedDate) = 4 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Apr",
+    "monthNumber": 4,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSFences WHERE Month(Date) = 4 AND Year(Date) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Apr",
+    "monthNumber": 4,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSFences WHERE Source = 'Web' AND Month(CreatedDate) = 4 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Apr",
+    "monthNumber": 4,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSFences WHERE Status = 'Active' AND Month(CreatedDate) = 4 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Apr",
+    "monthNumber": 4,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Apr",
+    "monthNumber": 4,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Open'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Apr",
+    "monthNumber": 4,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active' AND Month(CreatedDate) = 4 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Apr",
+    "monthNumber": 4,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Apr",
+    "monthNumber": 4,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Status = 'Open'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Apr",
+    "monthNumber": 4,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Status = 'Active' AND Month(CreatedDate) = 4 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Apr",
+    "monthNumber": 4,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerFile WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Apr",
+    "monthNumber": 4,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerFile WHERE Status = 'Open'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Apr",
+    "monthNumber": 4,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerFile WHERE Status = 'Active' AND Month(CreatedDate) = 4 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Apr",
+    "monthNumber": 4,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrder WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Apr",
+    "monthNumber": 4,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrder WHERE Status = 'Open'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Apr",
+    "monthNumber": 4,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrder WHERE Status = 'Active' AND Month(CreatedDate) = 4 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Apr",
+    "monthNumber": 4,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerEdit WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Apr",
+    "monthNumber": 4,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerEdit WHERE Status = 'Open'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Apr",
+    "monthNumber": 4,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerEdit WHERE Status = 'Active' AND Month(CreatedDate) = 4 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Apr",
+    "monthNumber": 4,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSFences WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Apr",
+    "monthNumber": 4,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSFences WHERE Status = 'Open'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Apr",
+    "monthNumber": 4,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSFences WHERE Status = 'Active' AND Month(CreatedDate) = 4 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Apr",
+    "monthNumber": 4,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Apr",
+    "monthNumber": 4,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active' AND Month(CreatedDate) = 4 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Apr",
+    "monthNumber": 4,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Apr",
+    "monthNumber": 4,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Status = 'Active' AND Month(CreatedDate) = 4 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Apr",
+    "monthNumber": 4,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM CustomerFile WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Apr",
+    "monthNumber": 4,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM CustomerFile WHERE Status = 'Active' AND Month(CreatedDate) = 4 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Apr",
+    "monthNumber": 4,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrder WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Apr",
+    "monthNumber": 4,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrder WHERE Status = 'Active' AND Month(CreatedDate) = 4 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Apr",
+    "monthNumber": 4,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM CustomerEdit WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Apr",
+    "monthNumber": 4,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM CustomerEdit WHERE Status = 'Active' AND Month(CreatedDate) = 4 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Apr",
+    "monthNumber": 4,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM MapGPSFences WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Apr",
+    "monthNumber": 4,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM MapGPSFences WHERE Status = 'Active' AND Month(CreatedDate) = 4 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "May",
+    "monthNumber": 5,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Month(CreatedDate) = 5 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "May",
+    "monthNumber": 5,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Month(Date) = 5 AND Year(Date) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "May",
+    "monthNumber": 5,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Source = 'Web' AND Month(CreatedDate) = 5 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "May",
+    "monthNumber": 5,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active' AND Month(CreatedDate) = 5 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "May",
+    "monthNumber": 5,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Month(CreatedDate) = 5 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "May",
+    "monthNumber": 5,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Month(Date) = 5 AND Year(Date) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "May",
+    "monthNumber": 5,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Source = 'Web' AND Month(CreatedDate) = 5 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "May",
+    "monthNumber": 5,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Status = 'Active' AND Month(CreatedDate) = 5 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "May",
+    "monthNumber": 5,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerFile WHERE Month(CreatedDate) = 5 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "May",
+    "monthNumber": 5,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerFile WHERE Month(Date) = 5 AND Year(Date) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "May",
+    "monthNumber": 5,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerFile WHERE Source = 'Web' AND Month(CreatedDate) = 5 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "May",
+    "monthNumber": 5,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerFile WHERE Status = 'Active' AND Month(CreatedDate) = 5 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "May",
+    "monthNumber": 5,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrder WHERE Month(CreatedDate) = 5 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "May",
+    "monthNumber": 5,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrder WHERE Month(Date) = 5 AND Year(Date) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "May",
+    "monthNumber": 5,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrder WHERE Source = 'Web' AND Month(CreatedDate) = 5 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "May",
+    "monthNumber": 5,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrder WHERE Status = 'Active' AND Month(CreatedDate) = 5 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "May",
+    "monthNumber": 5,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerEdit WHERE Month(CreatedDate) = 5 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "May",
+    "monthNumber": 5,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerEdit WHERE Month(Date) = 5 AND Year(Date) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "May",
+    "monthNumber": 5,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerEdit WHERE Source = 'Web' AND Month(CreatedDate) = 5 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "May",
+    "monthNumber": 5,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerEdit WHERE Status = 'Active' AND Month(CreatedDate) = 5 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "May",
+    "monthNumber": 5,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSFences WHERE Month(CreatedDate) = 5 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "May",
+    "monthNumber": 5,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSFences WHERE Month(Date) = 5 AND Year(Date) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "May",
+    "monthNumber": 5,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSFences WHERE Source = 'Web' AND Month(CreatedDate) = 5 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "May",
+    "monthNumber": 5,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSFences WHERE Status = 'Active' AND Month(CreatedDate) = 5 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "May",
+    "monthNumber": 5,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "May",
+    "monthNumber": 5,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Open'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "May",
+    "monthNumber": 5,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active' AND Month(CreatedDate) = 5 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "May",
+    "monthNumber": 5,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "May",
+    "monthNumber": 5,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Status = 'Open'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "May",
+    "monthNumber": 5,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Status = 'Active' AND Month(CreatedDate) = 5 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "May",
+    "monthNumber": 5,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerFile WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "May",
+    "monthNumber": 5,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerFile WHERE Status = 'Open'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "May",
+    "monthNumber": 5,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerFile WHERE Status = 'Active' AND Month(CreatedDate) = 5 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "May",
+    "monthNumber": 5,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrder WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "May",
+    "monthNumber": 5,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrder WHERE Status = 'Open'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "May",
+    "monthNumber": 5,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrder WHERE Status = 'Active' AND Month(CreatedDate) = 5 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "May",
+    "monthNumber": 5,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerEdit WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "May",
+    "monthNumber": 5,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerEdit WHERE Status = 'Open'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "May",
+    "monthNumber": 5,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerEdit WHERE Status = 'Active' AND Month(CreatedDate) = 5 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "May",
+    "monthNumber": 5,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSFences WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "May",
+    "monthNumber": 5,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSFences WHERE Status = 'Open'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "May",
+    "monthNumber": 5,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSFences WHERE Status = 'Active' AND Month(CreatedDate) = 5 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "May",
+    "monthNumber": 5,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "May",
+    "monthNumber": 5,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active' AND Month(CreatedDate) = 5 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "May",
+    "monthNumber": 5,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "May",
+    "monthNumber": 5,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Status = 'Active' AND Month(CreatedDate) = 5 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "May",
+    "monthNumber": 5,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM CustomerFile WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "May",
+    "monthNumber": 5,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM CustomerFile WHERE Status = 'Active' AND Month(CreatedDate) = 5 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "May",
+    "monthNumber": 5,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrder WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "May",
+    "monthNumber": 5,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrder WHERE Status = 'Active' AND Month(CreatedDate) = 5 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "May",
+    "monthNumber": 5,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM CustomerEdit WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "May",
+    "monthNumber": 5,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM CustomerEdit WHERE Status = 'Active' AND Month(CreatedDate) = 5 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "May",
+    "monthNumber": 5,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM MapGPSFences WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "May",
+    "monthNumber": 5,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM MapGPSFences WHERE Status = 'Active' AND Month(CreatedDate) = 5 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jun",
+    "monthNumber": 6,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Month(CreatedDate) = 6 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jun",
+    "monthNumber": 6,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Month(Date) = 6 AND Year(Date) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jun",
+    "monthNumber": 6,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Source = 'Web' AND Month(CreatedDate) = 6 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jun",
+    "monthNumber": 6,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active' AND Month(CreatedDate) = 6 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jun",
+    "monthNumber": 6,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Month(CreatedDate) = 6 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jun",
+    "monthNumber": 6,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Month(Date) = 6 AND Year(Date) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jun",
+    "monthNumber": 6,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Source = 'Web' AND Month(CreatedDate) = 6 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jun",
+    "monthNumber": 6,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Status = 'Active' AND Month(CreatedDate) = 6 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jun",
+    "monthNumber": 6,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerFile WHERE Month(CreatedDate) = 6 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jun",
+    "monthNumber": 6,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerFile WHERE Month(Date) = 6 AND Year(Date) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jun",
+    "monthNumber": 6,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerFile WHERE Source = 'Web' AND Month(CreatedDate) = 6 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jun",
+    "monthNumber": 6,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerFile WHERE Status = 'Active' AND Month(CreatedDate) = 6 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jun",
+    "monthNumber": 6,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrder WHERE Month(CreatedDate) = 6 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jun",
+    "monthNumber": 6,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrder WHERE Month(Date) = 6 AND Year(Date) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jun",
+    "monthNumber": 6,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrder WHERE Source = 'Web' AND Month(CreatedDate) = 6 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jun",
+    "monthNumber": 6,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrder WHERE Status = 'Active' AND Month(CreatedDate) = 6 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jun",
+    "monthNumber": 6,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerEdit WHERE Month(CreatedDate) = 6 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jun",
+    "monthNumber": 6,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerEdit WHERE Month(Date) = 6 AND Year(Date) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jun",
+    "monthNumber": 6,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerEdit WHERE Source = 'Web' AND Month(CreatedDate) = 6 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jun",
+    "monthNumber": 6,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerEdit WHERE Status = 'Active' AND Month(CreatedDate) = 6 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jun",
+    "monthNumber": 6,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSFences WHERE Month(CreatedDate) = 6 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jun",
+    "monthNumber": 6,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSFences WHERE Month(Date) = 6 AND Year(Date) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jun",
+    "monthNumber": 6,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSFences WHERE Source = 'Web' AND Month(CreatedDate) = 6 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jun",
+    "monthNumber": 6,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSFences WHERE Status = 'Active' AND Month(CreatedDate) = 6 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jun",
+    "monthNumber": 6,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jun",
+    "monthNumber": 6,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Open'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jun",
+    "monthNumber": 6,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active' AND Month(CreatedDate) = 6 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jun",
+    "monthNumber": 6,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jun",
+    "monthNumber": 6,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Status = 'Open'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jun",
+    "monthNumber": 6,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Status = 'Active' AND Month(CreatedDate) = 6 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jun",
+    "monthNumber": 6,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerFile WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jun",
+    "monthNumber": 6,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerFile WHERE Status = 'Open'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jun",
+    "monthNumber": 6,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerFile WHERE Status = 'Active' AND Month(CreatedDate) = 6 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jun",
+    "monthNumber": 6,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrder WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jun",
+    "monthNumber": 6,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrder WHERE Status = 'Open'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jun",
+    "monthNumber": 6,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrder WHERE Status = 'Active' AND Month(CreatedDate) = 6 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jun",
+    "monthNumber": 6,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerEdit WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jun",
+    "monthNumber": 6,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerEdit WHERE Status = 'Open'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jun",
+    "monthNumber": 6,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerEdit WHERE Status = 'Active' AND Month(CreatedDate) = 6 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jun",
+    "monthNumber": 6,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSFences WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jun",
+    "monthNumber": 6,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSFences WHERE Status = 'Open'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jun",
+    "monthNumber": 6,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSFences WHERE Status = 'Active' AND Month(CreatedDate) = 6 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jun",
+    "monthNumber": 6,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jun",
+    "monthNumber": 6,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active' AND Month(CreatedDate) = 6 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jun",
+    "monthNumber": 6,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jun",
+    "monthNumber": 6,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Status = 'Active' AND Month(CreatedDate) = 6 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jun",
+    "monthNumber": 6,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM CustomerFile WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jun",
+    "monthNumber": 6,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM CustomerFile WHERE Status = 'Active' AND Month(CreatedDate) = 6 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jun",
+    "monthNumber": 6,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrder WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jun",
+    "monthNumber": 6,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrder WHERE Status = 'Active' AND Month(CreatedDate) = 6 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jun",
+    "monthNumber": 6,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM CustomerEdit WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jun",
+    "monthNumber": 6,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM CustomerEdit WHERE Status = 'Active' AND Month(CreatedDate) = 6 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jun",
+    "monthNumber": 6,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM MapGPSFences WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jun",
+    "monthNumber": 6,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM MapGPSFences WHERE Status = 'Active' AND Month(CreatedDate) = 6 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jul",
+    "monthNumber": 7,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Month(CreatedDate) = 7 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jul",
+    "monthNumber": 7,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Month(Date) = 7 AND Year(Date) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jul",
+    "monthNumber": 7,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Source = 'Web' AND Month(CreatedDate) = 7 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jul",
+    "monthNumber": 7,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active' AND Month(CreatedDate) = 7 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jul",
+    "monthNumber": 7,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Month(CreatedDate) = 7 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jul",
+    "monthNumber": 7,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Month(Date) = 7 AND Year(Date) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jul",
+    "monthNumber": 7,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Source = 'Web' AND Month(CreatedDate) = 7 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jul",
+    "monthNumber": 7,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Status = 'Active' AND Month(CreatedDate) = 7 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jul",
+    "monthNumber": 7,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerFile WHERE Month(CreatedDate) = 7 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jul",
+    "monthNumber": 7,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerFile WHERE Month(Date) = 7 AND Year(Date) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jul",
+    "monthNumber": 7,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerFile WHERE Source = 'Web' AND Month(CreatedDate) = 7 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jul",
+    "monthNumber": 7,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerFile WHERE Status = 'Active' AND Month(CreatedDate) = 7 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jul",
+    "monthNumber": 7,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrder WHERE Month(CreatedDate) = 7 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jul",
+    "monthNumber": 7,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrder WHERE Month(Date) = 7 AND Year(Date) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jul",
+    "monthNumber": 7,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrder WHERE Source = 'Web' AND Month(CreatedDate) = 7 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jul",
+    "monthNumber": 7,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrder WHERE Status = 'Active' AND Month(CreatedDate) = 7 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jul",
+    "monthNumber": 7,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerEdit WHERE Month(CreatedDate) = 7 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jul",
+    "monthNumber": 7,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerEdit WHERE Month(Date) = 7 AND Year(Date) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jul",
+    "monthNumber": 7,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerEdit WHERE Source = 'Web' AND Month(CreatedDate) = 7 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jul",
+    "monthNumber": 7,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerEdit WHERE Status = 'Active' AND Month(CreatedDate) = 7 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jul",
+    "monthNumber": 7,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSFences WHERE Month(CreatedDate) = 7 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jul",
+    "monthNumber": 7,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSFences WHERE Month(Date) = 7 AND Year(Date) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jul",
+    "monthNumber": 7,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSFences WHERE Source = 'Web' AND Month(CreatedDate) = 7 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jul",
+    "monthNumber": 7,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSFences WHERE Status = 'Active' AND Month(CreatedDate) = 7 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jul",
+    "monthNumber": 7,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jul",
+    "monthNumber": 7,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Open'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jul",
+    "monthNumber": 7,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active' AND Month(CreatedDate) = 7 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jul",
+    "monthNumber": 7,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jul",
+    "monthNumber": 7,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Status = 'Open'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jul",
+    "monthNumber": 7,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Status = 'Active' AND Month(CreatedDate) = 7 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jul",
+    "monthNumber": 7,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerFile WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jul",
+    "monthNumber": 7,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerFile WHERE Status = 'Open'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jul",
+    "monthNumber": 7,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerFile WHERE Status = 'Active' AND Month(CreatedDate) = 7 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jul",
+    "monthNumber": 7,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrder WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jul",
+    "monthNumber": 7,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrder WHERE Status = 'Open'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jul",
+    "monthNumber": 7,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrder WHERE Status = 'Active' AND Month(CreatedDate) = 7 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jul",
+    "monthNumber": 7,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerEdit WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jul",
+    "monthNumber": 7,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerEdit WHERE Status = 'Open'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jul",
+    "monthNumber": 7,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerEdit WHERE Status = 'Active' AND Month(CreatedDate) = 7 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jul",
+    "monthNumber": 7,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSFences WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jul",
+    "monthNumber": 7,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSFences WHERE Status = 'Open'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jul",
+    "monthNumber": 7,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSFences WHERE Status = 'Active' AND Month(CreatedDate) = 7 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jul",
+    "monthNumber": 7,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jul",
+    "monthNumber": 7,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active' AND Month(CreatedDate) = 7 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jul",
+    "monthNumber": 7,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jul",
+    "monthNumber": 7,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Status = 'Active' AND Month(CreatedDate) = 7 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jul",
+    "monthNumber": 7,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM CustomerFile WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jul",
+    "monthNumber": 7,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM CustomerFile WHERE Status = 'Active' AND Month(CreatedDate) = 7 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jul",
+    "monthNumber": 7,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrder WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jul",
+    "monthNumber": 7,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrder WHERE Status = 'Active' AND Month(CreatedDate) = 7 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jul",
+    "monthNumber": 7,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM CustomerEdit WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jul",
+    "monthNumber": 7,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM CustomerEdit WHERE Status = 'Active' AND Month(CreatedDate) = 7 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jul",
+    "monthNumber": 7,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM MapGPSFences WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Jul",
+    "monthNumber": 7,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM MapGPSFences WHERE Status = 'Active' AND Month(CreatedDate) = 7 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Aug",
+    "monthNumber": 8,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Month(CreatedDate) = 8 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Aug",
+    "monthNumber": 8,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Month(Date) = 8 AND Year(Date) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Aug",
+    "monthNumber": 8,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Source = 'Web' AND Month(CreatedDate) = 8 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Aug",
+    "monthNumber": 8,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active' AND Month(CreatedDate) = 8 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Aug",
+    "monthNumber": 8,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Month(CreatedDate) = 8 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Aug",
+    "monthNumber": 8,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Month(Date) = 8 AND Year(Date) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Aug",
+    "monthNumber": 8,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Source = 'Web' AND Month(CreatedDate) = 8 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Aug",
+    "monthNumber": 8,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Status = 'Active' AND Month(CreatedDate) = 8 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Aug",
+    "monthNumber": 8,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerFile WHERE Month(CreatedDate) = 8 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Aug",
+    "monthNumber": 8,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerFile WHERE Month(Date) = 8 AND Year(Date) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Aug",
+    "monthNumber": 8,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerFile WHERE Source = 'Web' AND Month(CreatedDate) = 8 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Aug",
+    "monthNumber": 8,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerFile WHERE Status = 'Active' AND Month(CreatedDate) = 8 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Aug",
+    "monthNumber": 8,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrder WHERE Month(CreatedDate) = 8 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Aug",
+    "monthNumber": 8,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrder WHERE Month(Date) = 8 AND Year(Date) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Aug",
+    "monthNumber": 8,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrder WHERE Source = 'Web' AND Month(CreatedDate) = 8 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Aug",
+    "monthNumber": 8,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrder WHERE Status = 'Active' AND Month(CreatedDate) = 8 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Aug",
+    "monthNumber": 8,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerEdit WHERE Month(CreatedDate) = 8 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Aug",
+    "monthNumber": 8,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerEdit WHERE Month(Date) = 8 AND Year(Date) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Aug",
+    "monthNumber": 8,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerEdit WHERE Source = 'Web' AND Month(CreatedDate) = 8 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Aug",
+    "monthNumber": 8,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerEdit WHERE Status = 'Active' AND Month(CreatedDate) = 8 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Aug",
+    "monthNumber": 8,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSFences WHERE Month(CreatedDate) = 8 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Aug",
+    "monthNumber": 8,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSFences WHERE Month(Date) = 8 AND Year(Date) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Aug",
+    "monthNumber": 8,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSFences WHERE Source = 'Web' AND Month(CreatedDate) = 8 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Aug",
+    "monthNumber": 8,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSFences WHERE Status = 'Active' AND Month(CreatedDate) = 8 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Aug",
+    "monthNumber": 8,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Aug",
+    "monthNumber": 8,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Open'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Aug",
+    "monthNumber": 8,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active' AND Month(CreatedDate) = 8 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Aug",
+    "monthNumber": 8,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Aug",
+    "monthNumber": 8,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Status = 'Open'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Aug",
+    "monthNumber": 8,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Status = 'Active' AND Month(CreatedDate) = 8 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Aug",
+    "monthNumber": 8,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerFile WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Aug",
+    "monthNumber": 8,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerFile WHERE Status = 'Open'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Aug",
+    "monthNumber": 8,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerFile WHERE Status = 'Active' AND Month(CreatedDate) = 8 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Aug",
+    "monthNumber": 8,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrder WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Aug",
+    "monthNumber": 8,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrder WHERE Status = 'Open'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Aug",
+    "monthNumber": 8,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrder WHERE Status = 'Active' AND Month(CreatedDate) = 8 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Aug",
+    "monthNumber": 8,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerEdit WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Aug",
+    "monthNumber": 8,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerEdit WHERE Status = 'Open'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Aug",
+    "monthNumber": 8,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerEdit WHERE Status = 'Active' AND Month(CreatedDate) = 8 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Aug",
+    "monthNumber": 8,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSFences WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Aug",
+    "monthNumber": 8,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSFences WHERE Status = 'Open'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Aug",
+    "monthNumber": 8,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSFences WHERE Status = 'Active' AND Month(CreatedDate) = 8 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Aug",
+    "monthNumber": 8,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Aug",
+    "monthNumber": 8,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active' AND Month(CreatedDate) = 8 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Aug",
+    "monthNumber": 8,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Aug",
+    "monthNumber": 8,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Status = 'Active' AND Month(CreatedDate) = 8 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Aug",
+    "monthNumber": 8,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM CustomerFile WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Aug",
+    "monthNumber": 8,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM CustomerFile WHERE Status = 'Active' AND Month(CreatedDate) = 8 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Aug",
+    "monthNumber": 8,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrder WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Aug",
+    "monthNumber": 8,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrder WHERE Status = 'Active' AND Month(CreatedDate) = 8 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Aug",
+    "monthNumber": 8,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM CustomerEdit WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Aug",
+    "monthNumber": 8,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM CustomerEdit WHERE Status = 'Active' AND Month(CreatedDate) = 8 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Aug",
+    "monthNumber": 8,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM MapGPSFences WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Aug",
+    "monthNumber": 8,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM MapGPSFences WHERE Status = 'Active' AND Month(CreatedDate) = 8 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Sep",
+    "monthNumber": 9,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Month(CreatedDate) = 9 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Sep",
+    "monthNumber": 9,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Month(Date) = 9 AND Year(Date) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Sep",
+    "monthNumber": 9,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Source = 'Web' AND Month(CreatedDate) = 9 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Sep",
+    "monthNumber": 9,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active' AND Month(CreatedDate) = 9 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Sep",
+    "monthNumber": 9,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Month(CreatedDate) = 9 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Sep",
+    "monthNumber": 9,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Month(Date) = 9 AND Year(Date) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Sep",
+    "monthNumber": 9,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Source = 'Web' AND Month(CreatedDate) = 9 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Sep",
+    "monthNumber": 9,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Status = 'Active' AND Month(CreatedDate) = 9 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Sep",
+    "monthNumber": 9,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerFile WHERE Month(CreatedDate) = 9 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Sep",
+    "monthNumber": 9,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerFile WHERE Month(Date) = 9 AND Year(Date) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Sep",
+    "monthNumber": 9,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerFile WHERE Source = 'Web' AND Month(CreatedDate) = 9 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Sep",
+    "monthNumber": 9,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerFile WHERE Status = 'Active' AND Month(CreatedDate) = 9 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Sep",
+    "monthNumber": 9,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrder WHERE Month(CreatedDate) = 9 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Sep",
+    "monthNumber": 9,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrder WHERE Month(Date) = 9 AND Year(Date) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Sep",
+    "monthNumber": 9,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrder WHERE Source = 'Web' AND Month(CreatedDate) = 9 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Sep",
+    "monthNumber": 9,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrder WHERE Status = 'Active' AND Month(CreatedDate) = 9 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Sep",
+    "monthNumber": 9,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerEdit WHERE Month(CreatedDate) = 9 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Sep",
+    "monthNumber": 9,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerEdit WHERE Month(Date) = 9 AND Year(Date) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Sep",
+    "monthNumber": 9,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerEdit WHERE Source = 'Web' AND Month(CreatedDate) = 9 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Sep",
+    "monthNumber": 9,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerEdit WHERE Status = 'Active' AND Month(CreatedDate) = 9 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Sep",
+    "monthNumber": 9,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSFences WHERE Month(CreatedDate) = 9 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Sep",
+    "monthNumber": 9,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSFences WHERE Month(Date) = 9 AND Year(Date) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Sep",
+    "monthNumber": 9,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSFences WHERE Source = 'Web' AND Month(CreatedDate) = 9 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Sep",
+    "monthNumber": 9,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSFences WHERE Status = 'Active' AND Month(CreatedDate) = 9 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Sep",
+    "monthNumber": 9,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Sep",
+    "monthNumber": 9,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Open'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Sep",
+    "monthNumber": 9,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active' AND Month(CreatedDate) = 9 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Sep",
+    "monthNumber": 9,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Sep",
+    "monthNumber": 9,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Status = 'Open'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Sep",
+    "monthNumber": 9,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Status = 'Active' AND Month(CreatedDate) = 9 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Sep",
+    "monthNumber": 9,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerFile WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Sep",
+    "monthNumber": 9,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerFile WHERE Status = 'Open'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Sep",
+    "monthNumber": 9,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerFile WHERE Status = 'Active' AND Month(CreatedDate) = 9 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Sep",
+    "monthNumber": 9,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrder WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Sep",
+    "monthNumber": 9,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrder WHERE Status = 'Open'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Sep",
+    "monthNumber": 9,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrder WHERE Status = 'Active' AND Month(CreatedDate) = 9 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Sep",
+    "monthNumber": 9,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerEdit WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Sep",
+    "monthNumber": 9,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerEdit WHERE Status = 'Open'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Sep",
+    "monthNumber": 9,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerEdit WHERE Status = 'Active' AND Month(CreatedDate) = 9 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Sep",
+    "monthNumber": 9,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSFences WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Sep",
+    "monthNumber": 9,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSFences WHERE Status = 'Open'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Sep",
+    "monthNumber": 9,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSFences WHERE Status = 'Active' AND Month(CreatedDate) = 9 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Sep",
+    "monthNumber": 9,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Sep",
+    "monthNumber": 9,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active' AND Month(CreatedDate) = 9 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Sep",
+    "monthNumber": 9,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Sep",
+    "monthNumber": 9,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Status = 'Active' AND Month(CreatedDate) = 9 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Sep",
+    "monthNumber": 9,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM CustomerFile WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Sep",
+    "monthNumber": 9,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM CustomerFile WHERE Status = 'Active' AND Month(CreatedDate) = 9 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Sep",
+    "monthNumber": 9,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrder WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Sep",
+    "monthNumber": 9,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrder WHERE Status = 'Active' AND Month(CreatedDate) = 9 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Sep",
+    "monthNumber": 9,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM CustomerEdit WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Sep",
+    "monthNumber": 9,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM CustomerEdit WHERE Status = 'Active' AND Month(CreatedDate) = 9 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Sep",
+    "monthNumber": 9,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM MapGPSFences WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Sep",
+    "monthNumber": 9,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM MapGPSFences WHERE Status = 'Active' AND Month(CreatedDate) = 9 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Oct",
+    "monthNumber": 10,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Month(CreatedDate) = 10 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Oct",
+    "monthNumber": 10,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Month(Date) = 10 AND Year(Date) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Oct",
+    "monthNumber": 10,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Source = 'Web' AND Month(CreatedDate) = 10 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Oct",
+    "monthNumber": 10,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active' AND Month(CreatedDate) = 10 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Oct",
+    "monthNumber": 10,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Month(CreatedDate) = 10 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Oct",
+    "monthNumber": 10,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Month(Date) = 10 AND Year(Date) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Oct",
+    "monthNumber": 10,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Source = 'Web' AND Month(CreatedDate) = 10 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Oct",
+    "monthNumber": 10,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Status = 'Active' AND Month(CreatedDate) = 10 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Oct",
+    "monthNumber": 10,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerFile WHERE Month(CreatedDate) = 10 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Oct",
+    "monthNumber": 10,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerFile WHERE Month(Date) = 10 AND Year(Date) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Oct",
+    "monthNumber": 10,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerFile WHERE Source = 'Web' AND Month(CreatedDate) = 10 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Oct",
+    "monthNumber": 10,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerFile WHERE Status = 'Active' AND Month(CreatedDate) = 10 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Oct",
+    "monthNumber": 10,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrder WHERE Month(CreatedDate) = 10 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Oct",
+    "monthNumber": 10,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrder WHERE Month(Date) = 10 AND Year(Date) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Oct",
+    "monthNumber": 10,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrder WHERE Source = 'Web' AND Month(CreatedDate) = 10 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Oct",
+    "monthNumber": 10,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrder WHERE Status = 'Active' AND Month(CreatedDate) = 10 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Oct",
+    "monthNumber": 10,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerEdit WHERE Month(CreatedDate) = 10 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Oct",
+    "monthNumber": 10,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerEdit WHERE Month(Date) = 10 AND Year(Date) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Oct",
+    "monthNumber": 10,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerEdit WHERE Source = 'Web' AND Month(CreatedDate) = 10 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Oct",
+    "monthNumber": 10,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerEdit WHERE Status = 'Active' AND Month(CreatedDate) = 10 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Oct",
+    "monthNumber": 10,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSFences WHERE Month(CreatedDate) = 10 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Oct",
+    "monthNumber": 10,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSFences WHERE Month(Date) = 10 AND Year(Date) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Oct",
+    "monthNumber": 10,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSFences WHERE Source = 'Web' AND Month(CreatedDate) = 10 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Oct",
+    "monthNumber": 10,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSFences WHERE Status = 'Active' AND Month(CreatedDate) = 10 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Oct",
+    "monthNumber": 10,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Oct",
+    "monthNumber": 10,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Open'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Oct",
+    "monthNumber": 10,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active' AND Month(CreatedDate) = 10 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Oct",
+    "monthNumber": 10,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Oct",
+    "monthNumber": 10,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Status = 'Open'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Oct",
+    "monthNumber": 10,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Status = 'Active' AND Month(CreatedDate) = 10 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Oct",
+    "monthNumber": 10,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerFile WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Oct",
+    "monthNumber": 10,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerFile WHERE Status = 'Open'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Oct",
+    "monthNumber": 10,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerFile WHERE Status = 'Active' AND Month(CreatedDate) = 10 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Oct",
+    "monthNumber": 10,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrder WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Oct",
+    "monthNumber": 10,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrder WHERE Status = 'Open'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Oct",
+    "monthNumber": 10,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrder WHERE Status = 'Active' AND Month(CreatedDate) = 10 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Oct",
+    "monthNumber": 10,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerEdit WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Oct",
+    "monthNumber": 10,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerEdit WHERE Status = 'Open'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Oct",
+    "monthNumber": 10,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerEdit WHERE Status = 'Active' AND Month(CreatedDate) = 10 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Oct",
+    "monthNumber": 10,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSFences WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Oct",
+    "monthNumber": 10,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSFences WHERE Status = 'Open'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Oct",
+    "monthNumber": 10,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSFences WHERE Status = 'Active' AND Month(CreatedDate) = 10 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Oct",
+    "monthNumber": 10,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Oct",
+    "monthNumber": 10,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active' AND Month(CreatedDate) = 10 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Oct",
+    "monthNumber": 10,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Oct",
+    "monthNumber": 10,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Status = 'Active' AND Month(CreatedDate) = 10 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Oct",
+    "monthNumber": 10,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM CustomerFile WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Oct",
+    "monthNumber": 10,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM CustomerFile WHERE Status = 'Active' AND Month(CreatedDate) = 10 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Oct",
+    "monthNumber": 10,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrder WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Oct",
+    "monthNumber": 10,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrder WHERE Status = 'Active' AND Month(CreatedDate) = 10 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Oct",
+    "monthNumber": 10,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM CustomerEdit WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Oct",
+    "monthNumber": 10,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM CustomerEdit WHERE Status = 'Active' AND Month(CreatedDate) = 10 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Oct",
+    "monthNumber": 10,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM MapGPSFences WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Oct",
+    "monthNumber": 10,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM MapGPSFences WHERE Status = 'Active' AND Month(CreatedDate) = 10 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Nov",
+    "monthNumber": 11,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Month(CreatedDate) = 11 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Nov",
+    "monthNumber": 11,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Month(Date) = 11 AND Year(Date) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Nov",
+    "monthNumber": 11,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Source = 'Web' AND Month(CreatedDate) = 11 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Nov",
+    "monthNumber": 11,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active' AND Month(CreatedDate) = 11 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Nov",
+    "monthNumber": 11,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Month(CreatedDate) = 11 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Nov",
+    "monthNumber": 11,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Month(Date) = 11 AND Year(Date) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Nov",
+    "monthNumber": 11,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Source = 'Web' AND Month(CreatedDate) = 11 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Nov",
+    "monthNumber": 11,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Status = 'Active' AND Month(CreatedDate) = 11 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Nov",
+    "monthNumber": 11,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerFile WHERE Month(CreatedDate) = 11 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Nov",
+    "monthNumber": 11,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerFile WHERE Month(Date) = 11 AND Year(Date) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Nov",
+    "monthNumber": 11,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerFile WHERE Source = 'Web' AND Month(CreatedDate) = 11 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Nov",
+    "monthNumber": 11,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerFile WHERE Status = 'Active' AND Month(CreatedDate) = 11 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Nov",
+    "monthNumber": 11,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrder WHERE Month(CreatedDate) = 11 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Nov",
+    "monthNumber": 11,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrder WHERE Month(Date) = 11 AND Year(Date) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Nov",
+    "monthNumber": 11,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrder WHERE Source = 'Web' AND Month(CreatedDate) = 11 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Nov",
+    "monthNumber": 11,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrder WHERE Status = 'Active' AND Month(CreatedDate) = 11 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Nov",
+    "monthNumber": 11,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerEdit WHERE Month(CreatedDate) = 11 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Nov",
+    "monthNumber": 11,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerEdit WHERE Month(Date) = 11 AND Year(Date) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Nov",
+    "monthNumber": 11,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerEdit WHERE Source = 'Web' AND Month(CreatedDate) = 11 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Nov",
+    "monthNumber": 11,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerEdit WHERE Status = 'Active' AND Month(CreatedDate) = 11 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Nov",
+    "monthNumber": 11,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSFences WHERE Month(CreatedDate) = 11 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Nov",
+    "monthNumber": 11,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSFences WHERE Month(Date) = 11 AND Year(Date) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Nov",
+    "monthNumber": 11,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSFences WHERE Source = 'Web' AND Month(CreatedDate) = 11 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Nov",
+    "monthNumber": 11,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSFences WHERE Status = 'Active' AND Month(CreatedDate) = 11 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Nov",
+    "monthNumber": 11,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Nov",
+    "monthNumber": 11,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Open'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Nov",
+    "monthNumber": 11,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active' AND Month(CreatedDate) = 11 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Nov",
+    "monthNumber": 11,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Nov",
+    "monthNumber": 11,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Status = 'Open'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Nov",
+    "monthNumber": 11,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Status = 'Active' AND Month(CreatedDate) = 11 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Nov",
+    "monthNumber": 11,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerFile WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Nov",
+    "monthNumber": 11,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerFile WHERE Status = 'Open'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Nov",
+    "monthNumber": 11,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerFile WHERE Status = 'Active' AND Month(CreatedDate) = 11 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Nov",
+    "monthNumber": 11,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrder WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Nov",
+    "monthNumber": 11,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrder WHERE Status = 'Open'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Nov",
+    "monthNumber": 11,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrder WHERE Status = 'Active' AND Month(CreatedDate) = 11 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Nov",
+    "monthNumber": 11,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerEdit WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Nov",
+    "monthNumber": 11,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerEdit WHERE Status = 'Open'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Nov",
+    "monthNumber": 11,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerEdit WHERE Status = 'Active' AND Month(CreatedDate) = 11 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Nov",
+    "monthNumber": 11,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSFences WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Nov",
+    "monthNumber": 11,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSFences WHERE Status = 'Open'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Nov",
+    "monthNumber": 11,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSFences WHERE Status = 'Active' AND Month(CreatedDate) = 11 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Nov",
+    "monthNumber": 11,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Nov",
+    "monthNumber": 11,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active' AND Month(CreatedDate) = 11 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Nov",
+    "monthNumber": 11,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Nov",
+    "monthNumber": 11,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Status = 'Active' AND Month(CreatedDate) = 11 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Nov",
+    "monthNumber": 11,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM CustomerFile WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Nov",
+    "monthNumber": 11,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM CustomerFile WHERE Status = 'Active' AND Month(CreatedDate) = 11 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Nov",
+    "monthNumber": 11,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrder WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Nov",
+    "monthNumber": 11,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrder WHERE Status = 'Active' AND Month(CreatedDate) = 11 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Nov",
+    "monthNumber": 11,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM CustomerEdit WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Nov",
+    "monthNumber": 11,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM CustomerEdit WHERE Status = 'Active' AND Month(CreatedDate) = 11 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Nov",
+    "monthNumber": 11,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM MapGPSFences WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Nov",
+    "monthNumber": 11,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM MapGPSFences WHERE Status = 'Active' AND Month(CreatedDate) = 11 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Dec",
+    "monthNumber": 12,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Month(CreatedDate) = 12 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Dec",
+    "monthNumber": 12,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Month(Date) = 12 AND Year(Date) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Dec",
+    "monthNumber": 12,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Source = 'Web' AND Month(CreatedDate) = 12 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Dec",
+    "monthNumber": 12,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active' AND Month(CreatedDate) = 12 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Dec",
+    "monthNumber": 12,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Month(CreatedDate) = 12 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Dec",
+    "monthNumber": 12,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Month(Date) = 12 AND Year(Date) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Dec",
+    "monthNumber": 12,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Source = 'Web' AND Month(CreatedDate) = 12 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Dec",
+    "monthNumber": 12,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Status = 'Active' AND Month(CreatedDate) = 12 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Dec",
+    "monthNumber": 12,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerFile WHERE Month(CreatedDate) = 12 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Dec",
+    "monthNumber": 12,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerFile WHERE Month(Date) = 12 AND Year(Date) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Dec",
+    "monthNumber": 12,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerFile WHERE Source = 'Web' AND Month(CreatedDate) = 12 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Dec",
+    "monthNumber": 12,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerFile WHERE Status = 'Active' AND Month(CreatedDate) = 12 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Dec",
+    "monthNumber": 12,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrder WHERE Month(CreatedDate) = 12 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Dec",
+    "monthNumber": 12,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrder WHERE Month(Date) = 12 AND Year(Date) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Dec",
+    "monthNumber": 12,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrder WHERE Source = 'Web' AND Month(CreatedDate) = 12 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Dec",
+    "monthNumber": 12,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrder WHERE Status = 'Active' AND Month(CreatedDate) = 12 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Dec",
+    "monthNumber": 12,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerEdit WHERE Month(CreatedDate) = 12 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Dec",
+    "monthNumber": 12,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerEdit WHERE Month(Date) = 12 AND Year(Date) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Dec",
+    "monthNumber": 12,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerEdit WHERE Source = 'Web' AND Month(CreatedDate) = 12 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Dec",
+    "monthNumber": 12,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerEdit WHERE Status = 'Active' AND Month(CreatedDate) = 12 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Dec",
+    "monthNumber": 12,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSFences WHERE Month(CreatedDate) = 12 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Dec",
+    "monthNumber": 12,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSFences WHERE Month(Date) = 12 AND Year(Date) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Dec",
+    "monthNumber": 12,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSFences WHERE Source = 'Web' AND Month(CreatedDate) = 12 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Dec",
+    "monthNumber": 12,
+    "metricType": "New Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSFences WHERE Status = 'Active' AND Month(CreatedDate) = 12 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Dec",
+    "monthNumber": 12,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Dec",
+    "monthNumber": 12,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Open'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Dec",
+    "monthNumber": 12,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active' AND Month(CreatedDate) = 12 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Dec",
+    "monthNumber": 12,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Dec",
+    "monthNumber": 12,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Status = 'Open'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Dec",
+    "monthNumber": 12,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Status = 'Active' AND Month(CreatedDate) = 12 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Dec",
+    "monthNumber": 12,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerFile WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Dec",
+    "monthNumber": 12,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerFile WHERE Status = 'Open'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Dec",
+    "monthNumber": 12,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerFile WHERE Status = 'Active' AND Month(CreatedDate) = 12 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Dec",
+    "monthNumber": 12,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrder WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Dec",
+    "monthNumber": 12,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrder WHERE Status = 'Open'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Dec",
+    "monthNumber": 12,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrder WHERE Status = 'Active' AND Month(CreatedDate) = 12 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Dec",
+    "monthNumber": 12,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerEdit WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Dec",
+    "monthNumber": 12,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerEdit WHERE Status = 'Open'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Dec",
+    "monthNumber": 12,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM CustomerEdit WHERE Status = 'Active' AND Month(CreatedDate) = 12 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Dec",
+    "monthNumber": 12,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSFences WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Dec",
+    "monthNumber": 12,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSFences WHERE Status = 'Open'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Dec",
+    "monthNumber": 12,
+    "metricType": "Open Rentals",
+    "sql": "SELECT Count(*) AS value FROM MapGPSFences WHERE Status = 'Active' AND Month(CreatedDate) = 12 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Dec",
+    "monthNumber": 12,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Dec",
+    "monthNumber": 12,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM CustomerJobSite WHERE Status = 'Active' AND Month(CreatedDate) = 12 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Dec",
+    "monthNumber": 12,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Dec",
+    "monthNumber": 12,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Status = 'Active' AND Month(CreatedDate) = 12 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Dec",
+    "monthNumber": 12,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM CustomerFile WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Dec",
+    "monthNumber": 12,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM CustomerFile WHERE Status = 'Active' AND Month(CreatedDate) = 12 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Dec",
+    "monthNumber": 12,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrder WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Dec",
+    "monthNumber": 12,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM PurchaseOrder WHERE Status = 'Active' AND Month(CreatedDate) = 12 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Dec",
+    "monthNumber": 12,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM CustomerEdit WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Dec",
+    "monthNumber": 12,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM CustomerEdit WHERE Status = 'Active' AND Month(CreatedDate) = 12 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Dec",
+    "monthNumber": 12,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM MapGPSFences WHERE Status = 'Active'",
+    "value": 0,
+    "nonZero": false
+  },
+  {
+    "month": "Dec",
+    "monthNumber": 12,
+    "metricType": "Rental Value",
+    "sql": "SELECT Count(*) AS value FROM MapGPSFences WHERE Status = 'Active' AND Month(CreatedDate) = 12 AND Year(CreatedDate) = Year(Date())",
+    "value": 0,
+    "nonZero": false
+  }
+]

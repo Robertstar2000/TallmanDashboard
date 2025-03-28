@@ -1,0 +1,13 @@
+=== POR MDB Connection Test ===
+Starting test at 2025-03-19T18:11:50.421Z
+Searching for MDB files in the project directory...
+No MDB files found in the project directory.
+
+=== INSTRUCTIONS FOR CONNECTING TO THE REAL POR DATABASE ===
+1. Obtain the POR database file (*.mdb)
+2. Place it in the "data" directory of this project
+3. Run this script again with the path to the MDB file:
+   node test-por-mdb-connection.js ./data/por.mdb
+
+Alternatively, you can place the MDB file anywhere and provide the full path:
+   node test-por-mdb-connection.js "C:/path/to/your/por.mdb"

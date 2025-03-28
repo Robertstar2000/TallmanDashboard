@@ -41,51 +41,51 @@ function generateLastNDays(n: number, baseDate: string = '2025-01-11'): string[]
 }
 
 export const testDashboardData: RawDashboardData[] = [
-  // Metrics - 6 unique metrics
+  // Metrics - Core business metrics
   {
     id: '1',
-    name: 'Total Orders',
+    name: 'Daily Revenue',
     chartGroup: 'Metrics',
-    calculation: 'COUNT',
-    sqlExpression: 'SELECT COUNT(DISTINCT order_no) FROM pub.oe_hdr WHERE company_id = 1 AND order_date >= DATEADD(day, -1, GETDATE())',
+    calculation: 'SUM',
+    sqlExpression: 'SELECT SUM(total_amount) FROM pub.oe_hdr WHERE order_date = CURRENT_DATE',
     p21DataDictionary: 'orders',
-    value: '150'
+    value: '1924500'
   },
   {
     id: '2',
-    name: 'Average Order Value',
+    name: 'Open Invoices',
     chartGroup: 'Metrics',
-    calculation: 'AVG',
-    sqlExpression: 'SELECT AVG(order_value) FROM pub.oe_hdr WHERE company_id = 1 AND order_date >= DATEADD(day, -1, GETDATE())',
-    p21DataDictionary: 'orders',
-    value: '2500'
+    calculation: 'SUM',
+    sqlExpression: 'SELECT SUM(amount) FROM pub.ar_open_items WHERE status = "open"',
+    p21DataDictionary: 'invoices',
+    value: '3842650'
   },
   {
     id: '3',
+    name: 'Orders Backlogged',
+    chartGroup: 'Metrics',
+    calculation: 'COUNT',
+    sqlExpression: 'SELECT COUNT(*) FROM pub.oe_hdr WHERE status = "backlogged"',
+    p21DataDictionary: 'orders',
+    value: '743'
+  },
+  {
+    id: '4',
+    name: 'Total Sales Monthly',
+    chartGroup: 'Metrics',
+    calculation: 'SUM',
+    sqlExpression: 'SELECT SUM(total_amount) FROM pub.oe_hdr WHERE MONTH(order_date) = MONTH(CURRENT_DATE)',
+    p21DataDictionary: 'orders',
+    value: '8325000'
+  },
+  {
+    id: '5',
     name: 'Active Customers',
     chartGroup: 'Metrics',
     calculation: 'COUNT',
     sqlExpression: 'SELECT COUNT(DISTINCT customer_id) FROM pub.customers WHERE status = "active"',
     p21DataDictionary: 'customers',
     value: '450'
-  },
-  {
-    id: '4',
-    name: 'Open Support Tickets',
-    chartGroup: 'Metrics',
-    calculation: 'COUNT',
-    sqlExpression: 'SELECT COUNT(*) FROM pub.support_tickets WHERE status = "open"',
-    p21DataDictionary: 'support',
-    value: '25'
-  },
-  {
-    id: '5',
-    name: 'Revenue MTD',
-    chartGroup: 'Metrics',
-    calculation: 'SUM',
-    sqlExpression: 'SELECT SUM(revenue) FROM pub.transactions WHERE date >= DATE_TRUNC("month", CURRENT_DATE)',
-    p21DataDictionary: 'finance',
-    value: '1250000'
   },
   {
     id: '6',
@@ -95,6 +95,27 @@ export const testDashboardData: RawDashboardData[] = [
     sqlExpression: 'SELECT COUNT(DISTINCT visitor_id) FROM pub.website_analytics WHERE visit_date = CURRENT_DATE',
     p21DataDictionary: 'analytics',
     value: '3200'
+  },
+  {
+    id: '7',
+    name: 'Total Orders',
+    chartGroup: 'Metrics',
+    calculation: 'COUNT',
+    value: '12847'
+  },
+  {
+    id: '8',
+    name: 'Open Orders',
+    chartGroup: 'Metrics',
+    calculation: 'COUNT',
+    value: '1563'
+  },
+  {
+    id: '9',
+    name: 'Open Orders 2',
+    chartGroup: 'Metrics',
+    calculation: 'COUNT',
+    value: '892'
   },
 
   // Historical Data - 12 months
@@ -161,7 +182,78 @@ export const testDashboardData: RawDashboardData[] = [
     value: (200 + Math.floor(Math.random() * 50)).toString()
   })),
 
-  // Site Distribution - three separate lines
+  // Inventory Data - Monthly
+  ...generateLastNMonths(12).map((date, index) => ({
+    id: `inventory_${index}`,
+    name: new Date(date).toLocaleString('default', { month: 'short' }),
+    chartGroup: 'Inventory',
+    inStock: (1000 + Math.floor(Math.random() * 500)).toString(),
+    onOrder: (200 + Math.floor(Math.random() * 100)).toString(),
+    date: date
+  })),
+
+  // POR Overview Data - Monthly
+  ...generateLastNMonths(12).map((date, index) => ({
+    id: `por_${index}`,
+    name: new Date(date).toLocaleString('default', { month: 'short' }),
+    chartGroup: 'POR Overview',
+    newRentals: (80 + Math.floor(Math.random() * 40)).toString(),
+    openRentals: (300 + Math.floor(Math.random() * 100)).toString(),
+    rentalValue: (400000 + Math.floor(Math.random() * 200000)).toString(),
+    date: date
+  })),
+
+  // Daily Orders Data - Last 7 days
+  ...generateLastNDays(7).map((date, index) => ({
+    id: `daily_orders_${index}`,
+    name: new Date(date).toLocaleString('default', { month: 'short', day: 'numeric' }),
+    chartGroup: 'Daily Orders',
+    orders: (90 + Math.floor(Math.random() * 90)).toString(),
+    date: date
+  })),
+
+  // AR Aging Data
+  {
+    id: 'ar_current',
+    name: 'Current',
+    chartGroup: 'AR Aging',
+    amount: '140000'
+  },
+  {
+    id: 'ar_31_60',
+    name: '31-60',
+    chartGroup: 'AR Aging',
+    amount: '35000'
+  },
+  {
+    id: 'ar_90_plus',
+    name: '90+',
+    chartGroup: 'AR Aging',
+    amount: '15000'
+  },
+
+  // Accounts Data - Monthly
+  ...generateLastNMonths(12).map((date, index) => ({
+    id: `accounts_${index}`,
+    name: new Date(date).toLocaleString('default', { month: 'short' }),
+    chartGroup: 'Accounts',
+    payable: (200000 + Math.floor(Math.random() * 100000)).toString(),
+    overdue: (50000 + Math.floor(Math.random() * 25000)).toString(),
+    receivable: (400000 + Math.floor(Math.random() * 200000)).toString(),
+    date: date
+  })),
+
+  // Customer Metrics - Monthly
+  ...generateLastNMonths(12).map((date, index) => ({
+    id: `customers_${index}`,
+    name: new Date(date).toLocaleString('default', { month: 'short' }),
+    chartGroup: 'Customer Metrics',
+    newCustomers: (55 + Math.floor(Math.random() * 20)).toString(),
+    prospects: (110 + Math.floor(Math.random() * 30)).toString(),
+    date: date
+  })),
+
+  // Site Distribution - updated values
   {
     id: '500',
     name: 'Columbus',
@@ -169,7 +261,7 @@ export const testDashboardData: RawDashboardData[] = [
     calculation: 'Distribution',
     sqlExpression: 'SELECT * FROM site_distribution WHERE site = "columbus"',
     p21DataDictionary: 'sites',
-    value: '2500000'
+    value: '3500000'
   },
   {
     id: '501',
@@ -178,7 +270,7 @@ export const testDashboardData: RawDashboardData[] = [
     calculation: 'Distribution',
     sqlExpression: 'SELECT * FROM site_distribution WHERE site = "addison"',
     p21DataDictionary: 'sites',
-    value: '1800000'
+    value: '2800000'
   },
   {
     id: '502',
@@ -187,7 +279,7 @@ export const testDashboardData: RawDashboardData[] = [
     calculation: 'Distribution',
     sqlExpression: 'SELECT * FROM site_distribution WHERE site = "lake_city"',
     p21DataDictionary: 'sites',
-    value: '1200000'
+    value: '2200000'
   },
 
   // Top Products - 6 items

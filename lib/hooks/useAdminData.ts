@@ -7,70 +7,41 @@ import type { AdminVariable, DatabaseConnections } from '@/lib/types/dashboard';
 import { testDashboardData } from '@/lib/db/test-data';
 import { useDatabase } from '@/lib/db/database-connection';
 import { checkP21Connection, executeP21Query, P21ConnectionError } from '@/lib/services/p21';
-import { updateCustomerMetrics, getCustomerMetrics } from '@/lib/db';
 
 const REAL_TIME_INTERVAL = 60 * 60 * 1000; // 1 hour in milliseconds
-const TEST_TIME_INTERVAL = 60 * 60 * 1000; // 1 hour in milliseconds
-const PRODUCTION_INTERVAL = 30 * 1000; // 30 seconds in milliseconds
-
-// Global interval ID to persist across page changes
-let globalPollingInterval: NodeJS.Timeout | null = null;
+const TEST_TIME_INTERVAL = 5 * 1000; // 5 seconds in milliseconds
 
 export function useAdminData() {
   const [data, setData] = useState<AdminVariable[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [isRunning, setIsRunning] = useState(false);
-  const [isRealTime, setIsRealTime] = useState(process.env.NODE_ENV === 'production');
+  const [pollingInterval, setPollingInterval] = useState<NodeJS.Timeout | null>(null);
+  const [isRealTime, setIsRealTime] = useState(false); // Default to test time
   const [p21Connected, setP21Connected] = useState(false);
   const [pendingChanges, setPendingChanges] = useState<{ [key: string]: string }>({});
   const [editedData, setEditedData] = useState<AdminVariable[]>([]);
-  const [processingRowIndex, setProcessingRowIndex] = useState<number | null>(null);
-  const [sqlUpdatedVariables, setSqlUpdatedVariables] = useState<Set<string>>(new Set());
-  const [isInitialLoad, setIsInitialLoad] = useState(true);
-
-  // Debug logging function
-  const debugLog = (message: string, data?: any) => {
-    if (process.env.NODE_ENV === 'development') {
-      console.log(`[AdminData Debug] ${message}`, data || '');
-    }
-  };
-
-  // Load initial data when component mounts - only show structure, no values
-  useEffect(() => {
-    const initializeData = async () => {
-      debugLog('Initializing data structure');
-      try {
-        const variables = await getDashboardVariables();
-        // In production, start with empty values to prevent local data flash
-        if (process.env.NODE_ENV === 'production') {
-          const emptyVariables = variables.map(v => ({
-            ...v,
-            value: '' // Use empty string instead of null for TypeScript compatibility
-          })).sort((a, b) => Number(a.id) - Number(b.id));
-          
-          setData(emptyVariables);
-          setEditedData(emptyVariables);
-          debugLog('Initialized with empty values in production');
-        } else {
-          const sortedVariables = variables.sort((a, b) => Number(a.id) - Number(b.id));
-          setData(sortedVariables);
-          setEditedData(sortedVariables);
-          debugLog('Initialized with test values in development');
-        }
-      } catch (err) {
-        console.error('Failed to initialize data:', err);
-        setError(err instanceof Error ? err.message : 'Failed to load initial data');
-      } finally {
-        setLoading(false);
-        setIsInitialLoad(false);
-      }
-    };
-
-    initializeData();
-  }, []);
 
   const { connectionState, connect, disconnect, executeQueries } = useDatabase();
+
+  // Initialize with test data on mount
+  useEffect(() => {
+    const init = async () => {
+      try {
+        setLoading(true);
+        const variables = await getDashboardVariables();
+        setData(variables);
+        setEditedData(variables);
+      } catch (err) {
+        const message = err instanceof Error ? err.message : 'Failed to initialize data';
+        setError(message);
+        showError('Error', message);
+      } finally {
+        setLoading(false);
+      }
+    };
+    init();
+  }, []);
 
   // Update connection status when connectionState changes
   useEffect(() => {
@@ -78,126 +49,65 @@ export function useAdminData() {
   }, [connectionState]);
 
   const loadData = useCallback(async () => {
-    debugLog('Starting loadData execution');
+    setLoading(true);
     try {
-      if (process.env.NODE_ENV === 'production' || isRealTime) {
-        const variables = await getDashboardVariables();
-        
-        // Always start with row 0 in production
-        if (window.location.pathname.includes('/admin')) {
-          debugLog('Setting initial processing row to 0');
-          setProcessingRowIndex(0);
-        }
+      // Always get base data from IndexedDB
+      const variables = await getDashboardVariables();
 
-        // Check connection before processing
-        if (variables.some(v => v.sqlExpression && v.p21DataDictionary) && !p21Connected) {
-          throw new P21ConnectionError('No P21 database connection available');
-        }
+      // In test mode, just use the data from IndexedDB
+      if (!isRealTime) {
+        setData(variables);
+        setEditedData(variables);
+        setError(null);
+        return;
+      }
 
-        // Process each variable sequentially
-        for (let i = 0; i < variables.length; i++) {
-          const variable = variables[i];
-          
-          debugLog(`Processing variable ${variable.id} at index ${i}`);
-          
-          if (variable.sqlExpression && variable.p21DataDictionary) {
-            try {
-              // Execute SQL query
-              const sqlValue = await executeP21Query(
-                variable.sqlExpression,
-                variable.p21DataDictionary
-              );
-              debugLog(`Received SQL value for ${variable.id}:`, sqlValue);
+      // In real time mode, only require connection if we have SQL expressions to execute
+      const hasP21Queries = variables.some(v => v.sqlExpression && v.p21DataDictionary);
+      
+      if (hasP21Queries && !p21Connected) {
+        setData(variables); // Still show the base data
+        setEditedData(variables);
+        throw new P21ConnectionError('No P21 database connection available');
+      }
 
-              // Update customer metrics if this is a customer-related variable
-              if (variable.chartName === 'Customer Metrics') {
-                const currentMonth = new Date().toLocaleString('en-US', { month: 'short' });
-                if (variable.variableName === 'prospects') {
-                  updateCustomerMetrics(currentMonth, Number(sqlValue), 0);
-                } else if (variable.variableName === 'newCustomers') {
-                  const customerMetrics = getCustomerMetrics();
-                  const currentMetrics = customerMetrics.find((m: { month: string }) => m.month === currentMonth);
-                  updateCustomerMetrics(currentMonth, currentMetrics?.prospects || 0, Number(sqlValue));
-                }
+      if (hasP21Queries) {
+        // Only update values from P21, keep other fields from IndexedDB
+        const updatedVariables = await Promise.all(
+          variables.map(async (variable) => {
+            if (variable.sqlExpression && variable.p21DataDictionary) {
+              try {
+                const value = await executeP21Query(
+                  variable.sqlExpression,
+                  variable.p21DataDictionary
+                );
+                return { ...variable, value };
+              } catch (err) {
+                console.error(`Failed to execute P21 query for ${variable.name}:`, err);
+                return variable;
               }
-
-              // Update the current variable with SQL value
-              setSqlUpdatedVariables(prev => {
-                const updated = new Set(prev).add(variable.id);
-                debugLog(`Updated SQL variables:`, Array.from(updated));
-                return updated;
-              });
-
-              // Get current state to ensure we don't lose updates
-              setData(currentData => {
-                const updatedData = [...currentData];
-                const index = updatedData.findIndex(v => v.id === variable.id);
-                if (index !== -1) {
-                  updatedData[index] = {
-                    ...updatedData[index],
-                    value: sqlValue,
-                    updateTime: new Date().toISOString()
-                  };
-                }
-                debugLog(`Updated data for ${variable.id}`);
-                return updatedData.sort((a, b) => Number(a.id) - Number(b.id));
-              });
-
-              setEditedData(currentData => {
-                const updatedData = [...currentData];
-                const index = updatedData.findIndex(v => v.id === variable.id);
-                if (index !== -1) {
-                  updatedData[index] = {
-                    ...updatedData[index],
-                    value: sqlValue,
-                    updateTime: new Date().toISOString()
-                  };
-                }
-                debugLog(`Updated editedData for ${variable.id}`);
-                return updatedData.sort((a, b) => Number(a.id) - Number(b.id));
-              });
-
-              // Update storage after state is updated
-              await updateDashboardVariable(variable.id, 'value', sqlValue);
-              debugLog(`Updated storage for ${variable.id}`);
-
-              // Update processing row only after successful SQL update
-              if (window.location.pathname.includes('/admin')) {
-                debugLog(`Updating processing row to ${i + 1}`);
-                setProcessingRowIndex(i + 1);
-              }
-            } catch (err) {
-              console.error(`Failed to execute P21 query for ${variable.name}:`, err);
-              debugLog(`SQL error for ${variable.id}:`, err);
             }
-          }
-        }
-
-        // Clear processing row only after all updates are complete
-        if (window.location.pathname.includes('/admin')) {
-          debugLog('Clearing processing row');
-          setProcessingRowIndex(null);
-        }
+            return variable;
+          })
+        );
+        setData(updatedVariables);
+        setEditedData(updatedVariables);
       } else {
-        // Development mode
-        const variables = await getDashboardVariables();
-        const sortedVariables = variables.sort((a, b) => Number(a.id) - Number(b.id));
-        setData(sortedVariables);
-        setEditedData(sortedVariables);
-        debugLog('Updated with development data');
+        // No P21 queries, just use IndexedDB data
+        setData(variables);
+        setEditedData(variables);
       }
+      setError(null);
     } catch (err) {
-      debugLog('Error in loadData:', err);
-      if (window.location.pathname.includes('/admin')) {
-        setProcessingRowIndex(null);
+      const message = err instanceof Error ? err.message : 'Failed to load data';
+      setError(message);
+      if (!(err instanceof P21ConnectionError)) {
+        showError('Error', message);
       }
-      if (err instanceof P21ConnectionError) {
-        setError('Database connection error. Please reconnect.');
-      } else {
-        setError(err instanceof Error ? err.message : 'Unknown error');
-      }
+    } finally {
+      setLoading(false);
     }
-  }, [isRealTime, p21Connected]);
+  }, [isRealTime, p21Connected, executeP21Query]);
 
   const handleDatabaseConnect = useCallback(async (connections: DatabaseConnections) => {
     setLoading(true);
@@ -360,48 +270,87 @@ export function useAdminData() {
   }, [loadData]);
 
   const startPolling = useCallback(() => {
-    debugLog('Starting polling');
-    if (globalPollingInterval) return;
-    
-    setIsRunning(true);
-    loadData();
-
-    const interval = process.env.NODE_ENV === 'production' 
-      ? PRODUCTION_INTERVAL 
-      : (isRealTime ? REAL_TIME_INTERVAL : TEST_TIME_INTERVAL);
-
-    globalPollingInterval = setInterval(() => {
-      debugLog('Polling interval triggered');
+    if (!isRunning) {
+      const interval = setInterval(loadData, isRealTime ? REAL_TIME_INTERVAL : TEST_TIME_INTERVAL);
+      setPollingInterval(interval);
+      setIsRunning(true);
+      // Initial load when starting
       loadData();
-    }, interval);
+    }
   }, [isRealTime, loadData]);
 
   const stopPolling = useCallback(() => {
-    debugLog('Stopping polling');
-    if (globalPollingInterval) {
-      clearInterval(globalPollingInterval);
-      globalPollingInterval = null;
-    }
-    setIsRunning(false);
-    setProcessingRowIndex(null);
-    setSqlUpdatedVariables(new Set());
-  }, []);
-
-  // Cleanup on unmount, but only if explicitly stopped
-  useEffect(() => {
-    return () => {
-      // Only clean up if we're not running
-      if (!isRunning && globalPollingInterval) {
-        clearInterval(globalPollingInterval);
-        globalPollingInterval = null;
+    if (isRunning) {
+      if (pollingInterval) {
+        clearInterval(pollingInterval);
+        setPollingInterval(null);
       }
-    };
-  }, [isRunning]);
+      setIsRunning(false);
+    }
+  }, [pollingInterval, isRunning]);
 
-  // Keep isRunning in sync with globalPollingInterval
-  useEffect(() => {
-    setIsRunning(!!globalPollingInterval);
-  }, []);
+  const handleTimeSourceChange = useCallback(async (useRealTime: boolean) => {
+    setLoading(true);
+    // Stop polling before changing mode
+    if (isRunning) {
+      stopPolling();
+    }
+
+    try {
+      // Update mode first so loadData knows which mode we're in
+      setIsRealTime(useRealTime);
+
+      // If switching to test time
+      if (!useRealTime) {
+        // First restore test data (this will also disconnect DB)
+        await restoreTestData();
+      } else {
+        // If switching to real time, check connection
+        try {
+          const connected = await checkP21Connection();
+          setP21Connected(connected);
+          if (!connected) {
+            // Only show warning if there are variables that need P21
+            const variables = await getDashboardVariables();
+            const needsP21 = variables.some(v => v.sqlExpression && v.p21DataDictionary);
+            if (needsP21) {
+              showError('Warning', 'No database connection available. Please connect to P21 to see live data.');
+            }
+          }
+        } catch (error) {
+          setP21Connected(false);
+          const variables = await getDashboardVariables();
+          const needsP21 = variables.some(v => v.sqlExpression && v.p21DataDictionary);
+          if (needsP21) {
+            showError('Warning', 'Failed to check P21 connection. Please connect to P21 to see live data.');
+          }
+        }
+
+        // Load initial data for real-time mode
+        await loadData();
+      }
+
+      // Restart polling if it was running
+      if (isRunning) {
+        startPolling();
+      }
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Failed to switch time source';
+      setError(message);
+      showError('Error', message);
+      
+      // If we fail, revert back to the previous mode
+      setIsRealTime(!useRealTime);
+    } finally {
+      setLoading(false);
+    }
+  }, [
+    restoreTestData, 
+    isRunning, 
+    loadData, 
+    checkP21Connection
+    // stopPolling and startPolling are stable due to useCallback
+  ]);
 
   return {
     data: editedData, // Use editedData for display
@@ -415,62 +364,7 @@ export function useAdminData() {
     startPolling,
     stopPolling,
     isRealTime,
-    handleTimeSourceChange: useCallback(async (useRealTime: boolean) => {
-      setLoading(true);
-      // Stop polling before changing mode
-      if (isRunning) {
-        stopPolling();
-      }
-
-      try {
-        // Update mode first so loadData knows which mode we're in
-        setIsRealTime(useRealTime);
-
-        // If switching to test time
-        if (!useRealTime) {
-          // First restore test data (this will also disconnect DB)
-          await restoreTestData();
-        } else {
-          // If switching to real time, check connection
-          try {
-            const connected = await checkP21Connection();
-            setP21Connected(connected);
-            if (!connected) {
-              // Only show warning if there are variables that need P21
-              const variables = await getDashboardVariables();
-              const needsP21 = variables.some(v => v.sqlExpression && v.p21DataDictionary);
-              if (needsP21) {
-                showError('Warning', 'No database connection available. Please connect to P21 to see live data.');
-              }
-            }
-          } catch (error) {
-            setP21Connected(false);
-            const variables = await getDashboardVariables();
-            const needsP21 = variables.some(v => v.sqlExpression && v.p21DataDictionary);
-            if (needsP21) {
-              showError('Warning', 'Failed to check P21 connection. Please connect to P21 to see live data.');
-            }
-          }
-
-          // Load initial data for real-time mode
-          await loadData();
-        }
-
-        // Restart polling if it was running
-        if (isRunning) {
-          startPolling();
-        }
-      } catch (error) {
-        const message = error instanceof Error ? error.message : 'Failed to switch time source';
-        setError(message);
-        showError('Error', message);
-        
-        // If we fail, revert back to the previous mode
-        setIsRealTime(!useRealTime);
-      } finally {
-        setLoading(false);
-      }
-    }, [restoreTestData, isRunning, stopPolling, startPolling, loadData, checkP21Connection]),
+    handleTimeSourceChange,
     p21Connected,
     pendingChanges,
     handleSave,

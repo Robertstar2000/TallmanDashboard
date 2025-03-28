@@ -2,58 +2,91 @@
 
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import { ChartData } from '@/lib/types/admin';
 
 interface DataTableProps {
-  data: any[];
-  onDataChange: (newData: any[]) => void;
+  data: ChartData[];
+  onSave: (data: ChartData[]) => void;
+  onUpdate: (row: ChartData) => void;
+  loading: boolean;
 }
 
-export function DataTable({ data, onDataChange }: DataTableProps) {
-  if (!data.length) return null;
-
-  const headers = Object.keys(data[0]);
-
-  const handleCellChange = (rowIndex: number, column: string, value: string) => {
+export function DataTable({ data, onSave, onUpdate, loading }: DataTableProps) {
+  const handleCellChange = (rowIndex: number, column: keyof ChartData, value: string) => {
     const newData = [...data];
     newData[rowIndex] = {
       ...newData[rowIndex],
-      [column]: column === 'date' || column === 'month' ? value : Number(value)
+      [column]: value
     };
-    onDataChange(newData);
+    onSave(newData);
   };
 
-  const formatHeader = (header: string) => {
-    return header
-      .split(/(?=[A-Z])|_/)
-      .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-      .join(' ');
-  };
+  if (loading) {
+    return <div className="text-center py-4">Loading...</div>;
+  }
 
   return (
-    <div className="rounded-md border">
+    <div className="space-y-4">
       <Table>
         <TableHeader>
           <TableRow>
-            {headers.map((header) => (
-              <TableHead key={header} className="font-semibold">
-                {formatHeader(header)}
-              </TableHead>
-            ))}
+            <TableHead>Chart Group</TableHead>
+            <TableHead>Variable Name</TableHead>
+            <TableHead>Server Name</TableHead>
+            <TableHead>Table Name</TableHead>
+            <TableHead>SQL Expression</TableHead>
+            <TableHead>Value</TableHead>
+            <TableHead>Actions</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {data.map((row, rowIndex) => (
-            <TableRow key={rowIndex}>
-              {headers.map((column) => (
-                <TableCell key={`${rowIndex}-${column}`} className="p-2">
-                  <Input
-                    type={column === 'date' || column === 'month' ? 'text' : 'number'}
-                    value={row[column]}
-                    onChange={(e) => handleCellChange(rowIndex, column, e.target.value)}
-                    className="w-full h-8 text-sm"
-                  />
-                </TableCell>
-              ))}
+            <TableRow key={row.id}>
+              <TableCell>
+                <Input
+                  value={row.chartGroup}
+                  onChange={(e) => handleCellChange(rowIndex, 'chartGroup', e.target.value)}
+                />
+              </TableCell>
+              <TableCell>
+                <Input
+                  value={row.variableName}
+                  onChange={(e) => handleCellChange(rowIndex, 'variableName', e.target.value)}
+                />
+              </TableCell>
+              <TableCell>
+                <Input
+                  value={row.serverName}
+                  onChange={(e) => handleCellChange(rowIndex, 'serverName', e.target.value)}
+                />
+              </TableCell>
+              <TableCell>
+                <Input
+                  value={row.tableName}
+                  onChange={(e) => handleCellChange(rowIndex, 'tableName', e.target.value)}
+                />
+              </TableCell>
+              <TableCell>
+                <Input
+                  value={row.sqlExpression}
+                  onChange={(e) => handleCellChange(rowIndex, 'sqlExpression', e.target.value)}
+                />
+              </TableCell>
+              <TableCell>
+                <Input
+                  value={row.value}
+                  readOnly
+                />
+              </TableCell>
+              <TableCell>
+                <Button
+                  onClick={() => onUpdate(row)}
+                  disabled={loading}
+                >
+                  Update
+                </Button>
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>

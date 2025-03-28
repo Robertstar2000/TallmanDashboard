@@ -1,0 +1,1220 @@
+[
+  {
+    "id": "1",
+    "name": "AR Aging Amount Due 1-30 Days",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(Amount Due) FROM table WHERE date = '1-30 Days'",
+    "generatedSql": "SELECT SUM(ar_balance) as value FROM dbo.ar_open WITH (NOLOCK) WHERE ar_balance > 0"
+  },
+  {
+    "id": "2",
+    "name": "AR Aging Amount Due 31-60 Days",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(Amount Due) FROM table WHERE date = '31-60 Days'",
+    "generatedSql": "SELECT SUM(ar_balance) as value FROM dbo.ar_open WITH (NOLOCK) WHERE ar_balance > 0"
+  },
+  {
+    "id": "3",
+    "name": "AR Aging Amount Due 61-90 Days",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(Amount Due) FROM table WHERE date = '61-90 Days'",
+    "generatedSql": "SELECT SUM(ar_balance) as value FROM dbo.ar_open WITH (NOLOCK) WHERE ar_balance > 0"
+  },
+  {
+    "id": "4",
+    "name": "AR Aging Amount Due 90+ Days",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(Amount Due) FROM table WHERE date = '90+ Days'",
+    "generatedSql": "SELECT SUM(ar_balance) as value FROM dbo.ar_open WITH (NOLOCK) WHERE ar_balance > 0"
+  },
+  {
+    "id": "5",
+    "name": "AR Aging Amount Due Current",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(Amount Due) FROM table WHERE date = 'Current'",
+    "generatedSql": "SELECT SUM(ar_balance) as value FROM dbo.ar_open WITH (NOLOCK) WHERE ar_balance > 0"
+  },
+  {
+    "id": "6",
+    "name": "Accounts Payable Jan",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(Payable) FROM table WHERE date = 'Jan'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK)"
+  },
+  {
+    "id": "7",
+    "name": "Accounts Payable Feb",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(Payable) FROM table WHERE date = 'Feb'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK)"
+  },
+  {
+    "id": "8",
+    "name": "Accounts Payable Mar",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(Payable) FROM table WHERE date = 'Mar'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK)"
+  },
+  {
+    "id": "9",
+    "name": "Accounts Payable Apr",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(Payable) FROM table WHERE date = 'Apr'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK)"
+  },
+  {
+    "id": "10",
+    "name": "Accounts Payable May",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(Payable) FROM table WHERE date = 'May'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK)"
+  },
+  {
+    "id": "11",
+    "name": "Accounts Payable Jun",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(Payable) FROM table WHERE date = 'Jun'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK)"
+  },
+  {
+    "id": "12",
+    "name": "Accounts Payable Jul",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(Payable) FROM table WHERE date = 'Jul'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK)"
+  },
+  {
+    "id": "13",
+    "name": "Accounts Payable Aug",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(Payable) FROM table WHERE date = 'Aug'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK)"
+  },
+  {
+    "id": "14",
+    "name": "Accounts Payable Sep",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(Payable) FROM table WHERE date = 'Sep'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK)"
+  },
+  {
+    "id": "15",
+    "name": "Accounts Payable Oct",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(Payable) FROM table WHERE date = 'Oct'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK)"
+  },
+  {
+    "id": "16",
+    "name": "Accounts Payable Nov",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(Payable) FROM table WHERE date = 'Nov'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK)"
+  },
+  {
+    "id": "17",
+    "name": "Accounts Payable Dec",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(Payable) FROM table WHERE date = 'Dec'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK)"
+  },
+  {
+    "id": "18",
+    "name": "Accounts Receivable Jan",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(Receivable) FROM table WHERE date = 'Jan'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK)"
+  },
+  {
+    "id": "19",
+    "name": "Accounts Receivable Feb",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(Receivable) FROM table WHERE date = 'Feb'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK)"
+  },
+  {
+    "id": "20",
+    "name": "Accounts Receivable Mar",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(Receivable) FROM table WHERE date = 'Mar'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK)"
+  },
+  {
+    "id": "21",
+    "name": "Accounts Receivable Apr",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(Receivable) FROM table WHERE date = 'Apr'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK)"
+  },
+  {
+    "id": "22",
+    "name": "Accounts Receivable May",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(Receivable) FROM table WHERE date = 'May'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK)"
+  },
+  {
+    "id": "23",
+    "name": "Accounts Receivable Jun",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(Receivable) FROM table WHERE date = 'Jun'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK)"
+  },
+  {
+    "id": "24",
+    "name": "Accounts Receivable Jul",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(Receivable) FROM table WHERE date = 'Jul'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK)"
+  },
+  {
+    "id": "25",
+    "name": "Accounts Receivable Aug",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(Receivable) FROM table WHERE date = 'Aug'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK)"
+  },
+  {
+    "id": "26",
+    "name": "Accounts Receivable Sep",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(Receivable) FROM table WHERE date = 'Sep'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK)"
+  },
+  {
+    "id": "27",
+    "name": "Accounts Receivable Oct",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(Receivable) FROM table WHERE date = 'Oct'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK)"
+  },
+  {
+    "id": "28",
+    "name": "Accounts Receivable Nov",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(Receivable) FROM table WHERE date = 'Nov'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK)"
+  },
+  {
+    "id": "29",
+    "name": "Accounts Receivable Dec",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(Receivable) FROM table WHERE date = 'Dec'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK)"
+  },
+  {
+    "id": "30",
+    "name": "Accounts Overdue Jan",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(Overdue) FROM table WHERE date = 'Jan'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK)"
+  },
+  {
+    "id": "31",
+    "name": "Accounts Overdue Feb",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(Overdue) FROM table WHERE date = 'Feb'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK)"
+  },
+  {
+    "id": "32",
+    "name": "Accounts Overdue Mar",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(Overdue) FROM table WHERE date = 'Mar'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK)"
+  },
+  {
+    "id": "33",
+    "name": "Accounts Overdue Apr",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(Overdue) FROM table WHERE date = 'Apr'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK)"
+  },
+  {
+    "id": "34",
+    "name": "Accounts Overdue May",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(Overdue) FROM table WHERE date = 'May'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK)"
+  },
+  {
+    "id": "35",
+    "name": "Accounts Overdue Jun",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(Overdue) FROM table WHERE date = 'Jun'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK)"
+  },
+  {
+    "id": "36",
+    "name": "Accounts Overdue Jul",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(Overdue) FROM table WHERE date = 'Jul'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK)"
+  },
+  {
+    "id": "37",
+    "name": "Accounts Overdue Aug",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(Overdue) FROM table WHERE date = 'Aug'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK)"
+  },
+  {
+    "id": "38",
+    "name": "Accounts Overdue Sep",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(Overdue) FROM table WHERE date = 'Sep'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK)"
+  },
+  {
+    "id": "39",
+    "name": "Accounts Overdue Oct",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(Overdue) FROM table WHERE date = 'Oct'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK)"
+  },
+  {
+    "id": "40",
+    "name": "Accounts Overdue Nov",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(Overdue) FROM table WHERE date = 'Nov'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK)"
+  },
+  {
+    "id": "41",
+    "name": "Accounts Overdue Dec",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(Overdue) FROM table WHERE date = 'Dec'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK)"
+  },
+  {
+    "id": "42",
+    "name": "Customer Metrics New Jan",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(New) FROM table WHERE date = 'Jan'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK)"
+  },
+  {
+    "id": "43",
+    "name": "Customer Metrics New Feb",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(New) FROM table WHERE date = 'Feb'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK)"
+  },
+  {
+    "id": "44",
+    "name": "Customer Metrics New Mar",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(New) FROM table WHERE date = 'Mar'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK)"
+  },
+  {
+    "id": "45",
+    "name": "Customer Metrics New Apr",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(New) FROM table WHERE date = 'Apr'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK)"
+  },
+  {
+    "id": "46",
+    "name": "Customer Metrics New May",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(New) FROM table WHERE date = 'May'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK)"
+  },
+  {
+    "id": "47",
+    "name": "Customer Metrics New Jun",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(New) FROM table WHERE date = 'Jun'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK)"
+  },
+  {
+    "id": "48",
+    "name": "Customer Metrics New Jul",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(New) FROM table WHERE date = 'Jul'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK)"
+  },
+  {
+    "id": "49",
+    "name": "Customer Metrics New Aug",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(New) FROM table WHERE date = 'Aug'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK)"
+  },
+  {
+    "id": "50",
+    "name": "Customer Metrics New Sep",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(New) FROM table WHERE date = 'Sep'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK)"
+  },
+  {
+    "id": "51",
+    "name": "Customer Metrics New Oct",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(New) FROM table WHERE date = 'Oct'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK)"
+  },
+  {
+    "id": "52",
+    "name": "Customer Metrics New Nov",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(New) FROM table WHERE date = 'Nov'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK)"
+  },
+  {
+    "id": "53",
+    "name": "Customer Metrics New Dec",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(New) FROM table WHERE date = 'Dec'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK)"
+  },
+  {
+    "id": "54",
+    "name": "Customer Metrics Prospects Jan",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(Prospects) FROM table WHERE date = 'Jan'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK)"
+  },
+  {
+    "id": "55",
+    "name": "Customer Metrics Prospects Feb",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(Prospects) FROM table WHERE date = 'Feb'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK)"
+  },
+  {
+    "id": "56",
+    "name": "Customer Metrics Prospects Mar",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(Prospects) FROM table WHERE date = 'Mar'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK)"
+  },
+  {
+    "id": "57",
+    "name": "Customer Metrics Prospects Apr",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(Prospects) FROM table WHERE date = 'Apr'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK)"
+  },
+  {
+    "id": "58",
+    "name": "Customer Metrics Prospects May",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(Prospects) FROM table WHERE date = 'May'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK)"
+  },
+  {
+    "id": "59",
+    "name": "Customer Metrics Prospects Jun",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(Prospects) FROM table WHERE date = 'Jun'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK)"
+  },
+  {
+    "id": "60",
+    "name": "Customer Metrics Prospects Jul",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(Prospects) FROM table WHERE date = 'Jul'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK)"
+  },
+  {
+    "id": "61",
+    "name": "Customer Metrics Prospects Aug",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(Prospects) FROM table WHERE date = 'Aug'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK)"
+  },
+  {
+    "id": "62",
+    "name": "Customer Metrics Prospects Sep",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(Prospects) FROM table WHERE date = 'Sep'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK)"
+  },
+  {
+    "id": "63",
+    "name": "Customer Metrics Prospects Oct",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(Prospects) FROM table WHERE date = 'Oct'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK)"
+  },
+  {
+    "id": "64",
+    "name": "Customer Metrics Prospects Nov",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(Prospects) FROM table WHERE date = 'Nov'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK)"
+  },
+  {
+    "id": "65",
+    "name": "Customer Metrics Prospects Dec",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(Prospects) FROM table WHERE date = 'Dec'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK)"
+  },
+  {
+    "id": "66",
+    "name": "Daily Orders Orders Today",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(Orders) FROM table WHERE date = 'Today'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_date >= DATEADD(day, -30, GETDATE())"
+  },
+  {
+    "id": "67",
+    "name": "Daily Orders Orders Today-1",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(Orders) FROM table WHERE date = 'Today-1'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_date >= DATEADD(day, -30, GETDATE())"
+  },
+  {
+    "id": "68",
+    "name": "Daily Orders Orders Today-2",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(Orders) FROM table WHERE date = 'Today-2'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_date >= DATEADD(day, -30, GETDATE())"
+  },
+  {
+    "id": "69",
+    "name": "Daily Orders Orders Today-3",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(Orders) FROM table WHERE date = 'Today-3'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_date >= DATEADD(day, -30, GETDATE())"
+  },
+  {
+    "id": "70",
+    "name": "Daily Orders Orders Today-4",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(Orders) FROM table WHERE date = 'Today-4'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_date >= DATEADD(day, -30, GETDATE())"
+  },
+  {
+    "id": "71",
+    "name": "Daily Orders Orders Today-5",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(Orders) FROM table WHERE date = 'Today-5'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_date >= DATEADD(day, -30, GETDATE())"
+  },
+  {
+    "id": "72",
+    "name": "Daily Orders Orders Today-6",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(Orders) FROM table WHERE date = 'Today-6'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_date >= DATEADD(day, -30, GETDATE())"
+  },
+  {
+    "id": "73",
+    "name": "Historical Data P21 Jan",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(P21) FROM table WHERE date = 'Jan'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK)"
+  },
+  {
+    "id": "74",
+    "name": "Historical Data P21 Feb",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(P21) FROM table WHERE date = 'Feb'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK)"
+  },
+  {
+    "id": "75",
+    "name": "Historical Data P21 Mar",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(P21) FROM table WHERE date = 'Mar'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK)"
+  },
+  {
+    "id": "76",
+    "name": "Historical Data P21 Apr",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(P21) FROM table WHERE date = 'Apr'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK)"
+  },
+  {
+    "id": "77",
+    "name": "Historical Data P21 May",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(P21) FROM table WHERE date = 'May'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK)"
+  },
+  {
+    "id": "78",
+    "name": "Historical Data P21 Jun",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(P21) FROM table WHERE date = 'Jun'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK)"
+  },
+  {
+    "id": "79",
+    "name": "Historical Data P21 Jul",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(P21) FROM table WHERE date = 'Jul'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK)"
+  },
+  {
+    "id": "80",
+    "name": "Historical Data P21 Aug",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(P21) FROM table WHERE date = 'Aug'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK)"
+  },
+  {
+    "id": "81",
+    "name": "Historical Data P21 Sep",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(P21) FROM table WHERE date = 'Sep'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK)"
+  },
+  {
+    "id": "82",
+    "name": "Historical Data P21 Oct",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(P21) FROM table WHERE date = 'Oct'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK)"
+  },
+  {
+    "id": "83",
+    "name": "Historical Data P21 Nov",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(P21) FROM table WHERE date = 'Nov'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK)"
+  },
+  {
+    "id": "84",
+    "name": "Historical Data P21 Dec",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(P21) FROM table WHERE date = 'Dec'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK)"
+  },
+  {
+    "id": "85",
+    "name": "Historical Data POR Jan",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(POR) FROM table WHERE date = 'Jan'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK)"
+  },
+  {
+    "id": "86",
+    "name": "Historical Data POR Feb",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(POR) FROM table WHERE date = 'Feb'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK)"
+  },
+  {
+    "id": "87",
+    "name": "Historical Data POR Mar",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(POR) FROM table WHERE date = 'Mar'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK)"
+  },
+  {
+    "id": "88",
+    "name": "Historical Data POR Apr",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(POR) FROM table WHERE date = 'Apr'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK)"
+  },
+  {
+    "id": "89",
+    "name": "Historical Data POR May",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(POR) FROM table WHERE date = 'May'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK)"
+  },
+  {
+    "id": "90",
+    "name": "Historical Data POR Jun",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(POR) FROM table WHERE date = 'Jun'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK)"
+  },
+  {
+    "id": "91",
+    "name": "Historical Data POR Jul",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(POR) FROM table WHERE date = 'Jul'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK)"
+  },
+  {
+    "id": "92",
+    "name": "Historical Data POR Aug",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(POR) FROM table WHERE date = 'Aug'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK)"
+  },
+  {
+    "id": "93",
+    "name": "Historical Data POR Sep",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(POR) FROM table WHERE date = 'Sep'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK)"
+  },
+  {
+    "id": "94",
+    "name": "Historical Data POR Oct",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(POR) FROM table WHERE date = 'Oct'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK)"
+  },
+  {
+    "id": "95",
+    "name": "Historical Data POR Nov",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(POR) FROM table WHERE date = 'Nov'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK)"
+  },
+  {
+    "id": "96",
+    "name": "Historical Data POR Dec",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(POR) FROM table WHERE date = 'Dec'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK)"
+  },
+  {
+    "id": "97",
+    "name": "Historical Data Total Jan",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(Total) FROM table WHERE date = 'Jan'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK)"
+  },
+  {
+    "id": "98",
+    "name": "Historical Data Total Feb",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(Total) FROM table WHERE date = 'Feb'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK)"
+  },
+  {
+    "id": "99",
+    "name": "Historical Data Total Mar",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(Total) FROM table WHERE date = 'Mar'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK)"
+  },
+  {
+    "id": "100",
+    "name": "Historical Data Total Apr",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(Total) FROM table WHERE date = 'Apr'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK)"
+  },
+  {
+    "id": "101",
+    "name": "Historical Data Total May",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(Total) FROM table WHERE date = 'May'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK)"
+  },
+  {
+    "id": "102",
+    "name": "Historical Data Total Jun",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(Total) FROM table WHERE date = 'Jun'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK)"
+  },
+  {
+    "id": "103",
+    "name": "Historical Data Total Jul",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(Total) FROM table WHERE date = 'Jul'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK)"
+  },
+  {
+    "id": "104",
+    "name": "Historical Data Total Aug",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(Total) FROM table WHERE date = 'Aug'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK)"
+  },
+  {
+    "id": "105",
+    "name": "Historical Data Total Sep",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(Total) FROM table WHERE date = 'Sep'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK)"
+  },
+  {
+    "id": "106",
+    "name": "Historical Data Total Oct",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(Total) FROM table WHERE date = 'Oct'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK)"
+  },
+  {
+    "id": "107",
+    "name": "Historical Data Total Nov",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(Total) FROM table WHERE date = 'Nov'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK)"
+  },
+  {
+    "id": "108",
+    "name": "Historical Data Total Dec",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(Total) FROM table WHERE date = 'Dec'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK)"
+  },
+  {
+    "id": "109",
+    "name": "Inventory In Stock Dept 100",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(In Stock) FROM table WHERE date = 'Dept 100'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.inv_mast WITH (NOLOCK) WHERE qty_on_hand > 0"
+  },
+  {
+    "id": "110",
+    "name": "Inventory In Stock Dept 101",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(In Stock) FROM table WHERE date = 'Dept 101'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.inv_mast WITH (NOLOCK) WHERE qty_on_hand > 0"
+  },
+  {
+    "id": "111",
+    "name": "Inventory In Stock Dept 102",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(In Stock) FROM table WHERE date = 'Dept 102'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.inv_mast WITH (NOLOCK) WHERE qty_on_hand > 0"
+  },
+  {
+    "id": "112",
+    "name": "Inventory In Stock Dept 207",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(In Stock) FROM table WHERE date = 'Dept 207'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.inv_mast WITH (NOLOCK) WHERE qty_on_hand > 0"
+  },
+  {
+    "id": "113",
+    "name": "Inventory On Order Dept 100",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(On Order) FROM table WHERE date = 'Dept 100'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.inv_mast WITH (NOLOCK) WHERE qty_on_hand > 0"
+  },
+  {
+    "id": "114",
+    "name": "Inventory On Order Dept 101",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(On Order) FROM table WHERE date = 'Dept 101'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.inv_mast WITH (NOLOCK) WHERE qty_on_hand > 0"
+  },
+  {
+    "id": "115",
+    "name": "Inventory On Order Dept 102",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(On Order) FROM table WHERE date = 'Dept 102'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.inv_mast WITH (NOLOCK) WHERE qty_on_hand > 0"
+  },
+  {
+    "id": "116",
+    "name": "Inventory On Order Dept 207",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(On Order) FROM table WHERE date = 'Dept 207'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.inv_mast WITH (NOLOCK) WHERE qty_on_hand > 0"
+  },
+  {
+    "id": "117",
+    "name": "Key Metrics Total Orders Overview",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(Total Orders) FROM table WHERE date = 'None'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_date >= DATEADD(day, -30, GETDATE())"
+  },
+  {
+    "id": "118",
+    "name": "Key Metrics Open Orders (/day) Overview",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(Open Orders (/day)) FROM table WHERE date = 'None'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_date >= DATEADD(day, -30, GETDATE())"
+  },
+  {
+    "id": "119",
+    "name": "Key Metrics All Open Orders Overview",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(All Open Orders) FROM table WHERE date = 'None'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_date >= DATEADD(day, -30, GETDATE())"
+  },
+  {
+    "id": "120",
+    "name": "Key Metrics Daily Revenue Overview",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(Daily Revenue) FROM table WHERE date = 'None'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK)"
+  },
+  {
+    "id": "121",
+    "name": "Key Metrics Open Invoices Overview",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(Open Invoices) FROM table WHERE date = 'None'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK)"
+  },
+  {
+    "id": "122",
+    "name": "Key Metrics OrdersBackloged Overview",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(OrdersBackloged) FROM table WHERE date = 'None'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_date >= DATEADD(day, -30, GETDATE())"
+  },
+  {
+    "id": "123",
+    "name": "Key Metrics Total Sales Monthly Overview",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(Total Sales Monthly) FROM table WHERE date = 'None'",
+    "generatedSql": "SELECT SUM(ext_price) as value FROM dbo.oe_line WITH (NOLOCK) WHERE create_date >= DATEADD(day, -30, GETDATE())"
+  },
+  {
+    "id": "124",
+    "name": "Site Distribution Value Columbus",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(Value) FROM table WHERE date = 'Columbus'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK)"
+  },
+  {
+    "id": "125",
+    "name": "Site Distribution Value Addison",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(Value) FROM table WHERE date = 'Addison'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK)"
+  },
+  {
+    "id": "126",
+    "name": "Site Distribution Value Lake City",
+    "serverType": "P21",
+    "originalSql": "SELECT SUM(Value) FROM table WHERE date = 'Lake City'",
+    "generatedSql": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK)"
+  },
+  {
+    "id": "127",
+    "name": "POR Overview New Rentals Jan",
+    "serverType": "POR",
+    "originalSql": "SELECT SUM(New Rentals) FROM table WHERE date = 'Jan'",
+    "generatedSql": "SELECT SUM(New Rentals) FROM table WHERE date = 'Jan'"
+  },
+  {
+    "id": "128",
+    "name": "POR Overview New Rentals Feb",
+    "serverType": "POR",
+    "originalSql": "SELECT SUM(New Rentals) FROM table WHERE date = 'Feb'",
+    "generatedSql": "SELECT SUM(New Rentals) FROM table WHERE date = 'Feb'"
+  },
+  {
+    "id": "129",
+    "name": "POR Overview New Rentals Mar",
+    "serverType": "POR",
+    "originalSql": "SELECT SUM(New Rentals) FROM table WHERE date = 'Mar'",
+    "generatedSql": "SELECT SUM(New Rentals) FROM table WHERE date = 'Mar'"
+  },
+  {
+    "id": "130",
+    "name": "POR Overview New Rentals Apr",
+    "serverType": "POR",
+    "originalSql": "SELECT SUM(New Rentals) FROM table WHERE date = 'Apr'",
+    "generatedSql": "SELECT SUM(New Rentals) FROM table WHERE date = 'Apr'"
+  },
+  {
+    "id": "131",
+    "name": "POR Overview New Rentals May",
+    "serverType": "POR",
+    "originalSql": "SELECT SUM(New Rentals) FROM table WHERE date = 'May'",
+    "generatedSql": "SELECT SUM(New Rentals) FROM table WHERE date = 'May'"
+  },
+  {
+    "id": "132",
+    "name": "POR Overview New Rentals Jun",
+    "serverType": "POR",
+    "originalSql": "SELECT SUM(New Rentals) FROM table WHERE date = 'Jun'",
+    "generatedSql": "SELECT SUM(New Rentals) FROM table WHERE date = 'Jun'"
+  },
+  {
+    "id": "133",
+    "name": "POR Overview New Rentals Jul",
+    "serverType": "POR",
+    "originalSql": "SELECT SUM(New Rentals) FROM table WHERE date = 'Jul'",
+    "generatedSql": "SELECT SUM(New Rentals) FROM table WHERE date = 'Jul'"
+  },
+  {
+    "id": "134",
+    "name": "POR Overview New Rentals Aug",
+    "serverType": "POR",
+    "originalSql": "SELECT SUM(New Rentals) FROM table WHERE date = 'Aug'",
+    "generatedSql": "SELECT SUM(New Rentals) FROM table WHERE date = 'Aug'"
+  },
+  {
+    "id": "135",
+    "name": "POR Overview New Rentals Sep",
+    "serverType": "POR",
+    "originalSql": "SELECT SUM(New Rentals) FROM table WHERE date = 'Sep'",
+    "generatedSql": "SELECT SUM(New Rentals) FROM table WHERE date = 'Sep'"
+  },
+  {
+    "id": "136",
+    "name": "POR Overview New Rentals Oct",
+    "serverType": "POR",
+    "originalSql": "SELECT SUM(New Rentals) FROM table WHERE date = 'Oct'",
+    "generatedSql": "SELECT SUM(New Rentals) FROM table WHERE date = 'Oct'"
+  },
+  {
+    "id": "137",
+    "name": "POR Overview New Rentals Nov",
+    "serverType": "POR",
+    "originalSql": "SELECT SUM(New Rentals) FROM table WHERE date = 'Nov'",
+    "generatedSql": "SELECT SUM(New Rentals) FROM table WHERE date = 'Nov'"
+  },
+  {
+    "id": "138",
+    "name": "POR Overview New Rentals Dec",
+    "serverType": "POR",
+    "originalSql": "SELECT SUM(New Rentals) FROM table WHERE date = 'Dec'",
+    "generatedSql": "SELECT SUM(New Rentals) FROM table WHERE date = 'Dec'"
+  },
+  {
+    "id": "139",
+    "name": "POR Overview Open Rentals Jan",
+    "serverType": "POR",
+    "originalSql": "SELECT SUM(Open Rentals) FROM table WHERE date = 'Jan'",
+    "generatedSql": "SELECT SUM(Open Rentals) FROM table WHERE date = 'Jan'"
+  },
+  {
+    "id": "140",
+    "name": "POR Overview Open Rentals Feb",
+    "serverType": "POR",
+    "originalSql": "SELECT SUM(Open Rentals) FROM table WHERE date = 'Feb'",
+    "generatedSql": "SELECT SUM(Open Rentals) FROM table WHERE date = 'Feb'"
+  },
+  {
+    "id": "141",
+    "name": "POR Overview Open Rentals Mar",
+    "serverType": "POR",
+    "originalSql": "SELECT SUM(Open Rentals) FROM table WHERE date = 'Mar'",
+    "generatedSql": "SELECT SUM(Open Rentals) FROM table WHERE date = 'Mar'"
+  },
+  {
+    "id": "142",
+    "name": "POR Overview Open Rentals Apr",
+    "serverType": "POR",
+    "originalSql": "SELECT SUM(Open Rentals) FROM table WHERE date = 'Apr'",
+    "generatedSql": "SELECT SUM(Open Rentals) FROM table WHERE date = 'Apr'"
+  },
+  {
+    "id": "143",
+    "name": "POR Overview Open Rentals May",
+    "serverType": "POR",
+    "originalSql": "SELECT SUM(Open Rentals) FROM table WHERE date = 'May'",
+    "generatedSql": "SELECT SUM(Open Rentals) FROM table WHERE date = 'May'"
+  },
+  {
+    "id": "144",
+    "name": "POR Overview Open Rentals Jun",
+    "serverType": "POR",
+    "originalSql": "SELECT SUM(Open Rentals) FROM table WHERE date = 'Jun'",
+    "generatedSql": "SELECT SUM(Open Rentals) FROM table WHERE date = 'Jun'"
+  },
+  {
+    "id": "145",
+    "name": "POR Overview Open Rentals Jul",
+    "serverType": "POR",
+    "originalSql": "SELECT SUM(Open Rentals) FROM table WHERE date = 'Jul'",
+    "generatedSql": "SELECT SUM(Open Rentals) FROM table WHERE date = 'Jul'"
+  },
+  {
+    "id": "146",
+    "name": "POR Overview Open Rentals Aug",
+    "serverType": "POR",
+    "originalSql": "SELECT SUM(Open Rentals) FROM table WHERE date = 'Aug'",
+    "generatedSql": "SELECT SUM(Open Rentals) FROM table WHERE date = 'Aug'"
+  },
+  {
+    "id": "147",
+    "name": "POR Overview Open Rentals Sep",
+    "serverType": "POR",
+    "originalSql": "SELECT SUM(Open Rentals) FROM table WHERE date = 'Sep'",
+    "generatedSql": "SELECT SUM(Open Rentals) FROM table WHERE date = 'Sep'"
+  },
+  {
+    "id": "148",
+    "name": "POR Overview Open Rentals Oct",
+    "serverType": "POR",
+    "originalSql": "SELECT SUM(Open Rentals) FROM table WHERE date = 'Oct'",
+    "generatedSql": "SELECT SUM(Open Rentals) FROM table WHERE date = 'Oct'"
+  },
+  {
+    "id": "149",
+    "name": "POR Overview Open Rentals Nov",
+    "serverType": "POR",
+    "originalSql": "SELECT SUM(Open Rentals) FROM table WHERE date = 'Nov'",
+    "generatedSql": "SELECT SUM(Open Rentals) FROM table WHERE date = 'Nov'"
+  },
+  {
+    "id": "150",
+    "name": "POR Overview Open Rentals Dec",
+    "serverType": "POR",
+    "originalSql": "SELECT SUM(Open Rentals) FROM table WHERE date = 'Dec'",
+    "generatedSql": "SELECT SUM(Open Rentals) FROM table WHERE date = 'Dec'"
+  },
+  {
+    "id": "151",
+    "name": "POR Overview Rental Value Jan",
+    "serverType": "POR",
+    "originalSql": "SELECT SUM(Rental Value) FROM table WHERE date = 'Jan'",
+    "generatedSql": "SELECT SUM(Rental Value) FROM table WHERE date = 'Jan'"
+  },
+  {
+    "id": "152",
+    "name": "POR Overview Rental Value Feb",
+    "serverType": "POR",
+    "originalSql": "SELECT SUM(Rental Value) FROM table WHERE date = 'Feb'",
+    "generatedSql": "SELECT SUM(Rental Value) FROM table WHERE date = 'Feb'"
+  },
+  {
+    "id": "153",
+    "name": "POR Overview Rental Value Mar",
+    "serverType": "POR",
+    "originalSql": "SELECT SUM(Rental Value) FROM table WHERE date = 'Mar'",
+    "generatedSql": "SELECT SUM(Rental Value) FROM table WHERE date = 'Mar'"
+  },
+  {
+    "id": "154",
+    "name": "POR Overview Rental Value Apr",
+    "serverType": "POR",
+    "originalSql": "SELECT SUM(Rental Value) FROM table WHERE date = 'Apr'",
+    "generatedSql": "SELECT SUM(Rental Value) FROM table WHERE date = 'Apr'"
+  },
+  {
+    "id": "155",
+    "name": "POR Overview Rental Value May",
+    "serverType": "POR",
+    "originalSql": "SELECT SUM(Rental Value) FROM table WHERE date = 'May'",
+    "generatedSql": "SELECT SUM(Rental Value) FROM table WHERE date = 'May'"
+  },
+  {
+    "id": "156",
+    "name": "POR Overview Rental Value Jun",
+    "serverType": "POR",
+    "originalSql": "SELECT SUM(Rental Value) FROM table WHERE date = 'Jun'",
+    "generatedSql": "SELECT SUM(Rental Value) FROM table WHERE date = 'Jun'"
+  },
+  {
+    "id": "157",
+    "name": "POR Overview Rental Value Jul",
+    "serverType": "POR",
+    "originalSql": "SELECT SUM(Rental Value) FROM table WHERE date = 'Jul'",
+    "generatedSql": "SELECT SUM(Rental Value) FROM table WHERE date = 'Jul'"
+  },
+  {
+    "id": "158",
+    "name": "POR Overview Rental Value Aug",
+    "serverType": "POR",
+    "originalSql": "SELECT SUM(Rental Value) FROM table WHERE date = 'Aug'",
+    "generatedSql": "SELECT SUM(Rental Value) FROM table WHERE date = 'Aug'"
+  },
+  {
+    "id": "159",
+    "name": "POR Overview Rental Value Sep",
+    "serverType": "POR",
+    "originalSql": "SELECT SUM(Rental Value) FROM table WHERE date = 'Sep'",
+    "generatedSql": "SELECT SUM(Rental Value) FROM table WHERE date = 'Sep'"
+  },
+  {
+    "id": "160",
+    "name": "POR Overview Rental Value Oct",
+    "serverType": "POR",
+    "originalSql": "SELECT SUM(Rental Value) FROM table WHERE date = 'Oct'",
+    "generatedSql": "SELECT SUM(Rental Value) FROM table WHERE date = 'Oct'"
+  },
+  {
+    "id": "161",
+    "name": "POR Overview Rental Value Nov",
+    "serverType": "POR",
+    "originalSql": "SELECT SUM(Rental Value) FROM table WHERE date = 'Nov'",
+    "generatedSql": "SELECT SUM(Rental Value) FROM table WHERE date = 'Nov'"
+  },
+  {
+    "id": "162",
+    "name": "POR Overview Rental Value Dec",
+    "serverType": "POR",
+    "originalSql": "SELECT SUM(Rental Value) FROM table WHERE date = 'Dec'",
+    "generatedSql": "SELECT SUM(Rental Value) FROM table WHERE date = 'Dec'"
+  },
+  {
+    "id": "163",
+    "name": "Web Orders Orders Jan",
+    "serverType": "POR",
+    "originalSql": "SELECT SUM(Orders) FROM table WHERE date = 'Jan'",
+    "generatedSql": "SELECT SUM(Orders) FROM table WHERE date = 'Jan'"
+  },
+  {
+    "id": "164",
+    "name": "Web Orders Orders Feb",
+    "serverType": "POR",
+    "originalSql": "SELECT SUM(Orders) FROM table WHERE date = 'Feb'",
+    "generatedSql": "SELECT SUM(Orders) FROM table WHERE date = 'Feb'"
+  },
+  {
+    "id": "165",
+    "name": "Web Orders Orders Mar",
+    "serverType": "POR",
+    "originalSql": "SELECT SUM(Orders) FROM table WHERE date = 'Mar'",
+    "generatedSql": "SELECT SUM(Orders) FROM table WHERE date = 'Mar'"
+  },
+  {
+    "id": "166",
+    "name": "Web Orders Orders Apr",
+    "serverType": "POR",
+    "originalSql": "SELECT SUM(Orders) FROM table WHERE date = 'Apr'",
+    "generatedSql": "SELECT SUM(Orders) FROM table WHERE date = 'Apr'"
+  },
+  {
+    "id": "167",
+    "name": "Web Orders Orders May",
+    "serverType": "POR",
+    "originalSql": "SELECT SUM(Orders) FROM table WHERE date = 'May'",
+    "generatedSql": "SELECT SUM(Orders) FROM table WHERE date = 'May'"
+  },
+  {
+    "id": "168",
+    "name": "Web Orders Orders Jun",
+    "serverType": "POR",
+    "originalSql": "SELECT SUM(Orders) FROM table WHERE date = 'Jun'",
+    "generatedSql": "SELECT SUM(Orders) FROM table WHERE date = 'Jun'"
+  },
+  {
+    "id": "169",
+    "name": "Web Orders Orders Jul",
+    "serverType": "POR",
+    "originalSql": "SELECT SUM(Orders) FROM table WHERE date = 'Jul'",
+    "generatedSql": "SELECT SUM(Orders) FROM table WHERE date = 'Jul'"
+  },
+  {
+    "id": "170",
+    "name": "Web Orders Orders Aug",
+    "serverType": "POR",
+    "originalSql": "SELECT SUM(Orders) FROM table WHERE date = 'Aug'",
+    "generatedSql": "SELECT SUM(Orders) FROM table WHERE date = 'Aug'"
+  },
+  {
+    "id": "171",
+    "name": "Web Orders Orders Sep",
+    "serverType": "POR",
+    "originalSql": "SELECT SUM(Orders) FROM table WHERE date = 'Sep'",
+    "generatedSql": "SELECT SUM(Orders) FROM table WHERE date = 'Sep'"
+  },
+  {
+    "id": "172",
+    "name": "Web Orders Orders Oct",
+    "serverType": "POR",
+    "originalSql": "SELECT SUM(Orders) FROM table WHERE date = 'Oct'",
+    "generatedSql": "SELECT SUM(Orders) FROM table WHERE date = 'Oct'"
+  },
+  {
+    "id": "173",
+    "name": "Web Orders Orders Nov",
+    "serverType": "POR",
+    "originalSql": "SELECT SUM(Orders) FROM table WHERE date = 'Nov'",
+    "generatedSql": "SELECT SUM(Orders) FROM table WHERE date = 'Nov'"
+  },
+  {
+    "id": "174",
+    "name": "Web Orders Orders Dec",
+    "serverType": "POR",
+    "originalSql": "SELECT SUM(Orders) FROM table WHERE date = 'Dec'",
+    "generatedSql": "SELECT SUM(Orders) FROM table WHERE date = 'Dec'"
+  }
+]

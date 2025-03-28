@@ -1,0 +1,87 @@
+=== Testing Alternative Queries for Open Invoices ===
+Starting at 2025-03-20T11:12:02.536Z
+Connection string: DSN=P21Play;Trusted_Connection=Yes;
+Connecting to ODBC data source...
+✅ CONNECTED SUCCESSFULLY to ODBC data source!
+
+=== Testing Original Query ===
+SELECT COUNT(*) as value 
+          FROM ar_open_items WITH (NOLOCK) 
+          WHERE open_closed_flag = 'O'
+❌ Query failed: [odbc] Error executing the sql statement
+
+=== Testing Alternative 1 ===
+SELECT COUNT(*) as value 
+          FROM invoice_hdr WITH (NOLOCK) 
+          WHERE completed = 'N'
+❌ Query failed: [odbc] Error executing the sql statement
+
+=== Testing Alternative 2 ===
+SELECT COUNT(*) as value 
+          FROM invoice_hdr WITH (NOLOCK) 
+          WHERE delete_flag = 'N'
+❌ Query failed: [odbc] Error executing the sql statement
+
+=== Testing Alternative 3 ===
+SELECT COUNT(*) as value 
+          FROM invoice_hdr WITH (NOLOCK) 
+          WHERE invoice_date >= DATEADD(month, -1, GETDATE())
+✅ Query executed successfully!
+Result: 1
+Non-zero? YES
+
+=== Testing Alternative 4 ===
+SELECT COUNT(*) as value 
+          FROM oe_hdr WITH (NOLOCK) 
+          WHERE completed = 'N' 
+          AND order_date >= DATEADD(month, -1, GETDATE())
+✅ Query executed successfully!
+Result: 26
+Non-zero? YES
+
+=== Testing Alternative 5 (Fallback) ===
+SELECT COUNT(*) as value 
+          FROM oe_hdr WITH (NOLOCK) 
+          WHERE completed = 'N'
+✅ Query executed successfully!
+Result: 2034
+Non-zero? YES
+
+=== SUMMARY OF SUCCESSFUL QUERIES ===
+Alternative 3 (Value: 1):
+SELECT COUNT(*) as value 
+          FROM invoice_hdr WITH (NOLOCK) 
+          WHERE invoice_date >= DATEADD(month, -1, GETDATE())
+
+Alternative 4 (Value: 26):
+SELECT COUNT(*) as value 
+          FROM oe_hdr WITH (NOLOCK) 
+          WHERE completed = 'N' 
+          AND order_date >= DATEADD(month, -1, GETDATE())
+
+Alternative 5 (Fallback) (Value: 2034):
+SELECT COUNT(*) as value 
+          FROM oe_hdr WITH (NOLOCK) 
+          WHERE completed = 'N'
+
+
+=== RECOMMENDED QUERY FOR OPEN INVOICES ===
+SELECT COUNT(*) as value 
+          FROM invoice_hdr WITH (NOLOCK) 
+          WHERE invoice_date >= DATEADD(month, -1, GETDATE())
+
+=== UPDATED KEY METRIC FOR INITIAL-DATA.TS ===
+  {
+    id: '5',
+    name: "Open Invoices",
+    chartName: "Key Metrics",
+    variableName: "Open Invoices",
+    serverName: 'P21',
+    value: "1",
+    chartGroup: "Metrics",
+    calculation: "COUNT(*)",
+    sqlExpression: "SELECT COUNT(*) as value FROM orders",
+    productionSqlExpression: "SELECT COUNT(*) as value  FROM invoice_hdr WITH (NOLOCK)  WHERE invoice_date >= DATEADD(month, -1, GETDATE())",
+    tableName: "oe_hdr"
+  },
+✅ Connection closed successfully

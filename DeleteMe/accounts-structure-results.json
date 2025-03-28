@@ -1,0 +1,80 @@
+{
+  "totalRows": 36,
+  "months": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+  ],
+  "monthGroups": {
+    "1": [
+      "Overdue",
+      "Payable",
+      "Receivable"
+    ],
+    "2": [
+      "Overdue",
+      "Payable",
+      "Receivable"
+    ],
+    "3": [
+      "Overdue",
+      "Payable",
+      "Receivable"
+    ],
+    "4": [
+      "Overdue",
+      "Payable",
+      "Receivable"
+    ],
+    "5": [
+      "Overdue",
+      "Payable",
+      "Receivable"
+    ],
+    "6": [
+      "Overdue",
+      "Payable",
+      "Receivable"
+    ],
+    "7": [
+      "Overdue",
+      "Payable",
+      "Receivable"
+    ],
+    "8": [
+      "Overdue",
+      "Payable",
+      "Receivable"
+    ],
+    "9": [
+      "Overdue",
+      "Payable",
+      "Receivable"
+    ],
+    "10": [
+      "Overdue",
+      "Payable",
+      "Receivable"
+    ],
+    "11": [
+      "Overdue",
+      "Payable",
+      "Receivable"
+    ],
+    "12": [
+      "Overdue",
+      "Payable",
+      "Receivable"
+    ]
+  },
+  "isCorrect": true
+}

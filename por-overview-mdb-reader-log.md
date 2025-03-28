@@ -1,0 +1,332 @@
+# POR Overview Update with MDB Reader Log
+
+Update Date: 3/14/2025, 8:15:31 PM
+
+Updated POR Overview rows with MS Access compatible SQL using mdb-reader.
+
+## MS Access SQL Queries
+
+### New Rentals March '25
+
+```sql
+(SELECT Count(*) FROM PurchaseOrder 
+                          WHERE [Date] >= #3/1/2025# 
+                          AND [Date] <= #3/31/2025#) - (SELECT Count(*) FROM PurchaseOrder 
+                          WHERE [Date] >= #2/1/2025# 
+                          AND [Date] <= #2/28/2025#
+                          AND [Status] <> 'Closed')
+```
+
+### New Rentals February '25
+
+```sql
+(SELECT Count(*) FROM PurchaseOrder 
+                          WHERE [Date] >= #2/1/2025# 
+                          AND [Date] <= #2/28/2025#) - (SELECT Count(*) FROM PurchaseOrder 
+                          WHERE [Date] >= #1/1/2025# 
+                          AND [Date] <= #1/31/2025#
+                          AND [Status] <> 'Closed')
+```
+
+### New Rentals January '25
+
+```sql
+(SELECT Count(*) FROM PurchaseOrder 
+                          WHERE [Date] >= #1/1/2025# 
+                          AND [Date] <= #1/31/2025#) - (SELECT Count(*) FROM PurchaseOrder 
+                          WHERE [Date] >= #12/1/2024# 
+                          AND [Date] <= #12/31/2024#
+                          AND [Status] <> 'Closed')
+```
+
+### New Rentals December '24
+
+```sql
+(SELECT Count(*) FROM PurchaseOrder 
+                          WHERE [Date] >= #12/1/2024# 
+                          AND [Date] <= #12/31/2024#) - (SELECT Count(*) FROM PurchaseOrder 
+                          WHERE [Date] >= #11/1/2024# 
+                          AND [Date] <= #11/30/2024#
+                          AND [Status] <> 'Closed')
+```
+
+### New Rentals November '24
+
+```sql
+(SELECT Count(*) FROM PurchaseOrder 
+                          WHERE [Date] >= #11/1/2024# 
+                          AND [Date] <= #11/30/2024#) - (SELECT Count(*) FROM PurchaseOrder 
+                          WHERE [Date] >= #10/1/2024# 
+                          AND [Date] <= #10/31/2024#
+                          AND [Status] <> 'Closed')
+```
+
+### New Rentals October '24
+
+```sql
+(SELECT Count(*) FROM PurchaseOrder 
+                          WHERE [Date] >= #10/1/2024# 
+                          AND [Date] <= #10/31/2024#) - (SELECT Count(*) FROM PurchaseOrder 
+                          WHERE [Date] >= #9/1/2024# 
+                          AND [Date] <= #9/30/2024#
+                          AND [Status] <> 'Closed')
+```
+
+### New Rentals September '24
+
+```sql
+(SELECT Count(*) FROM PurchaseOrder 
+                          WHERE [Date] >= #9/1/2024# 
+                          AND [Date] <= #9/30/2024#) - (SELECT Count(*) FROM PurchaseOrder 
+                          WHERE [Date] >= #8/1/2024# 
+                          AND [Date] <= #8/31/2024#
+                          AND [Status] <> 'Closed')
+```
+
+### New Rentals August '24
+
+```sql
+(SELECT Count(*) FROM PurchaseOrder 
+                          WHERE [Date] >= #8/1/2024# 
+                          AND [Date] <= #8/31/2024#) - (SELECT Count(*) FROM PurchaseOrder 
+                          WHERE [Date] >= #7/1/2024# 
+                          AND [Date] <= #7/31/2024#
+                          AND [Status] <> 'Closed')
+```
+
+### New Rentals July '24
+
+```sql
+(SELECT Count(*) FROM PurchaseOrder 
+                          WHERE [Date] >= #7/1/2024# 
+                          AND [Date] <= #7/31/2024#) - (SELECT Count(*) FROM PurchaseOrder 
+                          WHERE [Date] >= #6/1/2024# 
+                          AND [Date] <= #6/30/2024#
+                          AND [Status] <> 'Closed')
+```
+
+### New Rentals June '24
+
+```sql
+(SELECT Count(*) FROM PurchaseOrder 
+                          WHERE [Date] >= #6/1/2024# 
+                          AND [Date] <= #6/30/2024#) - (SELECT Count(*) FROM PurchaseOrder 
+                          WHERE [Date] >= #5/1/2024# 
+                          AND [Date] <= #5/31/2024#
+                          AND [Status] <> 'Closed')
+```
+
+### New Rentals May '24
+
+```sql
+(SELECT Count(*) FROM PurchaseOrder 
+                          WHERE [Date] >= #5/1/2024# 
+                          AND [Date] <= #5/31/2024#) - (SELECT Count(*) FROM PurchaseOrder 
+                          WHERE [Date] >= #4/1/2024# 
+                          AND [Date] <= #4/30/2024#
+                          AND [Status] <> 'Closed')
+```
+
+### New Rentals April '24
+
+```sql
+(SELECT Count(*) FROM PurchaseOrder 
+                          WHERE [Date] >= #4/1/2024# 
+                          AND [Date] <= #4/30/2024#) - (SELECT Count(*) FROM PurchaseOrder 
+                          WHERE [Date] >= #3/1/2024# 
+                          AND [Date] <= #3/31/2024#
+                          AND [Status] <> 'Closed')
+```
+
+### Open Rentals March '25
+
+```sql
+SELECT Count(*) FROM PurchaseOrder 
+                WHERE [Date] >= #3/1/2025# 
+                AND [Date] <= #3/31/2025#
+```
+
+### Open Rentals February '25
+
+```sql
+SELECT Count(*) FROM PurchaseOrder 
+                WHERE [Date] >= #2/1/2025# 
+                AND [Date] <= #2/28/2025#
+```
+
+### Open Rentals January '25
+
+```sql
+SELECT Count(*) FROM PurchaseOrder 
+                WHERE [Date] >= #1/1/2025# 
+                AND [Date] <= #1/31/2025#
+```
+
+### Open Rentals December '24
+
+```sql
+SELECT Count(*) FROM PurchaseOrder 
+                WHERE [Date] >= #12/1/2024# 
+                AND [Date] <= #12/31/2024#
+```
+
+### Open Rentals November '24
+
+```sql
+SELECT Count(*) FROM PurchaseOrder 
+                WHERE [Date] >= #11/1/2024# 
+                AND [Date] <= #11/30/2024#
+```
+
+### Open Rentals October '24
+
+```sql
+SELECT Count(*) FROM PurchaseOrder 
+                WHERE [Date] >= #10/1/2024# 
+                AND [Date] <= #10/31/2024#
+```
+
+### Open Rentals September '24
+
+```sql
+SELECT Count(*) FROM PurchaseOrder 
+                WHERE [Date] >= #9/1/2024# 
+                AND [Date] <= #9/30/2024#
+```
+
+### Open Rentals August '24
+
+```sql
+SELECT Count(*) FROM PurchaseOrder 
+                WHERE [Date] >= #8/1/2024# 
+                AND [Date] <= #8/31/2024#
+```
+
+### Open Rentals July '24
+
+```sql
+SELECT Count(*) FROM PurchaseOrder 
+                WHERE [Date] >= #7/1/2024# 
+                AND [Date] <= #7/31/2024#
+```
+
+### Open Rentals June '24
+
+```sql
+SELECT Count(*) FROM PurchaseOrder 
+                WHERE [Date] >= #6/1/2024# 
+                AND [Date] <= #6/30/2024#
+```
+
+### Open Rentals May '24
+
+```sql
+SELECT Count(*) FROM PurchaseOrder 
+                WHERE [Date] >= #5/1/2024# 
+                AND [Date] <= #5/31/2024#
+```
+
+### Open Rentals April '24
+
+```sql
+SELECT Count(*) FROM PurchaseOrder 
+                WHERE [Date] >= #4/1/2024# 
+                AND [Date] <= #4/30/2024#
+```
+
+### Rental Value March '25
+
+```sql
+SELECT Sum([ShippingCost]) FROM PurchaseOrder 
+                WHERE [Date] >= #3/1/2025# 
+                AND [Date] <= #3/31/2025#
+```
+
+### Rental Value February '25
+
+```sql
+SELECT Sum([ShippingCost]) FROM PurchaseOrder 
+                WHERE [Date] >= #2/1/2025# 
+                AND [Date] <= #2/28/2025#
+```
+
+### Rental Value January '25
+
+```sql
+SELECT Sum([ShippingCost]) FROM PurchaseOrder 
+                WHERE [Date] >= #1/1/2025# 
+                AND [Date] <= #1/31/2025#
+```
+
+### Rental Value December '24
+
+```sql
+SELECT Sum([ShippingCost]) FROM PurchaseOrder 
+                WHERE [Date] >= #12/1/2024# 
+                AND [Date] <= #12/31/2024#
+```
+
+### Rental Value November '24
+
+```sql
+SELECT Sum([ShippingCost]) FROM PurchaseOrder 
+                WHERE [Date] >= #11/1/2024# 
+                AND [Date] <= #11/30/2024#
+```
+
+### Rental Value October '24
+
+```sql
+SELECT Sum([ShippingCost]) FROM PurchaseOrder 
+                WHERE [Date] >= #10/1/2024# 
+                AND [Date] <= #10/31/2024#
+```
+
+### Rental Value September '24
+
+```sql
+SELECT Sum([ShippingCost]) FROM PurchaseOrder 
+                WHERE [Date] >= #9/1/2024# 
+                AND [Date] <= #9/30/2024#
+```
+
+### Rental Value August '24
+
+```sql
+SELECT Sum([ShippingCost]) FROM PurchaseOrder 
+                WHERE [Date] >= #8/1/2024# 
+                AND [Date] <= #8/31/2024#
+```
+
+### Rental Value July '24
+
+```sql
+SELECT Sum([ShippingCost]) FROM PurchaseOrder 
+                WHERE [Date] >= #7/1/2024# 
+                AND [Date] <= #7/31/2024#
+```
+
+### Rental Value June '24
+
+```sql
+SELECT Sum([ShippingCost]) FROM PurchaseOrder 
+                WHERE [Date] >= #6/1/2024# 
+                AND [Date] <= #6/30/2024#
+```
+
+### Rental Value May '24
+
+```sql
+SELECT Sum([ShippingCost]) FROM PurchaseOrder 
+                WHERE [Date] >= #5/1/2024# 
+                AND [Date] <= #5/31/2024#
+```
+
+### Rental Value April '24
+
+```sql
+SELECT Sum([ShippingCost]) FROM PurchaseOrder 
+                WHERE [Date] >= #4/1/2024# 
+                AND [Date] <= #4/30/2024#
+```
+

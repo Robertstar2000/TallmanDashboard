@@ -1,0 +1,229 @@
+{
+  "timestamp": "2025-03-20T13:29:55.873Z",
+  "server": "SQL01",
+  "database": "P21Play",
+  "locationQueries": [
+    {
+      "locationId": 100,
+      "type": "count",
+      "query": "\n          SELECT COUNT(*) as value \n          FROM dbo.oe_hdr WITH (NOLOCK) \n          WHERE location_id = '100' AND completed = 'N'\n        ",
+      "value": 430,
+      "success": true
+    },
+    {
+      "locationId": 100,
+      "type": "sales",
+      "query": "\n          SELECT ISNULL(SUM(l.extended_price), 0) as value \n          FROM dbo.oe_hdr h WITH (NOLOCK) \n          JOIN dbo.oe_line l WITH (NOLOCK) ON h.order_no = l.order_no \n          WHERE h.location_id = '100' AND h.order_date >= DATEADD(day, -30, GETDATE())\n        ",
+      "value": 1291.62,
+      "success": true
+    },
+    {
+      "locationId": 101,
+      "type": "count",
+      "query": "\n          SELECT COUNT(*) as value \n          FROM dbo.oe_hdr WITH (NOLOCK) \n          WHERE location_id = '101' AND completed = 'N'\n        ",
+      "value": 1550,
+      "success": true
+    },
+    {
+      "locationId": 101,
+      "type": "sales",
+      "query": "\n          SELECT ISNULL(SUM(l.extended_price), 0) as value \n          FROM dbo.oe_hdr h WITH (NOLOCK) \n          JOIN dbo.oe_line l WITH (NOLOCK) ON h.order_no = l.order_no \n          WHERE h.location_id = '101' AND h.order_date >= DATEADD(day, -30, GETDATE())\n        ",
+      "value": 1706971.62,
+      "success": true
+    },
+    {
+      "locationId": 102,
+      "type": "count",
+      "query": "\n          SELECT COUNT(*) as value \n          FROM dbo.oe_hdr WITH (NOLOCK) \n          WHERE location_id = '102' AND completed = 'N'\n        ",
+      "value": 2,
+      "success": true
+    },
+    {
+      "locationId": 102,
+      "type": "sales",
+      "query": "\n          SELECT ISNULL(SUM(l.extended_price), 0) as value \n          FROM dbo.oe_hdr h WITH (NOLOCK) \n          JOIN dbo.oe_line l WITH (NOLOCK) ON h.order_no = l.order_no \n          WHERE h.location_id = '102' AND h.order_date >= DATEADD(day, -30, GETDATE())\n        ",
+      "value": 0,
+      "success": true
+    }
+  ],
+  "topLocations": [
+    {
+      "location_id": 100,
+      "count": 292329
+    },
+    {
+      "location_id": 101,
+      "count": 200664
+    },
+    {
+      "location_id": 102,
+      "count": 16152
+    },
+    {
+      "location_id": 300,
+      "count": 846
+    },
+    {
+      "location_id": 107,
+      "count": 551
+    }
+  ],
+  "locationDetails": [
+    {
+      "location_id": 100,
+      "location_name": "Tallman Equip. - Addison 136",
+      "order_count": 292329
+    },
+    {
+      "location_id": 101,
+      "location_name": "Tallman Equip. - Columbus 6440",
+      "order_count": 200664
+    },
+    {
+      "location_id": 102,
+      "location_name": "Tallman Equip. - Stringing Blocks",
+      "order_count": 16152
+    },
+    {
+      "location_id": 300,
+      "location_name": "Duke Energy Cascade - Indiana",
+      "order_count": 846
+    },
+    {
+      "location_id": 107,
+      "location_name": "Tallman Equip. - Lake City 2018",
+      "order_count": 551
+    },
+    {
+      "location_id": 301,
+      "location_name": "Duke Energy Cascade - Ohio",
+      "order_count": 138
+    },
+    {
+      "location_id": 103,
+      "location_name": "Tallman - 8491",
+      "order_count": 0
+    },
+    {
+      "location_id": 104,
+      "location_name": "Rubber Goods",
+      "order_count": 0
+    },
+    {
+      "location_id": 105,
+      "location_name": "Charlie / Tallman Equipment",
+      "order_count": 0
+    },
+    {
+      "location_id": 106,
+      "location_name": "Rick / Tallman Equipment Co.",
+      "order_count": 0
+    },
+    {
+      "location_id": 108,
+      "location_name": "Bradley Machining",
+      "order_count": 0
+    },
+    {
+      "location_id": 109,
+      "location_name": "DDIN Display Trailer",
+      "order_count": 0
+    },
+    {
+      "location_id": 110,
+      "location_name": "_Showroom",
+      "order_count": 0
+    },
+    {
+      "location_id": 111,
+      "location_name": "___QUARANTINE LOCATION___",
+      "order_count": 0
+    },
+    {
+      "location_id": 112,
+      "location_name": "New Location",
+      "order_count": 0
+    },
+    {
+      "location_id": 113,
+      "location_name": "MJ Electric Consignment",
+      "order_count": 0
+    },
+    {
+      "location_id": 114,
+      "location_name": "Tallman 6440 - Par Consignment",
+      "order_count": 0
+    },
+    {
+      "location_id": 115,
+      "location_name": "Par Consignment Kansas City",
+      "order_count": 0
+    },
+    {
+      "location_id": 201,
+      "location_name": "Tallman Display Trailer",
+      "order_count": 0
+    },
+    {
+      "location_id": 202,
+      "location_name": "DDIN Display Trailer",
+      "order_count": 0
+    },
+    {
+      "location_id": 203,
+      "location_name": "Rick Laramie Truck",
+      "order_count": 0
+    },
+    {
+      "location_id": 204,
+      "location_name": "Doug Kirk Truck",
+      "order_count": 0
+    },
+    {
+      "location_id": 205,
+      "location_name": "Adam Winkoff Truck",
+      "order_count": 0
+    },
+    {
+      "location_id": 206,
+      "location_name": "Jansen Hensley Truck",
+      "order_count": 0
+    },
+    {
+      "location_id": 207,
+      "location_name": "Chris Long Truck",
+      "order_count": 0
+    },
+    {
+      "location_id": 208,
+      "location_name": "Tallman Delivery Truck (Paul)",
+      "order_count": 0
+    },
+    {
+      "location_id": 209,
+      "location_name": "Hastings Fiberglass",
+      "order_count": 0
+    },
+    {
+      "location_id": 210,
+      "location_name": "Tallman Truck 10",
+      "order_count": 0
+    },
+    {
+      "location_id": 119305,
+      "location_name": "Tallman - Par Digger Consignment",
+      "order_count": 0
+    },
+    {
+      "location_id": 124287,
+      "location_name": "For future use",
+      "order_count": 0
+    },
+    {
+      "location_id": 132875,
+      "location_name": "Duke Energy Cascade",
+      "order_count": 0
+    }
+  ],
+  "totalSales": 1708263.24
+}

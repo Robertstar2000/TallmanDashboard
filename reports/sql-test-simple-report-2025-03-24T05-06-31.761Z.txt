@@ -1,0 +1,182 @@
+SQL TEST SIMPLE REPORT - 3/24/2025, 1:06:31 AM
+=================================================
+
+FORMAT: [Chart Group] | [Row Name] | [Status] | [Value]
+
+AR Aging | AR Aging - Current - Amount Due | SUCCESS (ZERO) | N/A
+AR Aging | AR Aging - 1-30 Days - Amount Due | SUCCESS (ZERO) | N/A
+AR Aging | AR Aging - 31-60 Days - Amount Due | SUCCESS (ZERO) | N/A
+AR Aging | AR Aging - 61-90 Days - Amount Due | SUCCESS (ZERO) | N/A
+AR Aging | AR Aging - 90+ Days - Amount Due | SUCCESS (ZERO) | N/A
+Accounts | Accounts - January - Payable | SUCCESS (ZERO) | N/A
+Accounts | Accounts - January - Receivable | SUCCESS (ZERO) | N/A
+Accounts | Accounts - January - Overdue | SUCCESS (ZERO) | N/A
+Accounts | Accounts - February - Payable | SUCCESS (ZERO) | N/A
+Accounts | Accounts - February - Receivable | SUCCESS (ZERO) | N/A
+Accounts | Accounts - February - Overdue | SUCCESS (ZERO) | N/A
+Accounts | Accounts - March - Payable | SUCCESS (ZERO) | N/A
+Accounts | Accounts - March - Receivable | SUCCESS (ZERO) | N/A
+Accounts | Accounts - March - Overdue | SUCCESS (ZERO) | N/A
+Accounts | Accounts - April - Payable | SUCCESS (ZERO) | N/A
+Accounts | Accounts - April - Receivable | SUCCESS (ZERO) | N/A
+Accounts | Accounts - April - Overdue | SUCCESS (ZERO) | N/A
+Accounts | Accounts - May - Payable | SUCCESS (ZERO) | N/A
+Accounts | Accounts - May - Receivable | SUCCESS (ZERO) | N/A
+Accounts | Accounts - May - Overdue | SUCCESS (ZERO) | N/A
+Accounts | Accounts - June - Payable | SUCCESS (ZERO) | N/A
+Accounts | Accounts - June - Receivable | SUCCESS (ZERO) | N/A
+Accounts | Accounts - June - Overdue | SUCCESS (ZERO) | N/A
+Accounts | Accounts - July - Payable | SUCCESS (ZERO) | N/A
+Accounts | Accounts - July - Receivable | SUCCESS (ZERO) | N/A
+Accounts | Accounts - July - Overdue | SUCCESS (ZERO) | N/A
+Accounts | Accounts - August - Payable | SUCCESS (ZERO) | N/A
+Accounts | Accounts - August - Receivable | SUCCESS (ZERO) | N/A
+Accounts | Accounts - August - Overdue | SUCCESS (ZERO) | N/A
+Accounts | Accounts - September - Payable | SUCCESS (ZERO) | N/A
+Accounts | Accounts - September - Receivable | SUCCESS (ZERO) | N/A
+Accounts | Accounts - September - Overdue | SUCCESS (ZERO) | N/A
+Accounts | Accounts - October - Payable | SUCCESS (ZERO) | N/A
+Accounts | Accounts - October - Receivable | SUCCESS (ZERO) | N/A
+Accounts | Accounts - October - Overdue | SUCCESS (ZERO) | N/A
+Accounts | Accounts - November - Payable | SUCCESS (ZERO) | N/A
+Accounts | Accounts - November - Receivable | SUCCESS (ZERO) | N/A
+Accounts | Accounts - November - Overdue | SUCCESS (ZERO) | N/A
+Accounts | Accounts - December - Payable | SUCCESS (ZERO) | N/A
+Accounts | Accounts - December - Receivable | SUCCESS (ZERO) | N/A
+Accounts | Accounts - December - Overdue | SUCCESS (ZERO) | N/A
+Customer Metrics | Customer Metrics - January - New Customers | SUCCESS (ZERO) | N/A
+Customer Metrics | Customer Metrics - January - Prospects | FAILED | N/A
+Customer Metrics | Customer Metrics - February - New Customers | FAILED | N/A
+Customer Metrics | Customer Metrics - February - Prospects | SUCCESS (ZERO) | N/A
+Customer Metrics | Customer Metrics - March - New Customers | SUCCESS (ZERO) | N/A
+Customer Metrics | Customer Metrics - March - Prospects | SUCCESS (ZERO) | N/A
+Customer Metrics | Customer Metrics - April - New Customers | SUCCESS (ZERO) | N/A
+Customer Metrics | Customer Metrics - April - Prospects | SUCCESS (ZERO) | N/A
+Customer Metrics | Customer Metrics - May - New Customers | SUCCESS (ZERO) | N/A
+Customer Metrics | Customer Metrics - May - Prospects | SUCCESS (ZERO) | N/A
+Customer Metrics | Customer Metrics - June - New Customers | SUCCESS (ZERO) | N/A
+Customer Metrics | Customer Metrics - June - Prospects | SUCCESS (ZERO) | N/A
+Customer Metrics | Customer Metrics - July - New Customers | SUCCESS (ZERO) | N/A
+Customer Metrics | Customer Metrics - July - Prospects | SUCCESS (ZERO) | N/A
+Customer Metrics | Customer Metrics - August - New Customers | SUCCESS (ZERO) | N/A
+Customer Metrics | Customer Metrics - August - Prospects | SUCCESS (ZERO) | N/A
+Customer Metrics | Customer Metrics - September - New Customers | SUCCESS (ZERO) | N/A
+Customer Metrics | Customer Metrics - September - Prospects | SUCCESS (ZERO) | N/A
+Customer Metrics | Customer Metrics - October - New Customers | SUCCESS (ZERO) | N/A
+Customer Metrics | Customer Metrics - October - Prospects | SUCCESS (ZERO) | N/A
+Customer Metrics | Customer Metrics - November - New Customers | SUCCESS (ZERO) | N/A
+Customer Metrics | Customer Metrics - November - Prospects | SUCCESS (ZERO) | N/A
+Customer Metrics | Customer Metrics - December - New Customers | SUCCESS (ZERO) | N/A
+Customer Metrics | Customer Metrics - December - Prospects | SUCCESS (ZERO) | N/A
+Daily Orders | Daily Orders - Today - Orders | SUCCESS (ZERO) | N/A
+Daily Orders | Daily Orders - Yesterday - Orders | SUCCESS (ZERO) | N/A
+Daily Orders | Daily Orders - Day-2 - Orders | SUCCESS (ZERO) | N/A
+Daily Orders | Daily Orders - Day-3 - Orders | SUCCESS (ZERO) | N/A
+Daily Orders | Daily Orders - Day-4 - Orders | SUCCESS (ZERO) | N/A
+Daily Orders | Daily Orders - Day-5 - Orders | SUCCESS (ZERO) | N/A
+Daily Orders | Daily Orders - Day-6 - Orders | SUCCESS (ZERO) | N/A
+Historical Data | Historical Data - January - P21 | SUCCESS (ZERO) | N/A
+Historical Data | Historical Data - January - POR | SUCCESS (ZERO) | N/A
+Historical Data | Historical Data - January - Total | SUCCESS (ZERO) | N/A
+Historical Data | Historical Data - February - P21 | SUCCESS (ZERO) | N/A
+Historical Data | Historical Data - February - POR | SUCCESS (ZERO) | N/A
+Historical Data | Historical Data - February - Total | SUCCESS (ZERO) | N/A
+Historical Data | Historical Data - March - P21 | SUCCESS (ZERO) | N/A
+Historical Data | Historical Data - March - POR | SUCCESS (ZERO) | N/A
+Historical Data | Historical Data - March - Total | SUCCESS (ZERO) | N/A
+Historical Data | Historical Data - April - P21 | SUCCESS (ZERO) | N/A
+Historical Data | Historical Data - April - POR | SUCCESS (ZERO) | N/A
+Historical Data | Historical Data - April - Total | SUCCESS (ZERO) | N/A
+Historical Data | Historical Data - May - P21 | SUCCESS (ZERO) | N/A
+Historical Data | Historical Data - May - POR | SUCCESS (ZERO) | N/A
+Historical Data | Historical Data - May - Total | SUCCESS (ZERO) | N/A
+Historical Data | Historical Data - June - P21 | SUCCESS (ZERO) | N/A
+Historical Data | Historical Data - June - POR | SUCCESS (ZERO) | N/A
+Historical Data | Historical Data - June - Total | SUCCESS (ZERO) | N/A
+Historical Data | Historical Data - July - P21 | SUCCESS (ZERO) | N/A
+Historical Data | Historical Data - July - POR | SUCCESS (ZERO) | N/A
+Historical Data | Historical Data - July - Total | SUCCESS (ZERO) | N/A
+Historical Data | Historical Data - August - P21 | SUCCESS (ZERO) | N/A
+Historical Data | Historical Data - August - POR | SUCCESS (ZERO) | N/A
+Historical Data | Historical Data - August - Total | SUCCESS (ZERO) | N/A
+Historical Data | Historical Data - September - P21 | SUCCESS (ZERO) | N/A
+Historical Data | Historical Data - September - POR | SUCCESS (ZERO) | N/A
+Historical Data | Historical Data - September - Total | SUCCESS (ZERO) | N/A
+Historical Data | Historical Data - October - P21 | SUCCESS (ZERO) | N/A
+Historical Data | Historical Data - October - POR | SUCCESS (ZERO) | N/A
+Historical Data | Historical Data - October - Total | SUCCESS (ZERO) | N/A
+Historical Data | Historical Data - November - P21 | SUCCESS (ZERO) | N/A
+Historical Data | Historical Data - November - POR | SUCCESS (ZERO) | N/A
+Historical Data | Historical Data - November - Total | SUCCESS (ZERO) | N/A
+Historical Data | Historical Data - December - P21 | SUCCESS (ZERO) | N/A
+Historical Data | Historical Data - December - POR | SUCCESS (ZERO) | N/A
+Historical Data | Historical Data - December - Total | SUCCESS (ZERO) | N/A
+Inventory | Inventory - Columbus - In Stock | SUCCESS (ZERO) | N/A
+Inventory | Inventory - Columbus - On Order | SUCCESS (ZERO) | N/A
+Inventory | Inventory - Addison - In Stock | SUCCESS (ZERO) | N/A
+Inventory | Inventory - Addison - On Order | SUCCESS (ZERO) | N/A
+Inventory | Inventory - Lake City - In Stock | SUCCESS (ZERO) | N/A
+Inventory | Inventory - Lake City - On Order | SUCCESS (ZERO) | N/A
+Inventory | Inventory - Warehouse - In Stock | SUCCESS (ZERO) | N/A
+Inventory | Inventory - Warehouse - On Order | SUCCESS (ZERO) | N/A
+Key Metrics | Key Metrics - Total Orders - Value | SUCCESS (ZERO) | N/A
+Key Metrics | Key Metrics - Open Orders - Value | SUCCESS (ZERO) | N/A
+Key Metrics | Key Metrics - Shipped Orders - Value | SUCCESS (ZERO) | N/A
+Key Metrics | Key Metrics - Total Sales - Value | SUCCESS (ZERO) | N/A
+Key Metrics | Key Metrics - Average Order Value - Value | SUCCESS (ZERO) | N/A
+Key Metrics | Key Metrics - Order Fill Rate - Value | SUCCESS (ZERO) | N/A
+Key Metrics | Key Metrics - On-Time Delivery - Value | SUCCESS (ZERO) | N/A
+Site Distribution | Site Distribution - Columbus - Inventory | SUCCESS (ZERO) | N/A
+Site Distribution | Site Distribution - Addison - Inventory | SUCCESS (ZERO) | N/A
+Site Distribution | Site Distribution - Lake City - Inventory | SUCCESS (ZERO) | N/A
+POR Overview | POR Overview - January - New Rentals | SUCCESS (ZERO) | N/A
+POR Overview | POR Overview - January - Open Rentals | SUCCESS (ZERO) | N/A
+POR Overview | POR Overview - January - Rental Value | SUCCESS (ZERO) | N/A
+POR Overview | POR Overview - February - New Rentals | SUCCESS (ZERO) | N/A
+POR Overview | POR Overview - February - Open Rentals | SUCCESS (ZERO) | N/A
+POR Overview | POR Overview - February - Rental Value | SUCCESS (ZERO) | N/A
+POR Overview | POR Overview - March - New Rentals | SUCCESS (ZERO) | N/A
+POR Overview | POR Overview - March - Open Rentals | FAILED | N/A
+POR Overview | POR Overview - March - Rental Value | FAILED | N/A
+POR Overview | POR Overview - April - New Rentals | FAILED | N/A
+POR Overview | POR Overview - April - Open Rentals | SUCCESS (ZERO) | N/A
+POR Overview | POR Overview - April - Rental Value | SUCCESS (ZERO) | N/A
+POR Overview | POR Overview - May - New Rentals | SUCCESS (ZERO) | N/A
+POR Overview | POR Overview - May - Open Rentals | SUCCESS (ZERO) | N/A
+POR Overview | POR Overview - May - Rental Value | SUCCESS (ZERO) | N/A
+POR Overview | POR Overview - June - New Rentals | SUCCESS (ZERO) | N/A
+POR Overview | POR Overview - June - Open Rentals | SUCCESS (ZERO) | N/A
+POR Overview | POR Overview - June - Rental Value | SUCCESS (ZERO) | N/A
+POR Overview | POR Overview - July - New Rentals | SUCCESS (ZERO) | N/A
+POR Overview | POR Overview - July - Open Rentals | SUCCESS (ZERO) | N/A
+POR Overview | POR Overview - July - Rental Value | SUCCESS (ZERO) | N/A
+POR Overview | POR Overview - August - New Rentals | SUCCESS (ZERO) | N/A
+POR Overview | POR Overview - August - Open Rentals | SUCCESS (ZERO) | N/A
+POR Overview | POR Overview - August - Rental Value | SUCCESS (ZERO) | N/A
+POR Overview | POR Overview - September - New Rentals | SUCCESS (ZERO) | N/A
+POR Overview | POR Overview - September - Open Rentals | SUCCESS (ZERO) | N/A
+POR Overview | POR Overview - September - Rental Value | SUCCESS (ZERO) | N/A
+POR Overview | POR Overview - October - New Rentals | SUCCESS (ZERO) | N/A
+POR Overview | POR Overview - October - Open Rentals | SUCCESS (ZERO) | N/A
+POR Overview | POR Overview - October - Rental Value | SUCCESS (ZERO) | N/A
+POR Overview | POR Overview - November - New Rentals | SUCCESS (ZERO) | N/A
+POR Overview | POR Overview - November - Open Rentals | SUCCESS (ZERO) | N/A
+POR Overview | POR Overview - November - Rental Value | SUCCESS (ZERO) | N/A
+POR Overview | POR Overview - December - New Rentals | SUCCESS (ZERO) | N/A
+POR Overview | POR Overview - December - Open Rentals | SUCCESS (ZERO) | N/A
+POR Overview | POR Overview - December - Rental Value | SUCCESS (ZERO) | N/A
+Web Orders | Web Orders - January - Orders | SUCCESS (ZERO) | N/A
+Web Orders | Web Orders - February - Orders | SUCCESS (ZERO) | N/A
+Web Orders | Web Orders - March - Orders | SUCCESS (ZERO) | N/A
+Web Orders | Web Orders - April - Orders | SUCCESS (ZERO) | N/A
+Web Orders | Web Orders - May - Orders | SUCCESS (ZERO) | N/A
+Web Orders | Web Orders - June - Orders | SUCCESS (ZERO) | N/A
+Web Orders | Web Orders - July - Orders | SUCCESS (ZERO) | N/A
+Web Orders | Web Orders - August - Orders | SUCCESS (ZERO) | N/A
+Web Orders | Web Orders - September - Orders | SUCCESS (ZERO) | N/A
+Web Orders | Web Orders - October - Orders | SUCCESS (ZERO) | N/A
+Web Orders | Web Orders - November - Orders | SUCCESS (ZERO) | N/A
+Web Orders | Web Orders - December - Orders | SUCCESS (ZERO) | N/A
+
+=================================================
+Total: 174 | Success: 169 | Failed: 5 | Non-Zero: 0 | Zero: 169

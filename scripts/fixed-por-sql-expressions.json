@@ -1,0 +1,434 @@
+[
+  {
+    "id": "127",
+    "dataPoint": "POR Overview New Rentals Jan",
+    "originalSql": "SELECT Count(*) AS value FROM SOMAST WHERE OrderType = 'Rental' AND RentalStatus = 'New' AND Month(SO_DATE) = 1 AND Year(SO_DATE) = Year(Date())",
+    "fixed": true,
+    "working": true,
+    "newSql": "SELECT Count(*) AS value FROM AccountingAPIQueueCustomer WHERE OrderType = 'Rental' AND RentalStatus = 'New' AND Month(SO_DATE) = 1 AND Year(SO_DATE) = Year(Date())",
+    "value": {}
+  },
+  {
+    "id": "128",
+    "dataPoint": "POR Overview New Rentals Feb",
+    "originalSql": "SELECT Count(*) AS value FROM SOMAST WHERE OrderType = 'Rental' AND RentalStatus = 'New' AND Month(SO_DATE) = 2 AND Year(SO_DATE) = Year(Date())",
+    "fixed": true,
+    "working": true,
+    "newSql": "SELECT Count(*) AS value FROM AccountingAPIQueueCustomer WHERE OrderType = 'Rental' AND RentalStatus = 'New' AND Month(SO_DATE) = 2 AND Year(SO_DATE) = Year(Date())",
+    "value": {}
+  },
+  {
+    "id": "129",
+    "dataPoint": "POR Overview New Rentals Mar",
+    "originalSql": "SELECT Count(*) AS value FROM SOMAST WHERE OrderType = 'Rental' AND RentalStatus = 'New' AND Month(SO_DATE) = 3 AND Year(SO_DATE) = Year(Date())",
+    "fixed": true,
+    "working": true,
+    "newSql": "SELECT Count(*) AS value FROM AccountingAPIQueueCustomer WHERE OrderType = 'Rental' AND RentalStatus = 'New' AND Month(SO_DATE) = 3 AND Year(SO_DATE) = Year(Date())",
+    "value": {}
+  },
+  {
+    "id": "130",
+    "dataPoint": "POR Overview New Rentals Apr",
+    "originalSql": "SELECT Count(*) AS value FROM SOMAST WHERE OrderType = 'Rental' AND RentalStatus = 'New' AND Month(SO_DATE) = 4 AND Year(SO_DATE) = Year(Date())",
+    "fixed": true,
+    "working": true,
+    "newSql": "SELECT Count(*) AS value FROM AccountingAPIQueueCustomer WHERE OrderType = 'Rental' AND RentalStatus = 'New' AND Month(SO_DATE) = 4 AND Year(SO_DATE) = Year(Date())",
+    "value": {}
+  },
+  {
+    "id": "131",
+    "dataPoint": "POR Overview New Rentals May",
+    "originalSql": "SELECT Count(*) AS value FROM SOMAST WHERE OrderType = 'Rental' AND RentalStatus = 'New' AND Month(SO_DATE) = 5 AND Year(SO_DATE) = Year(Date())",
+    "fixed": true,
+    "working": true,
+    "newSql": "SELECT Count(*) AS value FROM AccountingAPIQueueCustomer WHERE OrderType = 'Rental' AND RentalStatus = 'New' AND Month(SO_DATE) = 5 AND Year(SO_DATE) = Year(Date())",
+    "value": {}
+  },
+  {
+    "id": "132",
+    "dataPoint": "POR Overview New Rentals Jun",
+    "originalSql": "SELECT Count(*) AS value FROM SOMAST WHERE OrderType = 'Rental' AND RentalStatus = 'New' AND Month(SO_DATE) = 6 AND Year(SO_DATE) = Year(Date())",
+    "fixed": true,
+    "working": true,
+    "newSql": "SELECT Count(*) AS value FROM AccountingAPIQueueCustomer WHERE OrderType = 'Rental' AND RentalStatus = 'New' AND Month(SO_DATE) = 6 AND Year(SO_DATE) = Year(Date())",
+    "value": {}
+  },
+  {
+    "id": "133",
+    "dataPoint": "POR Overview New Rentals Jul",
+    "originalSql": "SELECT Count(*) AS value FROM SOMAST WHERE OrderType = 'Rental' AND RentalStatus = 'New' AND Month(SO_DATE) = 7 AND Year(SO_DATE) = Year(Date())",
+    "fixed": true,
+    "working": true,
+    "newSql": "SELECT Count(*) AS value FROM AccountingAPIQueueCustomer WHERE OrderType = 'Rental' AND RentalStatus = 'New' AND Month(SO_DATE) = 7 AND Year(SO_DATE) = Year(Date())",
+    "value": {}
+  },
+  {
+    "id": "134",
+    "dataPoint": "POR Overview New Rentals Aug",
+    "originalSql": "SELECT Count(*) AS value FROM SOMAST WHERE OrderType = 'Rental' AND RentalStatus = 'New' AND Month(SO_DATE) = 8 AND Year(SO_DATE) = Year(Date())",
+    "fixed": true,
+    "working": true,
+    "newSql": "SELECT Count(*) AS value FROM AccountingAPIQueueCustomer WHERE OrderType = 'Rental' AND RentalStatus = 'New' AND Month(SO_DATE) = 8 AND Year(SO_DATE) = Year(Date())",
+    "value": {}
+  },
+  {
+    "id": "135",
+    "dataPoint": "POR Overview New Rentals Sep",
+    "originalSql": "SELECT Count(*) AS value FROM SOMAST WHERE OrderType = 'Rental' AND RentalStatus = 'New' AND Month(SO_DATE) = 9 AND Year(SO_DATE) = Year(Date())",
+    "fixed": true,
+    "working": true,
+    "newSql": "SELECT Count(*) AS value FROM AccountingAPIQueueCustomer WHERE OrderType = 'Rental' AND RentalStatus = 'New' AND Month(SO_DATE) = 9 AND Year(SO_DATE) = Year(Date())",
+    "value": {}
+  },
+  {
+    "id": "136",
+    "dataPoint": "POR Overview New Rentals Oct",
+    "originalSql": "SELECT Count(*) AS value FROM SOMAST WHERE OrderType = 'Rental' AND RentalStatus = 'New' AND Month(SO_DATE) = 10 AND Year(SO_DATE) = Year(Date())",
+    "fixed": true,
+    "working": true,
+    "newSql": "SELECT Count(*) AS value FROM AccountingAPIQueueCustomer WHERE OrderType = 'Rental' AND RentalStatus = 'New' AND Month(SO_DATE) = 10 AND Year(SO_DATE) = Year(Date())",
+    "value": {}
+  },
+  {
+    "id": "137",
+    "dataPoint": "POR Overview New Rentals Nov",
+    "originalSql": "SELECT Count(*) AS value FROM SOMAST WHERE OrderType = 'Rental' AND RentalStatus = 'New' AND Month(SO_DATE) = 11 AND Year(SO_DATE) = Year(Date())",
+    "fixed": true,
+    "working": true,
+    "newSql": "SELECT Count(*) AS value FROM AccountingAPIQueueCustomer WHERE OrderType = 'Rental' AND RentalStatus = 'New' AND Month(SO_DATE) = 11 AND Year(SO_DATE) = Year(Date())",
+    "value": {}
+  },
+  {
+    "id": "138",
+    "dataPoint": "POR Overview New Rentals Dec",
+    "originalSql": "SELECT Count(*) AS value FROM SOMAST WHERE OrderType = 'Rental' AND RentalStatus = 'New' AND Month(SO_DATE) = 12 AND Year(SO_DATE) = Year(Date())",
+    "fixed": true,
+    "working": true,
+    "newSql": "SELECT Count(*) AS value FROM AccountingAPIQueueCustomer WHERE OrderType = 'Rental' AND RentalStatus = 'New' AND Month(SO_DATE) = 12 AND Year(SO_DATE) = Year(Date())",
+    "value": {}
+  },
+  {
+    "id": "139",
+    "dataPoint": "POR Overview Open Rentals Jan",
+    "originalSql": "SELECT Count(*) AS value FROM SOMAST WHERE OrderType = 'Rental' AND RentalStatus IN ('Open','Active','Out') AND Month(SO_DATE) = 1 AND Year(SO_DATE) = Year(Date())",
+    "fixed": true,
+    "working": true,
+    "newSql": "SELECT Count(*) AS value FROM AccountingAPIQueueCustomer WHERE OrderType = 'Rental' AND RentalStatus IN ('Open','Active','Out') AND Month(SO_DATE) = 1 AND Year(SO_DATE) = Year(Date())",
+    "value": {}
+  },
+  {
+    "id": "140",
+    "dataPoint": "POR Overview Open Rentals Feb",
+    "originalSql": "SELECT Count(*) AS value FROM SOMAST WHERE OrderType = 'Rental' AND RentalStatus IN ('Open','Active','Out') AND Month(SO_DATE) = 2 AND Year(SO_DATE) = Year(Date())",
+    "fixed": true,
+    "working": true,
+    "newSql": "SELECT Count(*) AS value FROM AccountingAPIQueueCustomer WHERE OrderType = 'Rental' AND RentalStatus IN ('Open','Active','Out') AND Month(SO_DATE) = 2 AND Year(SO_DATE) = Year(Date())",
+    "value": {}
+  },
+  {
+    "id": "141",
+    "dataPoint": "POR Overview Open Rentals Mar",
+    "originalSql": "SELECT Count(*) AS value FROM SOMAST WHERE OrderType = 'Rental' AND RentalStatus IN ('Open','Active','Out') AND Month(SO_DATE) = 3 AND Year(SO_DATE) = Year(Date())",
+    "fixed": true,
+    "working": true,
+    "newSql": "SELECT Count(*) AS value FROM AccountingAPIQueueCustomer WHERE OrderType = 'Rental' AND RentalStatus IN ('Open','Active','Out') AND Month(SO_DATE) = 3 AND Year(SO_DATE) = Year(Date())",
+    "value": {}
+  },
+  {
+    "id": "142",
+    "dataPoint": "POR Overview Open Rentals Apr",
+    "originalSql": "SELECT Count(*) AS value FROM SOMAST WHERE OrderType = 'Rental' AND RentalStatus IN ('Open','Active','Out') AND Month(SO_DATE) = 4 AND Year(SO_DATE) = Year(Date())",
+    "fixed": true,
+    "working": true,
+    "newSql": "SELECT Count(*) AS value FROM AccountingAPIQueueCustomer WHERE OrderType = 'Rental' AND RentalStatus IN ('Open','Active','Out') AND Month(SO_DATE) = 4 AND Year(SO_DATE) = Year(Date())",
+    "value": {}
+  },
+  {
+    "id": "143",
+    "dataPoint": "POR Overview Open Rentals May",
+    "originalSql": "SELECT Count(*) AS value FROM SOMAST WHERE OrderType = 'Rental' AND RentalStatus IN ('Open','Active','Out') AND Month(SO_DATE) = 5 AND Year(SO_DATE) = Year(Date())",
+    "fixed": true,
+    "working": true,
+    "newSql": "SELECT Count(*) AS value FROM AccountingAPIQueueCustomer WHERE OrderType = 'Rental' AND RentalStatus IN ('Open','Active','Out') AND Month(SO_DATE) = 5 AND Year(SO_DATE) = Year(Date())",
+    "value": {}
+  },
+  {
+    "id": "144",
+    "dataPoint": "POR Overview Open Rentals Jun",
+    "originalSql": "SELECT Count(*) AS value FROM SOMAST WHERE OrderType = 'Rental' AND RentalStatus IN ('Open','Active','Out') AND Month(SO_DATE) = 6 AND Year(SO_DATE) = Year(Date())",
+    "fixed": true,
+    "working": true,
+    "newSql": "SELECT Count(*) AS value FROM AccountingAPIQueueCustomer WHERE OrderType = 'Rental' AND RentalStatus IN ('Open','Active','Out') AND Month(SO_DATE) = 6 AND Year(SO_DATE) = Year(Date())",
+    "value": {}
+  },
+  {
+    "id": "145",
+    "dataPoint": "POR Overview Open Rentals Jul",
+    "originalSql": "SELECT Count(*) AS value FROM SOMAST WHERE OrderType = 'Rental' AND RentalStatus IN ('Open','Active','Out') AND Month(SO_DATE) = 7 AND Year(SO_DATE) = Year(Date())",
+    "fixed": true,
+    "working": true,
+    "newSql": "SELECT Count(*) AS value FROM AccountingAPIQueueCustomer WHERE OrderType = 'Rental' AND RentalStatus IN ('Open','Active','Out') AND Month(SO_DATE) = 7 AND Year(SO_DATE) = Year(Date())",
+    "value": {}
+  },
+  {
+    "id": "146",
+    "dataPoint": "POR Overview Open Rentals Aug",
+    "originalSql": "SELECT Count(*) AS value FROM SOMAST WHERE OrderType = 'Rental' AND RentalStatus IN ('Open','Active','Out') AND Month(SO_DATE) = 8 AND Year(SO_DATE) = Year(Date())",
+    "fixed": true,
+    "working": true,
+    "newSql": "SELECT Count(*) AS value FROM AccountingAPIQueueCustomer WHERE OrderType = 'Rental' AND RentalStatus IN ('Open','Active','Out') AND Month(SO_DATE) = 8 AND Year(SO_DATE) = Year(Date())",
+    "value": {}
+  },
+  {
+    "id": "147",
+    "dataPoint": "POR Overview Open Rentals Sep",
+    "originalSql": "SELECT Count(*) AS value FROM SOMAST WHERE OrderType = 'Rental' AND RentalStatus IN ('Open','Active','Out') AND Month(SO_DATE) = 9 AND Year(SO_DATE) = Year(Date())",
+    "fixed": true,
+    "working": true,
+    "newSql": "SELECT Count(*) AS value FROM AccountingAPIQueueCustomer WHERE OrderType = 'Rental' AND RentalStatus IN ('Open','Active','Out') AND Month(SO_DATE) = 9 AND Year(SO_DATE) = Year(Date())",
+    "value": {}
+  },
+  {
+    "id": "148",
+    "dataPoint": "POR Overview Open Rentals Oct",
+    "originalSql": "SELECT Count(*) AS value FROM SOMAST WHERE OrderType = 'Rental' AND RentalStatus IN ('Open','Active','Out') AND Month(SO_DATE) = 10 AND Year(SO_DATE) = Year(Date())",
+    "fixed": true,
+    "working": true,
+    "newSql": "SELECT Count(*) AS value FROM AccountingAPIQueueCustomer WHERE OrderType = 'Rental' AND RentalStatus IN ('Open','Active','Out') AND Month(SO_DATE) = 10 AND Year(SO_DATE) = Year(Date())",
+    "value": {}
+  },
+  {
+    "id": "149",
+    "dataPoint": "POR Overview Open Rentals Nov",
+    "originalSql": "SELECT Count(*) AS value FROM SOMAST WHERE OrderType = 'Rental' AND RentalStatus IN ('Open','Active','Out') AND Month(SO_DATE) = 11 AND Year(SO_DATE) = Year(Date())",
+    "fixed": true,
+    "working": true,
+    "newSql": "SELECT Count(*) AS value FROM AccountingAPIQueueCustomer WHERE OrderType = 'Rental' AND RentalStatus IN ('Open','Active','Out') AND Month(SO_DATE) = 11 AND Year(SO_DATE) = Year(Date())",
+    "value": {}
+  },
+  {
+    "id": "150",
+    "dataPoint": "POR Overview Open Rentals Dec",
+    "originalSql": "SELECT Count(*) AS value FROM SOMAST WHERE OrderType = 'Rental' AND RentalStatus IN ('Open','Active','Out') AND Month(SO_DATE) = 12 AND Year(SO_DATE) = Year(Date())",
+    "fixed": true,
+    "working": true,
+    "newSql": "SELECT Count(*) AS value FROM AccountingAPIQueueCustomer WHERE OrderType = 'Rental' AND RentalStatus IN ('Open','Active','Out') AND Month(SO_DATE) = 12 AND Year(SO_DATE) = Year(Date())",
+    "value": {}
+  },
+  {
+    "id": "151",
+    "dataPoint": "POR Overview Rental Value Jan",
+    "originalSql": "SELECT Sum(RentalTotal) AS value FROM SOMAST WHERE OrderType = 'Rental' AND Month(SO_DATE) = 1 AND Year(SO_DATE) = Year(Date())",
+    "fixed": true,
+    "working": true,
+    "newSql": "SELECT Sum(RentalTotal) AS value FROM AccountingAPIQueueCustomer WHERE OrderType = 'Rental' AND Month(SO_DATE) = 1 AND Year(SO_DATE) = Year(Date())",
+    "value": {}
+  },
+  {
+    "id": "152",
+    "dataPoint": "POR Overview Rental Value Feb",
+    "originalSql": "SELECT Sum(RentalTotal) AS value FROM SOMAST WHERE OrderType = 'Rental' AND Month(SO_DATE) = 2 AND Year(SO_DATE) = Year(Date())",
+    "fixed": true,
+    "working": true,
+    "newSql": "SELECT Sum(RentalTotal) AS value FROM AccountingAPIQueueCustomer WHERE OrderType = 'Rental' AND Month(SO_DATE) = 2 AND Year(SO_DATE) = Year(Date())",
+    "value": {}
+  },
+  {
+    "id": "153",
+    "dataPoint": "POR Overview Rental Value Mar",
+    "originalSql": "SELECT Sum(RentalTotal) AS value FROM SOMAST WHERE OrderType = 'Rental' AND Month(SO_DATE) = 3 AND Year(SO_DATE) = Year(Date())",
+    "fixed": true,
+    "working": true,
+    "newSql": "SELECT Sum(RentalTotal) AS value FROM AccountingAPIQueueCustomer WHERE OrderType = 'Rental' AND Month(SO_DATE) = 3 AND Year(SO_DATE) = Year(Date())",
+    "value": {}
+  },
+  {
+    "id": "154",
+    "dataPoint": "POR Overview Rental Value Apr",
+    "originalSql": "SELECT Sum(RentalTotal) AS value FROM SOMAST WHERE OrderType = 'Rental' AND Month(SO_DATE) = 4 AND Year(SO_DATE) = Year(Date())",
+    "fixed": true,
+    "working": true,
+    "newSql": "SELECT Sum(RentalTotal) AS value FROM AccountingAPIQueueCustomer WHERE OrderType = 'Rental' AND Month(SO_DATE) = 4 AND Year(SO_DATE) = Year(Date())",
+    "value": {}
+  },
+  {
+    "id": "155",
+    "dataPoint": "POR Overview Rental Value May",
+    "originalSql": "SELECT Sum(RentalTotal) AS value FROM SOMAST WHERE OrderType = 'Rental' AND Month(SO_DATE) = 5 AND Year(SO_DATE) = Year(Date())",
+    "fixed": true,
+    "working": true,
+    "newSql": "SELECT Sum(RentalTotal) AS value FROM AccountingAPIQueueCustomer WHERE OrderType = 'Rental' AND Month(SO_DATE) = 5 AND Year(SO_DATE) = Year(Date())",
+    "value": {}
+  },
+  {
+    "id": "156",
+    "dataPoint": "POR Overview Rental Value Jun",
+    "originalSql": "SELECT Sum(RentalTotal) AS value FROM SOMAST WHERE OrderType = 'Rental' AND Month(SO_DATE) = 6 AND Year(SO_DATE) = Year(Date())",
+    "fixed": true,
+    "working": true,
+    "newSql": "SELECT Sum(RentalTotal) AS value FROM AccountingAPIQueueCustomer WHERE OrderType = 'Rental' AND Month(SO_DATE) = 6 AND Year(SO_DATE) = Year(Date())",
+    "value": {}
+  },
+  {
+    "id": "157",
+    "dataPoint": "POR Overview Rental Value Jul",
+    "originalSql": "SELECT Sum(RentalTotal) AS value FROM SOMAST WHERE OrderType = 'Rental' AND Month(SO_DATE) = 7 AND Year(SO_DATE) = Year(Date())",
+    "fixed": true,
+    "working": true,
+    "newSql": "SELECT Sum(RentalTotal) AS value FROM AccountingAPIQueueCustomer WHERE OrderType = 'Rental' AND Month(SO_DATE) = 7 AND Year(SO_DATE) = Year(Date())",
+    "value": {}
+  },
+  {
+    "id": "158",
+    "dataPoint": "POR Overview Rental Value Aug",
+    "originalSql": "SELECT Sum(RentalTotal) AS value FROM SOMAST WHERE OrderType = 'Rental' AND Month(SO_DATE) = 8 AND Year(SO_DATE) = Year(Date())",
+    "fixed": true,
+    "working": true,
+    "newSql": "SELECT Sum(RentalTotal) AS value FROM AccountingAPIQueueCustomer WHERE OrderType = 'Rental' AND Month(SO_DATE) = 8 AND Year(SO_DATE) = Year(Date())",
+    "value": {}
+  },
+  {
+    "id": "159",
+    "dataPoint": "POR Overview Rental Value Sep",
+    "originalSql": "SELECT Sum(RentalTotal) AS value FROM SOMAST WHERE OrderType = 'Rental' AND Month(SO_DATE) = 9 AND Year(SO_DATE) = Year(Date())",
+    "fixed": true,
+    "working": true,
+    "newSql": "SELECT Sum(RentalTotal) AS value FROM AccountingAPIQueueCustomer WHERE OrderType = 'Rental' AND Month(SO_DATE) = 9 AND Year(SO_DATE) = Year(Date())",
+    "value": {}
+  },
+  {
+    "id": "160",
+    "dataPoint": "POR Overview Rental Value Oct",
+    "originalSql": "SELECT Sum(RentalTotal) AS value FROM SOMAST WHERE OrderType = 'Rental' AND Month(SO_DATE) = 10 AND Year(SO_DATE) = Year(Date())",
+    "fixed": true,
+    "working": true,
+    "newSql": "SELECT Sum(RentalTotal) AS value FROM AccountingAPIQueueCustomer WHERE OrderType = 'Rental' AND Month(SO_DATE) = 10 AND Year(SO_DATE) = Year(Date())",
+    "value": {}
+  },
+  {
+    "id": "161",
+    "dataPoint": "POR Overview Rental Value Nov",
+    "originalSql": "SELECT Sum(RentalTotal) AS value FROM SOMAST WHERE OrderType = 'Rental' AND Month(SO_DATE) = 11 AND Year(SO_DATE) = Year(Date())",
+    "fixed": true,
+    "working": true,
+    "newSql": "SELECT Sum(RentalTotal) AS value FROM AccountingAPIQueueCustomer WHERE OrderType = 'Rental' AND Month(SO_DATE) = 11 AND Year(SO_DATE) = Year(Date())",
+    "value": {}
+  },
+  {
+    "id": "162",
+    "dataPoint": "POR Overview Rental Value Dec",
+    "originalSql": "SELECT Sum(RentalTotal) AS value FROM SOMAST WHERE OrderType = 'Rental' AND Month(SO_DATE) = 12 AND Year(SO_DATE) = Year(Date())",
+    "fixed": true,
+    "working": true,
+    "newSql": "SELECT Sum(RentalTotal) AS value FROM AccountingAPIQueueCustomer WHERE OrderType = 'Rental' AND Month(SO_DATE) = 12 AND Year(SO_DATE) = Year(Date())",
+    "value": {}
+  },
+  {
+    "id": "163",
+    "dataPoint": "Web Orders Orders Jan",
+    "originalSql": "SELECT Count(*) AS value FROM Orders WHERE Source = 'Web' AND Month(OrderDate) = 1 AND Year(OrderDate) = Year(Date())",
+    "fixed": true,
+    "working": true,
+    "newSql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Source = 'Web' AND Month(OrderDate) = 1 AND Year(OrderDate) = Year(Date())",
+    "value": {}
+  },
+  {
+    "id": "164",
+    "dataPoint": "Web Orders Orders Feb",
+    "originalSql": "SELECT Count(*) AS value FROM Orders WHERE Source = 'Web' AND Month(OrderDate) = 2 AND Year(OrderDate) = Year(Date())",
+    "fixed": true,
+    "working": true,
+    "newSql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Source = 'Web' AND Month(OrderDate) = 2 AND Year(OrderDate) = Year(Date())",
+    "value": {}
+  },
+  {
+    "id": "165",
+    "dataPoint": "Web Orders Orders Mar",
+    "originalSql": "SELECT Count(*) AS value FROM Orders WHERE Source = 'Web' AND Month(OrderDate) = 3 AND Year(OrderDate) = Year(Date())",
+    "fixed": true,
+    "working": true,
+    "newSql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Source = 'Web' AND Month(OrderDate) = 3 AND Year(OrderDate) = Year(Date())",
+    "value": {}
+  },
+  {
+    "id": "166",
+    "dataPoint": "Web Orders Orders Apr",
+    "originalSql": "SELECT Count(*) AS value FROM Orders WHERE Source = 'Web' AND Month(OrderDate) = 4 AND Year(OrderDate) = Year(Date())",
+    "fixed": true,
+    "working": true,
+    "newSql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Source = 'Web' AND Month(OrderDate) = 4 AND Year(OrderDate) = Year(Date())",
+    "value": {}
+  },
+  {
+    "id": "167",
+    "dataPoint": "Web Orders Orders May",
+    "originalSql": "SELECT Count(*) AS value FROM Orders WHERE Source = 'Web' AND Month(OrderDate) = 5 AND Year(OrderDate) = Year(Date())",
+    "fixed": true,
+    "working": true,
+    "newSql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Source = 'Web' AND Month(OrderDate) = 5 AND Year(OrderDate) = Year(Date())",
+    "value": {}
+  },
+  {
+    "id": "168",
+    "dataPoint": "Web Orders Orders Jun",
+    "originalSql": "SELECT Count(*) AS value FROM Orders WHERE Source = 'Web' AND Month(OrderDate) = 6 AND Year(OrderDate) = Year(Date())",
+    "fixed": true,
+    "working": true,
+    "newSql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Source = 'Web' AND Month(OrderDate) = 6 AND Year(OrderDate) = Year(Date())",
+    "value": {}
+  },
+  {
+    "id": "169",
+    "dataPoint": "Web Orders Orders Jul",
+    "originalSql": "SELECT Count(*) AS value FROM Orders WHERE Source = 'Web' AND Month(OrderDate) = 7 AND Year(OrderDate) = Year(Date())",
+    "fixed": true,
+    "working": true,
+    "newSql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Source = 'Web' AND Month(OrderDate) = 7 AND Year(OrderDate) = Year(Date())",
+    "value": {}
+  },
+  {
+    "id": "170",
+    "dataPoint": "Web Orders Orders Aug",
+    "originalSql": "SELECT Count(*) AS value FROM Orders WHERE Source = 'Web' AND Month(OrderDate) = 8 AND Year(OrderDate) = Year(Date())",
+    "fixed": true,
+    "working": true,
+    "newSql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Source = 'Web' AND Month(OrderDate) = 8 AND Year(OrderDate) = Year(Date())",
+    "value": {}
+  },
+  {
+    "id": "171",
+    "dataPoint": "Web Orders Orders Sep",
+    "originalSql": "SELECT Count(*) AS value FROM Orders WHERE Source = 'Web' AND Month(OrderDate) = 9 AND Year(OrderDate) = Year(Date())",
+    "fixed": true,
+    "working": true,
+    "newSql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Source = 'Web' AND Month(OrderDate) = 9 AND Year(OrderDate) = Year(Date())",
+    "value": {}
+  },
+  {
+    "id": "172",
+    "dataPoint": "Web Orders Orders Oct",
+    "originalSql": "SELECT Count(*) AS value FROM Orders WHERE Source = 'Web' AND Month(OrderDate) = 10 AND Year(OrderDate) = Year(Date())",
+    "fixed": true,
+    "working": true,
+    "newSql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Source = 'Web' AND Month(OrderDate) = 10 AND Year(OrderDate) = Year(Date())",
+    "value": {}
+  },
+  {
+    "id": "173",
+    "dataPoint": "Web Orders Orders Nov",
+    "originalSql": "SELECT Count(*) AS value FROM Orders WHERE Source = 'Web' AND Month(OrderDate) = 11 AND Year(OrderDate) = Year(Date())",
+    "fixed": true,
+    "working": true,
+    "newSql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Source = 'Web' AND Month(OrderDate) = 11 AND Year(OrderDate) = Year(Date())",
+    "value": {}
+  },
+  {
+    "id": "174",
+    "dataPoint": "Web Orders Orders Dec",
+    "originalSql": "SELECT Count(*) AS value FROM Orders WHERE Source = 'Web' AND Month(OrderDate) = 12 AND Year(OrderDate) = Year(Date())",
+    "fixed": true,
+    "working": true,
+    "newSql": "SELECT Count(*) AS value FROM MapGPSWorkOrders WHERE Source = 'Web' AND Month(OrderDate) = 12 AND Year(OrderDate) = Year(Date())",
+    "value": {}
+  }
+]

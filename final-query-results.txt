@@ -1,0 +1,29 @@
+=== P21 Final SQL Query Test ===
+Starting test at 2025-03-19T17:24:05.565Z
+Connection string: DSN=P21Play;Trusted_Connection=Yes;
+Connecting to ODBC data source...
+✅ CONNECTED SUCCESSFULLY to ODBC data source!
+
+=== Testing query for: Accounts - Payable - Month 1 ===
+Table: po_hdr
+SQL Query: SELECT ISNULL(COUNT(*), 0) AS value FROM dbo.po_hdr WITH (NOLOCK) WHERE po_date >= DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0) AND po_date < DATEADD(month, DATEDIFF(month, 0, GETDATE()) + 1, 0)
+❌ Error executing query: [odbc] Error executing the sql statement
+
+=== Testing query for: Accounts - Overdue - Month 1 ===
+Table: customer
+SQL Query: SELECT ISNULL(COUNT(*), 0) as value FROM dbo.customer WITH (NOLOCK) WHERE credit_limit_used > 0 AND FORMAT(date_last_modified, 'yyyy-MM') = FORMAT(GETDATE(), 'yyyy-MM')
+✅ Query executed successfully
+Result: {"value":2}
+✅ RETURNED NON-ZERO VALUE: 2
+
+=== Testing query for: Accounts - Receivable - Month 1 ===
+Table: oe_hdr
+SQL Query: SELECT ISNULL(COUNT(*), 0) AS value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_date >= DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0) AND order_date < DATEADD(month, DATEDIFF(month, 0, GETDATE()) + 1, 0)
+✅ Query executed successfully
+Result: {"value":22}
+✅ RETURNED NON-ZERO VALUE: 22
+
+✅ Connection closed successfully
+
+=== Test completed at 2025-03-19T17:24:08.635Z ===
+Results have been saved to: C:\Users\BobM\CascadeProjects\TallmanDashboard_new\final-query-results.txt

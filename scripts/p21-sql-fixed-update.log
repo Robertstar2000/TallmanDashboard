@@ -1,0 +1,160 @@
+﻿**********************
+Windows PowerShell transcript start
+Start time: 20250325005019
+Username: TALLMAN\BobM
+RunAs User: TALLMAN\BobM
+Configuration Name: 
+Machine: WEB03 (Microsoft Windows NT 10.0.20348.0)
+Host Application: C:\WINDOWS\System32\WindowsPowerShell\v1.0\powershell.exe -noexit -command try { . "c:\Users\BobM\AppData\Local\Programs\Windsurf\resources\app\out\vs\workbench\contrib\terminal\common\scripts\shellIntegration.ps1" } catch {}
+Process ID: 13520
+PSVersion: 5.1.20348.2849
+PSEdition: Desktop
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.20348.2849
+BuildVersion: 10.0.20348.2849
+CLRVersion: 4.0.30319.42000
+WSManStackVersion: 3.0
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
+**********************
+Transcript started, output file is c:\Users\BobM\CascadeProjects\TallmanDashboard_new\scripts\p21-sql-fixed-update.log
+Restored from backup at c:\Users\BobM\CascadeProjects\TallmanDashboard_new\lib\db\complete-chart-data.ts.bak
+Updated P21 entry for chart group: AR Aging
+Updated P21 entry for chart group: AR Aging
+Updated P21 entry for chart group: AR Aging
+Updated P21 entry for chart group: AR Aging
+Updated P21 entry for chart group: AR Aging
+Updated P21 entry for chart group: Accounts
+Updated P21 entry for chart group: Accounts
+Updated P21 entry for chart group: Accounts
+Updated P21 entry for chart group: Accounts
+Updated P21 entry for chart group: Accounts
+Updated P21 entry for chart group: Accounts
+Updated P21 entry for chart group: Accounts
+Updated P21 entry for chart group: Accounts
+Updated P21 entry for chart group: Accounts
+Updated P21 entry for chart group: Accounts
+Updated P21 entry for chart group: Accounts
+Updated P21 entry for chart group: Accounts
+Updated P21 entry for chart group: Accounts
+Updated P21 entry for chart group: Accounts
+Updated P21 entry for chart group: Accounts
+Updated P21 entry for chart group: Accounts
+Updated P21 entry for chart group: Accounts
+Updated P21 entry for chart group: Accounts
+Updated P21 entry for chart group: Accounts
+Updated P21 entry for chart group: Accounts
+Updated P21 entry for chart group: Accounts
+Updated P21 entry for chart group: Accounts
+Updated P21 entry for chart group: Accounts
+Updated P21 entry for chart group: Accounts
+Updated P21 entry for chart group: Accounts
+Updated P21 entry for chart group: Accounts
+Updated P21 entry for chart group: Accounts
+Updated P21 entry for chart group: Accounts
+Updated P21 entry for chart group: Accounts
+Updated P21 entry for chart group: Accounts
+Updated P21 entry for chart group: Accounts
+Updated P21 entry for chart group: Accounts
+Updated P21 entry for chart group: Accounts
+Updated P21 entry for chart group: Accounts
+Updated P21 entry for chart group: Accounts
+Updated P21 entry for chart group: Accounts
+Updated P21 entry for chart group: Customer Metrics
+Updated P21 entry for chart group: Customer Metrics
+Updated P21 entry for chart group: Customer Metrics
+Updated P21 entry for chart group: Customer Metrics
+Updated P21 entry for chart group: Customer Metrics
+Updated P21 entry for chart group: Customer Metrics
+Updated P21 entry for chart group: Customer Metrics
+Updated P21 entry for chart group: Customer Metrics
+Updated P21 entry for chart group: Customer Metrics
+Updated P21 entry for chart group: Customer Metrics
+Updated P21 entry for chart group: Customer Metrics
+Updated P21 entry for chart group: Customer Metrics
+Updated P21 entry for chart group: Customer Metrics
+Updated P21 entry for chart group: Customer Metrics
+Updated P21 entry for chart group: Customer Metrics
+Updated P21 entry for chart group: Customer Metrics
+Updated P21 entry for chart group: Customer Metrics
+Updated P21 entry for chart group: Customer Metrics
+Updated P21 entry for chart group: Customer Metrics
+Updated P21 entry for chart group: Customer Metrics
+Updated P21 entry for chart group: Customer Metrics
+Updated P21 entry for chart group: Customer Metrics
+Updated P21 entry for chart group: Customer Metrics
+Updated P21 entry for chart group: Customer Metrics
+Updated P21 entry for chart group: Daily Orders
+Updated P21 entry for chart group: Daily Orders
+Updated P21 entry for chart group: Daily Orders
+Updated P21 entry for chart group: Daily Orders
+Updated P21 entry for chart group: Daily Orders
+Updated P21 entry for chart group: Daily Orders
+Updated P21 entry for chart group: Daily Orders
+Updated P21 entry for chart group: Historical Data
+Updated P21 entry for chart group: Historical Data
+Updated P21 entry for chart group: Historical Data
+Updated P21 entry for chart group: Historical Data
+Updated P21 entry for chart group: Historical Data
+Updated P21 entry for chart group: Historical Data
+Updated P21 entry for chart group: Historical Data
+Updated P21 entry for chart group: Historical Data
+Updated P21 entry for chart group: Historical Data
+Updated P21 entry for chart group: Historical Data
+Updated P21 entry for chart group: Historical Data
+Updated P21 entry for chart group: Historical Data
+Updated P21 entry for chart group: Historical Data
+Updated P21 entry for chart group: Historical Data
+Updated P21 entry for chart group: Historical Data
+Updated P21 entry for chart group: Historical Data
+Updated P21 entry for chart group: Historical Data
+Updated P21 entry for chart group: Historical Data
+Updated P21 entry for chart group: Historical Data
+Updated P21 entry for chart group: Historical Data
+Updated P21 entry for chart group: Historical Data
+Updated P21 entry for chart group: Historical Data
+Updated P21 entry for chart group: Historical Data
+Updated P21 entry for chart group: Historical Data
+Updated P21 entry for chart group: Inventory
+Updated P21 entry for chart group: Inventory
+Updated P21 entry for chart group: Inventory
+Updated P21 entry for chart group: Inventory
+Updated P21 entry for chart group: Inventory
+Updated P21 entry for chart group: Inventory
+Updated P21 entry for chart group: Inventory
+Updated P21 entry for chart group: Inventory
+Updated P21 entry for chart group: Key Metrics
+Updated P21 entry for chart group: Key Metrics
+Updated P21 entry for chart group: Key Metrics
+Updated P21 entry for chart group: Key Metrics
+Updated P21 entry for chart group: Key Metrics
+Updated P21 entry for chart group: Key Metrics
+Updated P21 entry for chart group: Key Metrics
+Updated P21 entry for chart group: Site Distribution
+Updated P21 entry for chart group: Site Distribution
+Updated P21 entry for chart group: Site Distribution
+Updated P21 entry for chart group: Web Orders
+Updated P21 entry for chart group: Web Orders
+Updated P21 entry for chart group: Web Orders
+Updated P21 entry for chart group: Web Orders
+Updated P21 entry for chart group: Web Orders
+Updated P21 entry for chart group: Web Orders
+Updated P21 entry for chart group: Web Orders
+Updated P21 entry for chart group: Web Orders
+Updated P21 entry for chart group: Web Orders
+Updated P21 entry for chart group: Web Orders
+Updated P21 entry for chart group: Web Orders
+Updated P21 entry for chart group: Web Orders
+
+Verification:
+P21 entries found: 126 (expected: 126)
+POR entries found: 48 (expected: 48)
+
+Summary:
+P21 entries updated: 126
+POR entries preserved: 48
+Other entries: 0
+P21 SQL expression update completed!
+**********************
+Windows PowerShell transcript end
+End time: 20250325005019
+**********************

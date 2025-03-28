@@ -1,0 +1,74 @@
+[
+  {
+    "name": "Historical Data - POR - Month 1",
+    "timeframe": "Month 1",
+    "sqlExpression": "SELECT ISNULL(SUM([TotalAmount]), 0) as value FROM [PurchaseOrder] WHERE FORMAT([Date], 'yyyy-MM') = FORMAT(DATEADD(month, 0, GETDATE()), 'yyyy-MM')",
+    "productionSqlExpression": "SELECT Sum(Nz([TotalAmount],0)) AS value FROM [PurchaseOrder] WHERE Format([Date],\"yyyy-mm\") = Format(DateAdd(\"m\",0,Date()),\"yyyy-mm\")"
+  },
+  {
+    "name": "Historical Data - POR - Month 2",
+    "timeframe": "Month 2",
+    "sqlExpression": "SELECT ISNULL(SUM([TotalAmount]), 0) as value FROM [PurchaseOrder] WHERE FORMAT([Date], 'yyyy-MM') = FORMAT(DATEADD(month, -1, GETDATE()), 'yyyy-MM')",
+    "productionSqlExpression": "SELECT Sum(Nz([TotalAmount],0)) AS value FROM [PurchaseOrder] WHERE Format([Date],\"yyyy-mm\") = Format(DateAdd(\"m\",-1,Date()),\"yyyy-mm\")"
+  },
+  {
+    "name": "Historical Data - POR - Month 3",
+    "timeframe": "Month 3",
+    "sqlExpression": "SELECT ISNULL(SUM([TotalAmount]), 0) as value FROM [PurchaseOrder] WHERE FORMAT([Date], 'yyyy-MM') = FORMAT(DATEADD(month, -2, GETDATE()), 'yyyy-MM')",
+    "productionSqlExpression": "SELECT Sum(Nz([TotalAmount],0)) AS value FROM [PurchaseOrder] WHERE Format([Date],\"yyyy-mm\") = Format(DateAdd(\"m\",-2,Date()),\"yyyy-mm\")"
+  },
+  {
+    "name": "Historical Data - POR - Month 4",
+    "timeframe": "Month 4",
+    "sqlExpression": "SELECT ISNULL(SUM([TotalAmount]), 0) as value FROM [PurchaseOrder] WHERE FORMAT([Date], 'yyyy-MM') = FORMAT(DATEADD(month, -3, GETDATE()), 'yyyy-MM')",
+    "productionSqlExpression": "SELECT Sum(Nz([TotalAmount],0)) AS value FROM [PurchaseOrder] WHERE Format([Date],\"yyyy-mm\") = Format(DateAdd(\"m\",-3,Date()),\"yyyy-mm\")"
+  },
+  {
+    "name": "Historical Data - POR - Month 5",
+    "timeframe": "Month 5",
+    "sqlExpression": "SELECT ISNULL(SUM([TotalAmount]), 0) as value FROM [PurchaseOrder] WHERE FORMAT([Date], 'yyyy-MM') = FORMAT(DATEADD(month, -4, GETDATE()), 'yyyy-MM')",
+    "productionSqlExpression": "SELECT Sum(Nz([TotalAmount],0)) AS value FROM [PurchaseOrder] WHERE Format([Date],\"yyyy-mm\") = Format(DateAdd(\"m\",-4,Date()),\"yyyy-mm\")"
+  },
+  {
+    "name": "Historical Data - POR - Month 6",
+    "timeframe": "Month 6",
+    "sqlExpression": "SELECT ISNULL(SUM([TotalAmount]), 0) as value FROM [PurchaseOrder] WHERE FORMAT([Date], 'yyyy-MM') = FORMAT(DATEADD(month, -5, GETDATE()), 'yyyy-MM')",
+    "productionSqlExpression": "SELECT Sum(Nz([TotalAmount],0)) AS value FROM [PurchaseOrder] WHERE Format([Date],\"yyyy-mm\") = Format(DateAdd(\"m\",-5,Date()),\"yyyy-mm\")"
+  },
+  {
+    "name": "Historical Data - POR - Month 7",
+    "timeframe": "Month 7",
+    "sqlExpression": "SELECT ISNULL(SUM([TotalAmount]), 0) as value FROM [PurchaseOrder] WHERE FORMAT([Date], 'yyyy-MM') = FORMAT(DATEADD(month, -6, GETDATE()), 'yyyy-MM')",
+    "productionSqlExpression": "SELECT Sum(Nz([TotalAmount],0)) AS value FROM [PurchaseOrder] WHERE Format([Date],\"yyyy-mm\") = Format(DateAdd(\"m\",-6,Date()),\"yyyy-mm\")"
+  },
+  {
+    "name": "Historical Data - POR - Month 8",
+    "timeframe": "Month 8",
+    "sqlExpression": "SELECT ISNULL(SUM([TotalAmount]), 0) as value FROM [PurchaseOrder] WHERE FORMAT([Date], 'yyyy-MM') = FORMAT(DATEADD(month, -7, GETDATE()), 'yyyy-MM')",
+    "productionSqlExpression": "SELECT Sum(Nz([TotalAmount],0)) AS value FROM [PurchaseOrder] WHERE Format([Date],\"yyyy-mm\") = Format(DateAdd(\"m\",-7,Date()),\"yyyy-mm\")"
+  },
+  {
+    "name": "Historical Data - POR - Month 9",
+    "timeframe": "Month 9",
+    "sqlExpression": "SELECT ISNULL(SUM([TotalAmount]), 0) as value FROM [PurchaseOrder] WHERE FORMAT([Date], 'yyyy-MM') = FORMAT(DATEADD(month, -8, GETDATE()), 'yyyy-MM')",
+    "productionSqlExpression": "SELECT Sum(Nz([TotalAmount],0)) AS value FROM [PurchaseOrder] WHERE Format([Date],\"yyyy-mm\") = Format(DateAdd(\"m\",-8,Date()),\"yyyy-mm\")"
+  },
+  {
+    "name": "Historical Data - POR - Month 10",
+    "timeframe": "Month 10",
+    "sqlExpression": "SELECT ISNULL(SUM([TotalAmount]), 0) as value FROM [PurchaseOrder] WHERE FORMAT([Date], 'yyyy-MM') = FORMAT(DATEADD(month, -9, GETDATE()), 'yyyy-MM')",
+    "productionSqlExpression": "SELECT Sum(Nz([TotalAmount],0)) AS value FROM [PurchaseOrder] WHERE Format([Date],\"yyyy-mm\") = Format(DateAdd(\"m\",-9,Date()),\"yyyy-mm\")"
+  },
+  {
+    "name": "Historical Data - POR - Month 11",
+    "timeframe": "Month 11",
+    "sqlExpression": "SELECT ISNULL(SUM([TotalAmount]), 0) as value FROM [PurchaseOrder] WHERE FORMAT([Date], 'yyyy-MM') = FORMAT(DATEADD(month, -10, GETDATE()), 'yyyy-MM')",
+    "productionSqlExpression": "SELECT Sum(Nz([TotalAmount],0)) AS value FROM [PurchaseOrder] WHERE Format([Date],\"yyyy-mm\") = Format(DateAdd(\"m\",-10,Date()),\"yyyy-mm\")"
+  },
+  {
+    "name": "Historical Data - POR - Month 12",
+    "timeframe": "Month 12",
+    "sqlExpression": "SELECT ISNULL(SUM([TotalAmount]), 0) as value FROM [PurchaseOrder] WHERE FORMAT([Date], 'yyyy-MM') = FORMAT(DATEADD(month, -11, GETDATE()), 'yyyy-MM')",
+    "productionSqlExpression": "SELECT Sum(Nz([TotalAmount],0)) AS value FROM [PurchaseOrder] WHERE Format([Date],\"yyyy-mm\") = Format(DateAdd(\"m\",-11,Date()),\"yyyy-mm\")"
+  }
+]

@@ -1,0 +1,51 @@
+[
+  {
+    "id": "117",
+    "name": "Total Orders",
+    "sql": "SELECT COUNT(*) AS value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_date >= DATEADD(day, -DATEPART(day, GETDATE()) + 1, CAST(CAST(GETDATE() AS DATE) AS DATETIME)) AND order_date < DATEADD(month, 1, DATEADD(day, -DATEPART(day, GETDATE()) + 1, CAST(CAST(GETDATE() AS DATE) AS DATETIME)))",
+    "value": 31,
+    "status": "SUCCESS"
+  },
+  {
+    "id": "118",
+    "name": "Open Orders (/day)",
+    "sql": "SELECT COUNT(*) AS value FROM dbo.oe_hdr WITH (NOLOCK) WHERE completed = 'N' AND CONVERT(date, order_date) = CONVERT(date, GETDATE())",
+    "value": 0,
+    "status": "ZERO"
+  },
+  {
+    "id": "119",
+    "name": "All Open Orders",
+    "sql": "SELECT COUNT(*) AS value FROM dbo.oe_hdr WITH (NOLOCK) WHERE completed = 'N'",
+    "value": 2041,
+    "status": "SUCCESS"
+  },
+  {
+    "id": "120",
+    "name": "Daily Revenue",
+    "sql": "SELECT CAST(ISNULL(SUM(l.extended_price), 0) AS DECIMAL(18,2)) AS value FROM dbo.oe_hdr h WITH (NOLOCK) JOIN dbo.oe_line l WITH (NOLOCK) ON h.order_no = l.order_no WHERE CONVERT(date, h.order_date) = CONVERT(date, DATEADD(day, -1, GETDATE()))",
+    "value": 300,
+    "status": "SUCCESS"
+  },
+  {
+    "id": "121",
+    "name": "Open Invoices",
+    "sql": "SELECT COUNT(*) AS value FROM dbo.invoice_hdr WITH (NOLOCK) WHERE invoice_date >= DATEADD(month, -1, GETDATE())",
+    "value": 1,
+    "status": "SUCCESS"
+  },
+  {
+    "id": "122",
+    "name": "OrdersBackloged",
+    "sql": "SELECT COUNT(*) AS value FROM dbo.oe_hdr WITH (NOLOCK) WHERE completed = 'N' AND order_date >= DATEADD(day, -30, GETDATE())",
+    "value": 31,
+    "status": "SUCCESS"
+  },
+  {
+    "id": "123",
+    "name": "Total Sales Monthly",
+    "sql": "SELECT CAST(ISNULL(SUM(l.extended_price), 0) AS DECIMAL(18,2)) AS value FROM dbo.oe_hdr h WITH (NOLOCK) JOIN dbo.oe_line l WITH (NOLOCK) ON h.order_no = l.order_no WHERE h.order_date >= DATEADD(day, -DATEPART(day, GETDATE()) + 1, CAST(CAST(GETDATE() AS DATE) AS DATETIME)) AND h.order_date < DATEADD(month, 1, DATEADD(day, -DATEPART(day, GETDATE()) + 1, CAST(CAST(GETDATE() AS DATE) AS DATETIME)))",
+    "value": 2185470.4,
+    "status": "SUCCESS"
+  }
+]

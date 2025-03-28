@@ -1,0 +1,403 @@
+
+=== ESTABLISHING CONNECTION ===
+Connection string: DSN=P21Play;UID=SA;PWD=********;
+✅ ODBC Connection successful!
+
+=== SERVER INFORMATION ===
+SQL Server Version: Microsoft SQL Server 2017 (RTM-CU31-GDR) (KB5046858) - 14.0.3485.1 (X64) 
+	Oct 17 2024 16:14:54 
+	Copyright (C) 2017 Microsoft Corporation
+	Standard Edition (64-bit) on Windows Server 2016 Standard 10.0 <X64> (Build 14393: ) (Hypervisor)
+
+Current Database: master
+
+=== SWITCHING DATABASE ===
+Switching from master to P21Play...
+Successfully switched to: P21Play
+
+=== DATABASE SIZE INFORMATION ===
+Database Size: 300224.75 MB
+
+=== SCHEMA INFORMATION ===
+Schemas in database:
+- dbo: 2787 tables
+- ssb: 28 tables
+- UTIL: 1 tables
+- guest: 0 tables
+- INFORMATION_SCHEMA: 0 tables
+- sys: 0 tables
+- p21_application_role: 0 tables
+- IUSR_BEAVIS: 0 tables
+- xlconn: 0 tables
+- mbl: 0 tables
+- db_owner: 0 tables
+- db_accessadmin: 0 tables
+- db_securityadmin: 0 tables
+- db_ddladmin: 0 tables
+- db_backupoperator: 0 tables
+- db_datareader: 0 tables
+- db_datawriter: 0 tables
+- db_denydatareader: 0 tables
+- db_denydatawriter: 0 tables
+- PxxiUser: 0 tables
+- Trinity_users: 0 tables
+- ClippershipUser: 0 tables
+
+=== TABLE INFORMATION ===
+Table types:
+- BASE TABLE: 2816
+- VIEW: 3318
+
+=== LARGEST TABLES ===
+Top 20 largest tables:
+- dbo.p21_price_engine_run_audit_step_data: 42841.94 MB (216345990 rows)
+- dbo.audit_trail: 28614.23 MB (73655987 rows)
+- dbo.oe_line: 10843.38 MB (2559022 rows)
+- dbo.average_inventory_value: 9985.78 MB (72891721 rows)
+- dbo.inv_loc: 5832.1 MB (1634523 rows)
+- dbo.gl: 5644.72 MB (3913663 rows)
+- dbo.invoice_line: 3889.63 MB (1765166 rows)
+- dbo.inv_tran: 2804.63 MB (3596270 rows)
+- dbo.oe_hdr: 1754.36 MB (510674 rows)
+- dbo.document_line_bin: 1568.65 MB (1736131 rows)
+- dbo.invoice_hdr: 1484.99 MB (387574 rows)
+- dbo.oe_pick_ticket_detail: 856.74 MB (1254908 rows)
+- dbo.gpor_run: 793.66 MB (481419 rows)
+- dbo.external_tax_detail: 775.52 MB (3268622 rows)
+- dbo.inv_mast: 628.74 MB (351423 rows)
+- dbo.gpor_dynamic_look_ahead: 564.47 MB (5404869 rows)
+- dbo.apc_inventory_master_data: 519.09 MB (1343854 rows)
+- dbo.inventory_supplier_x_loc: 450.05 MB (1869657 rows)
+- dbo.email_log: 437.13 MB (648701 rows)
+- dbo.oe_pick_ticket: 428.29 MB (432768 rows)
+
+=== SYSTEM PARAMETER TABLES ===
+System parameter tables:
+- dbo.agile_connect_systems (8 columns)
+- dbo.ap_system_parameters (11 columns)
+- dbo.ar_system_parameters (18 columns)
+- dbo.b2b_temp_system_setting (3 columns)
+- dbo.gl_system_parameters (12 columns)
+- dbo.inv_system_parameters (33 columns)
+- dbo.oe_system_parameters (17 columns)
+- dbo.p21_view_agile_connect_systems (8 columns)
+- mbl.p21_view_mobile_system_setting (6 columns)
+- dbo.p21_view_report_parameter (24 columns)
+- dbo.p21_view_report_parameter_group (10 columns)
+- dbo.p21_view_report_parameter_x_group (7 columns)
+- dbo.p21_view_support_sql_b2b_system_setting (4 columns)
+- dbo.p21_view_system_alerts (9 columns)
+- dbo.p21_view_system_setting (13 columns)
+- dbo.p21_view_xm_system_settings (3 columns)
+- dbo.po_system_parameters (3 columns)
+- dbo.portal_param_def (11 columns)
+- dbo.portal_param_value (8 columns)
+- dbo.process_system_parameters (5 columns)
+- dbo.prod_order_system_parameters (17 columns)
+- dbo.report_parameter (24 columns)
+- dbo.report_parameter_group (10 columns)
+- dbo.report_parameter_x_group (7 columns)
+- dbo.sys_params_p21 (11 columns)
+- dbo.system_alerts (9 columns)
+- dbo.system_parameters (92 columns)
+- dbo.system_setting (11 columns)
+- dbo.ud_tabpage_parameter (11 columns)
+
+=== SYSTEM_PARAMETERS TABLE STRUCTURE ===
+Columns in system_parameters table:
+- security_active: char(1)
+- comp_sec_active: char(1)
+- date_created: datetime
+- date_last_modified: datetime
+- last_modified_by: varchar(30)
+- help_directory: varchar(255)
+- no_of_retries: decimal
+- set_up_mode: char(1)
+- inventory_module_installed: char(1)
+- used_in_us: char(1)
+- foreign_currency: char(1)
+- revenue_by_item: char(1)
+- ap_module_installed: char(1)
+- ar_module_installed: char(1)
+- oe_module_installed: char(1)
+- po_module_installed: char(1)
+- prod_ord_module_installed: char(1)
+- jc_module_installed: char(1)
+- multi_lingual: char(1)
+- currency_mask: varchar(50)
+- number_of_sigs: char(1)
+- sig1_path: varchar(255)
+- sig2_path: varchar(255)
+- printer_dpi: varchar(3)
+- default_period: char(1)
+- default_year: char(1)
+- coa_mask_compliance: char(1)
+- amount_req_two_sigs: decimal
+- validate_cust_contacts_on_oe: char(1)
+- default_backorder_qty: char(1)
+- calc_backorder_in_oe: char(1)
+- print_detail_on_checkstub: char(1)
+- gl_intercompany_functionality: char(1)
+- ap_intercompany_functionality: char(1)
+- database_version: varchar(8)
+- fire_gl_trigger: char(1)
+- logo_path: varchar(255)
+- no_of_cycle_days: int
+- use_billing_address: char(1)
+- use_payable_groups: char(1)
+- use_receivable_groups: char(1)
+- commission_module_installed: char(1)
+- use_enter_key: char(1)
+- character_sensitive_popups: char(1)
+- default_previous_period_year: char(1)
+- display_update_was_successful: char(1)
+- buyer_only_to_place_po: char(1)
+- using_approvals: char(1)
+- sales_pricing_method: varchar(2)
+- tab_sec_active: char(1)
+- branch_sec_active: char(1)
+- reserved1: decimal
+- job_id_mask: varchar(64)
+- character_specific_popups: char(1)
+- num_of_dec_places_unit_price: decimal
+- num_of_dec_places_unit_cost: decimal
+- min_char_for_char_specific: decimal
+- keystroke_for_popups: varchar(10)
+- keystroke_for_new_line_item: varchar(10)
+- mail_module_installed: char(1)
+- security_method: char(1)
+- system_parameter_uid: numeric
+- oe_print_qty: decimal
+- pick_ticket_print_qty: decimal
+- invoice_print_qty: decimal
+- po_print_qty: decimal
+- transfer_print_qty: decimal
+- statement_print_qty: decimal
+- quote_print_qty: decimal
+- crystal_directory: varchar(255)
+- enable_fax: char(1)
+- fax_file_path: varchar(50)
+- voucher_entry_approvals: char(1)
+- cr_dr_memo_entry_approvals: char(1)
+- invoice_entry_approvals: char(1)
+- misc_cash_receipts_approvals: char(1)
+- cash_receipts_approvals: char(1)
+- journal_entries_approvals: char(1)
+- inv_transfer_rec_approvals: char(1)
+- inv_adj_approvals: char(1)
+- transfer_entry_approvals: char(1)
+- physical_count_approvals: char(1)
+- order_entry_approvals: char(1)
+- rma_entry_approvals: char(1)
+- prod_order_entry_approvals: char(1)
+- process_prod_order_approvals: char(1)
+- purchase_order_entry_approvals: char(1)
+- convert_po_voucher_approvals: char(1)
+- repetitive_jrn_entry_approvals: char(1)
+- configuration_id: int
+- message_log_file_path: varchar(255)
+- script_path: varchar(255)
+
+Sample data from system_parameters:
+
+Row 1:
+  security_active: N
+  comp_sec_active: N
+  date_created: 1997-06-12 09:28:04.223
+  date_last_modified: 2000-03-14 11:57:33.070
+  last_modified_by: ADMIN
+  help_directory: e:\trinity_help\trinity.hlp
+  no_of_retries: 4
+  set_up_mode: Y
+  inventory_module_installed: Y
+  used_in_us: Y
+  foreign_currency: N
+  revenue_by_item: N
+  ap_module_installed: Y
+  ar_module_installed: Y
+  oe_module_installed: Y
+  po_module_installed: Y
+  prod_ord_module_installed: Y
+  jc_module_installed: N
+  multi_lingual: N
+  currency_mask: null
+  number_of_sigs: 1
+  sig1_path: null
+  sig2_path:  
+  printer_dpi: 600
+  default_period: N
+  default_year: Y
+  coa_mask_compliance: Y
+  amount_req_two_sigs: 5000
+  validate_cust_contacts_on_oe: N
+  default_backorder_qty: Y
+  calc_backorder_in_oe: Y
+  print_detail_on_checkstub: Y
+  gl_intercompany_functionality: N
+  ap_intercompany_functionality: N
+  database_version: 7.0.221
+  fire_gl_trigger: Y
+  logo_path: null
+  no_of_cycle_days: 5
+  use_billing_address: N
+  use_payable_groups: Y
+  use_receivable_groups: Y
+  commission_module_installed: N
+  use_enter_key: Y
+  character_sensitive_popups: N
+  default_previous_period_year: N
+  display_update_was_successful: Y
+  buyer_only_to_place_po: Y
+  using_approvals: Y
+  sales_pricing_method: PO
+  tab_sec_active: N
+  branch_sec_active: N
+  reserved1: null
+  job_id_mask:  
+  character_specific_popups: N
+  num_of_dec_places_unit_price: 4
+  num_of_dec_places_unit_cost: 4
+  min_char_for_char_specific: 0
+  keystroke_for_popups: [C]F
+  keystroke_for_new_line_item: null
+  mail_module_installed: null
+  security_method: S
+  system_parameter_uid: 1
+  oe_print_qty: 1
+  pick_ticket_print_qty: 1
+  invoice_print_qty: 1
+  po_print_qty: 1
+  transfer_print_qty: 1
+  statement_print_qty: 1
+  quote_print_qty: 1
+  crystal_directory: null
+  enable_fax: N
+  fax_file_path: null
+  voucher_entry_approvals: Y
+  cr_dr_memo_entry_approvals: Y
+  invoice_entry_approvals: Y
+  misc_cash_receipts_approvals: Y
+  cash_receipts_approvals: Y
+  journal_entries_approvals: Y
+  inv_transfer_rec_approvals: Y
+  inv_adj_approvals: Y
+  transfer_entry_approvals: Y
+  physical_count_approvals: Y
+  order_entry_approvals: Y
+  rma_entry_approvals: Y
+  prod_order_entry_approvals: Y
+  process_prod_order_approvals: Y
+  purchase_order_entry_approvals: Y
+  convert_po_voucher_approvals: Y
+  repetitive_jrn_entry_approvals: N
+  configuration_id: 0
+  message_log_file_path: c:\msglog.txt
+  script_path:  
+
+=== SYS_PARAMS_P21 TABLE STRUCTURE ===
+Columns in sys_params_p21 table:
+- sys_params_uid: int
+- configuration_id: int
+- module: varchar(32)
+- sys_param_name: varchar(32)
+- sys_param_value: varchar(255)
+- sys_param_data_type: varchar(16)
+- sys_param_description: varchar(255)
+- date_created: datetime
+- date_last_modified: datetime
+- last_maintained_by: varchar(30)
+- code_group_no: int
+
+Sample data from sys_params_p21:
+
+Row 1:
+  sys_params_uid: 6
+  configuration_id: 0
+  module: ALL
+  sys_param_name: configure_dynamic_tabpage
+  sys_param_value: 719
+  sys_param_data_type: NUMBER
+  sys_param_description: This holds the default setting for user configured tabpages.
+  date_created: 1999-11-04 12:29:31.793
+  date_last_modified: 1999-11-04 12:29:31.793
+  last_maintained_by: ADMIN
+  code_group_no: 1018
+
+Row 2:
+  sys_params_uid: 5
+  configuration_id: 15
+  module: OE
+  sys_param_name: Duplicate Customer PO Number
+  sys_param_value: Accept All
+  sys_param_data_type: String
+  sys_param_description: This field will be used to determine how to handle duplicate customer PO numbers entered for a sales order
+  date_created: 1999-11-04 12:07:01.503
+  date_last_modified: 1999-11-04 12:07:01.503
+  last_maintained_by: ADMIN
+  code_group_no: 0
+
+Row 3:
+  sys_params_uid: 1
+  configuration_id: 26
+  module: AR
+  sys_param_name: DAYS_OVERDUE_FOR_CREDIT_HOLD
+  sys_param_value: 0
+  sys_param_data_type: NUMBER
+  sys_param_description: This value is used as a default
+value for the number of 
+days overdue for putting 
+a customer on credit hold.
+This is used in the Customer
+Credit Status Update window
+and the Order windows.
+  date_created: 1999-03-18 00:00:00.000
+  date_last_modified: 1999-03-18 00:00:00.000
+  last_maintained_by: ADMIN
+  code_group_no: 0
+
+Row 4:
+  sys_params_uid: 3
+  configuration_id: 31
+  module: INV
+  sys_param_name: Duty_percentage
+  sys_param_value: 0
+  sys_param_data_type: NUMBER
+  sys_param_description: Used in the Penndel Net pricing calculations.
+  date_created: 1999-11-04 12:06:58.720
+  date_last_modified: 1999-11-04 12:06:58.720
+  last_maintained_by: ADMIN
+  code_group_no: 0
+
+Row 5:
+  sys_params_uid: 2
+  configuration_id: 31
+  module: INV
+  sys_param_name: Fixed_exchange_rate
+  sys_param_value: 0
+  sys_param_data_type: NUMBER
+  sys_param_description: Fixed exchange rate for purchasing material from Germany.
+  date_created: 1999-11-04 12:06:58.680
+  date_last_modified: 1999-11-04 12:06:58.680
+  last_maintained_by: ADMIN
+  code_group_no: 0
+
+Row 6:
+  sys_params_uid: 4
+  configuration_id: 31
+  module: INV
+  sys_param_name: Net_list_conversion_factor
+  sys_param_value: 0
+  sys_param_data_type: NUMBER
+  sys_param_description: Used to convert the Penndel Net Value to the Penndel List Value.
+  date_created: 1999-11-04 12:06:58.720
+  date_last_modified: 1999-11-04 12:06:58.720
+  last_maintained_by: ADMIN
+  code_group_no: 0
+
+=== SEARCHING FOR SY_PARAM ALTERNATIVES ===
+Tables starting with "sy_":
+- dbo.sys_params_p21
+- dbo.sysdiagrams
+- dbo.system_alerts
+- dbo.system_parameters
+- dbo.system_setting

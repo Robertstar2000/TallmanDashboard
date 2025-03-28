@@ -1,0 +1,51 @@
+[
+  {
+    "name": "Total Orders",
+    "query": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_date >= DATEADD(day, -7, GETDATE())",
+    "value": 18,
+    "type": "number",
+    "success": true
+  },
+  {
+    "name": "Open Orders",
+    "query": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE completed = 'N'",
+    "value": 2034,
+    "type": "number",
+    "success": true
+  },
+  {
+    "name": "Open Orders 2",
+    "query": "SELECT ISNULL(SUM(l.extended_price), 0) as value FROM dbo.oe_hdr h WITH (NOLOCK) JOIN dbo.oe_line l WITH (NOLOCK) ON h.order_no = l.order_no WHERE h.completed = 'N'",
+    "value": 24643150.24,
+    "type": "number",
+    "success": true
+  },
+  {
+    "name": "Daily Revenue",
+    "query": "SELECT ISNULL(SUM(l.extended_price), 0) as value FROM dbo.oe_hdr h WITH (NOLOCK) JOIN dbo.oe_line l WITH (NOLOCK) ON h.order_no = l.order_no WHERE CONVERT(date, h.order_date) = CONVERT(date, DATEADD(day, -1, GETDATE()))",
+    "value": 75500,
+    "type": "number",
+    "success": true
+  },
+  {
+    "name": "Open Invoices",
+    "query": "SELECT COUNT(*) as value FROM dbo.invoice_hdr WITH (NOLOCK) WHERE invoice_date >= DATEADD(month, -1, GETDATE())",
+    "value": 1,
+    "type": "number",
+    "success": true
+  },
+  {
+    "name": "Orders Backlogged",
+    "query": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE completed = 'N' AND order_date >= DATEADD(day, -30, GETDATE())",
+    "value": 27,
+    "type": "number",
+    "success": true
+  },
+  {
+    "name": "Total Monthly Sales",
+    "query": "SELECT ISNULL(SUM(l.extended_price), 0) as value FROM dbo.oe_hdr h WITH (NOLOCK) JOIN dbo.oe_line l WITH (NOLOCK) ON h.order_no = l.order_no WHERE h.order_date >= DATEADD(day, -30, GETDATE())",
+    "value": 1708263.24,
+    "type": "number",
+    "success": true
+  }
+]

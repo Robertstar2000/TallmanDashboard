@@ -1,0 +1,95 @@
+=== POR Queries Test (SQLite) ===
+Starting test at 2025-03-19T18:09:34.716Z
+Creating test database with sample data...
+Inserted 50 sample records into purchase_orders table
+Data distribution by month:
+  2025-03: 1 records
+
+=== Testing query: POR Overview - New Rentals - Current Month ===
+SQL: 
+          SELECT (
+            SELECT COUNT(*) FROM purchase_orders 
+            WHERE strftime('%Y-%m', date) = strftime('%Y-%m', 'now')
+          ) - (
+            SELECT COUNT(*) FROM purchase_orders 
+            WHERE strftime('%Y-%m', date) = strftime('%Y-%m', 'now', '-1 month')
+            AND status <> 'Closed'
+          ) as value
+        
+✅ Query executed successfully
+Results (1 rows):
+  {"value":3}
+✅ RETURNED NON-ZERO VALUE: 3
+
+=== Testing query: POR Overview - Open Rentals - Current Month ===
+SQL: 
+          SELECT COUNT(*) as value FROM purchase_orders 
+          WHERE strftime('%Y-%m', date) = strftime('%Y-%m', 'now')
+          AND status <> 'Closed'
+        
+✅ Query executed successfully
+Results (1 rows):
+  {"value":4}
+✅ RETURNED NON-ZERO VALUE: 4
+
+=== Testing query: POR Overview - Rental Value - Current Month ===
+SQL: 
+          SELECT COALESCE(SUM(shipping_cost), 0) as value FROM purchase_orders 
+          WHERE strftime('%Y-%m', date) = strftime('%Y-%m', 'now')
+        
+✅ Query executed successfully
+Results (1 rows):
+  {"value":4017}
+✅ RETURNED NON-ZERO VALUE: 4017
+
+=== Testing query: Vendor Analysis - Top 5 Vendors ===
+SQL: 
+          SELECT vendor_number, COUNT(*) as value 
+          FROM purchase_orders 
+          WHERE date >= date('now', '-1 year')
+          GROUP BY vendor_number 
+          ORDER BY value DESC LIMIT 5
+        
+✅ Query executed successfully
+Results (5 rows):
+  {"vendor_number":"Vendor1","value":3}
+  {"vendor_number":"Vendor3","value":2}
+  {"vendor_number":"Vendor2","value":2}
+  {"vendor_number":"Vendor5","value":1}
+  {"vendor_number":"Vendor4","value":1}
+✅ RETURNED NON-ZERO VALUE: 3
+
+=== Testing query: PO Status - Status Distribution ===
+SQL: 
+          SELECT status, COUNT(*) as value 
+          FROM purchase_orders 
+          WHERE date >= date('now', '-1 year')
+          GROUP BY status
+        
+✅ Query executed successfully
+Results (4 rows):
+  {"status":"Closed","value":5}
+  {"status":"Open","value":2}
+  {"status":"Pending","value":2}
+  {"status":"Shipped","value":2}
+✅ RETURNED NON-ZERO VALUE: 5
+
+=== Testing query: Store Analysis - PO by Store ===
+SQL: 
+          SELECT COALESCE(store, 'Unknown') as store, COUNT(*) as value 
+          FROM purchase_orders 
+          WHERE date >= date('now', '-1 year')
+          GROUP BY COALESCE(store, 'Unknown')
+        
+✅ Query executed successfully
+Results (4 rows):
+  {"store":"Store1","value":5}
+  {"store":"Store2","value":3}
+  {"store":"Store3","value":2}
+  {"store":"Unknown","value":3}
+✅ RETURNED NON-ZERO VALUE: 5
+
+✅ Tests completed successfully
+
+=== Test completed at 2025-03-19T18:09:34.753Z ===
+Results have been saved to: C:\Users\BobM\CascadeProjects\TallmanDashboard_new\por-query-results-sqlite.txt

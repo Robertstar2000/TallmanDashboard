@@ -1,0 +1,282 @@
+=== DATABASE EXAMINATION RESULTS ===
+Date: 2025-03-20T12:27:13.731Z
+
+Using database at ./dashboard.db
+Tables in database: sqlite_sequence, inventory, accounts_payable, daily_shipments, top_products, metrics, oe_hdr, ar_open_items, ap_open_items, inv_mstr, por_rentals, historical_data, site_distribution, web_metrics
+
+=== TABLE: sqlite_sequence ===
+--- SCHEMA ---
+Column Name | Type | NotNull | DefaultValue | PK
+------------|------|---------|--------------|----
+name |  | 0 | NULL | 0
+seq |  | 0 | NULL | 0
+
+Row count: 0
+
+--- SEARCHING FOR KEY METRICS DATA ---
+Searching for key metrics in name:
+No Key Metrics rows found
+
+
+=== TABLE: inventory ===
+--- SCHEMA ---
+Column Name | Type | NotNull | DefaultValue | PK
+------------|------|---------|--------------|----
+id | TEXT | 0 | NULL | 1
+name | TEXT | 0 | NULL | 0
+inventoryValueDate | TEXT | 0 | NULL | 0
+inventory | TEXT | 0 | NULL | 0
+turnover | TEXT | 0 | NULL | 0
+
+Row count: 0
+
+--- SEARCHING FOR KEY METRICS DATA ---
+Searching for key metrics in name:
+No Key Metrics rows found
+
+
+=== TABLE: accounts_payable ===
+--- SCHEMA ---
+Column Name | Type | NotNull | DefaultValue | PK
+------------|------|---------|--------------|----
+id | TEXT | 0 | NULL | 1
+name | TEXT | 0 | NULL | 0
+accountsPayableDate | TEXT | 0 | NULL | 0
+total | TEXT | 0 | NULL | 0
+overdue | TEXT | 0 | NULL | 0
+
+Row count: 0
+
+--- SEARCHING FOR KEY METRICS DATA ---
+Searching for key metrics in name:
+No Key Metrics rows found
+
+
+=== TABLE: daily_shipments ===
+--- SCHEMA ---
+Column Name | Type | NotNull | DefaultValue | PK
+------------|------|---------|--------------|----
+id | TEXT | 0 | NULL | 1
+name | TEXT | 0 | NULL | 0
+updateTime | TEXT | 0 | NULL | 0
+value | TEXT | 0 | NULL | 0
+
+Row count: 0
+
+--- SEARCHING FOR KEY METRICS DATA ---
+Searching for key metrics in name:
+No Key Metrics rows found
+
+
+=== TABLE: top_products ===
+--- SCHEMA ---
+Column Name | Type | NotNull | DefaultValue | PK
+------------|------|---------|--------------|----
+id | TEXT | 0 | NULL | 1
+name | TEXT | 0 | NULL | 0
+subGroup | TEXT | 0 | NULL | 0
+value | TEXT | 0 | NULL | 0
+
+Row count: 0
+
+--- SEARCHING FOR KEY METRICS DATA ---
+Searching for key metrics in name:
+No Key Metrics rows found
+
+
+=== TABLE: metrics ===
+--- SCHEMA ---
+Column Name | Type | NotNull | DefaultValue | PK
+------------|------|---------|--------------|----
+id | TEXT | 0 | NULL | 1
+name | TEXT | 0 | NULL | 0
+value | TEXT | 0 | NULL | 0
+calculation | TEXT | 0 | NULL | 0
+sqlExpression | TEXT | 0 | NULL | 0
+p21DataDictionary | TEXT | 0 | NULL | 0
+
+Row count: 0
+
+--- SQL-RELATED COLUMNS ---
+Column: sqlExpression (TEXT)
+No non-empty values found
+
+--- SEARCHING FOR KEY METRICS DATA ---
+Searching for key metrics in name:
+No Key Metrics rows found
+
+
+=== TABLE: oe_hdr ===
+--- SCHEMA ---
+Column Name | Type | NotNull | DefaultValue | PK
+------------|------|---------|--------------|----
+order_no | TEXT | 0 | NULL | 1
+order_status | TEXT | 0 | NULL | 0
+order_amt | REAL | 0 | NULL | 0
+order_date | TEXT | 0 | NULL | 0
+customer_id | TEXT | 0 | NULL | 0
+order_type | TEXT | 0 | NULL | 0
+total_lines | INTEGER | 0 | NULL | 0
+user_id | TEXT | 0 | NULL | 0
+company_id | TEXT | 0 | NULL | 0
+location_id | TEXT | 0 | NULL | 0
+currency_code | TEXT | 0 | NULL | 0
+
+Row count: 12847
+
+--- SAMPLE DATA ---
+order_no   order_status  order_amt           order_date  customer_id  order_type  total_lines  user_id  company_id  location_id  currency_code  
+---------  ------------  ------------------  ----------  -----------  ----------  -----------  -------  ----------  -----------  -------------  
+ORD000000  open          4911.22137838657    2025-02-01  CUST669      STANDARD    9            NULL     1           ADDISON      NULL           
+ORD000001  closed        1596.292012448895   2025-02-19  CUST205      STANDARD    3            NULL     1           COLUMBUS     NULL           
+ORD000002  closed        7849.0259173199975  2025-02-10  CUST348      STANDARD    10           NULL     1           COLUMBUS     NULL           
+ORD000003  open          6121.520477533304   2025-02-21  CUST429      STANDARD    10           NULL     1           COLUMBUS     NULL           
+ORD000004  open          9310.225925320889   2025-02-09  CUST330      STANDARD    9            NULL     1           COLUMBUS     NULL           
+
+
+=== TABLE: ar_open_items ===
+--- SCHEMA ---
+Column Name | Type | NotNull | DefaultValue | PK
+------------|------|---------|--------------|----
+document_no | TEXT | 0 | NULL | 1
+amount | REAL | 0 | NULL | 0
+document_date | TEXT | 0 | NULL | 0
+due_date | TEXT | 0 | NULL | 0
+status | TEXT | 0 | NULL | 0
+customer_id | TEXT | 0 | NULL | 0
+document_type | TEXT | 0 | NULL | 0
+balance | REAL | 0 | NULL | 0
+company_id | TEXT | 0 | NULL | 0
+terms_code | TEXT | 0 | NULL | 0
+
+Row count: 1000
+
+--- SAMPLE DATA ---
+document_no  amount              document_date  due_date    status  customer_id  document_type  balance             company_id  terms_code  
+-----------  ------------------  -------------  ----------  ------  -----------  -------------  ------------------  ----------  ----------  
+INV000000    13259.777785335304  2025-01-10     2025-01-10  open    CUST534      INVOICE        13259.777785335304  1           NULL        
+INV000001    13380.775551701936  2025-01-20     2025-01-20  open    CUST260      INVOICE        13380.775551701936  1           NULL        
+INV000002    5883.571087226038   2025-01-07     2025-01-07  open    CUST559      INVOICE        5883.571087226038   1           NULL        
+INV000003    9407.659255983668   2025-01-15     2025-01-15  open    CUST56       INVOICE        9407.659255983668   1           NULL        
+INV000004    9622.493355713788   2024-12-05     2024-12-05  open    CUST230      INVOICE        9622.493355713788   1           NULL        
+
+
+=== TABLE: ap_open_items ===
+--- SCHEMA ---
+Column Name | Type | NotNull | DefaultValue | PK
+------------|------|---------|--------------|----
+invoice_no | TEXT | 0 | NULL | 1
+invoice_amt | REAL | 0 | NULL | 0
+invoice_date | TEXT | 0 | NULL | 0
+invoice_status | TEXT | 0 | NULL | 0
+vendor_id | TEXT | 0 | NULL | 0
+due_date | TEXT | 0 | NULL | 0
+terms_code | TEXT | 0 | NULL | 0
+company_id | TEXT | 0 | NULL | 0
+open_balance | REAL | 0 | NULL | 0
+
+Row count: 0
+
+
+=== TABLE: inv_mstr ===
+--- SCHEMA ---
+Column Name | Type | NotNull | DefaultValue | PK
+------------|------|---------|--------------|----
+item_no | TEXT | 0 | NULL | 1
+item_desc | TEXT | 0 | NULL | 0
+qty_on_hand | INTEGER | 0 | NULL | 0
+qty_on_order | INTEGER | 0 | NULL | 0
+unit_cost | REAL | 0 | NULL | 0
+list_price | REAL | 0 | NULL | 0
+company_id | TEXT | 0 | NULL | 0
+location_id | TEXT | 0 | NULL | 0
+
+Row count: 1000
+
+--- SAMPLE DATA ---
+item_no     item_desc    qty_on_hand  qty_on_order  unit_cost           list_price          company_id  location_id  
+----------  -----------  -----------  ------------  ------------------  ------------------  ----------  -----------  
+ITEM000000  Test Item 0  79           36            970.436690998037    829.2299452016125   1           COLUMBUS     
+ITEM000001  Test Item 1  34           42            627.5064667889628   1131.3936961898921  1           COLUMBUS     
+ITEM000002  Test Item 2  49           33            976.1522854190792   1952.3774170518084  1           COLUMBUS     
+ITEM000003  Test Item 3  16           4             211.52304354466725  1321.3194911357123  1           COLUMBUS     
+ITEM000004  Test Item 4  74           35            906.6448518884537   475.0988245065499   1           ADDISON      
+
+
+=== TABLE: por_rentals ===
+--- SCHEMA ---
+Column Name | Type | NotNull | DefaultValue | PK
+------------|------|---------|--------------|----
+rental_no | TEXT | 0 | NULL | 1
+rental_status | TEXT | 0 | NULL | 0
+start_date | TEXT | 0 | NULL | 0
+end_date | TEXT | 0 | NULL | 0
+customer_id | TEXT | 0 | NULL | 0
+total_amount | REAL | 0 | NULL | 0
+company_id | TEXT | 0 | NULL | 0
+location_id | TEXT | 0 | NULL | 0
+
+Row count: 500
+
+--- SAMPLE DATA ---
+rental_no   rental_status  start_date  end_date    customer_id  total_amount        company_id  location_id  
+----------  -------------  ----------  ----------  -----------  ------------------  ----------  -----------  
+RENT000000  active         2025-02-01  2025-03-05  CUST470      3687.1031367878713  1           COLUMBUS     
+RENT000001  completed      2025-02-14  2025-03-13  CUST572      8280.498164407902   1           COLUMBUS     
+RENT000002  completed      2025-01-28  2025-03-05  CUST957      4965.339932007099   1           ADDISON      
+RENT000003  completed      2025-01-30  2025-03-02  CUST918      2790.1039005626794  1           ADDISON      
+RENT000004  active         2025-02-24  2025-03-25  CUST468      6216.191877344595   1           ADDISON      
+
+
+=== TABLE: historical_data ===
+--- SCHEMA ---
+Column Name | Type | NotNull | DefaultValue | PK
+------------|------|---------|--------------|----
+id | TEXT | 0 | NULL | 1
+name | TEXT | 0 | NULL | 0
+historicalDate | TEXT | 0 | NULL | 0
+p21 | TEXT | 0 | NULL | 0
+por | TEXT | 0 | NULL | 0
+
+Row count: 0
+
+--- SEARCHING FOR KEY METRICS DATA ---
+Searching for key metrics in name:
+No Key Metrics rows found
+
+
+=== TABLE: site_distribution ===
+--- SCHEMA ---
+Column Name | Type | NotNull | DefaultValue | PK
+------------|------|---------|--------------|----
+id | TEXT | 0 | NULL | 1
+name | TEXT | 0 | NULL | 0
+value | TEXT | 0 | NULL | 0
+
+Row count: 3
+
+--- SAMPLE DATA ---
+id  name       value    
+--  ---------  -------  
+1   Columbus   4300000  
+2   Addison    2700000  
+3   Lake City  1400000  
+
+--- SEARCHING FOR KEY METRICS DATA ---
+Searching for key metrics in name:
+No Key Metrics rows found
+
+
+=== TABLE: web_metrics ===
+--- SCHEMA ---
+Column Name | Type | NotNull | DefaultValue | PK
+------------|------|---------|--------------|----
+id | INTEGER | 0 | NULL | 1
+month | TEXT | 1 | NULL | 0
+W_Orders | INTEGER | 1 | NULL | 0
+W_Revenue | REAL | 1 | NULL | 0
+
+Row count: 0
+
+
+Database examination complete.

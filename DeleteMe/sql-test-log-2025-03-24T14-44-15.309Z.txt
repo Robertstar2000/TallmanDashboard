@@ -1,0 +1,688 @@
+[2025-03-24T14:44:15.309Z] Log file created at: ./logs/sql-test-log-2025-03-24T14-44-15.309Z.txt
+[2025-03-24T14:44:15.312Z] Attempting to connect to the server...
+[2025-03-24T14:44:15.312Z] Sending GET request to http://localhost:3000...
+[2025-03-24T14:44:15.447Z] Checking API endpoint at http://localhost:3000/api/admin/health...
+[2025-03-24T14:44:15.711Z] Server and API are running correctly.
+[2025-03-24T14:44:15.712Z] Testing P21 database connection...
+[2025-03-24T14:44:15.712Z] Connection config: {
+  "server": "localhost",
+  "database": "P21",
+  "user": "sa",
+  "password": "password",
+  "options": {
+    "encrypt": false,
+    "trustServerCertificate": false
+  }
+}
+[2025-03-24T14:44:15.713Z] Sending request to http://localhost:3000/api/testConnection
+[2025-03-24T14:44:16.027Z] Response status: 200
+[2025-03-24T14:44:16.028Z] ✅ P21 connection successful.
+[2025-03-24T14:44:16.028Z] Testing POR database connection...
+[2025-03-24T14:44:16.028Z] Connection config: {
+  "filePath": "./por.accdb"
+}
+[2025-03-24T14:44:16.029Z] Sending request to http://localhost:3000/api/testConnection
+[2025-03-24T14:44:16.049Z] Response status: 200
+[2025-03-24T14:44:16.049Z] ✅ POR connection successful.
+[2025-03-24T14:44:16.050Z] Testing SQL expressions with P21 and POR databases connected.
+[2025-03-24T14:44:16.050Z] Fetching P21 database schema...
+[2025-03-24T14:44:17.127Z] ❌ P21 schema API request failed with status: 404
+[2025-03-24T14:44:17.128Z] Fallback schema saved to: debug\p21-schema-fallback.json
+[2025-03-24T14:44:17.128Z] Fetched P21 schema with 7 tables.
+[2025-03-24T14:44:17.128Z] Fetching POR database schema...
+[2025-03-24T14:44:17.163Z] ❌ POR schema API request failed with status: 404
+[2025-03-24T14:44:17.163Z] Fetched POR schema with 0 tables.
+[2025-03-24T14:44:17.164Z] ⚠️ Warning: POR connection succeeded but no schema data was returned.
+[2025-03-24T14:44:17.164Z] This may indicate an issue with the schema API endpoint.
+[2025-03-24T14:44:17.165Z] Extracting SQL expressions from complete-chart-data.ts file...
+[2025-03-24T14:44:17.166Z] Extracted 162 SQL expressions after grouping
+[2025-03-24T14:44:17.166Z] Found 162 SQL expressions to test.
+[2025-03-24T14:44:17.166Z] Testing SQL expression: AR Aging - Current - Amount Due
+[2025-03-24T14:44:17.166Z] Testing P21 SQL expression: SELECT ISNULL(SUM(amount_due), 0) as value FROM dbo.ar_open_items WITH (NOLOCK) WHERE aging_bucket = 'Current'
+[2025-03-24T14:44:17.705Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:17.705Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:17.705Z] Testing SQL expression: AR Aging - 1-30 Days - Amount Due
+[2025-03-24T14:44:17.706Z] Testing P21 SQL expression: SELECT ISNULL(SUM(amount_due), 0) as value FROM dbo.ar_open_items WITH (NOLOCK) WHERE aging_bucket = '1-30 Days'
+[2025-03-24T14:44:17.762Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:17.762Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:17.762Z] Testing SQL expression: AR Aging - 31-60 Days - Amount Due
+[2025-03-24T14:44:17.763Z] Testing P21 SQL expression: SELECT ISNULL(SUM(amount_due), 0) as value FROM dbo.ar_open_items WITH (NOLOCK) WHERE aging_bucket = '31-60 Days'
+[2025-03-24T14:44:17.782Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:17.782Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:17.782Z] Testing SQL expression: AR Aging - 61-90 Days - Amount Due
+[2025-03-24T14:44:17.782Z] Testing P21 SQL expression: SELECT ISNULL(SUM(amount_due), 0) as value FROM dbo.ar_open_items WITH (NOLOCK) WHERE aging_bucket = '61-90 Days'
+[2025-03-24T14:44:17.802Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:17.802Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:17.802Z] Testing SQL expression: AR Aging - 90+ Days - Amount Due
+[2025-03-24T14:44:17.802Z] Testing P21 SQL expression: SELECT ISNULL(SUM(amount_due), 0) as value FROM dbo.ar_open_items WITH (NOLOCK) WHERE aging_bucket = 'Over 90 Days'
+[2025-03-24T14:44:17.820Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:17.820Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:17.820Z] Testing SQL expression: Accounts - January - Payable
+[2025-03-24T14:44:17.820Z] Testing P21 SQL expression: SELECT ISNULL(SUM(invoice_amt), 0) as value FROM dbo.ap_invoices WITH (NOLOCK) WHERE MONTH(invoice_date) = 1 AND YEAR(invoice_date) = YEAR(GETDATE())
+[2025-03-24T14:44:17.841Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:17.841Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:17.841Z] Testing SQL expression: Accounts - January - Receivable
+[2025-03-24T14:44:17.841Z] Testing P21 SQL expression: SELECT ISNULL(SUM(ar_amount), 0) as value FROM dbo.ar_headers WITH (NOLOCK) WHERE MONTH(invoice_date) = 1 AND YEAR(invoice_date) = YEAR(GETDATE())
+[2025-03-24T14:44:17.860Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:17.860Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:17.860Z] Testing SQL expression: Accounts - January - Overdue
+[2025-03-24T14:44:17.860Z] Testing P21 SQL expression: SELECT ISNULL(SUM(ar_amount), 0) as value FROM dbo.ar_headers WITH (NOLOCK) WHERE MONTH(invoice_date) = 1 AND YEAR(invoice_date) = YEAR(GETDATE()) AND DATEDIFF(day, invoice_date, GETDATE()) > 30
+[2025-03-24T14:44:17.876Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:17.876Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:17.876Z] Testing SQL expression: Accounts - February - Payable
+[2025-03-24T14:44:17.876Z] Testing P21 SQL expression: SELECT SUM(amount) as value FROM dbo.payable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 2 AND YEAR(transaction_date) = YEAR(GETDATE())
+[2025-03-24T14:44:17.901Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:17.901Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:17.901Z] Testing SQL expression: Accounts - February - Receivable
+[2025-03-24T14:44:17.901Z] Testing P21 SQL expression: SELECT SUM(amount) as value FROM dbo.receivable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 2 AND YEAR(transaction_date) = YEAR(GETDATE())
+[2025-03-24T14:44:17.918Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:17.918Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:17.918Z] Testing SQL expression: Accounts - February - Overdue
+[2025-03-24T14:44:17.918Z] Testing P21 SQL expression: SELECT SUM(amount) as value FROM dbo.overdue_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 2 AND YEAR(transaction_date) = YEAR(GETDATE())
+[2025-03-24T14:44:17.932Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:17.933Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:17.933Z] Testing SQL expression: Accounts - March - Payable
+[2025-03-24T14:44:17.933Z] Testing P21 SQL expression: SELECT SUM(amount) as value FROM dbo.payable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 3 AND YEAR(transaction_date) = YEAR(GETDATE())
+[2025-03-24T14:44:17.948Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:17.948Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:17.948Z] Testing SQL expression: Accounts - March - Receivable
+[2025-03-24T14:44:17.948Z] Testing P21 SQL expression: SELECT SUM(amount) as value FROM dbo.receivable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 3 AND YEAR(transaction_date) = YEAR(GETDATE())
+[2025-03-24T14:44:17.966Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:17.967Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:17.967Z] Testing SQL expression: Accounts - March - Overdue
+[2025-03-24T14:44:17.967Z] Testing P21 SQL expression: SELECT SUM(amount) as value FROM dbo.overdue_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 3 AND YEAR(transaction_date) = YEAR(GETDATE())
+[2025-03-24T14:44:17.982Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:17.982Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:17.982Z] Testing SQL expression: Accounts - April - Payable
+[2025-03-24T14:44:17.982Z] Testing P21 SQL expression: SELECT SUM(amount) as value FROM dbo.payable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 4 AND YEAR(transaction_date) = YEAR(GETDATE())
+[2025-03-24T14:44:17.996Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:17.996Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:17.996Z] Testing SQL expression: Accounts - April - Receivable
+[2025-03-24T14:44:17.996Z] Testing P21 SQL expression: SELECT SUM(amount) as value FROM dbo.receivable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 4 AND YEAR(transaction_date) = YEAR(GETDATE())
+[2025-03-24T14:44:18.012Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:18.013Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:18.013Z] Testing SQL expression: Accounts - April - Overdue
+[2025-03-24T14:44:18.013Z] Testing P21 SQL expression: SELECT SUM(amount) as value FROM dbo.overdue_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 4 AND YEAR(transaction_date) = YEAR(GETDATE())
+[2025-03-24T14:44:18.028Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:18.028Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:18.028Z] Testing SQL expression: Accounts - May - Payable
+[2025-03-24T14:44:18.028Z] Testing P21 SQL expression: SELECT SUM(amount) as value FROM dbo.payable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 5 AND YEAR(transaction_date) = YEAR(GETDATE())
+[2025-03-24T14:44:18.042Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:18.042Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:18.042Z] Testing SQL expression: Accounts - May - Receivable
+[2025-03-24T14:44:18.042Z] Testing P21 SQL expression: SELECT SUM(amount) as value FROM dbo.receivable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 5 AND YEAR(transaction_date) = YEAR(GETDATE())
+[2025-03-24T14:44:18.056Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:18.056Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:18.056Z] Testing SQL expression: Accounts - May - Overdue
+[2025-03-24T14:44:18.056Z] Testing P21 SQL expression: SELECT SUM(amount) as value FROM dbo.overdue_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 5 AND YEAR(transaction_date) = YEAR(GETDATE())
+[2025-03-24T14:44:18.126Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:18.126Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:18.126Z] Testing SQL expression: Accounts - June - Payable
+[2025-03-24T14:44:18.126Z] Testing P21 SQL expression: SELECT SUM(amount) as value FROM dbo.payable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 6 AND YEAR(transaction_date) = YEAR(GETDATE())
+[2025-03-24T14:44:18.152Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:18.152Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:18.152Z] Testing SQL expression: Accounts - June - Receivable
+[2025-03-24T14:44:18.152Z] Testing P21 SQL expression: SELECT SUM(amount) as value FROM dbo.receivable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 6 AND YEAR(transaction_date) = YEAR(GETDATE())
+[2025-03-24T14:44:18.168Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:18.168Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:18.168Z] Testing SQL expression: Accounts - June - Overdue
+[2025-03-24T14:44:18.168Z] Testing P21 SQL expression: SELECT SUM(amount) as value FROM dbo.overdue_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 6 AND YEAR(transaction_date) = YEAR(GETDATE())
+[2025-03-24T14:44:18.182Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:18.183Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:18.183Z] Testing SQL expression: Accounts - July - Payable
+[2025-03-24T14:44:18.183Z] Testing P21 SQL expression: SELECT SUM(amount) as value FROM dbo.payable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 7 AND YEAR(transaction_date) = YEAR(GETDATE())
+[2025-03-24T14:44:18.196Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:18.196Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:18.196Z] Testing SQL expression: Accounts - July - Receivable
+[2025-03-24T14:44:18.196Z] Testing P21 SQL expression: SELECT SUM(amount) as value FROM dbo.receivable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 7 AND YEAR(transaction_date) = YEAR(GETDATE())
+[2025-03-24T14:44:18.209Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:18.209Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:18.209Z] Testing SQL expression: Accounts - July - Overdue
+[2025-03-24T14:44:18.209Z] Testing P21 SQL expression: SELECT SUM(amount) as value FROM dbo.overdue_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 7 AND YEAR(transaction_date) = YEAR(GETDATE())
+[2025-03-24T14:44:18.222Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:18.222Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:18.222Z] Testing SQL expression: Accounts - August - Payable
+[2025-03-24T14:44:18.222Z] Testing P21 SQL expression: SELECT SUM(amount) as value FROM dbo.payable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 8 AND YEAR(transaction_date) = YEAR(GETDATE())
+[2025-03-24T14:44:18.237Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:18.238Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:18.238Z] Testing SQL expression: Accounts - August - Receivable
+[2025-03-24T14:44:18.238Z] Testing P21 SQL expression: SELECT SUM(amount) as value FROM dbo.receivable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 8 AND YEAR(transaction_date) = YEAR(GETDATE())
+[2025-03-24T14:44:18.252Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:18.252Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:18.252Z] Testing SQL expression: Accounts - August - Overdue
+[2025-03-24T14:44:18.252Z] Testing P21 SQL expression: SELECT SUM(amount) as value FROM dbo.overdue_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 8 AND YEAR(transaction_date) = YEAR(GETDATE())
+[2025-03-24T14:44:18.266Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:18.266Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:18.266Z] Testing SQL expression: Accounts - September - Payable
+[2025-03-24T14:44:18.266Z] Testing P21 SQL expression: SELECT SUM(amount) as value FROM dbo.payable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 9 AND YEAR(transaction_date) = YEAR(GETDATE())
+[2025-03-24T14:44:18.280Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:18.281Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:18.281Z] Testing SQL expression: Accounts - September - Receivable
+[2025-03-24T14:44:18.281Z] Testing P21 SQL expression: SELECT SUM(amount) as value FROM dbo.receivable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 9 AND YEAR(transaction_date) = YEAR(GETDATE())
+[2025-03-24T14:44:18.296Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:18.296Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:18.296Z] Testing SQL expression: Accounts - September - Overdue
+[2025-03-24T14:44:18.296Z] Testing P21 SQL expression: SELECT SUM(amount) as value FROM dbo.overdue_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 9 AND YEAR(transaction_date) = YEAR(GETDATE())
+[2025-03-24T14:44:18.311Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:18.311Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:18.312Z] Testing SQL expression: Accounts - October - Payable
+[2025-03-24T14:44:18.312Z] Testing P21 SQL expression: SELECT SUM(amount) as value FROM dbo.payable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 10 AND YEAR(transaction_date) = YEAR(GETDATE())
+[2025-03-24T14:44:18.326Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:18.326Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:18.326Z] Testing SQL expression: Accounts - October - Receivable
+[2025-03-24T14:44:18.326Z] Testing P21 SQL expression: SELECT SUM(amount) as value FROM dbo.receivable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 10 AND YEAR(transaction_date) = YEAR(GETDATE())
+[2025-03-24T14:44:18.345Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:18.345Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:18.345Z] Testing SQL expression: Accounts - October - Overdue
+[2025-03-24T14:44:18.345Z] Testing P21 SQL expression: SELECT SUM(amount) as value FROM dbo.overdue_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 10 AND YEAR(transaction_date) = YEAR(GETDATE())
+[2025-03-24T14:44:18.361Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:18.361Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:18.361Z] Testing SQL expression: Accounts - November - Payable
+[2025-03-24T14:44:18.361Z] Testing P21 SQL expression: SELECT SUM(amount) as value FROM dbo.payable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 11 AND YEAR(transaction_date) = YEAR(GETDATE())
+[2025-03-24T14:44:18.376Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:18.376Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:18.376Z] Testing SQL expression: Accounts - November - Receivable
+[2025-03-24T14:44:18.376Z] Testing P21 SQL expression: SELECT SUM(amount) as value FROM dbo.receivable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 11 AND YEAR(transaction_date) = YEAR(GETDATE())
+[2025-03-24T14:44:18.391Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:18.391Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:18.391Z] Testing SQL expression: Accounts - November - Overdue
+[2025-03-24T14:44:18.391Z] Testing P21 SQL expression: SELECT SUM(amount) as value FROM dbo.overdue_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 11 AND YEAR(transaction_date) = YEAR(GETDATE())
+[2025-03-24T14:44:18.406Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:18.406Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:18.406Z] Testing SQL expression: Accounts - December - Payable
+[2025-03-24T14:44:18.406Z] Testing P21 SQL expression: SELECT SUM(amount) as value FROM dbo.payable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 12 AND YEAR(transaction_date) = YEAR(GETDATE())
+[2025-03-24T14:44:18.422Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:18.422Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:18.422Z] Testing SQL expression: Accounts - December - Receivable
+[2025-03-24T14:44:18.422Z] Testing P21 SQL expression: SELECT SUM(amount) as value FROM dbo.receivable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 12 AND YEAR(transaction_date) = YEAR(GETDATE())
+[2025-03-24T14:44:18.437Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:18.438Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:18.438Z] Testing SQL expression: Accounts - December - Overdue
+[2025-03-24T14:44:18.438Z] Testing P21 SQL expression: SELECT SUM(amount) as value FROM dbo.overdue_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 12 AND YEAR(transaction_date) = YEAR(GETDATE())
+[2025-03-24T14:44:18.452Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:18.452Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:18.452Z] Testing SQL expression: Customer Metrics - January - New Customers
+[2025-03-24T14:44:18.452Z] Testing P21 SQL expression: SELECT 1 as value
+[2025-03-24T14:44:18.469Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:18.469Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:18.469Z] Testing SQL expression: Customer Metrics - January - Prospects
+[2025-03-24T14:44:18.469Z] Testing P21 SQL expression: SELECT ISNULL(COUNT(*), 0) as value FROM dbo.customer WITH (NOLOCK) WHERE prospect_flag = 'Y' AND MONTH(created_date) = 1 AND YEAR(created_date) = YEAR(GETDATE())
+[2025-03-24T14:44:18.483Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:18.483Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:18.483Z] Testing SQL expression: Customer Metrics - February - New Customers
+[2025-03-24T14:44:18.483Z] Testing P21 SQL expression: SELECT ISNULL(COUNT(*), 0) as value FROM dbo.customer WITH (NOLOCK) WHERE prospect_flag = 'N' AND MONTH(created_date) = 1 AND YEAR(created_date) = YEAR(GETDATE())
+[2025-03-24T14:44:18.496Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:18.496Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:18.496Z] Testing SQL expression: Customer Metrics - February - Prospects
+[2025-03-24T14:44:18.496Z] Testing P21 SQL expression: SELECT 1 as value
+[2025-03-24T14:44:18.510Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:18.510Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:18.510Z] Testing SQL expression: Customer Metrics - March - New Customers
+[2025-03-24T14:44:18.510Z] Testing P21 SQL expression: SELECT 1 as value
+[2025-03-24T14:44:18.523Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:18.523Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:18.523Z] Testing SQL expression: Customer Metrics - March - Prospects
+[2025-03-24T14:44:18.523Z] Testing P21 SQL expression: SELECT 1 as value
+[2025-03-24T14:44:18.536Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:18.537Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:18.537Z] Testing SQL expression: Customer Metrics - April - New Customers
+[2025-03-24T14:44:18.537Z] Testing P21 SQL expression: SELECT 1 as value
+[2025-03-24T14:44:18.552Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:18.552Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:18.552Z] Testing SQL expression: Customer Metrics - April - Prospects
+[2025-03-24T14:44:18.552Z] Testing P21 SQL expression: SELECT 1 as value
+[2025-03-24T14:44:18.566Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:18.566Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:18.566Z] Testing SQL expression: Customer Metrics - May - New Customers
+[2025-03-24T14:44:18.566Z] Testing P21 SQL expression: SELECT 1 as value
+[2025-03-24T14:44:18.579Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:18.579Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:18.579Z] Testing SQL expression: Customer Metrics - May - Prospects
+[2025-03-24T14:44:18.579Z] Testing P21 SQL expression: SELECT 1 as value
+[2025-03-24T14:44:18.593Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:18.593Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:18.593Z] Testing SQL expression: Customer Metrics - June - New Customers
+[2025-03-24T14:44:18.593Z] Testing P21 SQL expression: SELECT 1 as value
+[2025-03-24T14:44:18.605Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:18.605Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:18.606Z] Testing SQL expression: Customer Metrics - June - Prospects
+[2025-03-24T14:44:18.606Z] Testing P21 SQL expression: SELECT 1 as value
+[2025-03-24T14:44:18.619Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:18.619Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:18.619Z] Testing SQL expression: Customer Metrics - July - New Customers
+[2025-03-24T14:44:18.619Z] Testing P21 SQL expression: SELECT 1 as value
+[2025-03-24T14:44:18.633Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:18.633Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:18.633Z] Testing SQL expression: Customer Metrics - July - Prospects
+[2025-03-24T14:44:18.633Z] Testing P21 SQL expression: SELECT 1 as value
+[2025-03-24T14:44:18.647Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:18.648Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:18.648Z] Testing SQL expression: Customer Metrics - August - New Customers
+[2025-03-24T14:44:18.648Z] Testing P21 SQL expression: SELECT 1 as value
+[2025-03-24T14:44:18.662Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:18.662Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:18.662Z] Testing SQL expression: Customer Metrics - August - Prospects
+[2025-03-24T14:44:18.662Z] Testing P21 SQL expression: SELECT 1 as value
+[2025-03-24T14:44:18.677Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:18.677Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:18.677Z] Testing SQL expression: Customer Metrics - September - New Customers
+[2025-03-24T14:44:18.677Z] Testing P21 SQL expression: SELECT 1 as value
+[2025-03-24T14:44:18.691Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:18.691Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:18.691Z] Testing SQL expression: Customer Metrics - September - Prospects
+[2025-03-24T14:44:18.691Z] Testing P21 SQL expression: SELECT 1 as value
+[2025-03-24T14:44:18.704Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:18.704Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:18.704Z] Testing SQL expression: Customer Metrics - October - New Customers
+[2025-03-24T14:44:18.704Z] Testing P21 SQL expression: SELECT 1 as value
+[2025-03-24T14:44:18.718Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:18.718Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:18.718Z] Testing SQL expression: Customer Metrics - October - Prospects
+[2025-03-24T14:44:18.718Z] Testing P21 SQL expression: SELECT 1 as value
+[2025-03-24T14:44:18.731Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:18.732Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:18.732Z] Testing SQL expression: Customer Metrics - November - New Customers
+[2025-03-24T14:44:18.732Z] Testing P21 SQL expression: SELECT 1 as value
+[2025-03-24T14:44:18.748Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:18.749Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:18.749Z] Testing SQL expression: Customer Metrics - November - Prospects
+[2025-03-24T14:44:18.749Z] Testing P21 SQL expression: SELECT 1 as value
+[2025-03-24T14:44:18.763Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:18.763Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:18.763Z] Testing SQL expression: Customer Metrics - December - New Customers
+[2025-03-24T14:44:18.763Z] Testing P21 SQL expression: SELECT 1 as value
+[2025-03-24T14:44:18.780Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:18.780Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:18.780Z] Testing SQL expression: Customer Metrics - December - Prospects
+[2025-03-24T14:44:18.780Z] Testing P21 SQL expression: SELECT 1 as value
+[2025-03-24T14:44:18.793Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:18.793Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:18.793Z] Testing SQL expression: Daily Orders - Today - Orders
+[2025-03-24T14:44:18.793Z] Testing P21 SQL expression: SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_date = DATEADD(day, -0, CAST(GETDATE() AS date))
+[2025-03-24T14:44:18.807Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:18.807Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:18.807Z] Testing SQL expression: Daily Orders - Yesterday - Orders
+[2025-03-24T14:44:18.807Z] Testing P21 SQL expression: SELECT ISNULL(COUNT(*), 0) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE CONVERT(date, order_date) = CONVERT(date, GETDATE())
+[2025-03-24T14:44:18.823Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:18.823Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:18.823Z] Testing SQL expression: Daily Orders - Day-2 - Orders
+[2025-03-24T14:44:18.823Z] Testing P21 SQL expression: SELECT ISNULL(COUNT(*), 0) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE CONVERT(date, order_date) = CONVERT(date, DATEADD(day, -1, GETDATE()))
+[2025-03-24T14:44:18.839Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:18.839Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:18.839Z] Testing SQL expression: Daily Orders - Day-3 - Orders
+[2025-03-24T14:44:18.839Z] Testing P21 SQL expression: SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_date = DATEADD(day, -3, CAST(GETDATE() AS date))
+[2025-03-24T14:44:18.855Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:18.855Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:18.855Z] Testing SQL expression: Daily Orders - Day-4 - Orders
+[2025-03-24T14:44:18.855Z] Testing P21 SQL expression: SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_date = DATEADD(day, -4, CAST(GETDATE() AS date))
+[2025-03-24T14:44:18.870Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:18.870Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:18.870Z] Testing SQL expression: Daily Orders - Day-5 - Orders
+[2025-03-24T14:44:18.870Z] Testing P21 SQL expression: SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_date = DATEADD(day, -5, CAST(GETDATE() AS date))
+[2025-03-24T14:44:18.889Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:18.889Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:18.889Z] Testing SQL expression: Daily Orders - Day-6 - Orders
+[2025-03-24T14:44:18.889Z] Testing P21 SQL expression: SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_date = DATEADD(day, -6, CAST(GETDATE() AS date))
+[2025-03-24T14:44:18.907Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:18.907Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:18.907Z] Testing SQL expression: Historical Data - January
+[2025-03-24T14:44:18.907Z] Testing P21 SQL expression: SELECT 0 as value
+[2025-03-24T14:44:18.921Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:18.922Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:18.922Z] Testing SQL expression: Historical Data - January - Total
+[2025-03-24T14:44:18.922Z] Testing P21 SQL expression: SELECT 0 as value
+[2025-03-24T14:44:18.945Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:18.945Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:18.945Z] Testing SQL expression: Historical Data - February
+[2025-03-24T14:44:18.945Z] Testing P21 SQL expression: SELECT 0 as value
+[2025-03-24T14:44:18.960Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:18.960Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:18.960Z] Testing SQL expression: Historical Data - February - Total
+[2025-03-24T14:44:18.960Z] Testing P21 SQL expression: SELECT 0 as value
+[2025-03-24T14:44:18.977Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:18.977Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:18.977Z] Testing SQL expression: Historical Data - March
+[2025-03-24T14:44:18.977Z] Testing P21 SQL expression: SELECT 0 as value
+[2025-03-24T14:44:18.997Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:18.998Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:18.998Z] Testing SQL expression: Historical Data - March - Total
+[2025-03-24T14:44:18.998Z] Testing P21 SQL expression: SELECT 0 as value
+[2025-03-24T14:44:19.012Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:19.012Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:19.012Z] Testing SQL expression: Historical Data - April
+[2025-03-24T14:44:19.012Z] Testing P21 SQL expression: SELECT 0 as value
+[2025-03-24T14:44:19.027Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:19.027Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:19.027Z] Testing SQL expression: Historical Data - April - Total
+[2025-03-24T14:44:19.027Z] Testing P21 SQL expression: SELECT 0 as value
+[2025-03-24T14:44:19.041Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:19.041Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:19.041Z] Testing SQL expression: Historical Data - May
+[2025-03-24T14:44:19.041Z] Testing P21 SQL expression: SELECT 0 as value
+[2025-03-24T14:44:19.055Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:19.055Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:19.055Z] Testing SQL expression: Historical Data - May - Total
+[2025-03-24T14:44:19.055Z] Testing P21 SQL expression: SELECT 0 as value
+[2025-03-24T14:44:19.069Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:19.069Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:19.069Z] Testing SQL expression: Historical Data - June
+[2025-03-24T14:44:19.069Z] Testing P21 SQL expression: SELECT 0 as value
+[2025-03-24T14:44:19.085Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:19.085Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:19.085Z] Testing SQL expression: Historical Data - June - Total
+[2025-03-24T14:44:19.085Z] Testing P21 SQL expression: SELECT 0 as value
+[2025-03-24T14:44:19.098Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:19.098Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:19.098Z] Testing SQL expression: Historical Data - July
+[2025-03-24T14:44:19.098Z] Testing P21 SQL expression: SELECT 0 as value
+[2025-03-24T14:44:19.112Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:19.112Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:19.112Z] Testing SQL expression: Historical Data - July - Total
+[2025-03-24T14:44:19.112Z] Testing P21 SQL expression: SELECT 0 as value
+[2025-03-24T14:44:19.126Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:19.127Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:19.127Z] Testing SQL expression: Historical Data - August
+[2025-03-24T14:44:19.127Z] Testing P21 SQL expression: SELECT 0 as value
+[2025-03-24T14:44:19.140Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:19.140Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:19.140Z] Testing SQL expression: Historical Data - August - Total
+[2025-03-24T14:44:19.140Z] Testing P21 SQL expression: SELECT 0 as value
+[2025-03-24T14:44:19.154Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:19.154Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:19.154Z] Testing SQL expression: Historical Data - September
+[2025-03-24T14:44:19.154Z] Testing P21 SQL expression: SELECT 0 as value
+[2025-03-24T14:44:19.168Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:19.168Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:19.168Z] Testing SQL expression: Historical Data - September - Total
+[2025-03-24T14:44:19.168Z] Testing P21 SQL expression: SELECT 0 as value
+[2025-03-24T14:44:19.183Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:19.183Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:19.183Z] Testing SQL expression: Historical Data - October
+[2025-03-24T14:44:19.183Z] Testing P21 SQL expression: SELECT 0 as value
+[2025-03-24T14:44:19.197Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:19.197Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:19.197Z] Testing SQL expression: Historical Data - October - Total
+[2025-03-24T14:44:19.197Z] Testing P21 SQL expression: SELECT 0 as value
+[2025-03-24T14:44:19.213Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:19.213Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:19.213Z] Testing SQL expression: Historical Data - November
+[2025-03-24T14:44:19.213Z] Testing P21 SQL expression: SELECT 0 as value
+[2025-03-24T14:44:19.227Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:19.227Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:19.227Z] Testing SQL expression: Historical Data - November - Total
+[2025-03-24T14:44:19.227Z] Testing P21 SQL expression: SELECT 0 as value
+[2025-03-24T14:44:19.243Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:19.243Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:19.243Z] Testing SQL expression: Historical Data - December
+[2025-03-24T14:44:19.243Z] Testing P21 SQL expression: SELECT 0 as value
+[2025-03-24T14:44:19.257Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:19.257Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:19.257Z] Testing SQL expression: Historical Data - December - Total
+[2025-03-24T14:44:19.257Z] Testing P21 SQL expression: SELECT 0 as value
+[2025-03-24T14:44:19.270Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:19.270Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:19.270Z] Testing SQL expression: Inventory - Columbus - In Stock
+[2025-03-24T14:44:19.270Z] Testing P21 SQL expression: SELECT SUM(qty_on_hand) as value FROM dbo.item_warehouse WITH (NOLOCK) WHERE warehouse_id = 'COL' AND qty_on_hand > 0
+[2025-03-24T14:44:19.287Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:19.287Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:19.287Z] Testing SQL expression: Inventory - Columbus - On Order
+[2025-03-24T14:44:19.287Z] Testing P21 SQL expression: SELECT SUM(qty_on_hand) as value FROM dbo.item_warehouse WITH (NOLOCK) WHERE warehouse_id = 'COL' AND qty_on_order > 0
+[2025-03-24T14:44:19.312Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:19.312Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:19.312Z] Testing SQL expression: Inventory - Addison - In Stock
+[2025-03-24T14:44:19.312Z] Testing P21 SQL expression: SELECT SUM(qty_on_hand) as value FROM dbo.item_warehouse WITH (NOLOCK) WHERE warehouse_id = 'ADD' AND qty_on_hand > 0
+[2025-03-24T14:44:19.327Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:19.327Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:19.327Z] Testing SQL expression: Inventory - Addison - On Order
+[2025-03-24T14:44:19.327Z] Testing P21 SQL expression: SELECT SUM(qty_on_hand) as value FROM dbo.item_warehouse WITH (NOLOCK) WHERE warehouse_id = 'ADD' AND qty_on_order > 0
+[2025-03-24T14:44:19.340Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:19.340Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:19.340Z] Testing SQL expression: Inventory - Lake City - In Stock
+[2025-03-24T14:44:19.340Z] Testing P21 SQL expression: SELECT SUM(qty_on_hand) as value FROM dbo.item_warehouse WITH (NOLOCK) WHERE warehouse_id = 'LKC' AND qty_on_hand > 0
+[2025-03-24T14:44:19.354Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:19.354Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:19.354Z] Testing SQL expression: Inventory - Lake City - On Order
+[2025-03-24T14:44:19.354Z] Testing P21 SQL expression: SELECT SUM(qty_on_hand) as value FROM dbo.item_warehouse WITH (NOLOCK) WHERE warehouse_id = 'LKC' AND qty_on_order > 0
+[2025-03-24T14:44:19.367Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:19.367Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:19.367Z] Testing SQL expression: Inventory - Warehouse - In Stock
+[2025-03-24T14:44:19.367Z] Testing P21 SQL expression: SELECT SUM(qty_on_hand) as value FROM dbo.item_warehouse WITH (NOLOCK) WHERE warehouse_id = 'WHS' AND qty_on_hand > 0
+[2025-03-24T14:44:19.386Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:19.386Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:19.386Z] Testing SQL expression: Inventory - Warehouse - On Order
+[2025-03-24T14:44:19.386Z] Testing P21 SQL expression: SELECT SUM(qty_on_hand) as value FROM dbo.item_warehouse WITH (NOLOCK) WHERE warehouse_id = 'WHS' AND qty_on_order > 0
+[2025-03-24T14:44:19.402Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:19.402Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:19.402Z] Testing SQL expression: Key Metrics - Total Orders - Value
+[2025-03-24T14:44:19.402Z] Testing P21 SQL expression: SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_date >= DATEADD(day, -30, GETDATE())
+[2025-03-24T14:44:19.416Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:19.416Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:19.416Z] Testing SQL expression: Key Metrics - Open Orders - Value
+[2025-03-24T14:44:19.416Z] Testing P21 SQL expression: SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_status = 'Open'
+[2025-03-24T14:44:19.430Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:19.430Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:19.430Z] Testing SQL expression: Key Metrics - Shipped Orders - Value
+[2025-03-24T14:44:19.430Z] Testing P21 SQL expression: SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_status = 'Shipped' AND ship_date >= DATEADD(day, -30, GETDATE())
+[2025-03-24T14:44:19.446Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:19.446Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:19.446Z] Testing SQL expression: Key Metrics - Total Sales - Value
+[2025-03-24T14:44:19.446Z] Testing P21 SQL expression: SELECT SUM(order_amt) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_date >= DATEADD(day, -30, GETDATE())
+[2025-03-24T14:44:19.466Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:19.466Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:19.466Z] Testing SQL expression: Key Metrics - Average Order Value - Value
+[2025-03-24T14:44:19.466Z] Testing P21 SQL expression: SELECT AVG(order_amt) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_date >= DATEADD(day, -30, GETDATE())
+[2025-03-24T14:44:19.483Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:19.484Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:19.484Z] Testing SQL expression: Key Metrics - Order Fill Rate - Value
+[2025-03-24T14:44:19.484Z] Testing P21 SQL expression: SELECT 1 as value
+[2025-03-24T14:44:19.500Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:19.501Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:19.501Z] Testing SQL expression: Key Metrics - On-Time Delivery - Value
+[2025-03-24T14:44:19.501Z] Testing P21 SQL expression: SELECT CAST(COUNT(CASE WHEN ship_date <= promised_date THEN 1 END) * 100.0 / NULLIF(COUNT(*), 0) as DECIMAL(10,2)) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE ship_date IS NOT NULL AND order_date >= DATEADD(day, -30, GETDATE())
+[2025-03-24T14:44:19.522Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:19.522Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:19.522Z] Testing SQL expression: Site Distribution - Columbus - Inventory
+[2025-03-24T14:44:19.522Z] Testing P21 SQL expression: SELECT SUM(qty_on_hand) as value FROM dbo.item_warehouse WITH (NOLOCK) WHERE warehouse_id = 'COL'
+[2025-03-24T14:44:19.537Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:19.537Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:19.537Z] Testing SQL expression: Site Distribution - Addison - Inventory
+[2025-03-24T14:44:19.537Z] Testing P21 SQL expression: SELECT SUM(qty_on_hand) as value FROM dbo.item_warehouse WITH (NOLOCK) WHERE warehouse_id = 'ADD'
+[2025-03-24T14:44:19.555Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:19.555Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:19.555Z] Testing SQL expression: Site Distribution - Lake City - Inventory
+[2025-03-24T14:44:19.555Z] Testing P21 SQL expression: SELECT SUM(qty_on_hand) as value FROM dbo.item_warehouse WITH (NOLOCK) WHERE warehouse_id = 'LKC'
+[2025-03-24T14:44:19.572Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:19.572Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:19.572Z] Testing SQL expression: POR Overview - January - New Rentals
+[2025-03-24T14:44:19.572Z] Testing POR SQL expression: SELECT 1 as value
+[2025-03-24T14:44:19.896Z] ❌ POR SQL test failed: Server responded with status 400
+[2025-03-24T14:44:19.896Z] Response text: {"success":false,"message":"Could not extract table name from query","query":"SELECT 1 as value"}
+[2025-03-24T14:44:19.896Z] Testing SQL expression: POR Overview - January - Open Rentals
+[2025-03-24T14:44:19.896Z] Testing POR SQL expression: SELECT 1 as value
+[2025-03-24T14:44:20.235Z] ❌ POR SQL test failed: Server responded with status 400
+[2025-03-24T14:44:20.235Z] Response text: {"success":false,"message":"Could not extract table name from query","query":"SELECT 1 as value"}
+[2025-03-24T14:44:20.236Z] Testing SQL expression: POR Overview - January - Rental Value
+[2025-03-24T14:44:20.236Z] Testing POR SQL expression: SELECT 1 as value
+[2025-03-24T14:44:20.513Z] ❌ POR SQL test failed: Server responded with status 400
+[2025-03-24T14:44:20.513Z] Response text: {"success":false,"message":"Could not extract table name from query","query":"SELECT 1 as value"}
+[2025-03-24T14:44:20.513Z] Testing SQL expression: POR Overview - February - New Rentals
+[2025-03-24T14:44:20.514Z] Testing POR SQL expression: SELECT 1 as value
+[2025-03-24T14:44:20.824Z] ❌ POR SQL test failed: Server responded with status 400
+[2025-03-24T14:44:20.824Z] Response text: {"success":false,"message":"Could not extract table name from query","query":"SELECT 1 as value"}
+[2025-03-24T14:44:20.824Z] Testing SQL expression: POR Overview - February - Open Rentals
+[2025-03-24T14:44:20.824Z] Testing POR SQL expression: SELECT 1 as value
+[2025-03-24T14:44:21.116Z] ❌ POR SQL test failed: Server responded with status 400
+[2025-03-24T14:44:21.116Z] Response text: {"success":false,"message":"Could not extract table name from query","query":"SELECT 1 as value"}
+[2025-03-24T14:44:21.116Z] Testing SQL expression: POR Overview - February - Rental Value
+[2025-03-24T14:44:21.116Z] Testing POR SQL expression: SELECT 1 as value
+[2025-03-24T14:44:21.440Z] ❌ POR SQL test failed: Server responded with status 400
+[2025-03-24T14:44:21.440Z] Response text: {"success":false,"message":"Could not extract table name from query","query":"SELECT 1 as value"}
+[2025-03-24T14:44:21.440Z] Testing SQL expression: POR Overview - March - New Rentals
+[2025-03-24T14:44:21.440Z] Testing POR SQL expression: SELECT 1 as value
+[2025-03-24T14:44:21.748Z] ❌ POR SQL test failed: Server responded with status 400
+[2025-03-24T14:44:21.748Z] Response text: {"success":false,"message":"Could not extract table name from query","query":"SELECT 1 as value"}
+[2025-03-24T14:44:21.749Z] Testing SQL expression: POR Overview - March - Open Rentals
+[2025-03-24T14:44:21.749Z] Testing POR SQL expression: SELECT Count(*) as value FROM Rentals WHERE Status = 'Open' AND Month(CreatedDate) = 3 AND Year(CreatedDate) = Year(Date())
+[2025-03-24T14:44:22.122Z] ❌ POR SQL test failed: Server responded with status 400
+[2025-03-24T14:44:22.122Z] Response text: {"success":false,"message":"Table 'Rentals' not found in the database","query":"SELECT Count(*) as value FROM Rentals WHERE Status = 'Open' AND Month(CreatedDate) = 3 AND Year(CreatedDate) = Year(Date())"}
+[2025-03-24T14:44:22.122Z] Testing SQL expression: POR Overview - March - Rental Value
+[2025-03-24T14:44:22.122Z] Testing POR SQL expression: SELECT Count(*) as value FROM Rentals WHERE Status = 'New' AND Month(CreatedDate) = 3 AND Year(CreatedDate) = Year(Date())
+[2025-03-24T14:44:22.431Z] ❌ POR SQL test failed: Server responded with status 400
+[2025-03-24T14:44:22.431Z] Response text: {"success":false,"message":"Table 'Rentals' not found in the database","query":"SELECT Count(*) as value FROM Rentals WHERE Status = 'New' AND Month(CreatedDate) = 3 AND Year(CreatedDate) = Year(Date())"}
+[2025-03-24T14:44:22.431Z] Testing SQL expression: POR Overview - April - New Rentals
+[2025-03-24T14:44:22.431Z] Testing POR SQL expression: SELECT Sum(Nz(RentalValue, 0)) as value FROM Rentals WHERE Month(CreatedDate) = 3 AND Year(CreatedDate) = Year(Date())
+[2025-03-24T14:44:22.720Z] ❌ POR SQL test failed: Server responded with status 400
+[2025-03-24T14:44:22.720Z] Response text: {"success":false,"message":"Table 'Rentals' not found in the database","query":"SELECT Sum(Nz(RentalValue, 0)) as value FROM Rentals WHERE Month(CreatedDate) = 3 AND Year(CreatedDate) = Year(Date())"}
+[2025-03-24T14:44:22.720Z] Testing SQL expression: POR Overview - April - Open Rentals
+[2025-03-24T14:44:22.720Z] Testing POR SQL expression: SELECT 1 as value
+[2025-03-24T14:44:23.018Z] ❌ POR SQL test failed: Server responded with status 400
+[2025-03-24T14:44:23.018Z] Response text: {"success":false,"message":"Could not extract table name from query","query":"SELECT 1 as value"}
+[2025-03-24T14:44:23.018Z] Testing SQL expression: POR Overview - April - Rental Value
+[2025-03-24T14:44:23.019Z] Testing POR SQL expression: SELECT 1 as value
+[2025-03-24T14:44:23.352Z] ❌ POR SQL test failed: Server responded with status 400
+[2025-03-24T14:44:23.352Z] Response text: {"success":false,"message":"Could not extract table name from query","query":"SELECT 1 as value"}
+[2025-03-24T14:44:23.352Z] Testing SQL expression: POR Overview - May - New Rentals
+[2025-03-24T14:44:23.352Z] Testing POR SQL expression: SELECT 1 as value
+[2025-03-24T14:44:23.661Z] ❌ POR SQL test failed: Server responded with status 400
+[2025-03-24T14:44:23.661Z] Response text: {"success":false,"message":"Could not extract table name from query","query":"SELECT 1 as value"}
+[2025-03-24T14:44:23.661Z] Testing SQL expression: POR Overview - May - Open Rentals
+[2025-03-24T14:44:23.661Z] Testing POR SQL expression: SELECT 1 as value
+[2025-03-24T14:44:23.995Z] ❌ POR SQL test failed: Server responded with status 400
+[2025-03-24T14:44:23.995Z] Response text: {"success":false,"message":"Could not extract table name from query","query":"SELECT 1 as value"}
+[2025-03-24T14:44:23.995Z] Testing SQL expression: POR Overview - May - Rental Value
+[2025-03-24T14:44:23.995Z] Testing POR SQL expression: SELECT 1 as value
+[2025-03-24T14:44:24.298Z] ❌ POR SQL test failed: Server responded with status 400
+[2025-03-24T14:44:24.298Z] Response text: {"success":false,"message":"Could not extract table name from query","query":"SELECT 1 as value"}
+[2025-03-24T14:44:24.298Z] Testing SQL expression: POR Overview - June - New Rentals
+[2025-03-24T14:44:24.298Z] Testing POR SQL expression: SELECT 1 as value
+[2025-03-24T14:44:24.571Z] ❌ POR SQL test failed: Server responded with status 400
+[2025-03-24T14:44:24.571Z] Response text: {"success":false,"message":"Could not extract table name from query","query":"SELECT 1 as value"}
+[2025-03-24T14:44:24.571Z] Testing SQL expression: POR Overview - June - Open Rentals
+[2025-03-24T14:44:24.571Z] Testing POR SQL expression: SELECT 1 as value
+[2025-03-24T14:44:24.851Z] ❌ POR SQL test failed: Server responded with status 400
+[2025-03-24T14:44:24.851Z] Response text: {"success":false,"message":"Could not extract table name from query","query":"SELECT 1 as value"}
+[2025-03-24T14:44:24.851Z] Testing SQL expression: POR Overview - June - Rental Value
+[2025-03-24T14:44:24.851Z] Testing POR SQL expression: SELECT 1 as value
+[2025-03-24T14:44:25.123Z] ❌ POR SQL test failed: Server responded with status 400
+[2025-03-24T14:44:25.123Z] Response text: {"success":false,"message":"Could not extract table name from query","query":"SELECT 1 as value"}
+[2025-03-24T14:44:25.123Z] Testing SQL expression: POR Overview - July - New Rentals
+[2025-03-24T14:44:25.123Z] Testing POR SQL expression: SELECT 1 as value
+[2025-03-24T14:44:25.407Z] ❌ POR SQL test failed: Server responded with status 400
+[2025-03-24T14:44:25.407Z] Response text: {"success":false,"message":"Could not extract table name from query","query":"SELECT 1 as value"}
+[2025-03-24T14:44:25.407Z] Testing SQL expression: POR Overview - July - Open Rentals
+[2025-03-24T14:44:25.407Z] Testing POR SQL expression: SELECT 1 as value
+[2025-03-24T14:44:25.702Z] ❌ POR SQL test failed: Server responded with status 400
+[2025-03-24T14:44:25.703Z] Response text: {"success":false,"message":"Could not extract table name from query","query":"SELECT 1 as value"}
+[2025-03-24T14:44:25.703Z] Testing SQL expression: POR Overview - July - Rental Value
+[2025-03-24T14:44:25.703Z] Testing POR SQL expression: SELECT 1 as value
+[2025-03-24T14:44:25.987Z] ❌ POR SQL test failed: Server responded with status 400
+[2025-03-24T14:44:25.987Z] Response text: {"success":false,"message":"Could not extract table name from query","query":"SELECT 1 as value"}
+[2025-03-24T14:44:25.987Z] Testing SQL expression: POR Overview - August - New Rentals
+[2025-03-24T14:44:25.987Z] Testing POR SQL expression: SELECT 1 as value
+[2025-03-24T14:44:26.267Z] ❌ POR SQL test failed: Server responded with status 400
+[2025-03-24T14:44:26.267Z] Response text: {"success":false,"message":"Could not extract table name from query","query":"SELECT 1 as value"}
+[2025-03-24T14:44:26.267Z] Testing SQL expression: POR Overview - August - Open Rentals
+[2025-03-24T14:44:26.267Z] Testing POR SQL expression: SELECT 1 as value
+[2025-03-24T14:44:26.544Z] ❌ POR SQL test failed: Server responded with status 400
+[2025-03-24T14:44:26.544Z] Response text: {"success":false,"message":"Could not extract table name from query","query":"SELECT 1 as value"}
+[2025-03-24T14:44:26.544Z] Testing SQL expression: POR Overview - August - Rental Value
+[2025-03-24T14:44:26.544Z] Testing POR SQL expression: SELECT 1 as value
+[2025-03-24T14:44:26.829Z] ❌ POR SQL test failed: Server responded with status 400
+[2025-03-24T14:44:26.829Z] Response text: {"success":false,"message":"Could not extract table name from query","query":"SELECT 1 as value"}
+[2025-03-24T14:44:26.829Z] Testing SQL expression: POR Overview - September - New Rentals
+[2025-03-24T14:44:26.829Z] Testing POR SQL expression: SELECT 1 as value
+[2025-03-24T14:44:27.110Z] ❌ POR SQL test failed: Server responded with status 400
+[2025-03-24T14:44:27.111Z] Response text: {"success":false,"message":"Could not extract table name from query","query":"SELECT 1 as value"}
+[2025-03-24T14:44:27.111Z] Testing SQL expression: POR Overview - September - Open Rentals
+[2025-03-24T14:44:27.111Z] Testing POR SQL expression: SELECT 1 as value
+[2025-03-24T14:44:27.426Z] ❌ POR SQL test failed: Server responded with status 400
+[2025-03-24T14:44:27.426Z] Response text: {"success":false,"message":"Could not extract table name from query","query":"SELECT 1 as value"}
+[2025-03-24T14:44:27.426Z] Testing SQL expression: POR Overview - September - Rental Value
+[2025-03-24T14:44:27.426Z] Testing POR SQL expression: SELECT 1 as value
+[2025-03-24T14:44:27.697Z] ❌ POR SQL test failed: Server responded with status 400
+[2025-03-24T14:44:27.697Z] Response text: {"success":false,"message":"Could not extract table name from query","query":"SELECT 1 as value"}
+[2025-03-24T14:44:27.697Z] Testing SQL expression: POR Overview - October - New Rentals
+[2025-03-24T14:44:27.697Z] Testing POR SQL expression: SELECT 1 as value
+[2025-03-24T14:44:27.971Z] ❌ POR SQL test failed: Server responded with status 400
+[2025-03-24T14:44:27.971Z] Response text: {"success":false,"message":"Could not extract table name from query","query":"SELECT 1 as value"}
+[2025-03-24T14:44:27.971Z] Testing SQL expression: POR Overview - October - Open Rentals
+[2025-03-24T14:44:27.971Z] Testing POR SQL expression: SELECT 1 as value
+[2025-03-24T14:44:28.245Z] ❌ POR SQL test failed: Server responded with status 400
+[2025-03-24T14:44:28.245Z] Response text: {"success":false,"message":"Could not extract table name from query","query":"SELECT 1 as value"}
+[2025-03-24T14:44:28.245Z] Testing SQL expression: POR Overview - October - Rental Value
+[2025-03-24T14:44:28.245Z] Testing POR SQL expression: SELECT 1 as value
+[2025-03-24T14:44:28.584Z] ❌ POR SQL test failed: Server responded with status 400
+[2025-03-24T14:44:28.584Z] Response text: {"success":false,"message":"Could not extract table name from query","query":"SELECT 1 as value"}
+[2025-03-24T14:44:28.584Z] Testing SQL expression: POR Overview - November - New Rentals
+[2025-03-24T14:44:28.584Z] Testing POR SQL expression: SELECT 1 as value
+[2025-03-24T14:44:28.914Z] ❌ POR SQL test failed: Server responded with status 400
+[2025-03-24T14:44:28.914Z] Response text: {"success":false,"message":"Could not extract table name from query","query":"SELECT 1 as value"}
+[2025-03-24T14:44:28.914Z] Testing SQL expression: POR Overview - November - Open Rentals
+[2025-03-24T14:44:28.914Z] Testing POR SQL expression: SELECT 1 as value
+[2025-03-24T14:44:29.248Z] ❌ POR SQL test failed: Server responded with status 400
+[2025-03-24T14:44:29.248Z] Response text: {"success":false,"message":"Could not extract table name from query","query":"SELECT 1 as value"}
+[2025-03-24T14:44:29.248Z] Testing SQL expression: POR Overview - November - Rental Value
+[2025-03-24T14:44:29.248Z] Testing POR SQL expression: SELECT 1 as value
+[2025-03-24T14:44:29.542Z] ❌ POR SQL test failed: Server responded with status 400
+[2025-03-24T14:44:29.542Z] Response text: {"success":false,"message":"Could not extract table name from query","query":"SELECT 1 as value"}
+[2025-03-24T14:44:29.542Z] Testing SQL expression: POR Overview - December - New Rentals
+[2025-03-24T14:44:29.542Z] Testing POR SQL expression: SELECT 1 as value
+[2025-03-24T14:44:29.826Z] ❌ POR SQL test failed: Server responded with status 400
+[2025-03-24T14:44:29.826Z] Response text: {"success":false,"message":"Could not extract table name from query","query":"SELECT 1 as value"}
+[2025-03-24T14:44:29.826Z] Testing SQL expression: POR Overview - December - Open Rentals
+[2025-03-24T14:44:29.826Z] Testing POR SQL expression: SELECT 1 as value
+[2025-03-24T14:44:30.112Z] ❌ POR SQL test failed: Server responded with status 400
+[2025-03-24T14:44:30.112Z] Response text: {"success":false,"message":"Could not extract table name from query","query":"SELECT 1 as value"}
+[2025-03-24T14:44:30.112Z] Testing SQL expression: POR Overview - December - Rental Value
+[2025-03-24T14:44:30.112Z] Testing POR SQL expression: SELECT 1 as value
+[2025-03-24T14:44:30.382Z] ❌ POR SQL test failed: Server responded with status 400
+[2025-03-24T14:44:30.382Z] Response text: {"success":false,"message":"Could not extract table name from query","query":"SELECT 1 as value"}
+[2025-03-24T14:44:30.382Z] Testing SQL expression: Web Orders - January - Orders
+[2025-03-24T14:44:30.382Z] Testing P21 SQL expression: SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_source = 'Web' AND MONTH(order_date) = 1 AND YEAR(order_date) = YEAR(GETDATE())
+[2025-03-24T14:44:30.406Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:30.406Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:30.406Z] Testing SQL expression: Web Orders - February - Orders
+[2025-03-24T14:44:30.406Z] Testing P21 SQL expression: SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_source = 'Web' AND MONTH(order_date) = 2 AND YEAR(order_date) = YEAR(GETDATE())
+[2025-03-24T14:44:30.423Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:30.424Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:30.424Z] Testing SQL expression: Web Orders - March - Orders
+[2025-03-24T14:44:30.424Z] Testing P21 SQL expression: SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_source = 'Web' AND MONTH(order_date) = 3 AND YEAR(order_date) = YEAR(GETDATE())
+[2025-03-24T14:44:30.439Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:30.439Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:30.439Z] Testing SQL expression: Web Orders - April - Orders
+[2025-03-24T14:44:30.439Z] Testing P21 SQL expression: SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_source = 'Web' AND MONTH(order_date) = 4 AND YEAR(order_date) = YEAR(GETDATE())
+[2025-03-24T14:44:30.456Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:30.456Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:30.456Z] Testing SQL expression: Web Orders - May - Orders
+[2025-03-24T14:44:30.456Z] Testing P21 SQL expression: SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_source = 'Web' AND MONTH(order_date) = 5 AND YEAR(order_date) = YEAR(GETDATE())
+[2025-03-24T14:44:30.476Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:30.476Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:30.476Z] Testing SQL expression: Web Orders - June - Orders
+[2025-03-24T14:44:30.476Z] Testing P21 SQL expression: SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_source = 'Web' AND MONTH(order_date) = 6 AND YEAR(order_date) = YEAR(GETDATE())
+[2025-03-24T14:44:30.495Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:30.495Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:30.495Z] Testing SQL expression: Web Orders - July - Orders
+[2025-03-24T14:44:30.495Z] Testing P21 SQL expression: SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_source = 'Web' AND MONTH(order_date) = 7 AND YEAR(order_date) = YEAR(GETDATE())
+[2025-03-24T14:44:30.509Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:30.509Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:30.509Z] Testing SQL expression: Web Orders - August - Orders
+[2025-03-24T14:44:30.509Z] Testing P21 SQL expression: SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_source = 'Web' AND MONTH(order_date) = 8 AND YEAR(order_date) = YEAR(GETDATE())
+[2025-03-24T14:44:30.523Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:30.523Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:30.523Z] Testing SQL expression: Web Orders - September - Orders
+[2025-03-24T14:44:30.523Z] Testing P21 SQL expression: SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_source = 'Web' AND MONTH(order_date) = 9 AND YEAR(order_date) = YEAR(GETDATE())
+[2025-03-24T14:44:30.536Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:30.536Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:30.536Z] Testing SQL expression: Web Orders - October - Orders
+[2025-03-24T14:44:30.536Z] Testing P21 SQL expression: SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_source = 'Web' AND MONTH(order_date) = 10 AND YEAR(order_date) = YEAR(GETDATE())
+[2025-03-24T14:44:30.549Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:30.549Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:30.549Z] Testing SQL expression: Web Orders - November - Orders
+[2025-03-24T14:44:30.549Z] Testing P21 SQL expression: SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_source = 'Web' AND MONTH(order_date) = 11 AND YEAR(order_date) = YEAR(GETDATE())
+[2025-03-24T14:44:30.563Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:30.563Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:30.563Z] Testing SQL expression: Web Orders - December - Orders
+[2025-03-24T14:44:30.563Z] Testing P21 SQL expression: SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_source = 'Web' AND MONTH(order_date) = 12 AND YEAR(order_date) = YEAR(GETDATE())
+[2025-03-24T14:44:30.577Z] ❌ P21 SQL test failed: Server responded with status 500
+[2025-03-24T14:44:30.577Z] Response text: {"success":false,"message":"SQL Server query execution failed: Failed to connect to localhost:1433 - Could not connect (sequence)"}
+[2025-03-24T14:44:30.581Z] SQL expression testing completed.

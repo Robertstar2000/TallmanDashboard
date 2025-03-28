@@ -124,7 +124,8 @@ const accountsPayableData: RawAccountsPayableData[] = Array.from({ length: 12 },
     sqlExpression: `SELECT * FROM accounts_payable WHERE month = "${monthStr}"`,
     p21DataDictionary: 'accounts_payable',
     accountsPayableDate: monthStr,
-    total: totalValue.toString(),
+    payable: totalValue.toString(),
+    receivable: (totalValue * 0.8).toString(),
     overdue: overdueValue.toString()
   };
 });
@@ -378,7 +379,7 @@ function initializeRawData(initialData: RawDashboardData[]) {
 }
 
 // Import and initialize with initial data
-import { rawDashboardData as initialData } from './initial-data';
+import { initialSpreadsheetData as initialData } from './initial-data';
 initializeRawData([
   ...metricsData,
   ...historicalData,

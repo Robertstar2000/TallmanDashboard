@@ -1,0 +1,73 @@
+{
+  "timestamp": "2025-03-20T20:17:31.517Z",
+  "server": "SQL01",
+  "database": "P21Play",
+  "queries": [
+    {
+      "name": "Columbus - Count",
+      "query": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE location_id = '101' AND completed = 'N'",
+      "value": 1552,
+      "success": true
+    },
+    {
+      "name": "Addison - Count",
+      "query": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE location_id = '100' AND completed = 'N'",
+      "value": 430,
+      "success": true
+    },
+    {
+      "name": "Lake City - Count",
+      "query": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE location_id = '107' AND completed = 'N'",
+      "value": 34,
+      "success": true
+    },
+    {
+      "name": "Columbus - Sales",
+      "query": "SELECT ISNULL(SUM(l.extended_price), 0) as value FROM dbo.oe_hdr h WITH (NOLOCK) JOIN dbo.oe_line l WITH (NOLOCK) ON h.order_no = l.order_no WHERE h.location_id = '101' AND h.order_date >= DATEADD(day, -30, GETDATE())",
+      "value": 1856971.62,
+      "success": true
+    },
+    {
+      "name": "Addison - Sales",
+      "query": "SELECT ISNULL(SUM(l.extended_price), 0) as value FROM dbo.oe_hdr h WITH (NOLOCK) JOIN dbo.oe_line l WITH (NOLOCK) ON h.order_no = l.order_no WHERE h.location_id = '100' AND h.order_date >= DATEADD(day, -30, GETDATE())",
+      "value": 1291.62,
+      "success": true
+    },
+    {
+      "name": "Lake City - Sales",
+      "query": "SELECT ISNULL(SUM(l.extended_price), 0) as value FROM dbo.oe_hdr h WITH (NOLOCK) JOIN dbo.oe_line l WITH (NOLOCK) ON h.order_no = l.order_no WHERE h.location_id = '107' AND h.order_date >= DATEADD(day, -30, GETDATE())",
+      "value": 0,
+      "success": true
+    },
+    {
+      "name": "Total - Count",
+      "query": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE completed = 'N'",
+      "value": 2036,
+      "success": true
+    },
+    {
+      "name": "Total - Sales",
+      "query": "SELECT ISNULL(SUM(l.extended_price), 0) as value FROM dbo.oe_hdr h WITH (NOLOCK) JOIN dbo.oe_line l WITH (NOLOCK) ON h.order_no = l.order_no WHERE h.order_date >= DATEADD(day, -30, GETDATE())",
+      "value": 1858263.24,
+      "success": true
+    }
+  ],
+  "salesSummary": {
+    "totalSales": 1858263.24,
+    "columbusSales": 1856971.62,
+    "addisonSales": 1291.62,
+    "lakeCitySales": 0,
+    "columbusPercent": 99.9304931630677,
+    "addisonPercent": 0.0695068369323175,
+    "lakeCityPercent": 0
+  },
+  "orderCountSummary": {
+    "totalCount": 2036,
+    "columbusCount": 1552,
+    "addisonCount": 430,
+    "lakeCityCount": 34,
+    "columbusCountPercent": 76.2278978388998,
+    "addisonCountPercent": 21.11984282907662,
+    "lakeCityCountPercent": 1.6699410609037328
+  }
+}

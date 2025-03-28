@@ -1,0 +1,38 @@
+[2025-03-24T12:12:08.698Z] Log file created at: logs\sql-test-log-2025-03-24T12-12-08.696Z.txt
+[2025-03-24T12:12:08.701Z] Starting SQL expression testing and updating process...
+[2025-03-24T12:12:08.701Z] Checking if server is running...
+[2025-03-24T12:12:08.701Z] Attempting to connect to the server...
+[2025-03-24T12:12:08.701Z] Sending GET request to http://localhost:3000...
+[2025-03-24T12:12:08.850Z] Checking API endpoint at http://localhost:3000/api/admin/health...
+[2025-03-24T12:12:08.868Z] Server and API are running correctly.
+[2025-03-24T12:12:08.869Z] ✅ Server is running. Proceeding with SQL testing...
+[2025-03-24T12:12:08.869Z] Testing P21 database connection...
+[2025-03-24T12:12:08.869Z] Testing SQL expression on P21:
+[2025-03-24T12:12:08.869Z] SELECT 1 AS value
+[2025-03-24T12:12:08.884Z] ✅ SQL expression test result: 0
+[2025-03-24T12:12:08.885Z] Result is a primitive value: 0 (zero)
+[2025-03-24T12:12:08.885Z] ✅ P21 database connection successful.
+[2025-03-24T12:12:08.885Z] Testing POR database connection...
+[2025-03-24T12:12:08.885Z] Testing SQL expression on POR:
+[2025-03-24T12:12:08.885Z] SELECT 1 AS value
+[2025-03-24T12:12:08.902Z] ✅ SQL expression test result: 0
+[2025-03-24T12:12:08.903Z] Result is a primitive value: 0 (zero)
+[2025-03-24T12:12:08.903Z] ✅ POR database connection successful.
+[2025-03-24T12:12:08.903Z] Fetching database schema information...
+[2025-03-24T12:12:08.903Z] Fetching schema information for P21 database...
+[2025-03-24T12:12:09.468Z] ⚠️ Warning: Successfully fetched schema for P21 database but found 0 tables. This likely indicates a connection issue.
+[2025-03-24T12:12:09.469Z] Please ensure the P21 connection is properly configured in the admin interface.
+[2025-03-24T12:12:09.470Z] Schema saved to C:\Users\BobM\CascadeProjects\TallmanDashboard_new\reports\p21-schema-2025-03-24T12-12-09.469Z.json
+[2025-03-24T12:12:09.470Z] Fetching schema information for POR database...
+[2025-03-24T12:12:09.496Z] ⚠️ Warning: Successfully fetched schema for POR database but found 0 tables. This likely indicates a connection issue.
+[2025-03-24T12:12:09.497Z] Please ensure the POR connection is properly configured in the admin interface.
+[2025-03-24T12:12:09.498Z] Schema saved to C:\Users\BobM\CascadeProjects\TallmanDashboard_new\reports\por-schema-2025-03-24T12-12-09.497Z.json
+[2025-03-24T12:12:09.498Z] ❌ Failed to retrieve valid schema for P21 database.
+[2025-03-24T12:12:09.498Z] This may indicate that the P21 connection is not properly configured or accessible.
+[2025-03-24T12:12:09.499Z] Please ensure P21 connection is properly configured in the admin interface.
+[2025-03-24T12:12:09.499Z] 1. Start the server with "npm run dev"
+[2025-03-24T12:12:09.499Z] 2. Open http://localhost:3000/admin in your browser
+[2025-03-24T12:12:09.499Z] 3. Go to the Query Test page
+[2025-03-24T12:12:09.500Z] 4. Configure the P21 connection settings
+[2025-03-24T12:12:09.500Z] 5. Test the connection to verify it works
+[2025-03-24T12:12:09.500Z] 6. Run this script again

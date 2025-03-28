@@ -1,0 +1,166 @@
+=== Testing Key Metrics SQL Queries ===
+Starting at 2025-03-20T11:11:18.060Z
+Connection string: DSN=P21Play;Trusted_Connection=Yes;
+Connecting to ODBC data source...
+✅ CONNECTED SUCCESSFULLY to ODBC data source!
+
+=== Testing Total Orders (Total number of orders in the last 7 days) ===
+SELECT COUNT(*) as value FROM oe_hdr WITH (NOLOCK) 
+          WHERE order_date >= DATEADD(day, -7, GETDATE())
+✅ Query executed successfully!
+Result: 18
+Non-zero? YES
+
+=== Testing Open Orders (Total number of orders that are not closed) ===
+SELECT COUNT(*) as value FROM oe_hdr WITH (NOLOCK) 
+          WHERE completed = 'N'
+✅ Query executed successfully!
+Result: 2034
+Non-zero? YES
+
+=== Testing Open Orders 2 (Total dollar value of all open orders) ===
+SELECT ISNULL(SUM(l.extended_price), 0) as value 
+          FROM oe_hdr h WITH (NOLOCK)
+          JOIN oe_line l WITH (NOLOCK) ON h.order_no = l.order_no
+          WHERE h.completed = 'N'
+✅ Query executed successfully!
+Result: 24643150.24
+Non-zero? YES
+
+=== Testing Daily Revenue (Total dollar value of orders shipped today (using yesterday's data)) ===
+SELECT ISNULL(SUM(l.extended_price), 0) as value 
+          FROM oe_hdr h WITH (NOLOCK)
+          JOIN oe_line l WITH (NOLOCK) ON h.order_no = l.order_no
+          WHERE CONVERT(date, h.order_date) = CONVERT(date, DATEADD(day, -1, GETDATE()))
+✅ Query executed successfully!
+Result: 75500
+Non-zero? YES
+
+=== Testing Open Invoices (Total number of open invoices outstanding) ===
+SELECT COUNT(*) as value 
+          FROM ar_open_items WITH (NOLOCK) 
+          WHERE open_closed_flag = 'O'
+❌ Query failed: [odbc] Error executing the sql statement
+
+=== Testing Orders Backlogged (Total number of orders that are on hold or backlogged) ===
+SELECT COUNT(*) as value 
+          FROM oe_hdr WITH (NOLOCK) 
+          WHERE completed = 'N' 
+          AND order_date >= DATEADD(day, -30, GETDATE())
+✅ Query executed successfully!
+Result: 27
+Non-zero? YES
+
+=== Testing Total Monthly Sales (Total dollar amount of all orders for the last 30 days) ===
+SELECT ISNULL(SUM(l.extended_price), 0) as value 
+          FROM oe_hdr h WITH (NOLOCK)
+          JOIN oe_line l WITH (NOLOCK) ON h.order_no = l.order_no
+          WHERE h.order_date >= DATEADD(day, -30, GETDATE())
+✅ Query executed successfully!
+Result: 1708263.24
+Non-zero? YES
+
+=== SUMMARY OF RESULTS ===
+Total Orders: SUCCESS (18)
+Open Orders: SUCCESS (2034)
+Open Orders 2: SUCCESS (24643150.24)
+Daily Revenue: SUCCESS (75500)
+Open Invoices: FAILED
+Orders Backlogged: SUCCESS (27)
+Total Monthly Sales: SUCCESS (1708263.24)
+
+=== UPDATED KEY METRICS SECTION FOR INITIAL-DATA.TS ===
+// Key Metrics - These are single data points
+  {
+    id: '1',
+    name: "Total Orders",
+    chartName: "Key Metrics",
+    variableName: "Total Orders",
+    serverName: 'P21',
+    value: "18",
+    chartGroup: "Metrics",
+    calculation: "COUNT(*)",
+    sqlExpression: "SELECT COUNT(*) as value FROM orders",
+    productionSqlExpression: "SELECT COUNT(*) as value FROM oe_hdr WITH (NOLOCK)  WHERE order_date >= DATEADD(day, -7, GETDATE())",
+    tableName: "oe_hdr"
+  },
+  {
+    id: '2',
+    name: "Open Orders",
+    chartName: "Key Metrics",
+    variableName: "Open Orders",
+    serverName: 'P21',
+    value: "2034",
+    chartGroup: "Metrics",
+    calculation: "COUNT(*)",
+    sqlExpression: "SELECT COUNT(*) as value FROM orders",
+    productionSqlExpression: "SELECT COUNT(*) as value FROM oe_hdr WITH (NOLOCK)  WHERE completed = 'N'",
+    tableName: "oe_hdr"
+  },
+  {
+    id: '3',
+    name: "Open Orders 2",
+    chartName: "Key Metrics",
+    variableName: "Open Orders 2",
+    serverName: 'P21',
+    value: "24643150.24",
+    chartGroup: "Metrics",
+    calculation: "COUNT(*)",
+    sqlExpression: "SELECT COUNT(*) as value FROM orders",
+    productionSqlExpression: "SELECT ISNULL(SUM(l.extended_price), 0) as value  FROM oe_hdr h WITH (NOLOCK) JOIN oe_line l WITH (NOLOCK) ON h.order_no = l.order_no WHERE h.completed = 'N'",
+    tableName: "oe_hdr"
+  },
+  {
+    id: '4',
+    name: "Daily Revenue",
+    chartName: "Key Metrics",
+    variableName: "Daily Revenue",
+    serverName: 'P21',
+    value: "75500",
+    chartGroup: "Metrics",
+    calculation: "COUNT(*)",
+    sqlExpression: "SELECT COUNT(*) as value FROM orders",
+    productionSqlExpression: "SELECT ISNULL(SUM(l.extended_price), 0) as value  FROM oe_hdr h WITH (NOLOCK) JOIN oe_line l WITH (NOLOCK) ON h.order_no = l.order_no WHERE CONVERT(date, h.order_date) = CONVERT(date, DATEADD(day, -1, GETDATE()))",
+    tableName: "oe_hdr"
+  },
+  {
+    id: '5',
+    name: "Open Invoices",
+    chartName: "Key Metrics",
+    variableName: "Open Invoices",
+    serverName: 'P21',
+    value: "0",
+    chartGroup: "Metrics",
+    calculation: "COUNT(*)",
+    sqlExpression: "SELECT COUNT(*) as value FROM orders",
+    productionSqlExpression: "SELECT COUNT(*) as value  FROM ar_open_items WITH (NOLOCK)  WHERE open_closed_flag = 'O'",
+    tableName: "oe_hdr"
+  },
+  {
+    id: '6',
+    name: "Orders Backlogged",
+    chartName: "Key Metrics",
+    variableName: "Orders Backlogged",
+    serverName: 'P21',
+    value: "27",
+    chartGroup: "Metrics",
+    calculation: "COUNT(*)",
+    sqlExpression: "SELECT COUNT(*) as value FROM orders",
+    productionSqlExpression: "SELECT COUNT(*) as value  FROM oe_hdr WITH (NOLOCK)  WHERE completed = 'N'  AND order_date >= DATEADD(day, -30, GETDATE())",
+    tableName: "oe_hdr"
+  },
+  {
+    id: '7',
+    name: "Total Monthly Sales",
+    chartName: "Key Metrics",
+    variableName: "Total Monthly Sales",
+    serverName: 'P21',
+    value: "1708263.24",
+    chartGroup: "Metrics",
+    calculation: "COUNT(*)",
+    sqlExpression: "SELECT COUNT(*) as value FROM orders",
+    productionSqlExpression: "SELECT ISNULL(SUM(l.extended_price), 0) as value  FROM oe_hdr h WITH (NOLOCK) JOIN oe_line l WITH (NOLOCK) ON h.order_no = l.order_no WHERE h.order_date >= DATEADD(day, -30, GETDATE())",
+    tableName: "oe_hdr"
+  },
+
+✅ Connection closed successfully

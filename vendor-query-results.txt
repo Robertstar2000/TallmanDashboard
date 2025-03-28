@@ -1,0 +1,24 @@
+=== P21 Vendor Query Test ===
+Starting test at 2025-03-19T17:25:09.509Z
+Connection string: DSN=P21Play;Trusted_Connection=Yes;
+Connecting to ODBC data source...
+✅ CONNECTED SUCCESSFULLY to ODBC data source!
+
+=== Testing query for: Accounts - Payable - Month 1 ===
+Table: vendor
+SQL Query: SELECT ISNULL(COUNT(*), 0) AS value FROM dbo.vendor WITH (NOLOCK) WHERE DATEDIFF(day, date_last_modified, GETDATE()) <= 30
+✅ Query executed successfully
+Result: {"value":0}
+⚠️ WARNING: Returned zero value
+
+=== Testing query for: Accounts - Payable - Month 2 ===
+Table: vendor
+SQL Query: SELECT ISNULL(COUNT(*), 0) AS value FROM dbo.vendor WITH (NOLOCK) WHERE DATEDIFF(day, date_last_modified, GETDATE()) BETWEEN 31 AND 60
+✅ Query executed successfully
+Result: {"value":0}
+⚠️ WARNING: Returned zero value
+
+✅ Connection closed successfully
+
+=== Test completed at 2025-03-19T17:25:11.570Z ===
+Results have been saved to: C:\Users\BobM\CascadeProjects\TallmanDashboard_new\vendor-query-results.txt

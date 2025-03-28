@@ -1,0 +1,314 @@
+
+--- SQLite Chart Data ---
+Found 7 rows in chart_data table
+Sample chart data:
+- Key Metrics - Total Orders: SQL = SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOL...
+- Key Metrics - Open Orders: SQL = SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOL...
+- Key Metrics - Open Orders 2: SQL = SELECT ISNULL(SUM(l.extended_price), 0) as value F...
+
+--- P21 Connection Test ---
+Connection string: DSN=P21Play;Trusted_Connection=Yes;
+Connecting to ODBC data source...
+✅ CONNECTED SUCCESSFULLY to ODBC data source!
+
+--- Dashboard Queries Test ---
+
+=== Testing Hard-Coded Queries ===
+
+--- Total Orders ---
+Original query: SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_date >= DATEADD(day, -7, GETDATE())
+
+Default (dbo):
+Query: SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_date >= DATEADD(day, -7, GETDATE())
+✅ Result: {"value":18}
+Value: 18
+
+No schema:
+Query: SELECT COUNT(*) as value FROM oe_hdr WITH (NOLOCK) WHERE order_date >= DATEADD(day, -7, GETDATE())
+✅ Result: {"value":18}
+Value: 18
+
+P21.dbo schema:
+Query: SELECT COUNT(*) as value FROM P21.dbo.oe_hdr WITH (NOLOCK) WHERE order_date >= DATEADD(day, -7, GETDATE())
+❌ Error: [odbc] Error executing the sql statement
+
+Database context switch:
+Query: USE P21; SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_date >= DATEADD(day, -7, GETDATE())
+❌ Error: [odbc] Error executing the sql statement
+
+--- Open Orders ---
+Original query: SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE completed = 'N'
+
+Default (dbo):
+Query: SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE completed = 'N'
+✅ Result: {"value":2034}
+Value: 2034
+
+No schema:
+Query: SELECT COUNT(*) as value FROM oe_hdr WITH (NOLOCK) WHERE completed = 'N'
+✅ Result: {"value":2034}
+Value: 2034
+
+P21.dbo schema:
+Query: SELECT COUNT(*) as value FROM P21.dbo.oe_hdr WITH (NOLOCK) WHERE completed = 'N'
+❌ Error: [odbc] Error executing the sql statement
+
+Database context switch:
+Query: USE P21; SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE completed = 'N'
+❌ Error: [odbc] Error executing the sql statement
+
+--- Open Orders 2 ---
+Original query: SELECT ISNULL(SUM(l.extended_price), 0) as value FROM dbo.oe_hdr h WITH (NOLOCK) JOIN dbo.oe_line l WITH (NOLOCK) ON h.order_no = l.order_no WHERE h.completed = 'N'
+
+Default (dbo):
+Query: SELECT ISNULL(SUM(l.extended_price), 0) as value FROM dbo.oe_hdr h WITH (NOLOCK) JOIN dbo.oe_line l WITH (NOLOCK) ON h.order_no = l.order_no WHERE h.completed = 'N'
+✅ Result: {"value":24643150.24}
+Value: 24643150.24
+
+No schema:
+Query: SELECT ISNULL(SUM(l.extended_price), 0) as value FROM oe_hdr h WITH (NOLOCK) JOIN oe_line l WITH (NOLOCK) ON h.order_no = l.order_no WHERE h.completed = 'N'
+✅ Result: {"value":24643150.24}
+Value: 24643150.24
+
+P21.dbo schema:
+Query: SELECT ISNULL(SUM(l.extended_price), 0) as value FROM P21.dbo.oe_hdr h WITH (NOLOCK) JOIN P21.dbo.oe_line l WITH (NOLOCK) ON h.order_no = l.order_no WHERE h.completed = 'N'
+❌ Error: [odbc] Error executing the sql statement
+
+Database context switch:
+Query: USE P21; SELECT ISNULL(SUM(l.extended_price), 0) as value FROM dbo.oe_hdr h WITH (NOLOCK) JOIN dbo.oe_line l WITH (NOLOCK) ON h.order_no = l.order_no WHERE h.completed = 'N'
+❌ Error: [odbc] Error executing the sql statement
+
+--- Daily Revenue ---
+Original query: SELECT ISNULL(SUM(l.extended_price), 0) as value FROM dbo.oe_hdr h WITH (NOLOCK) JOIN dbo.oe_line l WITH (NOLOCK) ON h.order_no = l.order_no WHERE CONVERT(date, h.order_date) = CONVERT(date, DATEADD(day, -1, GETDATE()))
+
+Default (dbo):
+Query: SELECT ISNULL(SUM(l.extended_price), 0) as value FROM dbo.oe_hdr h WITH (NOLOCK) JOIN dbo.oe_line l WITH (NOLOCK) ON h.order_no = l.order_no WHERE CONVERT(date, h.order_date) = CONVERT(date, DATEADD(day, -1, GETDATE()))
+✅ Result: {"value":75500}
+Value: 75500
+
+No schema:
+Query: SELECT ISNULL(SUM(l.extended_price), 0) as value FROM oe_hdr h WITH (NOLOCK) JOIN oe_line l WITH (NOLOCK) ON h.order_no = l.order_no WHERE CONVERT(date, h.order_date) = CONVERT(date, DATEADD(day, -1, GETDATE()))
+✅ Result: {"value":75500}
+Value: 75500
+
+P21.dbo schema:
+Query: SELECT ISNULL(SUM(l.extended_price), 0) as value FROM P21.dbo.oe_hdr h WITH (NOLOCK) JOIN P21.dbo.oe_line l WITH (NOLOCK) ON h.order_no = l.order_no WHERE CONVERT(date, h.order_date) = CONVERT(date, DATEADD(day, -1, GETDATE()))
+❌ Error: [odbc] Error executing the sql statement
+
+Database context switch:
+Query: USE P21; SELECT ISNULL(SUM(l.extended_price), 0) as value FROM dbo.oe_hdr h WITH (NOLOCK) JOIN dbo.oe_line l WITH (NOLOCK) ON h.order_no = l.order_no WHERE CONVERT(date, h.order_date) = CONVERT(date, DATEADD(day, -1, GETDATE()))
+❌ Error: [odbc] Error executing the sql statement
+
+--- Open Invoices ---
+Original query: SELECT COUNT(*) as value FROM dbo.invoice_hdr WITH (NOLOCK) WHERE invoice_date >= DATEADD(month, -1, GETDATE())
+
+Default (dbo):
+Query: SELECT COUNT(*) as value FROM dbo.invoice_hdr WITH (NOLOCK) WHERE invoice_date >= DATEADD(month, -1, GETDATE())
+✅ Result: {"value":1}
+Value: 1
+
+No schema:
+Query: SELECT COUNT(*) as value FROM invoice_hdr WITH (NOLOCK) WHERE invoice_date >= DATEADD(month, -1, GETDATE())
+✅ Result: {"value":1}
+Value: 1
+
+P21.dbo schema:
+Query: SELECT COUNT(*) as value FROM P21.dbo.invoice_hdr WITH (NOLOCK) WHERE invoice_date >= DATEADD(month, -1, GETDATE())
+❌ Error: [odbc] Error executing the sql statement
+
+Database context switch:
+Query: USE P21; SELECT COUNT(*) as value FROM dbo.invoice_hdr WITH (NOLOCK) WHERE invoice_date >= DATEADD(month, -1, GETDATE())
+❌ Error: [odbc] Error executing the sql statement
+
+--- Orders Backlogged ---
+Original query: SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE completed = 'N' AND order_date >= DATEADD(day, -30, GETDATE())
+
+Default (dbo):
+Query: SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE completed = 'N' AND order_date >= DATEADD(day, -30, GETDATE())
+✅ Result: {"value":27}
+Value: 27
+
+No schema:
+Query: SELECT COUNT(*) as value FROM oe_hdr WITH (NOLOCK) WHERE completed = 'N' AND order_date >= DATEADD(day, -30, GETDATE())
+✅ Result: {"value":27}
+Value: 27
+
+P21.dbo schema:
+Query: SELECT COUNT(*) as value FROM P21.dbo.oe_hdr WITH (NOLOCK) WHERE completed = 'N' AND order_date >= DATEADD(day, -30, GETDATE())
+❌ Error: [odbc] Error executing the sql statement
+
+Database context switch:
+Query: USE P21; SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE completed = 'N' AND order_date >= DATEADD(day, -30, GETDATE())
+❌ Error: [odbc] Error executing the sql statement
+
+--- Total Monthly Sales ---
+Original query: SELECT ISNULL(SUM(l.extended_price), 0) as value FROM dbo.oe_hdr h WITH (NOLOCK) JOIN dbo.oe_line l WITH (NOLOCK) ON h.order_no = l.order_no WHERE h.order_date >= DATEADD(day, -30, GETDATE())
+
+Default (dbo):
+Query: SELECT ISNULL(SUM(l.extended_price), 0) as value FROM dbo.oe_hdr h WITH (NOLOCK) JOIN dbo.oe_line l WITH (NOLOCK) ON h.order_no = l.order_no WHERE h.order_date >= DATEADD(day, -30, GETDATE())
+✅ Result: {"value":1708263.24}
+Value: 1708263.24
+
+No schema:
+Query: SELECT ISNULL(SUM(l.extended_price), 0) as value FROM oe_hdr h WITH (NOLOCK) JOIN oe_line l WITH (NOLOCK) ON h.order_no = l.order_no WHERE h.order_date >= DATEADD(day, -30, GETDATE())
+✅ Result: {"value":1708263.24}
+Value: 1708263.24
+
+P21.dbo schema:
+Query: SELECT ISNULL(SUM(l.extended_price), 0) as value FROM P21.dbo.oe_hdr h WITH (NOLOCK) JOIN P21.dbo.oe_line l WITH (NOLOCK) ON h.order_no = l.order_no WHERE h.order_date >= DATEADD(day, -30, GETDATE())
+❌ Error: [odbc] Error executing the sql statement
+
+Database context switch:
+Query: USE P21; SELECT ISNULL(SUM(l.extended_price), 0) as value FROM dbo.oe_hdr h WITH (NOLOCK) JOIN dbo.oe_line l WITH (NOLOCK) ON h.order_no = l.order_no WHERE h.order_date >= DATEADD(day, -30, GETDATE())
+❌ Error: [odbc] Error executing the sql statement
+
+=== Testing SQLite Database Queries ===
+
+--- Key Metrics - Total Orders ---
+Original query: SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_date >= DATEADD(day, -7, GETDATE())
+
+Default (dbo):
+Query: SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_date >= DATEADD(day, -7, GETDATE())
+✅ Result: {"value":18}
+Value: 18
+
+No schema:
+Query: SELECT COUNT(*) as value FROM oe_hdr WITH (NOLOCK) WHERE order_date >= DATEADD(day, -7, GETDATE())
+✅ Result: {"value":18}
+Value: 18
+
+P21.dbo schema:
+Query: SELECT COUNT(*) as value FROM P21.dbo.oe_hdr WITH (NOLOCK) WHERE order_date >= DATEADD(day, -7, GETDATE())
+❌ Error: [odbc] Error executing the sql statement
+
+Database context switch:
+Query: USE P21; SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_date >= DATEADD(day, -7, GETDATE())
+❌ Error: [odbc] Error executing the sql statement
+
+--- Key Metrics - Open Orders ---
+Original query: SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE completed = 'N'
+
+Default (dbo):
+Query: SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE completed = 'N'
+✅ Result: {"value":2034}
+Value: 2034
+
+No schema:
+Query: SELECT COUNT(*) as value FROM oe_hdr WITH (NOLOCK) WHERE completed = 'N'
+✅ Result: {"value":2034}
+Value: 2034
+
+P21.dbo schema:
+Query: SELECT COUNT(*) as value FROM P21.dbo.oe_hdr WITH (NOLOCK) WHERE completed = 'N'
+❌ Error: [odbc] Error executing the sql statement
+
+Database context switch:
+Query: USE P21; SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE completed = 'N'
+❌ Error: [odbc] Error executing the sql statement
+
+--- Key Metrics - Open Orders 2 ---
+Original query: SELECT ISNULL(SUM(l.extended_price), 0) as value FROM dbo.oe_hdr h WITH (NOLOCK) JOIN dbo.oe_line l WITH (NOLOCK) ON h.order_no = l.order_no WHERE h.completed = 'N'
+
+Default (dbo):
+Query: SELECT ISNULL(SUM(l.extended_price), 0) as value FROM dbo.oe_hdr h WITH (NOLOCK) JOIN dbo.oe_line l WITH (NOLOCK) ON h.order_no = l.order_no WHERE h.completed = 'N'
+✅ Result: {"value":24643150.24}
+Value: 24643150.24
+
+No schema:
+Query: SELECT ISNULL(SUM(l.extended_price), 0) as value FROM oe_hdr h WITH (NOLOCK) JOIN oe_line l WITH (NOLOCK) ON h.order_no = l.order_no WHERE h.completed = 'N'
+✅ Result: {"value":24643150.24}
+Value: 24643150.24
+
+P21.dbo schema:
+Query: SELECT ISNULL(SUM(l.extended_price), 0) as value FROM P21.dbo.oe_hdr h WITH (NOLOCK) JOIN P21.dbo.oe_line l WITH (NOLOCK) ON h.order_no = l.order_no WHERE h.completed = 'N'
+❌ Error: [odbc] Error executing the sql statement
+
+Database context switch:
+Query: USE P21; SELECT ISNULL(SUM(l.extended_price), 0) as value FROM dbo.oe_hdr h WITH (NOLOCK) JOIN dbo.oe_line l WITH (NOLOCK) ON h.order_no = l.order_no WHERE h.completed = 'N'
+❌ Error: [odbc] Error executing the sql statement
+
+--- Key Metrics - Daily Revenue ---
+Original query: SELECT ISNULL(SUM(l.extended_price), 0) as value FROM dbo.oe_hdr h WITH (NOLOCK) JOIN dbo.oe_line l WITH (NOLOCK) ON h.order_no = l.order_no WHERE CONVERT(date, h.order_date) = CONVERT(date, DATEADD(day, -1, GETDATE()))
+
+Default (dbo):
+Query: SELECT ISNULL(SUM(l.extended_price), 0) as value FROM dbo.oe_hdr h WITH (NOLOCK) JOIN dbo.oe_line l WITH (NOLOCK) ON h.order_no = l.order_no WHERE CONVERT(date, h.order_date) = CONVERT(date, DATEADD(day, -1, GETDATE()))
+✅ Result: {"value":75500}
+Value: 75500
+
+No schema:
+Query: SELECT ISNULL(SUM(l.extended_price), 0) as value FROM oe_hdr h WITH (NOLOCK) JOIN oe_line l WITH (NOLOCK) ON h.order_no = l.order_no WHERE CONVERT(date, h.order_date) = CONVERT(date, DATEADD(day, -1, GETDATE()))
+✅ Result: {"value":75500}
+Value: 75500
+
+P21.dbo schema:
+Query: SELECT ISNULL(SUM(l.extended_price), 0) as value FROM P21.dbo.oe_hdr h WITH (NOLOCK) JOIN P21.dbo.oe_line l WITH (NOLOCK) ON h.order_no = l.order_no WHERE CONVERT(date, h.order_date) = CONVERT(date, DATEADD(day, -1, GETDATE()))
+❌ Error: [odbc] Error executing the sql statement
+
+Database context switch:
+Query: USE P21; SELECT ISNULL(SUM(l.extended_price), 0) as value FROM dbo.oe_hdr h WITH (NOLOCK) JOIN dbo.oe_line l WITH (NOLOCK) ON h.order_no = l.order_no WHERE CONVERT(date, h.order_date) = CONVERT(date, DATEADD(day, -1, GETDATE()))
+❌ Error: [odbc] Error executing the sql statement
+
+--- Key Metrics - Open Invoices ---
+Original query: SELECT COUNT(*) as value FROM dbo.invoice_hdr WITH (NOLOCK) WHERE invoice_date >= DATEADD(month, -1, GETDATE())
+
+Default (dbo):
+Query: SELECT COUNT(*) as value FROM dbo.invoice_hdr WITH (NOLOCK) WHERE invoice_date >= DATEADD(month, -1, GETDATE())
+✅ Result: {"value":1}
+Value: 1
+
+No schema:
+Query: SELECT COUNT(*) as value FROM invoice_hdr WITH (NOLOCK) WHERE invoice_date >= DATEADD(month, -1, GETDATE())
+✅ Result: {"value":1}
+Value: 1
+
+P21.dbo schema:
+Query: SELECT COUNT(*) as value FROM P21.dbo.invoice_hdr WITH (NOLOCK) WHERE invoice_date >= DATEADD(month, -1, GETDATE())
+❌ Error: [odbc] Error executing the sql statement
+
+Database context switch:
+Query: USE P21; SELECT COUNT(*) as value FROM dbo.invoice_hdr WITH (NOLOCK) WHERE invoice_date >= DATEADD(month, -1, GETDATE())
+❌ Error: [odbc] Error executing the sql statement
+
+--- Key Metrics - Orders Backlogged ---
+Original query: SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE completed = 'N' AND order_date >= DATEADD(day, -30, GETDATE())
+
+Default (dbo):
+Query: SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE completed = 'N' AND order_date >= DATEADD(day, -30, GETDATE())
+✅ Result: {"value":27}
+Value: 27
+
+No schema:
+Query: SELECT COUNT(*) as value FROM oe_hdr WITH (NOLOCK) WHERE completed = 'N' AND order_date >= DATEADD(day, -30, GETDATE())
+✅ Result: {"value":27}
+Value: 27
+
+P21.dbo schema:
+Query: SELECT COUNT(*) as value FROM P21.dbo.oe_hdr WITH (NOLOCK) WHERE completed = 'N' AND order_date >= DATEADD(day, -30, GETDATE())
+❌ Error: [odbc] Error executing the sql statement
+
+Database context switch:
+Query: USE P21; SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE completed = 'N' AND order_date >= DATEADD(day, -30, GETDATE())
+❌ Error: [odbc] Error executing the sql statement
+
+--- Key Metrics - Total Monthly Sales ---
+Original query: SELECT ISNULL(SUM(l.extended_price), 0) as value FROM dbo.oe_hdr h WITH (NOLOCK) JOIN dbo.oe_line l WITH (NOLOCK) ON h.order_no = l.order_no WHERE h.order_date >= DATEADD(day, -30, GETDATE())
+
+Default (dbo):
+Query: SELECT ISNULL(SUM(l.extended_price), 0) as value FROM dbo.oe_hdr h WITH (NOLOCK) JOIN dbo.oe_line l WITH (NOLOCK) ON h.order_no = l.order_no WHERE h.order_date >= DATEADD(day, -30, GETDATE())
+✅ Result: {"value":1708263.24}
+Value: 1708263.24
+
+No schema:
+Query: SELECT ISNULL(SUM(l.extended_price), 0) as value FROM oe_hdr h WITH (NOLOCK) JOIN oe_line l WITH (NOLOCK) ON h.order_no = l.order_no WHERE h.order_date >= DATEADD(day, -30, GETDATE())
+✅ Result: {"value":1708263.24}
+Value: 1708263.24
+
+P21.dbo schema:
+Query: SELECT ISNULL(SUM(l.extended_price), 0) as value FROM P21.dbo.oe_hdr h WITH (NOLOCK) JOIN P21.dbo.oe_line l WITH (NOLOCK) ON h.order_no = l.order_no WHERE h.order_date >= DATEADD(day, -30, GETDATE())
+❌ Error: [odbc] Error executing the sql statement
+
+Database context switch:
+Query: USE P21; SELECT ISNULL(SUM(l.extended_price), 0) as value FROM dbo.oe_hdr h WITH (NOLOCK) JOIN dbo.oe_line l WITH (NOLOCK) ON h.order_no = l.order_no WHERE h.order_date >= DATEADD(day, -30, GETDATE())
+❌ Error: [odbc] Error executing the sql statement
+
+--- Connection closed ---

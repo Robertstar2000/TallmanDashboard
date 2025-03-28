@@ -1,0 +1,175 @@
+-- Key Metrics
+-- Total Orders
+SELECT COUNT(*) as value FROM P21.dbo.oe_hdr WITH (NOLOCK)
+
+-- Open Orders (Value)
+SELECT SUM(oh.net_total) as value FROM P21.dbo.oe_hdr oh WITH (NOLOCK) WHERE oh.status = 'O'
+
+-- Open Orders (Count)
+SELECT COUNT(*) as value FROM P21.dbo.oe_hdr WITH (NOLOCK) WHERE status = 'O'
+
+-- Daily Revenue
+SELECT SUM(oh.net_total) as value FROM P21.dbo.oe_hdr oh WITH (NOLOCK) WHERE CAST(oh.ord_date AS date) = CAST(GETDATE() AS date)
+
+-- Open Invoices (Count of unshipped POs in current month)
+SELECT COUNT(*) as value FROM P21.dbo.po_hdr ph WITH (NOLOCK) 
+WHERE ph.order_date >= DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)
+  AND ph.order_date < DATEADD(month, DATEDIFF(month, 0, GETDATE()) + 1, 0)
+  AND ph.completed = 0
+
+-- Orders Backlogged (past 30 days)
+SELECT COUNT(*) as value FROM P21.dbo.oe_hdr oh WITH (NOLOCK) 
+WHERE oh.status = 'B' 
+  AND oh.ord_date >= DATEADD(day, -30, CAST(GETDATE() AS date))
+
+-- Site Distribution
+-- Columbus
+SELECT SUM(il.qty_on_hand) as value 
+FROM P21.dbo.inv_loc il WITH (NOLOCK)
+JOIN P21.dbo.location l WITH (NOLOCK) ON il.location_id = l.location_id 
+WHERE l.location_name = 'Columbus'
+
+-- Addison
+SELECT SUM(il.qty_on_hand) as value 
+FROM P21.dbo.inv_loc il WITH (NOLOCK)
+JOIN P21.dbo.location l WITH (NOLOCK) ON il.location_id = l.location_id 
+WHERE l.location_name = 'Addison'
+
+-- Lake City (or third site)
+SELECT SUM(il.qty_on_hand) as value 
+FROM P21.dbo.inv_loc il WITH (NOLOCK)
+JOIN P21.dbo.location l WITH (NOLOCK) ON il.location_id = l.location_id 
+WHERE l.location_name = 'Lake City'
+
+-- Monthly Trend Charts (Accounts Payables)
+-- Month 1 (Current Month)
+SELECT SUM(ap.inv_amt - ap.amt_paid) AS value 
+FROM P21.dbo.ap_inv_hdr ap WITH (NOLOCK)
+WHERE ap.inv_date >= DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)
+  AND ap.inv_date < DATEADD(month, DATEDIFF(month, 0, GETDATE()) + 1, 0)
+
+-- Month 2 (Previous Month)
+SELECT SUM(ap.inv_amt - ap.amt_paid) AS value 
+FROM P21.dbo.ap_inv_hdr ap WITH (NOLOCK)
+WHERE ap.inv_date >= DATEADD(month, DATEDIFF(month, 0, GETDATE()) - 1, 0)
+  AND ap.inv_date < DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)
+
+-- Accounts Overdue (P21)
+-- Month 1 (Current Month)
+SELECT SUM(ar.balance) AS value 
+FROM P21.dbo.ar_open_invc ar WITH (NOLOCK)
+WHERE ar.due_dt < DATEADD(month, DATEDIFF(month, 0, GETDATE()) + 1, 0)
+  AND ar.balance > 0
+
+-- Month 2 (Previous Month)
+SELECT SUM(ar.balance) AS value 
+FROM P21.dbo.ar_open_invc ar WITH (NOLOCK)
+WHERE ar.due_dt < DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)
+  AND ar.balance > 0
+
+-- Accounts Receivables (P21)
+-- Month 1 (Current Month)
+SELECT SUM(ar.balance) AS value 
+FROM P21.dbo.ar_open_invc ar WITH (NOLOCK)
+WHERE ar.inv_date >= DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)
+  AND ar.inv_date < DATEADD(month, DATEDIFF(month, 0, GETDATE()) + 1, 0)
+
+-- Month 2 (Previous Month)
+SELECT SUM(ar.balance) AS value 
+FROM P21.dbo.ar_open_invc ar WITH (NOLOCK)
+WHERE ar.inv_date >= DATEADD(month, DATEDIFF(month, 0, GETDATE()) - 1, 0)
+  AND ar.inv_date < DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)
+
+-- Open Orders (P21) - Monthly Trend
+-- Month 1 (Current Month)
+SELECT SUM(oh.net_total) AS value 
+FROM P21.dbo.oe_hdr oh WITH (NOLOCK)
+WHERE oh.status = 'O' 
+  AND oh.ord_date >= DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)
+  AND oh.ord_date < DATEADD(month, DATEDIFF(month, 0, GETDATE()) + 1, 0)
+
+-- Month 2 (Previous Month)
+SELECT SUM(oh.net_total) AS value 
+FROM P21.dbo.oe_hdr oh WITH (NOLOCK)
+WHERE oh.status = 'O' 
+  AND oh.ord_date >= DATEADD(month, DATEDIFF(month, 0, GETDATE()) - 1, 0)
+  AND oh.ord_date < DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)
+
+-- Open Invoices (P21) - Monthly Trend
+-- Month 1 (Current Month)
+SELECT SUM(ar.balance) AS value 
+FROM P21.dbo.ar_open_invc ar WITH (NOLOCK)
+WHERE ar.balance > 0 
+  AND ar.inv_date >= DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)
+  AND ar.inv_date < DATEADD(month, DATEDIFF(month, 0, GETDATE()) + 1, 0)
+
+-- Month 2 (Previous Month)
+SELECT SUM(ar.balance) AS value 
+FROM P21.dbo.ar_open_invc ar WITH (NOLOCK)
+WHERE ar.balance > 0 
+  AND ar.inv_date >= DATEADD(month, DATEDIFF(month, 0, GETDATE()) - 1, 0)
+  AND ar.inv_date < DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)
+
+-- Orders Backlogged (P21) - Monthly Trend
+-- Month 1 (Current Month)
+SELECT SUM(oh.net_total) AS value 
+FROM P21.dbo.oe_hdr oh WITH (NOLOCK)
+WHERE oh.status = 'B' 
+  AND oh.ord_date >= DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)
+  AND oh.ord_date < DATEADD(month, DATEDIFF(month, 0, GETDATE()) + 1, 0)
+
+-- Month 2 (Previous Month)
+SELECT SUM(oh.net_total) AS value 
+FROM P21.dbo.oe_hdr oh WITH (NOLOCK)
+WHERE oh.status = 'B' 
+  AND oh.ord_date >= DATEADD(month, DATEDIFF(month, 0, GETDATE()) - 1, 0)
+  AND oh.ord_date < DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)
+
+-- AR Aging (P21) - Monthly Trend
+-- Month 1 (Current Month)
+SELECT SUM(ar.balance) AS value 
+FROM P21.dbo.ar_open_invc ar WITH (NOLOCK)
+WHERE ar.balance > 0 AND ar.due_dt < DATEADD(month, DATEDIFF(month, 0, GETDATE()) + 1, 0)
+
+-- Month 2 (Previous Month)
+SELECT SUM(ar.balance) AS value 
+FROM P21.dbo.ar_open_invc ar WITH (NOLOCK)
+WHERE ar.balance > 0 AND ar.due_dt < DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)
+
+-- Total Sales (P21) - Monthly Trend
+-- Month 1 (Current Month)
+SELECT SUM(oh.net_total) AS value 
+FROM P21.dbo.oe_hdr oh WITH (NOLOCK)
+WHERE oh.ord_date >= DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)
+  AND oh.ord_date < DATEADD(month, DATEDIFF(month, 0, GETDATE()) + 1, 0)
+
+-- Month 2 (Previous Month)
+SELECT SUM(oh.net_total) AS value 
+FROM P21.dbo.oe_hdr oh WITH (NOLOCK)
+WHERE oh.ord_date >= DATEADD(month, DATEDIFF(month, 0, GETDATE()) - 1, 0)
+  AND oh.ord_date < DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)
+
+-- Daily Orders - Last 7 Days
+-- Today
+SELECT COUNT(*) AS value 
+FROM P21.dbo.oe_hdr WITH (NOLOCK)
+WHERE CAST(ord_date AS date) = CAST(GETDATE() AS date)
+
+-- Yesterday
+SELECT COUNT(*) AS value 
+FROM P21.dbo.oe_hdr WITH (NOLOCK)
+WHERE CAST(ord_date AS date) = CAST(DATEADD(day, -1, GETDATE()) AS date)
+
+-- 2 days ago
+SELECT COUNT(*) AS value 
+FROM P21.dbo.oe_hdr WITH (NOLOCK)
+WHERE CAST(ord_date AS date) = CAST(DATEADD(day, -2, GETDATE()) AS date)
+
+-- Inventory Categories
+-- In Stock
+SELECT SUM(il.qty_on_hand) AS value 
+FROM P21.dbo.inv_loc il WITH (NOLOCK)
+
+-- On Order
+SELECT SUM(il.qty_on_order) AS value 
+FROM P21.dbo.inv_loc il WITH (NOLOCK)

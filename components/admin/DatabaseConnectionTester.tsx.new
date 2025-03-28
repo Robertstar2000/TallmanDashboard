@@ -1,0 +1,393 @@
+'use client';
+
+import React, { useState } from 'react';
+import { ServerConfig } from '@/lib/db/connections';
+import { useLocalStorage } from '@/lib/hooks/use-local-storage';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Switch } from '@/components/ui/switch';
+import { Label } from '@/components/ui/label';
+import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import Spinner from '@/components/ui/spinner';
+import { Divider } from '@/components/ui/divider';
+
+interface ConnectionTestResult {
+  success: boolean;
+  message: string;
+  details?: any;
+}
+
+export default function DatabaseConnectionTester() {
+  // P21 Connection Config
+  const [p21Config, setP21Config] = useLocalStorage<ServerConfig>('p21-connection-config', {
+    server: 'SQL01',
+    database: 'P21play',
+    username: 'sa',
+    password: '',
+    useWindowsAuth: true,
+    port: 1433,
+    type: 'P21'
+  });
+
+  // POR Connection Config
+  const [porConfig, setPORConfig] = useLocalStorage<ServerConfig>('por-connection-config', {
+    server: 'TS03',
+    database: 'POR',
+    username: 'sa',
+    password: '',
+    useWindowsAuth: true,
+    port: 1433,
+    type: 'POR'
+  });
+
+  // Testing states
+  const [testingP21, setTestingP21] = useState(false);
+  const [testingPOR, setTestingPOR] = useState(false);
+  const [p21Result, setP21Result] = useState<ConnectionTestResult | null>(null);
+  const [porResult, setPORResult] = useState<ConnectionTestResult | null>(null);
+  const [notification, setNotification] = useState({ show: false, message: '' });
+
+  // Handle P21 config changes
+  const handleP21Change = (field: keyof ServerConfig) => (
+    event: React.ChangeEvent<HTMLInputElement> | { target: { checked: boolean } }
+  ) => {
+    const value = field === 'useWindowsAuth' 
+      ? (event.target as { checked: boolean }).checked 
+      : (event.target as HTMLInputElement).value;
+    
+    setP21Config(prev => ({
+      ...prev,
+      [field]: field === 'port' ? parseInt(value as string, 10) || 1433 : value
+    }));
+    
+    // Reset test result when configuration changes
+    setP21Result(null);
+  };
+
+  // Handle POR config changes
+  const handlePORChange = (field: keyof ServerConfig) => (
+    event: React.ChangeEvent<HTMLInputElement> | { target: { checked: boolean } }
+  ) => {
+    const value = field === 'useWindowsAuth' 
+      ? (event.target as { checked: boolean }).checked 
+      : (event.target as HTMLInputElement).value;
+    
+    setPORConfig(prev => ({
+      ...prev,
+      [field]: field === 'port' ? parseInt(value as string, 10) || 1433 : value
+    }));
+    
+    // Reset test result when configuration changes
+    setPORResult(null);
+  };
+
+  // Test P21 connection
+  const testP21Connection = async () => {
+    setTestingP21(true);
+    setP21Result(null);
+
+    try {
+      const response = await fetch('/api/connection/test', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ config: p21Config }),
+      });
+
+      const result = await response.json();
+      setP21Result(result);
+
+      // Show notification if successful
+      if (result.success) {
+        setNotification({
+          show: true,
+          message: 'P21 connection successful! Configuration saved.'
+        });
+        
+        // Hide notification after 5 seconds
+        setTimeout(() => {
+          setNotification({ show: false, message: '' });
+        }, 5000);
+      }
+    } catch (error) {
+      setP21Result({
+        success: false,
+        message: error instanceof Error ? error.message : 'An unexpected error occurred'
+      });
+    } finally {
+      setTestingP21(false);
+    }
+  };
+
+  // Test POR connection
+  const testPORConnection = async () => {
+    setTestingPOR(true);
+    setPORResult(null);
+
+    try {
+      const response = await fetch('/api/connection/test', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ config: porConfig }),
+      });
+
+      const result = await response.json();
+      setPORResult(result);
+
+      // Show notification if successful
+      if (result.success) {
+        setNotification({
+          show: true,
+          message: 'POR connection successful! Configuration saved.'
+        });
+        
+        // Hide notification after 5 seconds
+        setTimeout(() => {
+          setNotification({ show: false, message: '' });
+        }, 5000);
+      }
+    } catch (error) {
+      setPORResult({
+        success: false,
+        message: error instanceof Error ? error.message : 'An unexpected error occurred'
+      });
+    } finally {
+      setTestingPOR(false);
+    }
+  };
+
+  // Test both connections
+  const testAllConnections = async () => {
+    await testP21Connection();
+    await testPORConnection();
+  };
+
+  return (
+    <div className="space-y-6">
+      <div>
+        <h2 className="text-2xl font-bold tracking-tight">Database Connection Tester</h2>
+        <p className="text-muted-foreground">
+          Configure and test connections to P21 and POR databases. Successful configurations will be saved automatically.
+        </p>
+      </div>
+
+      <Tabs defaultValue="p21" className="w-full">
+        <TabsList className="grid w-full grid-cols-2">
+          <TabsTrigger value="p21">P21 Database</TabsTrigger>
+          <TabsTrigger value="por">POR Database</TabsTrigger>
+        </TabsList>
+        
+        {/* P21 Connection Tab */}
+        <TabsContent value="p21">
+          <Card>
+            <CardHeader>
+              <CardTitle>P21 Database Connection</CardTitle>
+              <CardDescription>Configure connection to P21play on SQL01</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="grid grid-cols-3 gap-4">
+                <div className="col-span-2">
+                  <Label htmlFor="p21-server">Server</Label>
+                  <Input
+                    id="p21-server"
+                    value={p21Config.server}
+                    onChange={e => handleP21Change('server')(e)}
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="p21-port">Port</Label>
+                  <Input
+                    id="p21-port"
+                    value={p21Config.port}
+                    onChange={e => handleP21Change('port')(e)}
+                    type="number"
+                  />
+                </div>
+              </div>
+              
+              <div>
+                <Label htmlFor="p21-database">Database</Label>
+                <Input
+                  id="p21-database"
+                  value={p21Config.database}
+                  onChange={e => handleP21Change('database')(e)}
+                />
+              </div>
+              
+              <div className="flex items-center space-x-2">
+                <Switch
+                  id="p21-windows-auth"
+                  checked={p21Config.useWindowsAuth}
+                  onCheckedChange={checked => 
+                    handleP21Change('useWindowsAuth')({ target: { checked } })
+                  }
+                />
+                <Label htmlFor="p21-windows-auth">Use Windows Authentication</Label>
+              </div>
+              
+              {!p21Config.useWindowsAuth && (
+                <>
+                  <div>
+                    <Label htmlFor="p21-username">Username</Label>
+                    <Input
+                      id="p21-username"
+                      value={p21Config.username}
+                      onChange={e => handleP21Change('username')(e)}
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="p21-password">Password</Label>
+                    <Input
+                      id="p21-password"
+                      type="password"
+                      value={p21Config.password}
+                      onChange={e => handleP21Change('password')(e)}
+                    />
+                  </div>
+                </>
+              )}
+              
+              <Button
+                className="w-full"
+                onClick={testP21Connection}
+                disabled={testingP21}
+              >
+                {testingP21 ? (
+                  <>
+                    <Spinner className="mr-2" size="small" />
+                    Testing...
+                  </>
+                ) : (
+                  'Test Connection'
+                )}
+              </Button>
+              
+              {p21Result && (
+                <Alert variant={p21Result.success ? "default" : "destructive"}>
+                  <AlertTitle>{p21Result.success ? "Success" : "Error"}</AlertTitle>
+                  <AlertDescription>{p21Result.message}</AlertDescription>
+                </Alert>
+              )}
+            </CardContent>
+          </Card>
+        </TabsContent>
+        
+        {/* POR Connection Tab */}
+        <TabsContent value="por">
+          <Card>
+            <CardHeader>
+              <CardTitle>POR Database Connection</CardTitle>
+              <CardDescription>Configure connection to POR on TS03</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="grid grid-cols-3 gap-4">
+                <div className="col-span-2">
+                  <Label htmlFor="por-server">Server</Label>
+                  <Input
+                    id="por-server"
+                    value={porConfig.server}
+                    onChange={e => handlePORChange('server')(e)}
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="por-port">Port</Label>
+                  <Input
+                    id="por-port"
+                    value={porConfig.port}
+                    onChange={e => handlePORChange('port')(e)}
+                    type="number"
+                  />
+                </div>
+              </div>
+              
+              <div>
+                <Label htmlFor="por-database">Database</Label>
+                <Input
+                  id="por-database"
+                  value={porConfig.database}
+                  onChange={e => handlePORChange('database')(e)}
+                />
+              </div>
+              
+              <div className="flex items-center space-x-2">
+                <Switch
+                  id="por-windows-auth"
+                  checked={porConfig.useWindowsAuth}
+                  onCheckedChange={checked => 
+                    handlePORChange('useWindowsAuth')({ target: { checked } })
+                  }
+                />
+                <Label htmlFor="por-windows-auth">Use Windows Authentication</Label>
+              </div>
+              
+              {!porConfig.useWindowsAuth && (
+                <>
+                  <div>
+                    <Label htmlFor="por-username">Username</Label>
+                    <Input
+                      id="por-username"
+                      value={porConfig.username}
+                      onChange={e => handlePORChange('username')(e)}
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="por-password">Password</Label>
+                    <Input
+                      id="por-password"
+                      type="password"
+                      value={porConfig.password}
+                      onChange={e => handlePORChange('password')(e)}
+                    />
+                  </div>
+                </>
+              )}
+              
+              <Button
+                className="w-full"
+                onClick={testPORConnection}
+                disabled={testingPOR}
+              >
+                {testingPOR ? (
+                  <>
+                    <Spinner className="mr-2" size="small" />
+                    Testing...
+                  </>
+                ) : (
+                  'Test Connection'
+                )}
+              </Button>
+              
+              {porResult && (
+                <Alert variant={porResult.success ? "default" : "destructive"}>
+                  <AlertTitle>{porResult.success ? "Success" : "Error"}</AlertTitle>
+                  <AlertDescription>{porResult.message}</AlertDescription>
+                </Alert>
+              )}
+            </CardContent>
+          </Card>
+        </TabsContent>
+      </Tabs>
+
+      <Button
+        variant="secondary"
+        className="w-full"
+        onClick={testAllConnections}
+        disabled={testingP21 || testingPOR}
+      >
+        Test All Connections
+      </Button>
+
+      {/* Notification */}
+      {notification.show && (
+        <div className="fixed bottom-4 right-4 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded shadow-md">
+          {notification.message}
+        </div>
+      )}
+    </div>
+  );
+}

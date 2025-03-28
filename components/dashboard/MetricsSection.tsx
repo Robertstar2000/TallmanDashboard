@@ -1,48 +1,95 @@
 'use client';
 
 import * as React from 'react';
-import { Card } from '@/components/ui/card';
-import { ArrowDownIcon, ArrowUpIcon } from 'lucide-react';
-import { formatCurrency, formatNumber } from '@/lib/utils/formatting';
-import { Metric } from '@/lib/types/dashboard';
+import { Card } from "@/components/ui/card";
+import { Package, PackageOpen, ShoppingCart, DollarSign, FileText, Truck, AlertTriangle, BarChart2 } from "lucide-react";
+import { formatCurrency } from "@/lib/utils";
+import { MetricItem } from "@/lib/types/dashboard";
+
+interface MetricCardProps {
+  title: string;
+  value: string;
+  icon: React.ReactNode;
+  color: string;
+}
+
+function MetricCard({ title, value, icon, color }: MetricCardProps) {
+  return (
+    <div className={`rounded-lg p-4 ${color} text-white flex flex-col`}>
+      <div className="flex items-center gap-2 mb-2">
+        {icon}
+        <h3 className="text-sm font-medium opacity-80">{title}</h3>
+      </div>
+      <p className="text-2xl font-bold">{value}</p>
+    </div>
+  );
+}
 
 interface MetricsSectionProps {
-  metrics: Metric[];
+  metrics: MetricItem[];
 }
 
 export function MetricsSection({ metrics }: MetricsSectionProps) {
-  const getMetricValue = (metric: Metric) => {
-    if (metric.name.toLowerCase().includes('revenue') || 
-        metric.name.toLowerCase().includes('invoices')) {
-      return formatCurrency(metric.value);
-    }
-    return formatNumber(metric.value);
+  // Find metric by name, defaulting to 0 if not found
+  const getMetricValue = (name: string): number => {
+    const metric = metrics.find(m => m.name === name);
+    return metric?.value || 0;
+  };
+
+  // Format number as currency
+  const formatCurrency = (value: number): string => {
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0
+    }).format(value);
   };
 
   return (
-    <div className="flex flex-col gap-4">
-      {metrics.map((metric) => (
-        <Card key={metric.name} className="p-4">
-          <div className="flex flex-col gap-2">
-            <div className="text-sm text-gray-500">{metric.name}</div>
-            <div className="flex items-baseline gap-2">
-              <div className="text-2xl font-semibold">{getMetricValue(metric)}</div>
-              <div className={`flex items-center text-sm ${
-                metric.trend === 'up' ? 'text-green-600' : 
-                metric.trend === 'down' ? 'text-red-600' : 
-                'text-gray-600'
-              }`}>
-                {metric.trend === 'up' ? (
-                  <ArrowUpIcon className="h-4 w-4" />
-                ) : metric.trend === 'down' ? (
-                  <ArrowDownIcon className="h-4 w-4" />
-                ) : null}
-                <span>{Math.abs(metric.change).toFixed(1)}%</span>
-              </div>
-            </div>
-          </div>
-        </Card>
-      ))}
+    <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-8 gap-4 mb-4">
+      <MetricCard
+        title="Total Orders"
+        value={getMetricValue('total_orders').toString()}
+        icon={<Package className="h-5 w-5" />}
+        color="bg-blue-500"
+      />
+      <MetricCard
+        title="Open Orders"
+        value={getMetricValue('open_orders').toString()}
+        icon={<PackageOpen className="h-5 w-5" />}
+        color="bg-green-500"
+      />
+      <MetricCard
+        title="Open Orders 2"
+        value={getMetricValue('open_orders_2').toString()}
+        icon={<ShoppingCart className="h-5 w-5" />}
+        color="bg-purple-500"
+      />
+      <MetricCard
+        title="Daily Revenue"
+        value={formatCurrency(getMetricValue('daily_revenue'))}
+        icon={<DollarSign className="h-5 w-5" />}
+        color="bg-yellow-500"
+      />
+      <MetricCard
+        title="Open Invoices"
+        value={formatCurrency(getMetricValue('open_invoices'))}
+        icon={<FileText className="h-5 w-5" />}
+        color="bg-pink-500"
+      />
+      <MetricCard
+        title="Orders Backlogged"
+        value={getMetricValue('orders_backlogged').toString()}
+        icon={<Truck className="h-5 w-5" />}
+        color="bg-red-500"
+      />
+      <MetricCard
+        title="Total Sales Monthly"
+        value={formatCurrency(getMetricValue('total_sales_monthly'))}
+        icon={<BarChart2 className="h-5 w-5" />}
+        color="bg-orange-500"
+      />
     </div>
   );
 }

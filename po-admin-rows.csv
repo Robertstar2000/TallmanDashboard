@@ -1,0 +1,28 @@
+ChartName,VariableName,Server,TableName,SQLExpression,Value
+"Monthly PO Counts","March '25","POR","PurchaseOrder","SELECT COUNT(*) AS Count FROM PurchaseOrder WHERE Date >= '2025-03-01' AND Date <= '2025-03-31'",0
+"Monthly PO Counts","February '25","POR","PurchaseOrder","SELECT COUNT(*) AS Count FROM PurchaseOrder WHERE Date >= '2025-02-01' AND Date <= '2025-02-28'",0
+"Monthly PO Counts","January '25","POR","PurchaseOrder","SELECT COUNT(*) AS Count FROM PurchaseOrder WHERE Date >= '2025-01-01' AND Date <= '2025-01-31'",0
+"Monthly PO Counts","December '24","POR","PurchaseOrder","SELECT COUNT(*) AS Count FROM PurchaseOrder WHERE Date >= '2024-12-01' AND Date <= '2024-12-31'",0
+"Monthly PO Counts","November '24","POR","PurchaseOrder","SELECT COUNT(*) AS Count FROM PurchaseOrder WHERE Date >= '2024-11-01' AND Date <= '2024-11-30'",0
+"Monthly PO Counts","October '24","POR","PurchaseOrder","SELECT COUNT(*) AS Count FROM PurchaseOrder WHERE Date >= '2024-10-01' AND Date <= '2024-10-31'",0
+"Monthly PO Counts","September '24","POR","PurchaseOrder","SELECT COUNT(*) AS Count FROM PurchaseOrder WHERE Date >= '2024-09-01' AND Date <= '2024-09-30'",0
+"Monthly PO Counts","August '24","POR","PurchaseOrder","SELECT COUNT(*) AS Count FROM PurchaseOrder WHERE Date >= '2024-08-01' AND Date <= '2024-08-31'",0
+"Monthly PO Counts","July '24","POR","PurchaseOrder","SELECT COUNT(*) AS Count FROM PurchaseOrder WHERE Date >= '2024-07-01' AND Date <= '2024-07-31'",0
+"Monthly PO Counts","June '24","POR","PurchaseOrder","SELECT COUNT(*) AS Count FROM PurchaseOrder WHERE Date >= '2024-06-01' AND Date <= '2024-06-30'",0
+"Monthly PO Counts","May '24","POR","PurchaseOrder","SELECT COUNT(*) AS Count FROM PurchaseOrder WHERE Date >= '2024-05-01' AND Date <= '2024-05-31'",0
+"Monthly PO Counts","April '24","POR","PurchaseOrder","SELECT COUNT(*) AS Count FROM PurchaseOrder WHERE Date >= '2024-04-01' AND Date <= '2024-04-30'",0
+"Monthly PO Totals","March '25","POR","PurchaseOrder","SELECT SUM(ShippingCost) AS Total FROM PurchaseOrder WHERE Date >= '2025-03-01' AND Date <= '2025-03-31'",0
+"Monthly PO Totals","February '25","POR","PurchaseOrder","SELECT SUM(ShippingCost) AS Total FROM PurchaseOrder WHERE Date >= '2025-02-01' AND Date <= '2025-02-28'",0
+"Monthly PO Totals","January '25","POR","PurchaseOrder","SELECT SUM(ShippingCost) AS Total FROM PurchaseOrder WHERE Date >= '2025-01-01' AND Date <= '2025-01-31'",0
+"Monthly PO Totals","December '24","POR","PurchaseOrder","SELECT SUM(ShippingCost) AS Total FROM PurchaseOrder WHERE Date >= '2024-12-01' AND Date <= '2024-12-31'",0
+"Monthly PO Totals","November '24","POR","PurchaseOrder","SELECT SUM(ShippingCost) AS Total FROM PurchaseOrder WHERE Date >= '2024-11-01' AND Date <= '2024-11-30'",0
+"Monthly PO Totals","October '24","POR","PurchaseOrder","SELECT SUM(ShippingCost) AS Total FROM PurchaseOrder WHERE Date >= '2024-10-01' AND Date <= '2024-10-31'",0
+"Monthly PO Totals","September '24","POR","PurchaseOrder","SELECT SUM(ShippingCost) AS Total FROM PurchaseOrder WHERE Date >= '2024-09-01' AND Date <= '2024-09-30'",0
+"Monthly PO Totals","August '24","POR","PurchaseOrder","SELECT SUM(ShippingCost) AS Total FROM PurchaseOrder WHERE Date >= '2024-08-01' AND Date <= '2024-08-31'",0
+"Monthly PO Totals","July '24","POR","PurchaseOrder","SELECT SUM(ShippingCost) AS Total FROM PurchaseOrder WHERE Date >= '2024-07-01' AND Date <= '2024-07-31'",0
+"Monthly PO Totals","June '24","POR","PurchaseOrder","SELECT SUM(ShippingCost) AS Total FROM PurchaseOrder WHERE Date >= '2024-06-01' AND Date <= '2024-06-30'",0
+"Monthly PO Totals","May '24","POR","PurchaseOrder","SELECT SUM(ShippingCost) AS Total FROM PurchaseOrder WHERE Date >= '2024-05-01' AND Date <= '2024-05-31'",0
+"Monthly PO Totals","April '24","POR","PurchaseOrder","SELECT SUM(ShippingCost) AS Total FROM PurchaseOrder WHERE Date >= '2024-04-01' AND Date <= '2024-04-30'",0
+"Vendor Analysis","Top 5 Vendors","POR","PurchaseOrder","SELECT TOP 5 VendorNumber, COUNT(*) AS Count FROM PurchaseOrder WHERE Date >= '2025-01-01' GROUP BY VendorNumber ORDER BY Count DESC",0
+"PO Status","Status Distribution","POR","PurchaseOrder","SELECT Status, COUNT(*) AS Count FROM PurchaseOrder WHERE Date >= '2025-01-01' GROUP BY Status",0
+"Store Analysis","PO by Store","POR","PurchaseOrder","SELECT Store, COUNT(*) AS Count FROM PurchaseOrder WHERE Date >= '2025-01-01' GROUP BY Store",0

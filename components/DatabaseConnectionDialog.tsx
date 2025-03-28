@@ -51,75 +51,86 @@ export default function DatabaseConnectionDialog({
     isConnecting: false
   });
 
-  const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
-
-  // Load saved connection settings
   useEffect(() => {
     const loadSettings = async () => {
-      const p21Settings = await getConnectionSettings('p21');
-      const porSettings = await getConnectionSettings('por');
-      
-      if (p21Settings) {
-        setP21Connection(p21Settings);
-      }
-      if (porSettings) {
-        setPorConnection(porSettings);
+      const settings = await getConnectionSettings();
+      if (settings) {
+        if (settings.p21) {
+          setP21Connection(settings.p21);
+        }
+        if (settings.por) {
+          setPorConnection(settings.por);
+        }
       }
     };
-    
-    if (isOpen) {
-      loadSettings();
-    }
-  }, [isOpen]);
 
-  const handleSaveSettings = async () => {
-    try {
-      await Promise.all([
-        saveConnectionSettings('p21', p21Connection),
-        saveConnectionSettings('por', porConnection)
-      ]);
-      setHasUnsavedChanges(false);
-      showSuccess('Connection settings saved successfully');
-    } catch (error) {
-      showError('Failed to save connection settings');
-    }
+    loadSettings();
+  }, []);
+
+  const handleP21Change = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setP21Connection(prev => ({
+      ...prev,
+      [name]: name === 'port' ? parseInt(value) || 1433 : value
+    }));
   };
 
-  const handleP21Connect = async () => {
-    setP21State({ ...p21State, isConnecting: true, error: undefined });
+  const handlePorChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setPorConnection(prev => ({
+      ...prev,
+      [name]: name === 'port' ? parseInt(value) || 1433 : value
+    }));
+  };
+
+  const handleTestP21Connection = async () => {
+    setP21State({ isConnected: false, isConnecting: true });
     try {
-      await onConnect({ 
-        p21Connection, 
-        porConnection: undefined as DatabaseConnection | undefined
+      await onConnect({
+        p21: p21Connection,
+        por: null
       });
       setP21State({ isConnected: true, isConnecting: false });
-      showSuccess('Connected to P21 successfully');
+      showSuccess('P21 connection successful');
     } catch (error) {
-      setP21State({
-        isConnected: false,
+      setP21State({ 
+        isConnected: false, 
         isConnecting: false,
-        error: error instanceof Error ? error.message : 'Failed to connect'
+        error: error instanceof Error ? error.message : 'Unknown error'
       });
-      showError('Failed to connect to P21');
+      showError(`P21 connection failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
     }
   };
 
-  const handlePorConnect = async () => {
-    setPorState({ ...porState, isConnecting: true, error: undefined });
+  const handleTestPorConnection = async () => {
+    setPorState({ isConnected: false, isConnecting: true });
     try {
-      await onConnect({ 
-        p21Connection: undefined as DatabaseConnection | undefined, 
-        porConnection 
+      await onConnect({
+        p21: null,
+        por: porConnection
       });
       setPorState({ isConnected: true, isConnecting: false });
-      showSuccess('Connected to POR successfully');
+      showSuccess('POR connection successful');
     } catch (error) {
-      setPorState({
-        isConnected: false,
+      setPorState({ 
+        isConnected: false, 
         isConnecting: false,
-        error: error instanceof Error ? error.message : 'Failed to connect'
+        error: error instanceof Error ? error.message : 'Unknown error'
       });
-      showError('Failed to connect to POR');
+      showError(`POR connection failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    }
+  };
+
+  const handleSave = async () => {
+    try {
+      await saveConnectionSettings({
+        p21: p21Connection,
+        por: porConnection
+      });
+      showSuccess('Connection settings saved');
+      onClose();
+    } catch (error) {
+      showError(`Failed to save connection settings: ${error instanceof Error ? error.message : 'Unknown error'}`);
     }
   };
 
@@ -127,150 +138,148 @@ export default function DatabaseConnectionDialog({
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white p-6 rounded-lg shadow-lg max-w-2xl w-full">
-        <h2 className="text-xl font-bold mb-4">Database Connections</h2>
-        <div className="grid grid-cols-2 gap-4">
-          {/* P21 Connection */}
-          <div className="space-y-4">
-            <div className="flex items-center justify-between">
-              <h3 className="font-semibold">P21 Connection</h3>
-              <Button
-                size="sm"
-                onClick={handleP21Connect}
+      <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-lg">
+        <h2 className="text-xl font-bold mb-4">Database Connection Settings</h2>
+        
+        <div className="mb-6">
+          <h3 className="text-lg font-semibold mb-2">P21 Connection</h3>
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <Label htmlFor="p21-server">Server</Label>
+              <Input 
+                id="p21-server" 
+                name="server" 
+                value={p21Connection.server} 
+                onChange={handleP21Change} 
+              />
+            </div>
+            <div>
+              <Label htmlFor="p21-port">Port</Label>
+              <Input 
+                id="p21-port" 
+                name="port" 
+                type="number" 
+                value={p21Connection.port} 
+                onChange={handleP21Change} 
+              />
+            </div>
+            <div>
+              <Label htmlFor="p21-database">Database</Label>
+              <Input 
+                id="p21-database" 
+                name="database" 
+                value={p21Connection.database} 
+                onChange={handleP21Change} 
+              />
+            </div>
+            <div>
+              <Label htmlFor="p21-username">Username</Label>
+              <Input 
+                id="p21-username" 
+                name="username" 
+                value={p21Connection.username} 
+                onChange={handleP21Change} 
+              />
+            </div>
+            <div>
+              <Label htmlFor="p21-password">Password</Label>
+              <Input 
+                id="p21-password" 
+                name="password" 
+                type="password" 
+                value={p21Connection.password} 
+                onChange={handleP21Change} 
+              />
+            </div>
+            <div className="flex items-end">
+              <Button 
+                onClick={handleTestP21Connection}
                 disabled={p21State.isConnecting}
-                className={p21State.isConnected ? "bg-green-500" : undefined}
+                className="w-full"
               >
-                {p21State.isConnecting ? "Connecting..." : p21State.isConnected ? "Connected" : "Connect"}
+                {p21State.isConnecting ? 'Testing...' : 'Test Connection'}
               </Button>
             </div>
-            <Input
-              type="text"
-              placeholder="Server"
-              value={p21Connection.server}
-              onChange={(e) => {
-                setP21Connection({ ...p21Connection, server: e.target.value });
-                setHasUnsavedChanges(true);
-              }}
-            />
-            <Input
-              type="text"
-              placeholder="Database"
-              value={p21Connection.database}
-              onChange={(e) => {
-                setP21Connection({ ...p21Connection, database: e.target.value });
-                setHasUnsavedChanges(true);
-              }}
-            />
-            <Input
-              type="text"
-              placeholder="Username"
-              value={p21Connection.username}
-              onChange={(e) => {
-                setP21Connection({ ...p21Connection, username: e.target.value });
-                setHasUnsavedChanges(true);
-              }}
-            />
-            <Input
-              type="password"
-              placeholder="Password"
-              value={p21Connection.password}
-              onChange={(e) => {
-                setP21Connection({ ...p21Connection, password: e.target.value });
-                setHasUnsavedChanges(true);
-              }}
-            />
-            <Input
-              type="number"
-              placeholder="Port"
-              value={p21Connection.port}
-              onChange={(e) => {
-                setP21Connection({ ...p21Connection, port: parseInt(e.target.value) });
-                setHasUnsavedChanges(true);
-              }}
-            />
-            {p21State.error && (
-              <div className="text-sm text-red-500">{p21State.error}</div>
-            )}
           </div>
-
-          {/* POR Connection */}
-          <div className="space-y-4">
-            <div className="flex items-center justify-between">
-              <h3 className="font-semibold">POR Connection</h3>
-              <Button
-                size="sm"
-                onClick={handlePorConnect}
-                disabled={porState.isConnecting}
-                className={porState.isConnected ? "bg-green-500" : undefined}
-              >
-                {porState.isConnecting ? "Connecting..." : porState.isConnected ? "Connected" : "Connect"}
-              </Button>
-            </div>
-            <Input
-              type="text"
-              placeholder="Server"
-              value={porConnection.server}
-              onChange={(e) => {
-                setPorConnection({ ...porConnection, server: e.target.value });
-                setHasUnsavedChanges(true);
-              }}
-            />
-            <Input
-              type="text"
-              placeholder="Database"
-              value={porConnection.database}
-              onChange={(e) => {
-                setPorConnection({ ...porConnection, database: e.target.value });
-                setHasUnsavedChanges(true);
-              }}
-            />
-            <Input
-              type="text"
-              placeholder="Username"
-              value={porConnection.username}
-              onChange={(e) => {
-                setPorConnection({ ...porConnection, username: e.target.value });
-                setHasUnsavedChanges(true);
-              }}
-            />
-            <Input
-              type="password"
-              placeholder="Password"
-              value={porConnection.password}
-              onChange={(e) => {
-                setPorConnection({ ...porConnection, password: e.target.value });
-                setHasUnsavedChanges(true);
-              }}
-            />
-            <Input
-              type="number"
-              placeholder="Port"
-              value={porConnection.port}
-              onChange={(e) => {
-                setPorConnection({ ...porConnection, port: parseInt(e.target.value) });
-                setHasUnsavedChanges(true);
-              }}
-            />
-            {porState.error && (
-              <div className="text-sm text-red-500">{porState.error}</div>
-            )}
-          </div>
+          {p21State.isConnected && (
+            <div className="mt-2 text-green-600">Connection successful</div>
+          )}
+          {p21State.error && (
+            <div className="mt-2 text-red-600">{p21State.error}</div>
+          )}
         </div>
-
-        <div className="mt-6 flex justify-end space-x-4">
-          <Button
-            variant="outline"
-            onClick={onClose}
-          >
-            Close
-          </Button>
-          <Button
-            onClick={handleSaveSettings}
-            disabled={!hasUnsavedChanges}
-            className={!hasUnsavedChanges ? "opacity-50 cursor-not-allowed" : ""}
-          >
-            Save Settings
-          </Button>
+        
+        <div className="mb-6">
+          <h3 className="text-lg font-semibold mb-2">POR Connection</h3>
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <Label htmlFor="por-server">Server</Label>
+              <Input 
+                id="por-server" 
+                name="server" 
+                value={porConnection.server} 
+                onChange={handlePorChange} 
+              />
+            </div>
+            <div>
+              <Label htmlFor="por-port">Port</Label>
+              <Input 
+                id="por-port" 
+                name="port" 
+                type="number" 
+                value={porConnection.port} 
+                onChange={handlePorChange} 
+              />
+            </div>
+            <div>
+              <Label htmlFor="por-database">Database</Label>
+              <Input 
+                id="por-database" 
+                name="database" 
+                value={porConnection.database} 
+                onChange={handlePorChange} 
+              />
+            </div>
+            <div>
+              <Label htmlFor="por-username">Username</Label>
+              <Input 
+                id="por-username" 
+                name="username" 
+                value={porConnection.username} 
+                onChange={handlePorChange} 
+              />
+            </div>
+            <div>
+              <Label htmlFor="por-password">Password</Label>
+              <Input 
+                id="por-password" 
+                name="password" 
+                type="password" 
+                value={porConnection.password} 
+                onChange={handlePorChange} 
+              />
+            </div>
+            <div className="flex items-end">
+              <Button 
+                onClick={handleTestPorConnection}
+                disabled={porState.isConnecting}
+                className="w-full"
+              >
+                {porState.isConnecting ? 'Testing...' : 'Test Connection'}
+              </Button>
+            </div>
+          </div>
+          {porState.isConnected && (
+            <div className="mt-2 text-green-600">Connection successful</div>
+          )}
+          {porState.error && (
+            <div className="mt-2 text-red-600">{porState.error}</div>
+          )}
+        </div>
+        
+        <div className="flex justify-end gap-2">
+          <Button variant="outline" onClick={onClose}>Cancel</Button>
+          <Button onClick={handleSave}>Save</Button>
         </div>
       </div>
     </div>

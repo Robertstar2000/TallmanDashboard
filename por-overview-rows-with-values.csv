@@ -1,0 +1,145 @@
+ChartName,VariableName,Server,TableName,ProductionSqlExpression,Value
+"POR Overview","New Rentals March '25","POR","PurchaseOrder","(SELECT Count(*) FROM PurchaseOrder 
+                          WHERE [Date] >= #3/1/2025# 
+                          AND [Date] <= #3/31/2025#) - (SELECT Count(*) FROM PurchaseOrder 
+                          WHERE [Date] >= #2/1/2025# 
+                          AND [Date] <= #2/28/2025#
+                          AND [Status] <> 'Closed')",NaN
+"POR Overview","New Rentals February '25","POR","PurchaseOrder","(SELECT Count(*) FROM PurchaseOrder 
+                          WHERE [Date] >= #2/1/2025# 
+                          AND [Date] <= #2/28/2025#) - (SELECT Count(*) FROM PurchaseOrder 
+                          WHERE [Date] >= #1/1/2025# 
+                          AND [Date] <= #1/31/2025#
+                          AND [Status] <> 'Closed')",NaN
+"POR Overview","New Rentals January '25","POR","PurchaseOrder","(SELECT Count(*) FROM PurchaseOrder 
+                          WHERE [Date] >= #1/1/2025# 
+                          AND [Date] <= #1/31/2025#) - (SELECT Count(*) FROM PurchaseOrder 
+                          WHERE [Date] >= #12/1/2024# 
+                          AND [Date] <= #12/31/2024#
+                          AND [Status] <> 'Closed')",NaN
+"POR Overview","New Rentals December '24","POR","PurchaseOrder","(SELECT Count(*) FROM PurchaseOrder 
+                          WHERE [Date] >= #12/1/2024# 
+                          AND [Date] <= #12/31/2024#) - (SELECT Count(*) FROM PurchaseOrder 
+                          WHERE [Date] >= #11/1/2024# 
+                          AND [Date] <= #11/30/2024#
+                          AND [Status] <> 'Closed')",NaN
+"POR Overview","New Rentals November '24","POR","PurchaseOrder","(SELECT Count(*) FROM PurchaseOrder 
+                          WHERE [Date] >= #11/1/2024# 
+                          AND [Date] <= #11/30/2024#) - (SELECT Count(*) FROM PurchaseOrder 
+                          WHERE [Date] >= #10/1/2024# 
+                          AND [Date] <= #10/31/2024#
+                          AND [Status] <> 'Closed')",NaN
+"POR Overview","New Rentals October '24","POR","PurchaseOrder","(SELECT Count(*) FROM PurchaseOrder 
+                          WHERE [Date] >= #10/1/2024# 
+                          AND [Date] <= #10/31/2024#) - (SELECT Count(*) FROM PurchaseOrder 
+                          WHERE [Date] >= #9/1/2024# 
+                          AND [Date] <= #9/30/2024#
+                          AND [Status] <> 'Closed')",NaN
+"POR Overview","New Rentals September '24","POR","PurchaseOrder","(SELECT Count(*) FROM PurchaseOrder 
+                          WHERE [Date] >= #9/1/2024# 
+                          AND [Date] <= #9/30/2024#) - (SELECT Count(*) FROM PurchaseOrder 
+                          WHERE [Date] >= #8/1/2024# 
+                          AND [Date] <= #8/31/2024#
+                          AND [Status] <> 'Closed')",NaN
+"POR Overview","New Rentals August '24","POR","PurchaseOrder","(SELECT Count(*) FROM PurchaseOrder 
+                          WHERE [Date] >= #8/1/2024# 
+                          AND [Date] <= #8/31/2024#) - (SELECT Count(*) FROM PurchaseOrder 
+                          WHERE [Date] >= #7/1/2024# 
+                          AND [Date] <= #7/31/2024#
+                          AND [Status] <> 'Closed')",NaN
+"POR Overview","New Rentals July '24","POR","PurchaseOrder","(SELECT Count(*) FROM PurchaseOrder 
+                          WHERE [Date] >= #7/1/2024# 
+                          AND [Date] <= #7/31/2024#) - (SELECT Count(*) FROM PurchaseOrder 
+                          WHERE [Date] >= #6/1/2024# 
+                          AND [Date] <= #6/30/2024#
+                          AND [Status] <> 'Closed')",NaN
+"POR Overview","New Rentals June '24","POR","PurchaseOrder","(SELECT Count(*) FROM PurchaseOrder 
+                          WHERE [Date] >= #6/1/2024# 
+                          AND [Date] <= #6/30/2024#) - (SELECT Count(*) FROM PurchaseOrder 
+                          WHERE [Date] >= #5/1/2024# 
+                          AND [Date] <= #5/31/2024#
+                          AND [Status] <> 'Closed')",NaN
+"POR Overview","New Rentals May '24","POR","PurchaseOrder","(SELECT Count(*) FROM PurchaseOrder 
+                          WHERE [Date] >= #5/1/2024# 
+                          AND [Date] <= #5/31/2024#) - (SELECT Count(*) FROM PurchaseOrder 
+                          WHERE [Date] >= #4/1/2024# 
+                          AND [Date] <= #4/30/2024#
+                          AND [Status] <> 'Closed')",NaN
+"POR Overview","New Rentals April '24","POR","PurchaseOrder","(SELECT Count(*) FROM PurchaseOrder 
+                          WHERE [Date] >= #4/1/2024# 
+                          AND [Date] <= #4/30/2024#) - (SELECT Count(*) FROM PurchaseOrder 
+                          WHERE [Date] >= #3/1/2024# 
+                          AND [Date] <= #3/31/2024#
+                          AND [Status] <> 'Closed')",NaN
+"POR Overview","Open Rentals March '25","POR","PurchaseOrder","SELECT Count(*) FROM PurchaseOrder 
+                WHERE [Date] >= #3/1/2025# 
+                AND [Date] <= #3/31/2025#",0
+"POR Overview","Open Rentals February '25","POR","PurchaseOrder","SELECT Count(*) FROM PurchaseOrder 
+                WHERE [Date] >= #2/1/2025# 
+                AND [Date] <= #2/28/2025#",0
+"POR Overview","Open Rentals January '25","POR","PurchaseOrder","SELECT Count(*) FROM PurchaseOrder 
+                WHERE [Date] >= #1/1/2025# 
+                AND [Date] <= #1/31/2025#",0
+"POR Overview","Open Rentals December '24","POR","PurchaseOrder","SELECT Count(*) FROM PurchaseOrder 
+                WHERE [Date] >= #12/1/2024# 
+                AND [Date] <= #12/31/2024#",0
+"POR Overview","Open Rentals November '24","POR","PurchaseOrder","SELECT Count(*) FROM PurchaseOrder 
+                WHERE [Date] >= #11/1/2024# 
+                AND [Date] <= #11/30/2024#",0
+"POR Overview","Open Rentals October '24","POR","PurchaseOrder","SELECT Count(*) FROM PurchaseOrder 
+                WHERE [Date] >= #10/1/2024# 
+                AND [Date] <= #10/31/2024#",0
+"POR Overview","Open Rentals September '24","POR","PurchaseOrder","SELECT Count(*) FROM PurchaseOrder 
+                WHERE [Date] >= #9/1/2024# 
+                AND [Date] <= #9/30/2024#",0
+"POR Overview","Open Rentals August '24","POR","PurchaseOrder","SELECT Count(*) FROM PurchaseOrder 
+                WHERE [Date] >= #8/1/2024# 
+                AND [Date] <= #8/31/2024#",0
+"POR Overview","Open Rentals July '24","POR","PurchaseOrder","SELECT Count(*) FROM PurchaseOrder 
+                WHERE [Date] >= #7/1/2024# 
+                AND [Date] <= #7/31/2024#",0
+"POR Overview","Open Rentals June '24","POR","PurchaseOrder","SELECT Count(*) FROM PurchaseOrder 
+                WHERE [Date] >= #6/1/2024# 
+                AND [Date] <= #6/30/2024#",0
+"POR Overview","Open Rentals May '24","POR","PurchaseOrder","SELECT Count(*) FROM PurchaseOrder 
+                WHERE [Date] >= #5/1/2024# 
+                AND [Date] <= #5/31/2024#",0
+"POR Overview","Open Rentals April '24","POR","PurchaseOrder","SELECT Count(*) FROM PurchaseOrder 
+                WHERE [Date] >= #4/1/2024# 
+                AND [Date] <= #4/30/2024#",0
+"POR Overview","Rental Value March '25","POR","PurchaseOrder","SELECT Sum([ShippingCost]) FROM PurchaseOrder 
+                WHERE [Date] >= #3/1/2025# 
+                AND [Date] <= #3/31/2025#",0
+"POR Overview","Rental Value February '25","POR","PurchaseOrder","SELECT Sum([ShippingCost]) FROM PurchaseOrder 
+                WHERE [Date] >= #2/1/2025# 
+                AND [Date] <= #2/28/2025#",0
+"POR Overview","Rental Value January '25","POR","PurchaseOrder","SELECT Sum([ShippingCost]) FROM PurchaseOrder 
+                WHERE [Date] >= #1/1/2025# 
+                AND [Date] <= #1/31/2025#",0
+"POR Overview","Rental Value December '24","POR","PurchaseOrder","SELECT Sum([ShippingCost]) FROM PurchaseOrder 
+                WHERE [Date] >= #12/1/2024# 
+                AND [Date] <= #12/31/2024#",0
+"POR Overview","Rental Value November '24","POR","PurchaseOrder","SELECT Sum([ShippingCost]) FROM PurchaseOrder 
+                WHERE [Date] >= #11/1/2024# 
+                AND [Date] <= #11/30/2024#",0
+"POR Overview","Rental Value October '24","POR","PurchaseOrder","SELECT Sum([ShippingCost]) FROM PurchaseOrder 
+                WHERE [Date] >= #10/1/2024# 
+                AND [Date] <= #10/31/2024#",0
+"POR Overview","Rental Value September '24","POR","PurchaseOrder","SELECT Sum([ShippingCost]) FROM PurchaseOrder 
+                WHERE [Date] >= #9/1/2024# 
+                AND [Date] <= #9/30/2024#",0
+"POR Overview","Rental Value August '24","POR","PurchaseOrder","SELECT Sum([ShippingCost]) FROM PurchaseOrder 
+                WHERE [Date] >= #8/1/2024# 
+                AND [Date] <= #8/31/2024#",0
+"POR Overview","Rental Value July '24","POR","PurchaseOrder","SELECT Sum([ShippingCost]) FROM PurchaseOrder 
+                WHERE [Date] >= #7/1/2024# 
+                AND [Date] <= #7/31/2024#",0
+"POR Overview","Rental Value June '24","POR","PurchaseOrder","SELECT Sum([ShippingCost]) FROM PurchaseOrder 
+                WHERE [Date] >= #6/1/2024# 
+                AND [Date] <= #6/30/2024#",0
+"POR Overview","Rental Value May '24","POR","PurchaseOrder","SELECT Sum([ShippingCost]) FROM PurchaseOrder 
+                WHERE [Date] >= #5/1/2024# 
+                AND [Date] <= #5/31/2024#",0
+"POR Overview","Rental Value April '24","POR","PurchaseOrder","SELECT Sum([ShippingCost]) FROM PurchaseOrder 
+                WHERE [Date] >= #4/1/2024# 
+                AND [Date] <= #4/30/2024#",0

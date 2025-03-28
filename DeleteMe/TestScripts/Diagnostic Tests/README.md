@@ -1,0 +1,1 @@
+# Diagnostic Tests\n\nThis folder contains the following test scripts:\n\n1. test-p21-diagnostics.js - Diagnostic tests for P21\n2. test-p21-check-schemas.js - Tests P21 schema validation\n3. test-sql-execution.js - Tests SQL execution directly

@@ -4,13 +4,7 @@ import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Cell } from 'recharts';
 import { DataDetailsDialog } from '@/components/DataDetailsDialog';
-
-interface InventoryData {
-  [key: string]: string | number;
-  category: string;
-  inStock: number;
-  onOrder: number;
-}
+import { InventoryData } from '@/lib/types/admin';
 
 interface InventoryChartProps {
   data: InventoryData[];
@@ -18,37 +12,14 @@ interface InventoryChartProps {
 
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
 
-const inventoryData = [
-  {
-    category: '100',
-    inStock: 45,
-    onOrder: 10,
-  },
-  {
-    category: '101',
-    inStock: 62,
-    onOrder: 15,
-  },
-  {
-    category: '102',
-    inStock: 78,
-    onOrder: 20,
-  },
-  {
-    category: '107',
-    inStock: 53,
-    onOrder: 12,
-  }
-];
-
 export function InventoryChart({ data }: InventoryChartProps) {
   const safeData = Array.isArray(data) ? data : [];
 
   const chartData = React.useMemo(() => {
-    return safeData.filter(item => item.category !== '108' && item.category !== '109').map((item) => ({
-      name: item.category,
-      inStock: item.inStock,
-      onOrder: item.onOrder,
+    return safeData.map((item) => ({
+      name: item.category || '',
+      inStock: typeof item.inStock === 'number' ? item.inStock : 0,
+      onOrder: typeof item.onOrder === 'number' ? item.onOrder : 0,
     }));
   }, [safeData]);
 
@@ -73,25 +44,27 @@ export function InventoryChart({ data }: InventoryChartProps) {
               data={chartData}
               margin={{ top: 2, right: 4, left: 0, bottom: 2 }}
             >
-              <CartesianGrid strokeDasharray="2 2" />
-              <XAxis 
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis
                 dataKey="name"
-                tick={{fontSize: 'clamp(7px,0.7vw,8px)'}}
+                tick={{ fontSize: 10 }}
+                interval={0}
                 height={12}
               />
-              <YAxis 
-                tick={{fontSize: 'clamp(7px,0.7vw,8px)'}}
-                width={14}
+              <YAxis
+                tick={{ fontSize: 10 }}
+                width={25}
               />
-              <Tooltip />
-              <Legend 
-                wrapperStyle={{fontSize: 'clamp(7px,0.7vw,8px)'}}
-                iconSize={4}
+              <Tooltip
+                contentStyle={{ fontSize: 12 }}
+                labelStyle={{ fontSize: 12 }}
+              />
+              <Legend
+                wrapperStyle={{ fontSize: 10 }}
                 height={10}
-                margin={{ top: 0, right: 0, left: 0, bottom: 0 }}
               />
-              <Bar dataKey="inStock" fill="#8884d8" />
-              <Bar dataKey="onOrder" fill="#82ca9d" />
+              <Bar dataKey="inStock" fill="#0088FE" name="In Stock" />
+              <Bar dataKey="onOrder" fill="#00C49F" name="On Order" />
             </BarChart>
           </ResponsiveContainer>
         </CardContent>

@@ -1,0 +1,61 @@
+{
+  "p21": {
+    "oe_hdr": {
+      "exists": true,
+      "count": 510679,
+      "error": null,
+      "successQuery": "SELECT COUNT(*) AS count FROM oe_hdr"
+    },
+    "ar_open_items": {
+      "exists": false,
+      "count": 0,
+      "error": "[odbc] Error executing the sql statement",
+      "successQuery": ""
+    },
+    "ap_open_items": {
+      "exists": false,
+      "count": 0,
+      "error": "[odbc] Error executing the sql statement",
+      "successQuery": ""
+    },
+    "customer": {
+      "exists": true,
+      "count": 8342,
+      "error": null,
+      "successQuery": "SELECT COUNT(*) AS count FROM customer"
+    },
+    "inv_mast": {
+      "exists": true,
+      "count": 351423,
+      "error": null,
+      "successQuery": "SELECT COUNT(*) AS count FROM inv_mast"
+    },
+    "customer_mst": {
+      "exists": false,
+      "count": 0,
+      "error": "[odbc] Error executing the sql statement",
+      "successQuery": ""
+    },
+    "invoice_hdr": {
+      "exists": true,
+      "count": 387574,
+      "error": null,
+      "successQuery": "SELECT COUNT(*) AS count FROM invoice_hdr"
+    },
+    "order_hdr": {
+      "exists": false,
+      "count": 0,
+      "error": "[odbc] Error executing the sql statement",
+      "successQuery": ""
+    },
+    "location_mst": {
+      "exists": false,
+      "count": 0,
+      "error": "[odbc] Error executing the sql statement",
+      "successQuery": ""
+    }
+  },
+  "por": {
+    "connectionError": "MDBReader is not a constructor"
+  }
+}

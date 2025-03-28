@@ -1,0 +1,32 @@
+=== Background Sequencing Test ===
+Started at: 2025-03-20T11:31:10.706Z
+
+[2025-03-20T11:31:10.707Z] === Starting Background Sequencing Tests ===
+[2025-03-20T11:31:10.715Z] 
+=== Testing Promise-based Sequencing ===
+[2025-03-20T11:31:10.716Z] Starting to process 7 rows in production mode
+[2025-03-20T11:31:10.717Z] Processing 7 rows in production mode
+[2025-03-20T11:31:10.719Z] Processing row 1/7: Total Orders (ID: 1)
+[2025-03-20T11:31:11.220Z] Mock processing row 1 in production mode
+[2025-03-20T11:31:11.766Z] Successfully processed row 1 with value: 10
+[2025-03-20T11:31:12.770Z] Processing row 2/7: Open Orders (ID: 2)
+[2025-03-20T11:31:13.271Z] Mock processing row 2 in production mode
+[2025-03-20T11:31:14.064Z] Successfully processed row 2 with value: 20
+[2025-03-20T11:31:15.074Z] Processing row 3/7: Open Orders 2 (ID: 3)
+[2025-03-20T11:31:15.575Z] Mock processing row 3 in production mode
+[2025-03-20T11:31:17.041Z] Error processing row 3: Simulated random error for testing
+[2025-03-20T11:31:18.042Z] Processing row 4/7: Daily Revenue (ID: 4)
+[2025-03-20T11:31:18.549Z] Mock processing row 4 in production mode
+[2025-03-20T11:31:19.674Z] Successfully processed row 4 with value: 40
+[2025-03-20T11:31:20.676Z] Processing row 5/7: Open Invoices (ID: 5)
+[2025-03-20T11:31:21.180Z] Mock processing row 5 in production mode
+[2025-03-20T11:31:21.885Z] Successfully processed row 5 with value: 50
+[2025-03-20T11:31:22.887Z] Processing row 6/7: Orders Backlogged (ID: 6)
+[2025-03-20T11:31:23.389Z] Mock processing row 6 in production mode
+[2025-03-20T11:31:24.613Z] Successfully processed row 6 with value: 60
+[2025-03-20T11:31:25.617Z] Processing row 7/7: Total Monthly Sales (ID: 7)
+[2025-03-20T11:31:26.120Z] Mock processing row 7 in production mode
+[2025-03-20T11:31:27.050Z] Successfully processed row 7 with value: 70
+[2025-03-20T11:31:28.051Z] Finished processing all rows
+[2025-03-20T11:31:28.053Z] 
+=== Tests Completed ===

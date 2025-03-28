@@ -1,0 +1,35 @@
+{
+  "timestamp": "2025-03-20T20:18:03.653Z",
+  "updatedCount": 0,
+  "insertedCount": 6,
+  "siteDistribution": {
+    "total": 2036,
+    "columbus": {
+      "count": 1552,
+      "percentage": 76.2278978388998
+    },
+    "addison": {
+      "count": 430,
+      "percentage": 21.11984282907662
+    },
+    "lakeCity": {
+      "count": 34,
+      "percentage": 1.6699410609037328
+    }
+  },
+  "siteSales": {
+    "total": 1858263.24,
+    "columbus": {
+      "sales": 1856971.62,
+      "percentage": 99.9304931630677
+    },
+    "addison": {
+      "sales": 1291.62,
+      "percentage": 0.0695068369323175
+    },
+    "lakeCity": {
+      "sales": 0,
+      "percentage": 0
+    }
+  }
+}

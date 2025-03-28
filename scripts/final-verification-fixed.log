@@ -1,0 +1,32 @@
+﻿**********************
+Windows PowerShell transcript start
+Start time: 20250325001528
+Username: TALLMAN\BobM
+RunAs User: TALLMAN\BobM
+Configuration Name: 
+Machine: WEB03 (Microsoft Windows NT 10.0.20348.0)
+Host Application: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -File C:\Users\BobM\CascadeProjects\TallmanDashboard_new\scripts\final-verification-fixed.ps1
+Process ID: 3700
+PSVersion: 5.1.20348.2849
+PSEdition: Desktop
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.20348.2849
+BuildVersion: 10.0.20348.2849
+CLRVersion: 4.0.30319.42000
+WSManStackVersion: 3.0
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
+**********************
+Transcript started, output file is C:\Users\BobM\CascadeProjects\TallmanDashboard_new\scripts\final-verification-fixed.log
+Starting final SQL verification at 03/25/2025 00:15:28
+
+Summary:
+Total P21 entries: 58
+Total POR entries: 116
+Mismatched entries: 0
+
+All entries now have properly matched server names and SQL syntax!
+Final SQL verification completed at 03/25/2025 00:15:28
+**********************
+Windows PowerShell transcript end
+End time: 20250325001528
+**********************

@@ -1,0 +1,993 @@
+import { getMode } from '@/lib/state/dashboardState';
+import Database from 'better-sqlite3';
+import path from 'path';
+import { monthlyPOCounts } from './monthly-po-counts';
+import { monthlyPOTotals } from './monthly-po-totals';
+import { porOverview } from './por-overview';
+import { porAnalysis } from './por-analysis';
+import { combinedSpreadsheetData } from './combined-spreadsheet-data';
+
+export interface SpreadsheetRow {
+  id: string;
+  name: string;
+  serverName: 'P21' | 'POR';
+  value: string | number;
+  chartGroup: string;
+  calculation: string;
+  sqlExpression: string;      // For SQLite testing
+  productionSqlExpression: string;  // For P21/POR SQL Server
+  tableName: string;
+  chartName?: string;
+  variableName?: string;
+  lastUpdated?: string;
+  timeframe?: string;
+}
+
+function generateProductionSql(serverName: 'P21' | 'POR', sqlExpression: string, tableName: string): string {
+  // Common SQL Server replacements
+  let prodSql = sqlExpression
+    .replace(/date\('now'\)/g, 'GETDATE()')
+    .replace(/date\(date\)/g, 'CONVERT(date, date)')
+    .replace(/strftime\('%m', date\)/g, 'MONTH(date)')
+    .replace(/strftime\('%Y', date\)/g, 'YEAR(date)');
+
+  if (serverName === 'P21') {
+    // P21-specific transformations
+    prodSql = prodSql
+      .replace(new RegExp(`FROM ${tableName}`, 'g'), `FROM P21.dbo.${tableName} WITH (NOLOCK)`)
+      .replace(/COALESCE/g, 'ISNULL')
+      .replace(/datetime\('now'\)/g, 'GETDATE()')
+      .replace(/datetime\('now', '-(\d+) day'\)/g, 'DATEADD(day, -$1, GETDATE())');
+  } else {
+    // For POR, we now use MS Access syntax
+    // Import the Access SQL generator dynamically when needed
+    try {
+      // This is a placeholder - the actual transformation happens in executeAccessQuery
+      prodSql = prodSql
+        .replace(new RegExp(`FROM ${tableName}`, 'g'), `FROM [${tableName}]`)
+        .replace(/WITH \(NOLOCK\)/g, '');
+    } catch (error) {
+      console.error('Error transforming SQL for Access:', error);
+    }
+  }
+
+  return prodSql;
+}
+
+// Helper function to generate month-based SQL for time series data
+function generateMonthSql(baseTable: string, valueColumn: string, condition: string = '', months: number = 12): string {
+  return `SELECT COALESCE(SUM(${valueColumn}), 0) as value 
+          FROM ${baseTable} 
+          WHERE strftime('%Y-%m', date) = strftime('%Y-%m', 'now', '-${months-1} month')
+          ${condition ? 'AND ' + condition : ''}`;
+}
+
+// Helper function to generate month-based production SQL for time series data
+function generateMonthProductionSql(serverName: 'P21' | 'POR', baseTable: string, valueColumn: string, condition: string = '', months: number = 12): string {
+  const schema = serverName === 'P21' ? 'P21.dbo.' : 'POR.dbo.';
+  return `SELECT ISNULL(SUM(${valueColumn}), 0) as value 
+          FROM ${schema}${baseTable} WITH (NOLOCK) 
+          WHERE FORMAT(date, 'yyyy-MM') = FORMAT(DATEADD(month, -${months-1}, GETDATE()), 'yyyy-MM')
+          ${condition ? 'AND ' + condition : ''}`;
+}
+
+// Helper function to generate day-based SQL for daily data
+function generateDaySql(baseTable: string, valueColumn: string, condition: string = '', days: number = 1): string {
+  return `SELECT COALESCE(SUM(${valueColumn}), 0) as value 
+          FROM ${baseTable} 
+          WHERE date(date) = date('now', '-${days-1} day')
+          ${condition ? 'AND ' + condition : ''}`;
+}
+
+// Helper function to generate day-based production SQL for daily data
+function generateDayProductionSql(serverName: 'P21' | 'POR', baseTable: string, valueColumn: string, condition: string = '', days: number = 1): string {
+  const schema = serverName === 'P21' ? 'P21.dbo.' : 'POR.dbo.';
+  return `SELECT ISNULL(SUM(${valueColumn}), 0) as value 
+          FROM ${schema}${baseTable} WITH (NOLOCK) 
+          WHERE CONVERT(date, date) = CONVERT(date, DATEADD(day, -${days-1}, GETDATE()))
+          ${condition ? 'AND ' + condition : ''}`;
+}
+
+// Combine all the spreadsheet data
+export const initialSpreadsheetData: SpreadsheetRow[] = [
+    {
+    id: '101',
+    name: "Inventory - Total Items",
+    chartName: "Inventory",
+    variableName: "Total Items",
+    serverName: 'P21',
+    value: "0",
+    chartGroup: "Inventory",
+    calculation: "SUM(value)",
+    sqlExpression: "SELECT COALESCE(COUNT(*), 0) as value FROM inventory",
+    productionSqlExpression: "SELECT COUNT(*) as value FROM dbo.inv_mast WITH (NOLOCK)",
+    tableName: "inv_mast"
+  },
+    {
+    id: '102',
+    name: "Inventory - Active Items",
+    chartName: "Inventory",
+    variableName: "Active Items",
+    serverName: 'P21',
+    value: "0",
+    chartGroup: "Inventory",
+    calculation: "SUM(value)",
+    sqlExpression: "SELECT COALESCE(COUNT(*), 0) as value FROM inventory WHERE status = 'active'",
+    productionSqlExpression: "SELECT COUNT(*) as value FROM dbo.inv_mast WITH (NOLOCK) WHERE delete_flag <> 'Y'",
+    tableName: "inv_mast"
+  },
+    {
+    id: '103',
+    name: "Inventory - Inactive Items",
+    chartName: "Inventory",
+    variableName: "Inactive Items",
+    serverName: 'P21',
+    value: "0",
+    chartGroup: "Inventory",
+    calculation: "SUM(value)",
+    sqlExpression: "SELECT COALESCE(COUNT(*), 0) as value FROM inventory WHERE status = 'inactive'",
+    productionSqlExpression: "SELECT COUNT(*) as value FROM dbo.inv_mast WITH (NOLOCK) WHERE delete_flag = 'Y'",
+    tableName: "inv_mast"
+  },
+    {
+    id: '8',
+    name: "Columbus",
+    chartName: "Site Distribution",
+    variableName: "Columbus",
+    serverName: 'P21',
+    value: "0",
+    chartGroup: "Site Distribution",
+    calculation: "COUNT(*)",
+    sqlExpression: "SELECT COUNT(*) as value FROM orders WHERE site = 'columbus' AND status = 'active'",
+    productionSqlExpression: "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE location_id = '101' AND completed = 'N'",
+    tableName: "oe_hdr"
+  },
+    {
+    id: '9',
+    name: "Addison",
+    chartName: "Site Distribution",
+    variableName: "Addison",
+    serverName: 'P21',
+    value: "0",
+    chartGroup: "Site Distribution",
+    calculation: "COUNT(*)",
+    sqlExpression: "SELECT COUNT(*) as value FROM orders WHERE site = 'addison' AND status = 'active'",
+    productionSqlExpression: "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE location_id = '100' AND completed = 'N'",
+    tableName: "oe_hdr"
+  },
+    {
+    id: '10',
+    name: "Lake City",
+    chartName: "Site Distribution",
+    variableName: "Lake City",
+    serverName: 'P21',
+    value: "0",
+    chartGroup: "Site Distribution",
+    calculation: "COUNT(*)",
+    sqlExpression: "SELECT COUNT(*) as value FROM orders WHERE site = 'lake_city' AND status = 'active'",
+    productionSqlExpression: "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE location_id = '107' AND completed = 'N'",
+    tableName: "oe_hdr"
+  },
+    {
+    id: '1',
+    name: "Total Orders",
+    chartName: "Key Metrics",
+    variableName: "Total Orders",
+    serverName: 'P21',
+    value: "18",
+    chartGroup: "Metrics",
+    calculation: "COUNT(*)",
+    sqlExpression: "SELECT COUNT(*) as value FROM orders",
+    productionSqlExpression: "SELECT COUNT(*) as value FROM oe_hdr WITH (NOLOCK)  WHERE order_date >= DATEADD(day, -7, GETDATE())",
+    tableName: "oe_hdr"
+  },
+    {
+    id: '2',
+    name: "Open Orders",
+    chartName: "Key Metrics",
+    variableName: "Open Orders",
+    serverName: 'P21',
+    value: "2034",
+    chartGroup: "Metrics",
+    calculation: "COUNT(*)",
+    sqlExpression: "SELECT COUNT(*) as value FROM orders",
+    productionSqlExpression: "SELECT COUNT(*) as value FROM oe_hdr WITH (NOLOCK)  WHERE completed = 'N'",
+    tableName: "oe_hdr"
+  },
+    {
+    id: '3',
+    name: "Open Orders 2",
+    chartName: "Key Metrics",
+    variableName: "Open Orders 2",
+    serverName: 'P21',
+    value: "24643150.24",
+    chartGroup: "Metrics",
+    calculation: "COUNT(*)",
+    sqlExpression: "SELECT COUNT(*) as value FROM orders",
+    productionSqlExpression: "SELECT ISNULL(SUM(l.extended_price), 0) as value  FROM oe_hdr h WITH (NOLOCK) JOIN oe_line l WITH (NOLOCK) ON h.order_no = l.order_no WHERE h.completed = 'N'",
+    tableName: "oe_hdr"
+  },
+    {
+    id: '4',
+    name: "Daily Revenue",
+    chartName: "Key Metrics",
+    variableName: "Daily Revenue",
+    serverName: 'P21',
+    value: "75500",
+    chartGroup: "Metrics",
+    calculation: "COUNT(*)",
+    sqlExpression: "SELECT COUNT(*) as value FROM orders",
+    productionSqlExpression: "SELECT ISNULL(SUM(l.extended_price), 0) as value  FROM oe_hdr h WITH (NOLOCK) JOIN oe_line l WITH (NOLOCK) ON h.order_no = l.order_no WHERE CONVERT(date, h.order_date) = CONVERT(date, DATEADD(day, -1, GETDATE()))",
+    tableName: "oe_hdr"
+  },
+    {
+    id: '5',
+    name: "Open Invoices",
+    chartName: "Key Metrics",
+    variableName: "Open Invoices",
+    serverName: 'P21',
+    value: "1",
+    chartGroup: "Metrics",
+    calculation: "COUNT(*)",
+    sqlExpression: "SELECT COUNT(*) as value FROM orders",
+    productionSqlExpression: "SELECT COUNT(*) as value  FROM invoice_hdr WITH (NOLOCK)  WHERE invoice_date >= DATEADD(month, -1, GETDATE())",
+    tableName: "oe_hdr"
+  },
+    {
+    id: '6',
+    name: "Orders Backlogged",
+    chartName: "Key Metrics",
+    variableName: "Orders Backlogged",
+    serverName: 'P21',
+    value: "27",
+    chartGroup: "Metrics",
+    calculation: "COUNT(*)",
+    sqlExpression: "SELECT COUNT(*) as value FROM orders",
+    productionSqlExpression: "SELECT COUNT(*) as value  FROM oe_hdr WITH (NOLOCK)  WHERE completed = 'N'  AND order_date >= DATEADD(day, -30, GETDATE())",
+    tableName: "oe_hdr"
+  },
+    {
+    id: '7',
+    name: "Total Monthly Sales",
+    chartName: "Key Metrics",
+    variableName: "Total Monthly Sales",
+    serverName: 'P21',
+    value: "1708263.24",
+    chartGroup: "Metrics",
+    calculation: "COUNT(*)",
+    sqlExpression: "SELECT COUNT(*) as value FROM orders",
+    productionSqlExpression: "SELECT ISNULL(SUM(l.extended_price), 0) as value  FROM oe_hdr h WITH (NOLOCK) JOIN oe_line l WITH (NOLOCK) ON h.order_no = l.order_no WHERE h.order_date >= DATEADD(day, -30, GETDATE())",
+    tableName: "oe_hdr"
+  },
+    {
+    id: '8a',
+    name: "Columbus Sales",
+    chartName: "Site Sales",
+    variableName: "Columbus",
+    serverName: 'P21',
+    value: "0",
+    chartGroup: "Site Sales",
+    calculation: "SUM(extended_price)",
+    sqlExpression: "SELECT SUM(price) as value FROM orders WHERE site = 'columbus' AND order_date >= DATE_SUB(NOW(), INTERVAL 30 DAY)",
+    productionSqlExpression: "SELECT ISNULL(SUM(l.extended_price), 0) as value FROM dbo.oe_hdr h WITH (NOLOCK) JOIN dbo.oe_line l WITH (NOLOCK) ON h.order_no = l.order_no WHERE h.location_id = '101' AND h.order_date >= DATEADD(day, -30, GETDATE())",
+    tableName: "oe_hdr,oe_line"
+  },
+    {
+    id: '9a',
+    name: "Addison Sales",
+    chartName: "Site Sales",
+    variableName: "Addison",
+    serverName: 'P21',
+    value: "0",
+    chartGroup: "Site Sales",
+    calculation: "SUM(extended_price)",
+    sqlExpression: "SELECT SUM(price) as value FROM orders WHERE site = 'addison' AND order_date >= DATE_SUB(NOW(), INTERVAL 30 DAY)",
+    productionSqlExpression: "SELECT ISNULL(SUM(l.extended_price), 0) as value FROM dbo.oe_hdr h WITH (NOLOCK) JOIN dbo.oe_line l WITH (NOLOCK) ON h.order_no = l.order_no WHERE h.location_id = '100' AND h.order_date >= DATEADD(day, -30, GETDATE())",
+    tableName: "oe_hdr,oe_line"
+  },
+    {
+    id: '10a',
+    name: "Lake City Sales",
+    chartName: "Site Sales",
+    variableName: "Lake City",
+    serverName: 'P21',
+    value: "0",
+    chartGroup: "Site Sales",
+    calculation: "SUM(extended_price)",
+    sqlExpression: "SELECT SUM(price) as value FROM orders WHERE site = 'lake_city' AND order_date >= DATE_SUB(NOW(), INTERVAL 30 DAY)",
+    productionSqlExpression: "SELECT ISNULL(SUM(l.extended_price), 0) as value FROM dbo.oe_hdr h WITH (NOLOCK) JOIN dbo.oe_line l WITH (NOLOCK) ON h.order_no = l.order_no WHERE h.location_id = '107' AND h.order_date >= DATEADD(day, -30, GETDATE())",
+    tableName: "oe_hdr,oe_line"
+  },
+    {
+    id: '11',
+    name: "Accounts - Payable - Month 1",
+    chartName: "Accounts",
+    variableName: "Payable",
+    serverName: 'P21',
+    value: "0",
+    chartGroup: "Accounts",
+    calculation: "COUNT(*)",
+    timeframe: "Month 1",
+    sqlExpression: "SELECT COALESCE(COUNT(*), 0) as value FROM accounts WHERE type = 'payable' AND strftime('%Y-%m', date) = strftime('%Y-%m', 'now')",
+    productionSqlExpression: "SELECT ISNULL(COUNT(*)/12, 0) AS value FROM dbo.inv_mast WITH (NOLOCK) WHERE delete_flag <> 'Y'",
+    tableName: "inv_mast"
+  },
+    {
+    id: '12',
+    name: "Accounts - Overdue - Month 1",
+    chartName: "Accounts",
+    variableName: "Overdue",
+    serverName: 'P21',
+    value: "0",
+    chartGroup: "Accounts",
+    calculation: "COUNT(*)",
+    timeframe: "Month 1",
+    sqlExpression: "SELECT COALESCE(COUNT(*), 0) as value FROM accounts WHERE type = 'overdue' AND strftime('%Y-%m', date) = strftime('%Y-%m', 'now')",
+    productionSqlExpression: "SELECT ISNULL(COUNT(*), 0) as value FROM dbo.customer WITH (NOLOCK) WHERE credit_limit_used > 0 AND FORMAT(date_last_modified, 'yyyy-MM') = FORMAT(GETDATE(), 'yyyy-MM')",
+    tableName: "customer"
+  },
+    {
+    id: '13',
+    name: "Accounts - Receivable - Month 1",
+    chartName: "Accounts",
+    variableName: "Receivable",
+    serverName: 'P21',
+    value: "0",
+    chartGroup: "Accounts",
+    calculation: "COUNT(*)",
+    timeframe: "Month 1",
+    sqlExpression: "SELECT COALESCE(COUNT(*), 0) as value FROM accounts WHERE type = 'receivable' AND strftime('%Y-%m', date) = strftime('%Y-%m', 'now')",
+    productionSqlExpression: "SELECT ISNULL(COUNT(*), 0) AS value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_date >= DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0) AND order_date < DATEADD(month, DATEDIFF(month, 0, GETDATE()) + 1, 0)",
+    tableName: "oe_hdr"
+  },
+    {
+    id: '14',
+    name: "Accounts - Payable - Month 2",
+    chartName: "Accounts",
+    variableName: "Payable",
+    serverName: 'P21',
+    value: "0",
+    chartGroup: "Accounts",
+    calculation: "COUNT(*)",
+    timeframe: "Month 2",
+    sqlExpression: "SELECT COALESCE(COUNT(*), 0) as value FROM accounts WHERE type = 'payable' AND strftime('%Y-%m', date) = strftime('%Y-%m', datetime('now', '-1 month'))",
+    productionSqlExpression: "SELECT ISNULL(COUNT(*)/12, 0) AS value FROM dbo.inv_mast WITH (NOLOCK) WHERE delete_flag <> 'Y'",
+    tableName: "inv_mast"
+  },
+    {
+    id: '15',
+    name: "Accounts - Overdue - Month 2",
+    chartName: "Accounts",
+    variableName: "Overdue",
+    serverName: 'P21',
+    value: "0",
+    chartGroup: "Accounts",
+    calculation: "COUNT(*)",
+    timeframe: "Month 2",
+    sqlExpression: "SELECT COALESCE(COUNT(*), 0) as value FROM accounts WHERE type = 'overdue' AND strftime('%Y-%m', date) = strftime('%Y-%m', datetime('now', '-1 month'))",
+    productionSqlExpression: "SELECT ISNULL(COUNT(*), 0) as value FROM dbo.customer WITH (NOLOCK) WHERE credit_limit_used > 0 AND FORMAT(date_last_modified, 'yyyy-MM') = FORMAT(DATEADD(month, -1, GETDATE()), 'yyyy-MM')",
+    tableName: "customer"
+  },
+    {
+    id: '16',
+    name: "Accounts - Receivable - Month 2",
+    chartName: "Accounts",
+    variableName: "Receivable",
+    serverName: 'P21',
+    value: "0",
+    chartGroup: "Accounts",
+    calculation: "COUNT(*)",
+    timeframe: "Month 2",
+    sqlExpression: "SELECT COALESCE(COUNT(*), 0) as value FROM accounts WHERE type = 'receivable' AND strftime('%Y-%m', date) = strftime('%Y-%m', datetime('now', '-1 month'))",
+    productionSqlExpression: "SELECT ISNULL(COUNT(*), 0) AS value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_date >= DATEADD(month, DATEDIFF(month, 0, GETDATE()) - 1, 0) AND order_date < DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)",
+    tableName: "oe_hdr"
+  },
+    {
+    id: '17',
+    name: "Accounts - Payable - Month 3",
+    chartName: "Accounts",
+    variableName: "Payable",
+    serverName: 'P21',
+    value: "0",
+    chartGroup: "Accounts",
+    calculation: "COUNT(*)",
+    timeframe: "Month 3",
+    sqlExpression: "SELECT COALESCE(COUNT(*), 0) as value FROM accounts WHERE type = 'payable' AND strftime('%Y-%m', date) = strftime('%Y-%m', datetime('now', '-2 month'))",
+    productionSqlExpression: "SELECT ISNULL(COUNT(*)/12, 0) AS value FROM dbo.inv_mast WITH (NOLOCK) WHERE delete_flag <> 'Y'",
+    tableName: "inv_mast"
+  },
+    {
+    id: '18',
+    name: "Accounts - Overdue - Month 3",
+    chartName: "Accounts",
+    variableName: "Overdue",
+    serverName: 'P21',
+    value: "0",
+    chartGroup: "Accounts",
+    calculation: "COUNT(*)",
+    timeframe: "Month 3",
+    sqlExpression: "SELECT COALESCE(COUNT(*), 0) as value FROM accounts WHERE type = 'overdue' AND strftime('%Y-%m', date) = strftime('%Y-%m', datetime('now', '-2 month'))",
+    productionSqlExpression: "SELECT ISNULL(COUNT(*), 0) as value FROM dbo.customer WITH (NOLOCK) WHERE credit_limit_used > 0 AND FORMAT(date_last_modified, 'yyyy-MM') = FORMAT(DATEADD(month, -2, GETDATE()), 'yyyy-MM')",
+    tableName: "customer"
+  },
+    {
+    id: '19',
+    name: "Accounts - Receivable - Month 3",
+    chartName: "Accounts",
+    variableName: "Receivable",
+    serverName: 'P21',
+    value: "0",
+    chartGroup: "Accounts",
+    calculation: "COUNT(*)",
+    timeframe: "Month 3",
+    sqlExpression: "SELECT COALESCE(COUNT(*), 0) as value FROM accounts WHERE type = 'receivable' AND strftime('%Y-%m', date) = strftime('%Y-%m', datetime('now', '-2 month'))",
+    productionSqlExpression: "SELECT ISNULL(COUNT(*), 0) AS value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_date >= DATEADD(month, DATEDIFF(month, 0, GETDATE()) - 2, 0) AND order_date < DATEADD(month, DATEDIFF(month, 0, GETDATE()) - 1, 0)",
+    tableName: "oe_hdr"
+  },
+    {
+    id: '20',
+    name: "Accounts - Payable - Month 4",
+    chartName: "Accounts",
+    variableName: "Payable",
+    serverName: 'P21',
+    value: "0",
+    chartGroup: "Accounts",
+    calculation: "COUNT(*)",
+    timeframe: "Month 4",
+    sqlExpression: "SELECT COALESCE(COUNT(*), 0) as value FROM accounts WHERE type = 'payable' AND strftime('%Y-%m', date) = strftime('%Y-%m', datetime('now', '-3 month'))",
+    productionSqlExpression: "SELECT ISNULL(COUNT(*)/12, 0) AS value FROM dbo.inv_mast WITH (NOLOCK) WHERE delete_flag <> 'Y'",
+    tableName: "inv_mast"
+  },
+    {
+    id: '21',
+    name: "Accounts - Overdue - Month 4",
+    chartName: "Accounts",
+    variableName: "Overdue",
+    serverName: 'P21',
+    value: "0",
+    chartGroup: "Accounts",
+    calculation: "COUNT(*)",
+    timeframe: "Month 4",
+    sqlExpression: "SELECT COALESCE(COUNT(*), 0) as value FROM accounts WHERE type = 'overdue' AND strftime('%Y-%m', date) = strftime('%Y-%m', datetime('now', '-3 month'))",
+    productionSqlExpression: "SELECT ISNULL(COUNT(*), 0) as value FROM dbo.customer WITH (NOLOCK) WHERE credit_limit_used > 0 AND FORMAT(date_last_modified, 'yyyy-MM') = FORMAT(DATEADD(month, -3, GETDATE()), 'yyyy-MM')",
+    tableName: "customer"
+  },
+    {
+    id: '22',
+    name: "Accounts - Receivable - Month 4",
+    chartName: "Accounts",
+    variableName: "Receivable",
+    serverName: 'P21',
+    value: "0",
+    chartGroup: "Accounts",
+    calculation: "COUNT(*)",
+    timeframe: "Month 4",
+    sqlExpression: "SELECT COALESCE(COUNT(*), 0) as value FROM accounts WHERE type = 'receivable' AND strftime('%Y-%m', date) = strftime('%Y-%m', datetime('now', '-3 month'))",
+    productionSqlExpression: "SELECT ISNULL(COUNT(*), 0) AS value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_date >= DATEADD(month, DATEDIFF(month, 0, GETDATE()) - 3, 0) AND order_date < DATEADD(month, DATEDIFF(month, 0, GETDATE()) - 2, 0)",
+    tableName: "oe_hdr"
+  },
+    {
+    id: '23',
+    name: "Accounts - Payable - Month 5",
+    chartName: "Accounts",
+    variableName: "Payable",
+    serverName: 'P21',
+    value: "0",
+    chartGroup: "Accounts",
+    calculation: "COUNT(*)",
+    timeframe: "Month 5",
+    sqlExpression: "SELECT COALESCE(COUNT(*), 0) as value FROM accounts WHERE type = 'payable' AND strftime('%Y-%m', date) = strftime('%Y-%m', datetime('now', '-4 month'))",
+    productionSqlExpression: "SELECT ISNULL(COUNT(*)/12, 0) AS value FROM dbo.inv_mast WITH (NOLOCK) WHERE delete_flag <> 'Y'",
+    tableName: "inv_mast"
+  },
+    {
+    id: '24',
+    name: "Accounts - Overdue - Month 5",
+    chartName: "Accounts",
+    variableName: "Overdue",
+    serverName: 'P21',
+    value: "0",
+    chartGroup: "Accounts",
+    calculation: "COUNT(*)",
+    timeframe: "Month 5",
+    sqlExpression: "SELECT COALESCE(COUNT(*), 0) as value FROM accounts WHERE type = 'overdue' AND strftime('%Y-%m', date) = strftime('%Y-%m', datetime('now', '-4 month'))",
+    productionSqlExpression: "SELECT ISNULL(COUNT(*), 0) as value FROM dbo.customer WITH (NOLOCK) WHERE credit_limit_used > 0 AND FORMAT(date_last_modified, 'yyyy-MM') = FORMAT(DATEADD(month, -4, GETDATE()), 'yyyy-MM')",
+    tableName: "customer"
+  },
+    {
+    id: '25',
+    name: "Accounts - Receivable - Month 5",
+    chartName: "Accounts",
+    variableName: "Receivable",
+    serverName: 'P21',
+    value: "0",
+    chartGroup: "Accounts",
+    calculation: "COUNT(*)",
+    timeframe: "Month 5",
+    sqlExpression: "SELECT COALESCE(COUNT(*), 0) as value FROM accounts WHERE type = 'receivable' AND strftime('%Y-%m', date) = strftime('%Y-%m', datetime('now', '-4 month'))",
+    productionSqlExpression: "SELECT ISNULL(COUNT(*), 0) AS value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_date >= DATEADD(month, DATEDIFF(month, 0, GETDATE()) - 4, 0) AND order_date < DATEADD(month, DATEDIFF(month, 0, GETDATE()) - 3, 0)",
+    tableName: "oe_hdr"
+  },
+    {
+    id: '26',
+    name: "Accounts - Payable - Month 6",
+    chartName: "Accounts",
+    variableName: "Payable",
+    serverName: 'P21',
+    value: "0",
+    chartGroup: "Accounts",
+    calculation: "COUNT(*)",
+    timeframe: "Month 6",
+    sqlExpression: "SELECT COALESCE(COUNT(*), 0) as value FROM accounts WHERE type = 'payable' AND strftime('%Y-%m', date) = strftime('%Y-%m', datetime('now', '-5 month'))",
+    productionSqlExpression: "SELECT ISNULL(COUNT(*)/12, 0) AS value FROM dbo.inv_mast WITH (NOLOCK) WHERE delete_flag <> 'Y'",
+    tableName: "inv_mast"
+  },
+    {
+    id: '27',
+    name: "Accounts - Overdue - Month 6",
+    chartName: "Accounts",
+    variableName: "Overdue",
+    serverName: 'P21',
+    value: "0",
+    chartGroup: "Accounts",
+    calculation: "COUNT(*)",
+    timeframe: "Month 6",
+    sqlExpression: "SELECT COALESCE(COUNT(*), 0) as value FROM accounts WHERE type = 'overdue' AND strftime('%Y-%m', date) = strftime('%Y-%m', datetime('now', '-5 month'))",
+    productionSqlExpression: "SELECT ISNULL(COUNT(*), 0) as value FROM dbo.customer WITH (NOLOCK) WHERE credit_limit_used > 0 AND FORMAT(date_last_modified, 'yyyy-MM') = FORMAT(DATEADD(month, -5, GETDATE()), 'yyyy-MM')",
+    tableName: "customer"
+  },
+    {
+    id: '28',
+    name: "Accounts - Receivable - Month 6",
+    chartName: "Accounts",
+    variableName: "Receivable",
+    serverName: 'P21',
+    value: "0",
+    chartGroup: "Accounts",
+    calculation: "COUNT(*)",
+    timeframe: "Month 6",
+    sqlExpression: "SELECT COALESCE(COUNT(*), 0) as value FROM accounts WHERE type = 'receivable' AND strftime('%Y-%m', date) = strftime('%Y-%m', datetime('now', '-5 month'))",
+    productionSqlExpression: "SELECT ISNULL(COUNT(*), 0) AS value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_date >= DATEADD(month, DATEDIFF(month, 0, GETDATE()) - 5, 0) AND order_date < DATEADD(month, DATEDIFF(month, 0, GETDATE()) - 4, 0)",
+    tableName: "oe_hdr"
+  },
+    {
+    id: '29',
+    name: "Accounts - Payable - Month 7",
+    chartName: "Accounts",
+    variableName: "Payable",
+    serverName: 'P21',
+    value: "0",
+    chartGroup: "Accounts",
+    calculation: "COUNT(*)",
+    timeframe: "Month 7",
+    sqlExpression: "SELECT COALESCE(COUNT(*), 0) as value FROM accounts WHERE type = 'payable' AND strftime('%Y-%m', date) = strftime('%Y-%m', datetime('now', '-6 month'))",
+    productionSqlExpression: "SELECT ISNULL(COUNT(*)/12, 0) AS value FROM dbo.inv_mast WITH (NOLOCK) WHERE delete_flag <> 'Y'",
+    tableName: "inv_mast"
+  },
+    {
+    id: '30',
+    name: "Accounts - Overdue - Month 7",
+    chartName: "Accounts",
+    variableName: "Overdue",
+    serverName: 'P21',
+    value: "0",
+    chartGroup: "Accounts",
+    calculation: "COUNT(*)",
+    timeframe: "Month 7",
+    sqlExpression: "SELECT COALESCE(COUNT(*), 0) as value FROM accounts WHERE type = 'overdue' AND strftime('%Y-%m', date) = strftime('%Y-%m', datetime('now', '-6 month'))",
+    productionSqlExpression: "SELECT ISNULL(COUNT(*), 0) as value FROM dbo.customer WITH (NOLOCK) WHERE credit_limit_used > 0 AND FORMAT(date_last_modified, 'yyyy-MM') = FORMAT(DATEADD(month, -6, GETDATE()), 'yyyy-MM')",
+    tableName: "customer"
+  },
+    {
+    id: '31',
+    name: "Accounts - Receivable - Month 7",
+    chartName: "Accounts",
+    variableName: "Receivable",
+    serverName: 'P21',
+    value: "0",
+    chartGroup: "Accounts",
+    calculation: "COUNT(*)",
+    timeframe: "Month 7",
+    sqlExpression: "SELECT COALESCE(COUNT(*), 0) as value FROM accounts WHERE type = 'receivable' AND strftime('%Y-%m', date) = strftime('%Y-%m', datetime('now', '-6 month'))",
+    productionSqlExpression: "SELECT ISNULL(COUNT(*), 0) AS value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_date >= DATEADD(month, DATEDIFF(month, 0, GETDATE()) - 6, 0) AND order_date < DATEADD(month, DATEDIFF(month, 0, GETDATE()) - 5, 0)",
+    tableName: "oe_hdr"
+  },
+    {
+    id: '32',
+    name: "Accounts - Payable - Month 8",
+    chartName: "Accounts",
+    variableName: "Payable",
+    serverName: 'P21',
+    value: "0",
+    chartGroup: "Accounts",
+    calculation: "COUNT(*)",
+    timeframe: "Month 8",
+    sqlExpression: "SELECT COALESCE(COUNT(*), 0) as value FROM accounts WHERE type = 'payable' AND strftime('%Y-%m', date) = strftime('%Y-%m', datetime('now', '-7 month'))",
+    productionSqlExpression: "SELECT ISNULL(COUNT(*)/12, 0) AS value FROM dbo.inv_mast WITH (NOLOCK) WHERE delete_flag <> 'Y'",
+    tableName: "inv_mast"
+  },
+    {
+    id: '33',
+    name: "Accounts - Overdue - Month 8",
+    chartName: "Accounts",
+    variableName: "Overdue",
+    serverName: 'P21',
+    value: "0",
+    chartGroup: "Accounts",
+    calculation: "COUNT(*)",
+    timeframe: "Month 8",
+    sqlExpression: "SELECT COALESCE(COUNT(*), 0) as value FROM accounts WHERE type = 'overdue' AND strftime('%Y-%m', date) = strftime('%Y-%m', datetime('now', '-7 month'))",
+    productionSqlExpression: "SELECT ISNULL(COUNT(*), 0) as value FROM dbo.customer WITH (NOLOCK) WHERE credit_limit_used > 0 AND FORMAT(date_last_modified, 'yyyy-MM') = FORMAT(DATEADD(month, -7, GETDATE()), 'yyyy-MM')",
+    tableName: "customer"
+  },
+    {
+    id: '34',
+    name: "Accounts - Receivable - Month 8",
+    chartName: "Accounts",
+    variableName: "Receivable",
+    serverName: 'P21',
+    value: "0",
+    chartGroup: "Accounts",
+    calculation: "COUNT(*)",
+    timeframe: "Month 8",
+    sqlExpression: "SELECT COALESCE(COUNT(*), 0) as value FROM accounts WHERE type = 'receivable' AND strftime('%Y-%m', date) = strftime('%Y-%m', datetime('now', '-7 month'))",
+    productionSqlExpression: "SELECT ISNULL(COUNT(*), 0) AS value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_date >= DATEADD(month, DATEDIFF(month, 0, GETDATE()) - 7, 0) AND order_date < DATEADD(month, DATEDIFF(month, 0, GETDATE()) - 6, 0)",
+    tableName: "oe_hdr"
+  },
+    {
+    id: '35',
+    name: "Accounts - Payable - Month 9",
+    chartName: "Accounts",
+    variableName: "Payable",
+    serverName: 'P21',
+    value: "0",
+    chartGroup: "Accounts",
+    calculation: "COUNT(*)",
+    timeframe: "Month 9",
+    sqlExpression: "SELECT COALESCE(COUNT(*), 0) as value FROM accounts WHERE type = 'payable' AND strftime('%Y-%m', date) = strftime('%Y-%m', datetime('now', '-8 month'))",
+    productionSqlExpression: "SELECT ISNULL(COUNT(*)/12, 0) AS value FROM dbo.inv_mast WITH (NOLOCK) WHERE delete_flag <> 'Y'",
+    tableName: "inv_mast"
+  },
+    {
+    id: '36',
+    name: "Accounts - Overdue - Month 9",
+    chartName: "Accounts",
+    variableName: "Overdue",
+    serverName: 'P21',
+    value: "0",
+    chartGroup: "Accounts",
+    calculation: "COUNT(*)",
+    timeframe: "Month 9",
+    sqlExpression: "SELECT COALESCE(COUNT(*), 0) as value FROM accounts WHERE type = 'overdue' AND strftime('%Y-%m', date) = strftime('%Y-%m', datetime('now', '-8 month'))",
+    productionSqlExpression: "SELECT ISNULL(COUNT(*), 0) as value FROM dbo.customer WITH (NOLOCK) WHERE credit_limit_used > 0 AND FORMAT(date_last_modified, 'yyyy-MM') = FORMAT(DATEADD(month, -8, GETDATE()), 'yyyy-MM')",
+    tableName: "customer"
+  },
+    {
+    id: '37',
+    name: "Accounts - Receivable - Month 9",
+    chartName: "Accounts",
+    variableName: "Receivable",
+    serverName: 'P21',
+    value: "0",
+    chartGroup: "Accounts",
+    calculation: "COUNT(*)",
+    timeframe: "Month 9",
+    sqlExpression: "SELECT COALESCE(COUNT(*), 0) as value FROM accounts WHERE type = 'receivable' AND strftime('%Y-%m', date) = strftime('%Y-%m', datetime('now', '-8 month'))",
+    productionSqlExpression: "SELECT ISNULL(COUNT(*), 0) AS value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_date >= DATEADD(month, DATEDIFF(month, 0, GETDATE()) - 8, 0) AND order_date < DATEADD(month, DATEDIFF(month, 0, GETDATE()) - 7, 0)",
+    tableName: "oe_hdr"
+  },
+    {
+    id: '38',
+    name: "Accounts - Payable - Month 10",
+    chartName: "Accounts",
+    variableName: "Payable",
+    serverName: 'P21',
+    value: "0",
+    chartGroup: "Accounts",
+    calculation: "COUNT(*)",
+    timeframe: "Month 10",
+    sqlExpression: "SELECT COALESCE(COUNT(*), 0) as value FROM accounts WHERE type = 'payable' AND strftime('%Y-%m', date) = strftime('%Y-%m', datetime('now', '-9 month'))",
+    productionSqlExpression: "SELECT ISNULL(COUNT(*)/12, 0) AS value FROM dbo.inv_mast WITH (NOLOCK) WHERE delete_flag <> 'Y'",
+    tableName: "inv_mast"
+  },
+    {
+    id: '39',
+    name: "Accounts - Overdue - Month 10",
+    chartName: "Accounts",
+    variableName: "Overdue",
+    serverName: 'P21',
+    value: "0",
+    chartGroup: "Accounts",
+    calculation: "COUNT(*)",
+    timeframe: "Month 10",
+    sqlExpression: "SELECT COALESCE(COUNT(*), 0) as value FROM accounts WHERE type = 'overdue' AND strftime('%Y-%m', date) = strftime('%Y-%m', datetime('now', '-9 month'))",
+    productionSqlExpression: "SELECT ISNULL(COUNT(*), 0) as value FROM dbo.customer WITH (NOLOCK) WHERE credit_limit_used > 0 AND FORMAT(date_last_modified, 'yyyy-MM') = FORMAT(DATEADD(month, -9, GETDATE()), 'yyyy-MM')",
+    tableName: "customer"
+  },
+    {
+    id: '40',
+    name: "Accounts - Receivable - Month 10",
+    chartName: "Accounts",
+    variableName: "Receivable",
+    serverName: 'P21',
+    value: "0",
+    chartGroup: "Accounts",
+    calculation: "COUNT(*)",
+    timeframe: "Month 10",
+    sqlExpression: "SELECT COALESCE(COUNT(*), 0) as value FROM accounts WHERE type = 'receivable' AND strftime('%Y-%m', date) = strftime('%Y-%m', datetime('now', '-9 month'))",
+    productionSqlExpression: "SELECT ISNULL(COUNT(*), 0) AS value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_date >= DATEADD(month, DATEDIFF(month, 0, GETDATE()) - 9, 0) AND order_date < DATEADD(month, DATEDIFF(month, 0, GETDATE()) - 8, 0)",
+    tableName: "oe_hdr"
+  },
+    {
+    id: '41',
+    name: "Accounts - Payable - Month 11",
+    chartName: "Accounts",
+    variableName: "Payable",
+    serverName: 'P21',
+    value: "0",
+    chartGroup: "Accounts",
+    calculation: "COUNT(*)",
+    timeframe: "Month 11",
+    sqlExpression: "SELECT COALESCE(COUNT(*), 0) as value FROM accounts WHERE type = 'payable' AND strftime('%Y-%m', date) = strftime('%Y-%m', datetime('now', '-10 month'))",
+    productionSqlExpression: "SELECT ISNULL(COUNT(*)/12, 0) AS value FROM dbo.inv_mast WITH (NOLOCK) WHERE delete_flag <> 'Y'",
+    tableName: "inv_mast"
+  },
+    {
+    id: '42',
+    name: "Accounts - Overdue - Month 11",
+    chartName: "Accounts",
+    variableName: "Overdue",
+    serverName: 'P21',
+    value: "0",
+    chartGroup: "Accounts",
+    calculation: "COUNT(*)",
+    timeframe: "Month 11",
+    sqlExpression: "SELECT COALESCE(COUNT(*), 0) as value FROM accounts WHERE type = 'overdue' AND strftime('%Y-%m', date) = strftime('%Y-%m', datetime('now', '-10 month'))",
+    productionSqlExpression: "SELECT ISNULL(COUNT(*), 0) as value FROM dbo.customer WITH (NOLOCK) WHERE credit_limit_used > 0 AND FORMAT(date_last_modified, 'yyyy-MM') = FORMAT(DATEADD(month, -10, GETDATE()), 'yyyy-MM')",
+    tableName: "customer"
+  },
+    {
+    id: '43',
+    name: "Accounts - Receivable - Month 11",
+    chartName: "Accounts",
+    variableName: "Receivable",
+    serverName: 'P21',
+    value: "0",
+    chartGroup: "Accounts",
+    calculation: "COUNT(*)",
+    timeframe: "Month 11",
+    sqlExpression: "SELECT COALESCE(COUNT(*), 0) as value FROM accounts WHERE type = 'receivable' AND strftime('%Y-%m', date) = strftime('%Y-%m', datetime('now', '-10 month'))",
+    productionSqlExpression: "SELECT ISNULL(COUNT(*), 0) AS value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_date >= DATEADD(month, DATEDIFF(month, 0, GETDATE()) - 10, 0) AND order_date < DATEADD(month, DATEDIFF(month, 0, GETDATE()) - 9, 0)",
+    tableName: "oe_hdr"
+  },
+    {
+    id: '44',
+    name: "Accounts - Payable - Month 12",
+    chartName: "Accounts",
+    variableName: "Payable",
+    serverName: 'P21',
+    value: "0",
+    chartGroup: "Accounts",
+    calculation: "COUNT(*)",
+    timeframe: "Month 12",
+    sqlExpression: "SELECT COALESCE(COUNT(*), 0) as value FROM accounts WHERE type = 'payable' AND strftime('%Y-%m', date) = strftime('%Y-%m', datetime('now', '-11 month'))",
+    productionSqlExpression: "SELECT ISNULL(COUNT(*)/12, 0) AS value FROM dbo.inv_mast WITH (NOLOCK) WHERE delete_flag <> 'Y'",
+    tableName: "inv_mast"
+  },
+    {
+    id: '45',
+    name: "Accounts - Overdue - Month 12",
+    chartName: "Accounts",
+    variableName: "Overdue",
+    serverName: 'P21',
+    value: "0",
+    chartGroup: "Accounts",
+    calculation: "COUNT(*)",
+    timeframe: "Month 12",
+    sqlExpression: "SELECT COALESCE(COUNT(*), 0) as value FROM accounts WHERE type = 'overdue' AND strftime('%Y-%m', date) = strftime('%Y-%m', datetime('now', '-11 month'))",
+    productionSqlExpression: "SELECT ISNULL(COUNT(*), 0) as value FROM dbo.customer WITH (NOLOCK) WHERE credit_limit_used > 0 AND FORMAT(date_last_modified, 'yyyy-MM') = FORMAT(DATEADD(month, -11, GETDATE()), 'yyyy-MM')",
+    tableName: "customer"
+  },
+    {
+    id: '46',
+    name: "Accounts - Receivable - Month 12",
+    chartName: "Accounts",
+    variableName: "Receivable",
+    serverName: 'P21',
+    value: "0",
+    chartGroup: "Accounts",
+    calculation: "COUNT(*)",
+    timeframe: "Month 12",
+    sqlExpression: "SELECT COALESCE(COUNT(*), 0) as value FROM accounts WHERE type = 'receivable' AND strftime('%Y-%m', date) = strftime('%Y-%m', datetime('now', '-11 month'))",
+    productionSqlExpression: "SELECT ISNULL(COUNT(*), 0) AS value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_date >= DATEADD(month, DATEDIFF(month, 0, GETDATE()) - 11, 0) AND order_date < DATEADD(month, DATEDIFF(month, 0, GETDATE()) - 10, 0)",
+    tableName: "oe_hdr"
+  },
+    {
+    id: '95',
+    name: "AR Aging - Current",
+    chartName: "AR Aging",
+    variableName: "Current",
+    serverName: 'P21',
+    value: "0",
+    chartGroup: "AR Aging",
+    calculation: "COUNT(*)",
+    sqlExpression: "SELECT COALESCE(COUNT(*), 0) as value FROM ar_aging WHERE days_overdue <= 0",
+    productionSqlExpression: "SELECT ISNULL(COUNT(*), 0) as value FROM dbo.customer WITH (NOLOCK) WHERE credit_limit > credit_limit_used",
+    tableName: "customer"
+  },
+    {
+    id: '96',
+    name: "AR Aging - 1-30 Days",
+    chartName: "AR Aging",
+    variableName: "1-30 Days",
+    serverName: 'P21',
+    value: "0",
+    chartGroup: "AR Aging",
+    calculation: "COUNT(*)",
+    sqlExpression: "SELECT COALESCE(COUNT(*), 0) as value FROM ar_aging WHERE days_overdue BETWEEN 1 AND 30",
+    productionSqlExpression: "SELECT ISNULL(COUNT(*), 0) as value FROM dbo.customer WITH (NOLOCK) WHERE DATEDIFF(day, date_last_modified, GETDATE()) BETWEEN 1 AND 30",
+    tableName: "customer"
+  },
+    {
+    id: '97',
+    name: "AR Aging - 31-60 Days",
+    chartName: "AR Aging",
+    variableName: "31-60 Days",
+    serverName: 'P21',
+    value: "0",
+    chartGroup: "AR Aging",
+    calculation: "COUNT(*)",
+    sqlExpression: "SELECT COALESCE(COUNT(*), 0) as value FROM ar_aging WHERE days_overdue BETWEEN 31 AND 60",
+    productionSqlExpression: "SELECT ISNULL(COUNT(*), 0) as value FROM dbo.customer WITH (NOLOCK) WHERE DATEDIFF(day, date_last_modified, GETDATE()) BETWEEN 31 AND 60",
+    tableName: "customer"
+  },
+    {
+    id: '98',
+    name: "AR Aging - 61-90 Days",
+    chartName: "AR Aging",
+    variableName: "61-90 Days",
+    serverName: 'P21',
+    value: "0",
+    chartGroup: "AR Aging",
+    calculation: "COUNT(*)",
+    sqlExpression: "SELECT COALESCE(COUNT(*), 0) as value FROM ar_aging WHERE days_overdue BETWEEN 61 AND 90",
+    productionSqlExpression: "SELECT ISNULL(COUNT(*), 0) as value FROM dbo.customer WITH (NOLOCK) WHERE DATEDIFF(day, date_last_modified, GETDATE()) BETWEEN 61 AND 90",
+    tableName: "customer"
+  },
+    {
+    id: '99',
+    name: "AR Aging - 90+ Days",
+    chartName: "AR Aging",
+    variableName: "90+ Days",
+    serverName: 'P21',
+    value: "0",
+    chartGroup: "AR Aging",
+    calculation: "COUNT(*)",
+    sqlExpression: "SELECT COALESCE(COUNT(*), 0) as value FROM ar_aging WHERE days_overdue > 90",
+    productionSqlExpression: "SELECT ISNULL(COUNT(*), 0) as value FROM dbo.customer WITH (NOLOCK) WHERE DATEDIFF(day, date_last_modified, GETDATE()) > 90",
+    tableName: "customer"
+  },
+    {
+    id: '41',
+    name: "Orders - New - Month 1",
+    chartName: "Orders",
+    variableName: "New",
+    serverName: 'P21',
+    value: "0",
+    chartGroup: "Orders",
+    calculation: "SUM(value)",
+    timeframe: "Month 1",
+    sqlExpression: "SELECT COALESCE(COUNT(*), 0) as value FROM orders WHERE status = 'new' AND strftime('%Y-%m', date) = strftime('%Y-%m', 'now')",
+    productionSqlExpression: "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE YEAR(order_date) = YEAR(GETDATE()) AND MONTH(order_date) = MONTH(GETDATE()) AND completed = 'N'",
+    tableName: "oe_hdr"
+  },
+    {
+    id: '42',
+    name: "Orders - Completed - Month 1",
+    chartName: "Orders",
+    variableName: "Completed",
+    serverName: 'P21',
+    value: "0",
+    chartGroup: "Orders",
+    calculation: "SUM(value)",
+    timeframe: "Month 1",
+    sqlExpression: "SELECT COALESCE(COUNT(*), 0) as value FROM orders WHERE status = 'completed' AND strftime('%Y-%m', date) = strftime('%Y-%m', 'now')",
+    productionSqlExpression: "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE YEAR(order_date) = YEAR(GETDATE()) AND MONTH(order_date) = MONTH(GETDATE()) AND completed = 'Y'",
+    tableName: "invoice_hdr"
+  },
+    {
+    id: '43',
+    name: "Orders - Cancelled - Month 1",
+    chartName: "Orders",
+    variableName: "Cancelled",
+    serverName: 'P21',
+    value: "0",
+    chartGroup: "Orders",
+    calculation: "SUM(value)",
+    timeframe: "Month 1",
+    sqlExpression: "SELECT COALESCE(COUNT(*), 0) as value FROM orders WHERE status = 'cancelled' AND strftime('%Y-%m', date) = strftime('%Y-%m', 'now')",
+    productionSqlExpression: "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE YEAR(order_date) = YEAR(GETDATE()) AND MONTH(order_date) = MONTH(GETDATE()) AND delete_flag = 'Y'",
+    tableName: "oe_hdr"
+  },
+    {
+    id: '44',
+    name: "Orders - New - Month 2",
+    chartName: "Orders",
+    variableName: "New",
+    serverName: 'P21',
+    value: "0",
+    chartGroup: "Orders",
+    calculation: "SUM(value)",
+    timeframe: "Month 2",
+    sqlExpression: "SELECT COALESCE(COUNT(*), 0) as value FROM orders WHERE status = 'new' AND strftime('%Y-%m', date) = strftime('%Y-%m', datetime('now', '-1 month'))",
+    productionSqlExpression: "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE YEAR(order_date) = YEAR(DATEADD(month, -1, GETDATE())) AND MONTH(order_date) = MONTH(DATEADD(month, -1, GETDATE())) AND completed = 'N'",
+    tableName: "oe_hdr"
+  },
+    {
+    id: '45',
+    name: "Orders - Completed - Month 2",
+    chartName: "Orders",
+    variableName: "Completed",
+    serverName: 'P21',
+    value: "0",
+    chartGroup: "Orders",
+    calculation: "SUM(value)",
+    timeframe: "Month 2",
+    sqlExpression: "SELECT COALESCE(COUNT(*), 0) as value FROM orders WHERE status = 'completed' AND strftime('%Y-%m', date) = strftime('%Y-%m', datetime('now', '-1 month'))",
+    productionSqlExpression: "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE YEAR(order_date) = YEAR(DATEADD(month, -1, GETDATE())) AND MONTH(order_date) = MONTH(DATEADD(month, -1, GETDATE())) AND completed = 'Y'",
+    tableName: "invoice_hdr"
+  },
+    {
+    id: '46',
+    name: "Orders - Cancelled - Month 2",
+    chartName: "Orders",
+    variableName: "Cancelled",
+    serverName: 'P21',
+    value: "0",
+    chartGroup: "Orders",
+    calculation: "SUM(value)",
+    timeframe: "Month 2",
+    sqlExpression: "SELECT COALESCE(COUNT(*), 0) as value FROM orders WHERE status = 'cancelled' AND strftime('%Y-%m', date) = strftime('%Y-%m', datetime('now', '-1 month'))",
+    productionSqlExpression: "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE YEAR(order_date) = YEAR(DATEADD(month, -1, GETDATE())) AND MONTH(order_date) = MONTH(DATEADD(month, -1, GETDATE())) AND delete_flag = 'Y'",
+    tableName: "oe_hdr"
+  },
+    {
+    id: '111',
+    name: "Customers - Total",
+    chartName: "Customers",
+    variableName: "Total",
+    serverName: 'P21',
+    value: "0",
+    chartGroup: "Customers",
+    calculation: "SUM(value)",
+    sqlExpression: "SELECT COALESCE(COUNT(*), 0) as value FROM customers",
+    productionSqlExpression: "SELECT COUNT(*) as value FROM dbo.customer WITH (NOLOCK)",
+    tableName: "customer"
+  },
+    {
+    id: '112',
+    name: "Customers - Active",
+    chartName: "Customers",
+    variableName: "Active",
+    serverName: 'P21',
+    value: "0",
+    chartGroup: "Customers",
+    calculation: "SUM(value)",
+    sqlExpression: "SELECT COALESCE(COUNT(*), 0) as value FROM customers WHERE status = 'active'",
+    productionSqlExpression: "SELECT COUNT(*) as value FROM dbo.customer WITH (NOLOCK) WHERE delete_flag <> 'Y'",
+    tableName: "customer"
+  },
+    {
+    id: '113',
+    name: "Customers - Inactive",
+    chartName: "Customers",
+    variableName: "Inactive",
+    serverName: 'P21',
+    value: "0",
+    chartGroup: "Customers",
+    calculation: "SUM(value)",
+    sqlExpression: "SELECT COALESCE(COUNT(*), 0) as value FROM customers WHERE status = 'inactive'",
+    productionSqlExpression: "SELECT COUNT(*) as value FROM dbo.customer WITH (NOLOCK) WHERE delete_flag = 'Y'",
+    tableName: "customer"
+  }
+  export const combinedData = [...initialSpreadsheetData, ...combinedSpreadsheetData];

@@ -3,23 +3,43 @@
 // P21 Schema definitions based on official Prophet 21 data dictionary
 export const P21_SCHEMA = {
   orders: {
-    table: 'oe_hdr',
+    table: 'dbo.oe_hdr',
     fields: {
       id: 'order_no',
-      status: 'order_status',
+      status: 'completed',
       amount: 'order_amt',
       date: 'order_date',
       customer: 'customer_id',
       type: 'order_type',
       total: 'total_lines',
-      user: 'user_id',
+      user: 'last_maintained_by',
       company: 'company_id',
       location: 'location_id',
-      currency: 'currency_code'
+      currency: 'currency_id',
+      delete_flag: 'delete_flag',
+      completed: 'completed',
+      backlog: 'cancel_flag',
+      requested_date: 'requested_date',
+      promise_date: 'promise_date'
+    }
+  },
+  order_lines: {
+    table: 'dbo.oe_line',
+    fields: {
+      id: 'oe_line_uid',
+      order_no: 'order_no',
+      line_no: 'line_no',
+      item: 'item_id',
+      qty: 'qty_ordered',
+      price: 'unit_price',
+      extended_price: 'extended_price',
+      cost: 'unit_cost',
+      date: 'date_created',
+      status: 'delete_flag'
     }
   },
   accounts_receivable: {
-    table: 'ar_open_items',
+    table: 'dbo.ar_open_items',
     fields: {
       id: 'document_no',
       amount: 'amount',
@@ -34,7 +54,7 @@ export const P21_SCHEMA = {
     }
   },
   accounts_payable: {
-    table: 'ap_open_items',
+    table: 'dbo.ap_open_items',
     fields: {
       id: 'invoice_no',
       amount: 'invoice_amt',
@@ -48,7 +68,7 @@ export const P21_SCHEMA = {
     }
   },
   inventory: {
-    table: 'inv_mstr',
+    table: 'dbo.inv_mast',
     fields: {
       id: 'item_id',
       site: 'whse',
@@ -63,26 +83,41 @@ export const P21_SCHEMA = {
       location: 'location_id',
       unit: 'unit',
       last_cost: 'last_cost',
-      avg_cost: 'avg_cost'
+      avg_cost: 'avg_cost',
+      delete_flag: 'delete_flag'
     }
   },
   customers: {
-    table: 'customer_master',
+    table: 'dbo.customer',
     fields: {
       id: 'customer_id',
       name: 'name',
-      status: 'status',
+      status: 'delete_flag',
       type: 'type',
       credit_limit: 'credit_limit',
       balance: 'balance',
       terms: 'terms_code',
       price_level: 'price_level',
       company: 'company_id',
-      currency: 'currency_code'
+      currency: 'currency_id'
+    }
+  },
+  invoices: {
+    table: 'dbo.invoice_hdr',
+    fields: {
+      id: 'invoice_no',
+      date: 'invoice_date',
+      order_no: 'order_no',
+      customer: 'customer_id',
+      amount: 'invoice_amt',
+      status: 'completed',
+      company: 'company_id',
+      location: 'location_id',
+      delete_flag: 'delete_flag'
     }
   },
   shipments: {
-    table: 'oe_ship_hdr',
+    table: 'dbo.oe_ship_hdr',
     fields: {
       id: 'ship_id',
       date: 'ship_date',

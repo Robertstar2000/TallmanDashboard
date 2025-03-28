@@ -1,0 +1,10 @@
+Subject: Request to open port 1433 for POR database
+
+Hi Lee,
+
+We are experiencing issues connecting to the POR database server at 10.10.20.13 on port 1433. It appears that the firewall is blocking the connection.
+
+Could you please open port 1433 for the POR database server at 10.10.20.13?
+
+Thanks,
+[Your Name/Team]

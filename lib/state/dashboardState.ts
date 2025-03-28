@@ -1,7 +1,9 @@
 // Global state for dashboard mode and connections
+import { DatabaseConnection } from '@/lib/types/dashboard';
+
 let isProdMode = false;
-let p21Connected = false;
-let porConnected = false;
+let p21Connection: DatabaseConnection | null = null;
+let porConnection: DatabaseConnection | null = null;
 
 // Mode state
 export function setMode(isProd: boolean): void {
@@ -22,36 +24,59 @@ export function getMode(): boolean {
 }
 
 // Connection state
-export function setP21Connection(isConnected: boolean): void {
-  p21Connected = isConnected;
-  if (typeof window !== 'undefined') {
-    localStorage.setItem('p21_connected', isConnected.toString());
+export function setP21Connection(connection: DatabaseConnection | null): void {
+  p21Connection = connection;
+  if (typeof window !== 'undefined' && connection) {
+    localStorage.setItem('p21_connection', JSON.stringify(connection));
+  } else if (typeof window !== 'undefined') {
+    localStorage.removeItem('p21_connection');
   }
 }
 
-export function setPORConnection(isConnected: boolean): void {
-  porConnected = isConnected;
-  if (typeof window !== 'undefined') {
-    localStorage.setItem('por_connected', isConnected.toString());
+export function setPORConnection(connection: DatabaseConnection | null): void {
+  porConnection = connection;
+  if (typeof window !== 'undefined' && connection) {
+    localStorage.setItem('por_connection', JSON.stringify(connection));
+  } else if (typeof window !== 'undefined') {
+    localStorage.removeItem('por_connection');
   }
 }
 
-export function getP21Connection(): boolean {
+export function getP21Connection(): DatabaseConnection | null {
   if (typeof window !== 'undefined') {
-    const savedState = localStorage.getItem('p21_connected');
+    const savedState = localStorage.getItem('p21_connection');
     if (savedState !== null) {
-      p21Connected = savedState === 'true';
+      try {
+        p21Connection = JSON.parse(savedState);
+      } catch (error) {
+        console.error('Failed to parse P21 connection:', error);
+        p21Connection = null;
+      }
     }
   }
-  return p21Connected;
+  return p21Connection;
 }
 
-export function getPORConnection(): boolean {
+export function getPORConnection(): DatabaseConnection | null {
   if (typeof window !== 'undefined') {
-    const savedState = localStorage.getItem('por_connected');
+    const savedState = localStorage.getItem('por_connection');
     if (savedState !== null) {
-      porConnected = savedState === 'true';
+      try {
+        porConnection = JSON.parse(savedState);
+      } catch (error) {
+        console.error('Failed to parse POR connection:', error);
+        porConnection = null;
+      }
     }
   }
-  return porConnected;
+  return porConnection;
+}
+
+// Connection status
+export function isP21Connected(): boolean {
+  return p21Connection !== null;
+}
+
+export function isPORConnected(): boolean {
+  return porConnection !== null;
 }

@@ -1,0 +1,52 @@
+{
+  "originalCount": 67,
+  "fixedCount": 67,
+  "missingChartGroupFixed": 1,
+  "chartGroupStatistics": [
+    {
+      "group": "Unknown",
+      "count": 1,
+      "required": "Not specified"
+    },
+    {
+      "group": "Inventory",
+      "count": 3,
+      "required": 8
+    },
+    {
+      "group": "Site Distribution",
+      "count": 3,
+      "required": 3
+    },
+    {
+      "group": "Metrics",
+      "count": 7,
+      "required": "Not specified"
+    },
+    {
+      "group": "Site Sales",
+      "count": 3,
+      "required": "Not specified"
+    },
+    {
+      "group": "Accounts",
+      "count": 36,
+      "required": "Not specified"
+    },
+    {
+      "group": "AR Aging",
+      "count": 5,
+      "required": "Not specified"
+    },
+    {
+      "group": "Orders",
+      "count": 6,
+      "required": "Not specified"
+    },
+    {
+      "group": "Customers",
+      "count": 3,
+      "required": "Not specified"
+    }
+  ]
+}

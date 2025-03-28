@@ -1,0 +1,218 @@
+[
+  {
+    "chartName": "Monthly PO Counts",
+    "variableName": "March '25",
+    "server": "POR",
+    "tableName": "PurchaseOrder",
+    "sqlExpression": "SELECT COUNT(*) AS Count FROM PurchaseOrder WHERE Date >= '2025-03-01' AND Date <= '2025-03-31'",
+    "value": 0
+  },
+  {
+    "chartName": "Monthly PO Counts",
+    "variableName": "February '25",
+    "server": "POR",
+    "tableName": "PurchaseOrder",
+    "sqlExpression": "SELECT COUNT(*) AS Count FROM PurchaseOrder WHERE Date >= '2025-02-01' AND Date <= '2025-02-28'",
+    "value": 0
+  },
+  {
+    "chartName": "Monthly PO Counts",
+    "variableName": "January '25",
+    "server": "POR",
+    "tableName": "PurchaseOrder",
+    "sqlExpression": "SELECT COUNT(*) AS Count FROM PurchaseOrder WHERE Date >= '2025-01-01' AND Date <= '2025-01-31'",
+    "value": 0
+  },
+  {
+    "chartName": "Monthly PO Counts",
+    "variableName": "December '24",
+    "server": "POR",
+    "tableName": "PurchaseOrder",
+    "sqlExpression": "SELECT COUNT(*) AS Count FROM PurchaseOrder WHERE Date >= '2024-12-01' AND Date <= '2024-12-31'",
+    "value": 0
+  },
+  {
+    "chartName": "Monthly PO Counts",
+    "variableName": "November '24",
+    "server": "POR",
+    "tableName": "PurchaseOrder",
+    "sqlExpression": "SELECT COUNT(*) AS Count FROM PurchaseOrder WHERE Date >= '2024-11-01' AND Date <= '2024-11-30'",
+    "value": 0
+  },
+  {
+    "chartName": "Monthly PO Counts",
+    "variableName": "October '24",
+    "server": "POR",
+    "tableName": "PurchaseOrder",
+    "sqlExpression": "SELECT COUNT(*) AS Count FROM PurchaseOrder WHERE Date >= '2024-10-01' AND Date <= '2024-10-31'",
+    "value": 0
+  },
+  {
+    "chartName": "Monthly PO Counts",
+    "variableName": "September '24",
+    "server": "POR",
+    "tableName": "PurchaseOrder",
+    "sqlExpression": "SELECT COUNT(*) AS Count FROM PurchaseOrder WHERE Date >= '2024-09-01' AND Date <= '2024-09-30'",
+    "value": 0
+  },
+  {
+    "chartName": "Monthly PO Counts",
+    "variableName": "August '24",
+    "server": "POR",
+    "tableName": "PurchaseOrder",
+    "sqlExpression": "SELECT COUNT(*) AS Count FROM PurchaseOrder WHERE Date >= '2024-08-01' AND Date <= '2024-08-31'",
+    "value": 0
+  },
+  {
+    "chartName": "Monthly PO Counts",
+    "variableName": "July '24",
+    "server": "POR",
+    "tableName": "PurchaseOrder",
+    "sqlExpression": "SELECT COUNT(*) AS Count FROM PurchaseOrder WHERE Date >= '2024-07-01' AND Date <= '2024-07-31'",
+    "value": 0
+  },
+  {
+    "chartName": "Monthly PO Counts",
+    "variableName": "June '24",
+    "server": "POR",
+    "tableName": "PurchaseOrder",
+    "sqlExpression": "SELECT COUNT(*) AS Count FROM PurchaseOrder WHERE Date >= '2024-06-01' AND Date <= '2024-06-30'",
+    "value": 0
+  },
+  {
+    "chartName": "Monthly PO Counts",
+    "variableName": "May '24",
+    "server": "POR",
+    "tableName": "PurchaseOrder",
+    "sqlExpression": "SELECT COUNT(*) AS Count FROM PurchaseOrder WHERE Date >= '2024-05-01' AND Date <= '2024-05-31'",
+    "value": 0
+  },
+  {
+    "chartName": "Monthly PO Counts",
+    "variableName": "April '24",
+    "server": "POR",
+    "tableName": "PurchaseOrder",
+    "sqlExpression": "SELECT COUNT(*) AS Count FROM PurchaseOrder WHERE Date >= '2024-04-01' AND Date <= '2024-04-30'",
+    "value": 0
+  },
+  {
+    "chartName": "Monthly PO Totals",
+    "variableName": "March '25",
+    "server": "POR",
+    "tableName": "PurchaseOrder",
+    "sqlExpression": "SELECT SUM(ShippingCost) AS Total FROM PurchaseOrder WHERE Date >= '2025-03-01' AND Date <= '2025-03-31'",
+    "value": 0
+  },
+  {
+    "chartName": "Monthly PO Totals",
+    "variableName": "February '25",
+    "server": "POR",
+    "tableName": "PurchaseOrder",
+    "sqlExpression": "SELECT SUM(ShippingCost) AS Total FROM PurchaseOrder WHERE Date >= '2025-02-01' AND Date <= '2025-02-28'",
+    "value": 0
+  },
+  {
+    "chartName": "Monthly PO Totals",
+    "variableName": "January '25",
+    "server": "POR",
+    "tableName": "PurchaseOrder",
+    "sqlExpression": "SELECT SUM(ShippingCost) AS Total FROM PurchaseOrder WHERE Date >= '2025-01-01' AND Date <= '2025-01-31'",
+    "value": 0
+  },
+  {
+    "chartName": "Monthly PO Totals",
+    "variableName": "December '24",
+    "server": "POR",
+    "tableName": "PurchaseOrder",
+    "sqlExpression": "SELECT SUM(ShippingCost) AS Total FROM PurchaseOrder WHERE Date >= '2024-12-01' AND Date <= '2024-12-31'",
+    "value": 0
+  },
+  {
+    "chartName": "Monthly PO Totals",
+    "variableName": "November '24",
+    "server": "POR",
+    "tableName": "PurchaseOrder",
+    "sqlExpression": "SELECT SUM(ShippingCost) AS Total FROM PurchaseOrder WHERE Date >= '2024-11-01' AND Date <= '2024-11-30'",
+    "value": 0
+  },
+  {
+    "chartName": "Monthly PO Totals",
+    "variableName": "October '24",
+    "server": "POR",
+    "tableName": "PurchaseOrder",
+    "sqlExpression": "SELECT SUM(ShippingCost) AS Total FROM PurchaseOrder WHERE Date >= '2024-10-01' AND Date <= '2024-10-31'",
+    "value": 0
+  },
+  {
+    "chartName": "Monthly PO Totals",
+    "variableName": "September '24",
+    "server": "POR",
+    "tableName": "PurchaseOrder",
+    "sqlExpression": "SELECT SUM(ShippingCost) AS Total FROM PurchaseOrder WHERE Date >= '2024-09-01' AND Date <= '2024-09-30'",
+    "value": 0
+  },
+  {
+    "chartName": "Monthly PO Totals",
+    "variableName": "August '24",
+    "server": "POR",
+    "tableName": "PurchaseOrder",
+    "sqlExpression": "SELECT SUM(ShippingCost) AS Total FROM PurchaseOrder WHERE Date >= '2024-08-01' AND Date <= '2024-08-31'",
+    "value": 0
+  },
+  {
+    "chartName": "Monthly PO Totals",
+    "variableName": "July '24",
+    "server": "POR",
+    "tableName": "PurchaseOrder",
+    "sqlExpression": "SELECT SUM(ShippingCost) AS Total FROM PurchaseOrder WHERE Date >= '2024-07-01' AND Date <= '2024-07-31'",
+    "value": 0
+  },
+  {
+    "chartName": "Monthly PO Totals",
+    "variableName": "June '24",
+    "server": "POR",
+    "tableName": "PurchaseOrder",
+    "sqlExpression": "SELECT SUM(ShippingCost) AS Total FROM PurchaseOrder WHERE Date >= '2024-06-01' AND Date <= '2024-06-30'",
+    "value": 0
+  },
+  {
+    "chartName": "Monthly PO Totals",
+    "variableName": "May '24",
+    "server": "POR",
+    "tableName": "PurchaseOrder",
+    "sqlExpression": "SELECT SUM(ShippingCost) AS Total FROM PurchaseOrder WHERE Date >= '2024-05-01' AND Date <= '2024-05-31'",
+    "value": 0
+  },
+  {
+    "chartName": "Monthly PO Totals",
+    "variableName": "April '24",
+    "server": "POR",
+    "tableName": "PurchaseOrder",
+    "sqlExpression": "SELECT SUM(ShippingCost) AS Total FROM PurchaseOrder WHERE Date >= '2024-04-01' AND Date <= '2024-04-30'",
+    "value": 0
+  },
+  {
+    "chartName": "Vendor Analysis",
+    "variableName": "Top 5 Vendors",
+    "server": "POR",
+    "tableName": "PurchaseOrder",
+    "sqlExpression": "SELECT TOP 5 VendorNumber, COUNT(*) AS Count FROM PurchaseOrder WHERE Date >= '2025-01-01' GROUP BY VendorNumber ORDER BY Count DESC",
+    "value": 0
+  },
+  {
+    "chartName": "PO Status",
+    "variableName": "Status Distribution",
+    "server": "POR",
+    "tableName": "PurchaseOrder",
+    "sqlExpression": "SELECT Status, COUNT(*) AS Count FROM PurchaseOrder WHERE Date >= '2025-01-01' GROUP BY Status",
+    "value": 0
+  },
+  {
+    "chartName": "Store Analysis",
+    "variableName": "PO by Store",
+    "server": "POR",
+    "tableName": "PurchaseOrder",
+    "sqlExpression": "SELECT Store, COUNT(*) AS Count FROM PurchaseOrder WHERE Date >= '2025-01-01' GROUP BY Store",
+    "value": 0
+  }
+]

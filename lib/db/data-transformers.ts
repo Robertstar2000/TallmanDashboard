@@ -11,303 +11,658 @@ import type {
   AdminVariable,
   DashboardData,
   HistoricalDataPoint,
-  AccountsPayableData,
   SiteDistribution,
   Products,
   DailyShipment,
-  CustomerData,
   RawMetricData,
-  Metric
+  Metric,
+  AccountsDataPoint,
+  CustomerMetricPoint,
+  InventoryDataPoint,
+  POROverviewPoint,
+  SiteDistributionPoint,
+  ARAgingPoint,
+  DailyOrderPoint,
+  WebOrderPoint,
+  MetricItem,
+  Product,
+  RawARAgingData,
+  SpreadsheetRow
 } from '../types/dashboard';
 
 // Type guards
-function isMetricData(item: RawDashboardData): item is RawMetricData {
+function isMetricData(item: any): item is RawMetricData {
   return item.chartGroup === 'Metrics';
 }
 
-function isProductData(item: RawDashboardData): item is RawProductData {
+function isProductData(item: any): item is RawProductData {
   return 'value' in item && item.chartGroup !== 'Metrics';
 }
 
-function isHistoricalData(item: RawDashboardData): item is RawHistoricalData {
+function isHistoricalData(item: any): item is RawHistoricalData {
   return 'historicalDate' in item;
 }
 
-function isAccountsPayableData(item: RawDashboardData): item is RawAccountsPayableData {
+function isAccountsPayableData(item: any): item is RawAccountsPayableData {
   return 'accountsPayableDate' in item;
 }
 
-function isCustomersData(item: RawDashboardData): item is RawCustomersData {
+function isCustomersData(item: any): item is RawCustomersData {
   return 'customersDate' in item;
 }
 
-function isInventoryData(item: RawDashboardData): item is RawInventoryData {
+function isInventoryData(item: any): item is RawInventoryData {
   return 'inventoryValueDate' in item;
 }
 
-function isSiteDistributionData(item: RawDashboardData): item is RawSiteDistributionData {
-  return 'columbus' in item;
+function isSiteDistributionData(item: any): item is RawSiteDistributionData {
+  return 'historicalDate' in item && 'columbus' in item;
+}
+
+// Helper function to clean up SQL expressions with embedded newlines and brackets
+function cleanSqlExpression(sql: string): string {
+  if (!sql) return '';
+  
+  // Replace newlines and extra spaces
+  let cleanedSql = sql.replace(/\s+/g, ' ').trim();
+  
+  // Fix MS Access date functions that might be split across lines
+  cleanedSql = cleanedSql.replace(/DatePart\(\s*'m'\s*,\s*\[\s*RentalDate\s*\]\s*\)/g, "DatePart('m', [RentalDate])");
+  cleanedSql = cleanedSql.replace(/DatePart\(\s*'yyyy'\s*,\s*\[\s*RentalDate\s*\]\s*\)/g, "DatePart('yyyy', [RentalDate])");
+  
+  return cleanedSql;
+}
+
+// Helper function to get chart name from either chartName field or chartGroup field
+function getChartName(item: any): string {
+  if (item.chartName) {
+    return item.chartName;
+  }
+  return item.chartGroup || '';
+}
+
+// Helper function to parse DataPoint into variable name and time component
+function parseDataPoint(dataPoint: string): { variableName: string, timeComponent: string } {
+  if (!dataPoint) return { variableName: '', timeComponent: '' };
+  
+  // Check if DataPoint contains a comma
+  if (dataPoint.includes(',')) {
+    const [variableName, timeComponent] = dataPoint.split(',').map(part => part.trim());
+    return { variableName, timeComponent };
+  }
+  
+  // If no comma, try to extract month or time component
+  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  for (const month of months) {
+    if (dataPoint.includes(month)) {
+      const variableName = dataPoint.substring(0, dataPoint.indexOf(month)).trim();
+      const timeComponent = month;
+      return { variableName, timeComponent };
+    }
+  }
+  
+  // Try to extract numeric time components (e.g., "1-30 Days")
+  const timePatterns = [
+    /(\d+-\d+\s+Days)/i,
+    /(\d+\+\s+Days)/i,
+    /Today-(\d+)/i,
+    /(\d+\s+Days)/i
+  ];
+  
+  for (const pattern of timePatterns) {
+    const match = dataPoint.match(pattern);
+    if (match) {
+      const timeComponent = match[0];
+      const variableName = dataPoint.replace(timeComponent, '').trim();
+      return { variableName, timeComponent };
+    }
+  }
+  
+  // Default case: just return the whole string as variable name
+  return { variableName: dataPoint, timeComponent: '' };
 }
 
 // Function to transform raw data into spreadsheet rows
-export function transformToSpreadsheetRows(rawData: RawDashboardData[]): AdminVariable[] {
-  const spreadsheetRows: AdminVariable[] = [];
+function transformToSpreadsheetRows(rawData: any[]): AdminVariable[] {
+  return rawData.map(item => {
+    // Base properties that all items have
+    const base: AdminVariable = {
+      id: item.id || '',
+      name: item.name || item.DataPoint || '',
+      chartGroup: item.chartGroup || '',
+      chartName: item.chartName || '',
+      category: item.category || item.chartGroup || '',
+      variableName: item.variableName || '',
+      server: item.server || '',
+      productionSqlExpression: cleanSqlExpression(item.sqlExpression) || '',
+      tableName: item.tableName || '',
+      value: item.value || 0
+    };
 
-  // Process Metrics
-  const metricItems = rawData.filter(isMetricData);
+    // Add specific properties based on the item type
+    if (isHistoricalData(item)) {
+      return {
+        ...base,
+        historicalDate: item.historicalDate,
+      };
+    } else if (isAccountsPayableData(item)) {
+      return {
+        ...base,
+        accountsPayableDate: item.accountsPayableDate,
+      };
+    } else if (isCustomersData(item)) {
+      return {
+        ...base,
+        customersDate: item.customersDate,
+      };
+    } else if (isInventoryData(item)) {
+      return {
+        ...base,
+        inventoryValueDate: item.inventoryValueDate,
+      };
+    } else if (isSiteDistributionData(item)) {
+      return {
+        ...base,
+        historicalDate: item.historicalDate,
+      };
+    } else if (isMetricData(item)) {
+      return {
+        ...base,
+        metricType: item.metricType
+      };
+    } else if (isProductData(item)) {
+      return {
+        ...base,
+        category: item.category
+      };
+    }
 
-  metricItems.forEach(item => {
-    spreadsheetRows.push({
-      id: item.id,
-      name: item.name,
-      chartGroup: item.chartGroup,
-      calculation: item.calculation,
-      sqlExpression: item.sqlExpression,
-      p21DataDictionary: item.p21DataDictionary,
-      value: item.value,
-      updateTime: new Date().toISOString()
-    });
+    // Default case
+    return base;
   });
+}
 
-  // Process Historical Data
-  const historicalItems = rawData.filter((item): item is RawHistoricalData => 
-    item.chartGroup === 'Historical Data' && isHistoricalData(item));
-  
-  historicalItems.forEach(item => {
-    spreadsheetRows.push({
-      id: item.id,
-      name: item.name,
-      chartGroup: item.chartGroup,
-      calculation: 'Monthly Values',
-      sqlExpression: item.sqlExpression,
-      p21DataDictionary: item.p21DataDictionary,
-      value: item.p21,
-      secondaryValue: item.por,
-      updateTime: new Date().toISOString(),
-      historicalDate: item.historicalDate
-    });
-  });
+// Add a new function to get a transformer by name
+function getTransformer(name: string): ((value: number) => number) | null {
+  const transformers: Record<string, (value: number) => number> = {
+    'double': (value: number) => value * 2,
+    'triple': (value: number) => value * 3,
+    'percentage': (value: number) => value / 100,
+    'inverse': (value: number) => -value,
+    'square': (value: number) => value * value,
+  };
 
-  // Process Inventory Data
-  const inventoryItems = rawData.filter((item): item is RawInventoryData => 
-    item.chartGroup === 'Inventory Value & Turnover' && isInventoryData(item));
-
-  inventoryItems.forEach(item => {
-    spreadsheetRows.push({
-      id: item.id,
-      name: item.name,
-      chartGroup: item.chartGroup,
-      calculation: 'Monthly Values',
-      sqlExpression: item.sqlExpression,
-      p21DataDictionary: item.p21DataDictionary,
-      value: item.inventory,
-      secondaryValue: item.turnover,
-      updateTime: new Date().toISOString(),
-      inventoryValueDate: item.inventoryValueDate
-    });
-  });
-
-  // Process Accounts Payable Data
-  const apItems = rawData.filter((item): item is RawAccountsPayableData =>
-    item.chartGroup === 'Accounts Payable Overview' && isAccountsPayableData(item));
-  
-  apItems.forEach(item => {
-    spreadsheetRows.push({
-      id: item.id,
-      name: item.name,
-      chartGroup: item.chartGroup,
-      calculation: 'Monthly Values',
-      sqlExpression: item.sqlExpression,
-      p21DataDictionary: item.p21DataDictionary,
-      value: item.total,
-      secondaryValue: item.overdue,
-      updateTime: new Date().toISOString(),
-      accountsPayableDate: item.accountsPayableDate
-    });
-  });
-
-  // Process Customer Data
-  const customerItems = rawData.filter((item): item is RawCustomersData =>
-    item.chartGroup === 'New Customers vs. New Prospects' && isCustomersData(item));
-  
-  customerItems.forEach(item => {
-    spreadsheetRows.push({
-      id: item.id,
-      name: item.name,
-      chartGroup: item.chartGroup,
-      calculation: 'Monthly Values',
-      sqlExpression: item.sqlExpression,
-      p21DataDictionary: item.p21DataDictionary,
-      value: item.new,
-      secondaryValue: item.prospects,
-      updateTime: new Date().toISOString(),
-      customersDate: item.customersDate
-    });
-  });
-
-  // Process Daily Shipments
-  const shipmentItems = rawData.filter((item): item is RawProductData => 
-    item.chartGroup === 'Daily Shipments' && isProductData(item));
-  
-  shipmentItems.forEach(item => {
-    spreadsheetRows.push({
-      id: item.id,
-      name: item.name,
-      chartGroup: item.chartGroup,
-      calculation: 'Daily Values',
-      sqlExpression: item.sqlExpression,
-      p21DataDictionary: item.p21DataDictionary,
-      value: item.value,
-      updateTime: new Date().toISOString()
-    });
-  });
-
-  // Process Site Distribution
-  const siteItems = rawData.filter((item): item is RawSiteDistributionData =>
-    item.chartGroup === 'Site Distribution' && isSiteDistributionData(item));
-  
-  siteItems.forEach(item => {
-    spreadsheetRows.push({
-      id: item.id,
-      name: item.name,
-      chartGroup: item.chartGroup,
-      calculation: 'Distribution',
-      sqlExpression: item.sqlExpression,
-      p21DataDictionary: item.p21DataDictionary,
-      value: item.columbus,
-      updateTime: new Date().toISOString()
-    });
-  });
-
-  // Process Top Products
-  const productItems = rawData.filter((item): item is RawProductData => 
-    item.chartGroup === 'Top Products' && isProductData(item));
-  
-  productItems.forEach(item => {
-    spreadsheetRows.push({
-      id: item.id,
-      name: item.name,
-      chartGroup: item.chartGroup,
-      calculation: item.calculation,
-      sqlExpression: item.sqlExpression,
-      p21DataDictionary: item.p21DataDictionary,
-      value: item.value,
-      subGroup: item.subGroup,
-      updateTime: new Date().toISOString()
-    });
-  });
-
-  return spreadsheetRows;
+  return transformers[name] || null;
 }
 
 // Transform functions for dashboard data
-function transformHistoricalData(rawData: RawDashboardData[]): HistoricalDataPoint[] {
-  const historyItems = rawData.filter(isHistoricalData);
-  return historyItems
-    .filter(item => !isNaN(parseInt(item.p21)) && !isNaN(parseInt(item.por)))
-    .map(item => ({
-      date: item.historicalDate,
-      p21: parseInt(item.p21),
-      por: parseInt(item.por)
-    }))
-    .sort((a, b) => a.date.localeCompare(b.date));
-}
+function transformHistoricalData(rawData: any[]): HistoricalDataPoint[] {
+  const filteredData = rawData.filter(item => {
+    if (!item) return false;
+    const chartName = getChartName(item);
+    return (chartName === 'Historical Data' || chartName === 'Monthly Sales' || 
+           item.chartGroup === 'Historical Data' || item.chartGroup === 'Monthly Sales');
+  });
 
-function transformMetrics(rawData: RawDashboardData[]): Metric[] {
-  return rawData
-    .filter((item): item is RawMetricData => 
-      item.chartGroup === 'Metrics' && 
-      'value' in item &&
-      item.name !== 'Inside Sales Leader' // Exclude Inside Sales Leader from metrics
-    )
-    .map(item => ({
-      name: item.name,
-      value: parseInt(item.value || '0'),
-      change: 0, // Implement if needed
-      trend: 'neutral' // Implement if needed
-    }));
-}
+  if (!filteredData.length) {
+    console.warn('No historical data found');
+    return [];
+  }
 
-function transformAccountsPayable(rawData: RawDashboardData[]): AccountsPayableData[] {
-  const apItems = rawData.filter(isAccountsPayableData);
-  return apItems.map(item => ({
-    date: item.accountsPayableDate,
-    total: parseInt(item.total),
-    overdue: parseInt(item.overdue)
-  }));
-}
+  console.log(`Found ${filteredData.length} historical data items`);
 
-function transformCustomers(rawData: RawDashboardData[]): CustomerData[] {
-  const customerItems = rawData.filter(isCustomersData);
-  return customerItems.map(item => ({
-    date: item.customersDate,
-    new: parseInt(item.new),
-    prospects: parseInt(item.prospects)
-  }));
-}
+  // Group data by month
+  const monthlyData: Record<string, any> = {};
 
-function transformDailyShipments(rawData: RawDashboardData[]): DailyShipment[] {
-  return rawData
-    .filter((item): item is RawMetricData => 
-      item.chartGroup === 'Daily Shipments' && 'value' in item)
-    .map(item => ({
-      date: item.name,
-      shipments: parseInt(item.value || '0')
-    }))
-    .sort((a, b) => a.date.localeCompare(b.date));
-}
-
-function transformProducts(rawData: RawDashboardData[]): Products {
-  const result: Products = {
-    online: [],
-    inside: [],
-    outside: []
-  };
-
-  const productItems = rawData.filter((item): item is RawProductData => 
-    item.chartGroup === 'Top Products' && isProductData(item));
-
-  productItems.forEach(item => {
-    const product = {
-      name: item.name,
-      value: parseInt(item.value || '0')
-    };
+  filteredData.forEach(item => {
+    // Extract month from DataPoint or variable name if possible
+    let month = '';
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
     
-    if (item.subGroup?.toLowerCase().includes('online')) {
-      result.online.push(product);
-    } else if (item.subGroup?.toLowerCase().includes('inside')) {
-      result.inside.push(product);
-    } else if (item.subGroup?.toLowerCase().includes('outside')) {
-      result.outside.push(product);
+    if (item.DataPoint) {
+      const { timeComponent } = parseDataPoint(item.DataPoint);
+      if (months.includes(timeComponent)) {
+        month = timeComponent;
+      }
+    }
+    
+    if (!month && item.variableName) {
+      for (const m of months) {
+        if (item.variableName.includes(m)) {
+          month = m;
+          break;
+        }
+      }
+    }
+
+    // If no month found, try to extract from ID or use a default
+    if (!month && item.id) {
+      const idNum = parseInt(item.id);
+      if (!isNaN(idNum) && idNum >= 1 && idNum <= 12) {
+        month = months[idNum - 1];
+      } else {
+        month = 'Jan'; // Default
+      }
+    }
+
+    if (!monthlyData[month]) {
+      monthlyData[month] = {
+        id: `historical-${month}`,
+        date: month,
+        sales: 0,
+        orders: 0
+      };
+    }
+
+    // Update the appropriate field based on server
+    if (item.serverName === 'P21') {
+      monthlyData[month].sales = parseFloat(item.value) || 0;
+    } else if (item.serverName === 'POR') {
+      monthlyData[month].orders = parseFloat(item.value) || 0;
     }
   });
 
-  result.online.sort((a, b) => b.value - a.value);
-  result.inside.sort((a, b) => b.value - a.value);
-  result.outside.sort((a, b) => b.value - a.value);
+  return Object.values(monthlyData);
+}
 
+// MODIFIED: Ensure values are directly used from the admin spreadsheet
+function transformMetrics(rawData: any[]): MetricItem[] {
+  const metricItems = rawData.filter(item => {
+    if (!item) return false;
+    const chartName = getChartName(item);
+    return chartName === 'Key Metrics' || item.chartGroup === 'Key Metrics';
+  });
+  
+  return metricItems.map(item => ({
+    id: item.id || `metric-${item.variableName}`,
+    name: item.variableName?.toLowerCase().replace(/ /g, '_') || '',
+    // Directly use the value from the spreadsheet without additional processing
+    value: typeof item.value === 'string' ? parseFloat(item.value) || 0 : (item.value || 0),
+    change: 0, // Default to 0 since change is not in RawMetricData
+    trend: 'neutral',
+    color: 'blue' // Default color
+  }));
+}
+
+function transformAccountsPayable(rawData: any[]): AccountsDataPoint[] {
+  const filteredData = rawData.filter(item => {
+    if (!item) return false;
+    const chartName = getChartName(item);
+    return (chartName === 'Accounts' || chartName === 'Accounts Payable' ||
+           item.chartGroup === 'Accounts' || item.chartGroup === 'Accounts Payable');
+  });
+
+  if (!filteredData.length) {
+    console.warn('No accounts payable data found');
+    return [];
+  }
+
+  console.log(`Found ${filteredData.length} accounts payable data items`);
+
+  // Group by date
+  const dateData: Record<string, any> = {};
+  
+  filteredData.forEach(item => {
+    const date = item.accountsPayableDate || new Date().toISOString().split('T')[0];
+    
+    if (!dateData[date]) {
+      dateData[date] = {
+        id: `accounts-${date}`,
+        date: date,
+        payable: 0,
+        receivable: 0,
+        overdue: 0
+      };
+    }
+    
+    // Update based on variable name
+    if (item.variableName === 'Current') {
+      dateData[date].receivable = parseFloat(item.value) || 0;
+    } else if (item.variableName === '30 Days') {
+      dateData[date].payable = parseFloat(item.value) || 0;
+    } else if (item.variableName === '60 Days' || item.variableName === '90 Days') {
+      dateData[date].overdue += parseFloat(item.value) || 0;
+    }
+  });
+  
+  return Object.values(dateData);
+}
+
+function transformCustomers(rawData: any[]): CustomerMetricPoint[] {
+  const filteredData = rawData.filter(item => item && item.chartGroup === 'Customer Metrics');
+  
+  return filteredData.map(item => ({
+    id: item.id || `customer-${item.variableName}`,
+    date: new Date().toISOString().split('T')[0],
+    newCustomers: parseFloat(item.value) || 0
+  }));
+}
+
+function transformDailyShipments(rawData: any[]): DailyOrderPoint[] {
+  const filteredData = rawData.filter(item => item && item.chartGroup === 'Daily Orders');
+  
+  return filteredData.map(item => ({
+    id: item.id || `daily-${item.variableName}`,
+    date: item.variableName,
+    orders: parseFloat(item.value) || 0
+  }));
+}
+
+function transformProducts(rawData: any[]): Product[] {
+  const filteredData = rawData.filter(item => item && item.chartGroup === 'Products');
+  
+  return filteredData.map(item => ({
+    id: item.id || `product-${item.variableName}`,
+    category: item.variableName || '',
+    inStock: parseFloat(item.value) || 0,
+    onOrder: 0
+  }));
+}
+
+function transformSiteDistribution(rawData: any[]): SiteDistributionPoint[] {
+  // First, try to find items with the chart name "Site Distribution"
+  let filteredData = rawData.filter(item => {
+    if (!item) return false;
+    const chartName = getChartName(item);
+    return chartName === 'Site Distribution' || item.chartGroup === 'Site Distribution';
+  });
+  
+  // If no items found, try to find items with site distribution data
+  if (!filteredData.length) {
+    filteredData = rawData.filter(item => {
+      if (!item) return false;
+      return isSiteDistributionData(item);
+    });
+  }
+  
+  if (!filteredData.length) {
+    console.warn('No site distribution data found');
+    return [];
+  }
+  
+  console.log(`Found ${filteredData.length} site distribution data items`);
+  
+  // Transform the data
+  const result = filteredData.map(item => ({
+    id: item.id || `site-${item.variableName}`,
+    name: item.variableName || '',
+    value: parseFloat(item.value) || 0
+  }));
+  
+  // Calculate total for percentages
+  const total = result.reduce((sum, item) => sum + item.value, 0);
+  
+  // No need to add percentage property as it's not in the interface
+  
   return result;
 }
 
-function transformSiteDistribution(rawData: RawDashboardData[]): SiteDistribution[] {
-  const siteItems = rawData.filter(isSiteDistributionData);
-  return siteItems.map(item => ({
-    date: item.historicalDate,
-    columbus: parseInt(item.columbus),
-    addison: parseInt(item.addison),
-    lakeCity: parseInt(item.lakeCity)
-  }))
-  .sort((a, b) => b.date.localeCompare(a.date)); // Sort by date descending to get latest first
+function transformInventory(rawData: any[]): InventoryDataPoint[] {
+  const filteredData = rawData.filter(item => {
+    if (!item) return false;
+    return item.chartGroup === 'Inventory';
+  });
+  
+  if (!filteredData.length) {
+    console.warn('No inventory data found');
+    return [];
+  }
+  
+  console.log(`Found ${filteredData.length} inventory data items`);
+  
+  // Transform the data
+  return filteredData.map(item => {
+    const value = parseFloat(item.value) || 0;
+    
+    return {
+      id: item.id || `inventory-${item.variableName}`,
+      inStock: value,
+      onOrder: 0
+    };
+  });
 }
 
-export function transformDashboardData(rawData: RawDashboardData[]): DashboardData {
+function transformPOROverview(rawData: any[]): POROverviewPoint[] {
+  const filteredData = rawData.filter(item => item && item.chartGroup === 'POR Overview');
+  
+  return filteredData.map(item => ({
+    id: item.id || `por-${item.variableName}`,
+    date: new Date().toISOString().split('T')[0],
+    newRentals: parseFloat(item.value) || 0,
+    openRentals: 0,
+    rentalValue: 0
+  }));
+}
+
+function transformARData(rawData: any[]): ARAgingPoint[] {
+  // First, try to find items with the chart name "AR Aging"
+  let filteredData = rawData.filter(item => {
+    if (!item) return false;
+    const chartName = getChartName(item);
+    return (chartName === 'AR Aging' || chartName === 'Accounts Receivable Aging' ||
+           item.chartGroup === 'AR Aging' || item.chartGroup === 'Accounts Receivable Aging');
+  });
+  
+  if (!filteredData.length) {
+    console.warn('No AR aging data found');
+    return [];
+  }
+  
+  console.log(`Found ${filteredData.length} AR aging data items`);
+  
+  // Group by aging category
+  const agingData: Record<string, ARAgingPoint> = {};
+  
+  filteredData.forEach(item => {
+    let range = '';
+    
+    // Determine range based on variable name
+    if (item.variableName === 'Current') {
+      range = 'Current';
+    } else if (item.variableName === '30 Days') {
+      range = '1-30 Days';
+    } else if (item.variableName === '60 Days') {
+      range = '31-60 Days';
+    } else if (item.variableName === '90 Days') {
+      range = '61-90 Days';
+    } else if (item.variableName === '120 Days') {
+      range = '90+ Days';
+    } else {
+      range = item.variableName || 'Unknown';
+    }
+    
+    if (!agingData[range]) {
+      agingData[range] = {
+        id: `ar-${range}`,
+        range: range,
+        amount: 0
+      };
+    }
+    
+    // Add value to the appropriate category
+    agingData[range].amount += parseFloat(item.value) || 0;
+  });
+  
+  return Object.values(agingData);
+}
+
+function transformDailyOrders(rawData: any[]): DailyOrderPoint[] {
+  const filteredData = rawData.filter(item => {
+    if (!item) return false;
+    return item.chartGroup === 'Daily Orders';
+  });
+
+  if (!filteredData.length) {
+    console.warn('No daily orders data found');
+    return [];
+  }
+
+  console.log(`Found ${filteredData.length} daily orders data items`);
+  
+  // Map day names to numbers
+  const dayMap: Record<string, string> = {
+    'sunday': '1',
+    'monday': '2',
+    'tuesday': '3',
+    'wednesday': '4',
+    'thursday': '5',
+    'friday': '6',
+    'saturday': '7',
+    'sun': '1',
+    'mon': '2',
+    'tue': '3',
+    'wed': '4',
+    'thu': '5',
+    'fri': '6',
+    'sat': '7'
+  };
+  
+  // Transform the data
+  return filteredData.map(item => {
+    let day = '';
+    
+    // Try to determine day from variable name
+    if (item.variableName) {
+      const lowerVar = item.variableName.toLowerCase();
+      
+      // Check if it's a number 1-7
+      if (/^[1-7]$/.test(lowerVar)) {
+        day = lowerVar;
+      } 
+      // Check if it's a day name
+      else {
+        for (const [dayName, dayNum] of Object.entries(dayMap)) {
+          if (lowerVar.includes(dayName)) {
+            day = dayNum;
+            break;
+          }
+        }
+      }
+    }
+    
+    // Default to Sunday if no day found
+    if (!day) {
+      day = '1';
+    }
+    
+    return {
+      id: item.id || `daily-${day}`,
+      date: day,
+      orders: parseFloat(item.value) || 0
+    };
+  });
+}
+
+function transformWebOrders(rawData: any[]): WebOrderPoint[] {
+  const filteredData = rawData.filter(item => {
+    if (!item) return false;
+    return item.chartGroup === 'Web Orders';
+  });
+
+  if (!filteredData.length) {
+    console.warn('No web orders data found');
+    return [];
+  }
+
+  console.log(`Found ${filteredData.length} web orders data items`);
+  
+  // Group by month
+  const monthlyData: Record<string, WebOrderPoint> = {};
+  const currentYear = new Date().getFullYear();
+  
+  // Pre-populate with empty data for all months
+  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  months.forEach((month, index) => {
+    const date = `${month} ${currentYear}`;
+    monthlyData[date] = {
+      id: `web-${index + 1}`,
+      date: date,
+      orders: 0,
+      revenue: 0
+    };
+  });
+  
+  // Fill in actual data
+  filteredData.forEach(item => {
+    let monthName = '';
+    
+    // Try to extract month from variable name
+    if (item.variableName) {
+      for (const month of months) {
+        if (item.variableName.includes(month)) {
+          monthName = month;
+          break;
+        }
+      }
+    }
+    
+    // If no month found, use current month
+    if (!monthName) {
+      monthName = months[new Date().getMonth()];
+    }
+    
+    const date = `${monthName} ${currentYear}`;
+    
+    // Update orders or revenue based on variable name and DataPoint
+    let isRevenue = false;
+    
+    if (item.DataPoint) {
+      const { variableName } = parseDataPoint(item.DataPoint);
+      isRevenue = variableName.toLowerCase().includes('revenue');
+    } else if (item.variableName) {
+      isRevenue = item.variableName.toLowerCase().includes('revenue');
+    }
+    
+    if (!monthlyData[date]) {
+      monthlyData[date] = {
+        id: `weborder-${date}`,
+        date,
+        orders: 0,
+        revenue: 0
+      };
+    }
+    
+    if (isRevenue) {
+      monthlyData[date].revenue = parseFloat(item.value) || 0;
+    } else {
+      monthlyData[date].orders = parseFloat(item.value) || 0;
+    }
+  });
+  
+  return Object.values(monthlyData);
+}
+
+function transformDashboardData(rawData: any[]): DashboardData {
   return {
     metrics: transformMetrics(rawData),
     historicalData: transformHistoricalData(rawData),
-    dailyShipments: transformDailyShipments(rawData),
-    accountsPayable: transformAccountsPayable(rawData),
-    customers: transformCustomers(rawData),
+    accounts: transformAccountsPayable(rawData),
+    customerMetrics: transformCustomers(rawData),
+    inventory: transformInventory(rawData),
+    porOverview: transformPOROverview(rawData),
     siteDistribution: transformSiteDistribution(rawData),
-    products: transformProducts(rawData)
+    arAging: transformARData(rawData),
+    dailyOrders: transformDailyOrders(rawData),
+    webOrders: transformWebOrders(rawData)
   };
 }
+
+export {
+  transformToSpreadsheetRows,
+  transformDashboardData,
+  transformMetrics,
+  transformHistoricalData,
+  transformAccountsPayable,
+  transformCustomers,
+  transformDailyShipments,
+  transformProducts,
+  transformSiteDistribution,
+  transformInventory,
+  transformPOROverview,
+  transformARData,
+  transformDailyOrders,
+  transformWebOrders,
+  getTransformer,
+  parseDataPoint,
+  cleanSqlExpression
+};

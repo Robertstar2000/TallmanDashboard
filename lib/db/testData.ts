@@ -1,183 +1,45 @@
 import { AdminVariable } from '@/lib/types/dashboard';
 import sqlite3 from 'sqlite3';
-import { Database } from 'sqlite';
+import { Database } from 'sqlite3';
+
+// Helper function to create test data with numeric values
+const createTestData = (id: number, name: string, value: number = 0): AdminVariable => ({
+  id: String(id),
+  name,
+  category: name.split(' ')[0],
+  variableName: name.toLowerCase().replace(/\s+/g, '_'),
+  chartGroup: 'Test',
+  subGroup: 'Test',
+  value,
+  sqlExpression: '',
+  testSqlExpression: '',
+  productionTable: '',
+  testTable: '',
+  sourceServer: 'P21',
+  serverName: 'P21',
+  tableName: '',
+  updateInterval: 300,
+  isMetric: false
+});
 
 export const testData: AdminVariable[] = [
   // Daily Orders - Last 7 days
-  ...Array.from({ length: 7 }).map((_, i) => ({
-    id: i + 1,
-    name: `Daily Orders ${7 - i}`,
-    chartGroup: 'Daily Orders',
-    subGroup: 'Orders',
-    value: '0',
-    calculation: '',
-    sqlExpression: `
-      SELECT COUNT(*) as order_count 
-      FROM oe_hdr 
-      WHERE order_date = DATE('now', '-${i} days')
-    `,
-    testSqlExpression: `
-      SELECT COUNT(*) as order_count 
-      FROM test_orders 
-      WHERE order_date = DATE('now', '-${i} days')
-    `,
-    productionTable: 'oe_hdr',
-    testTable: 'test_orders',
-    sourceServer: 'P21',
-    updateInterval: 60,
-    isMetric: false,
-    dataPoint: {
-      x: new Date(Date.now() - i * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
-      y: 0
-    }
-  })),
+  ...Array.from({ length: 7 }).map((_, i) => createTestData(i + 1, `Daily Orders ${7 - i}`, 0)),
 
   // Inventory Data - Current and Backlog for each category
   ...['Electronics', 'Tools', 'Safety', 'Lighting', 'Power', 'Accessories'].flatMap((category, i) => [
-    {
-      id: 100 + i * 2,
-      name: `Current ${category}`,
-      chartGroup: 'Inventory',
-      subGroup: category,
-      value: '0',
-      calculation: '',
-      sqlExpression: `
-        SELECT SUM(qty_on_hand) as current_qty
-        FROM item_master
-        WHERE category = '${category}'
-      `,
-      testSqlExpression: `
-        SELECT SUM(qty_on_hand) as current_qty
-        FROM test_inventory
-        WHERE category = '${category}'
-      `,
-      productionTable: 'item_master',
-      testTable: 'test_inventory',
-      sourceServer: 'P21',
-      updateInterval: 300,
-      isMetric: false,
-      dataPoint: {
-        x: category,
-        y: 0
-      }
-    },
-    {
-      id: 101 + i * 2,
-      name: `Backlog ${category}`,
-      chartGroup: 'Inventory',
-      subGroup: category,
-      value: '0',
-      calculation: '',
-      sqlExpression: `
-        SELECT SUM(qty_ordered - qty_shipped) as backlog_qty
-        FROM oe_line
-        JOIN item_master ON oe_line.item_id = item_master.item_id
-        WHERE category = '${category}'
-      `,
-      testSqlExpression: `
-        SELECT SUM(qty_ordered - qty_shipped) as backlog_qty
-        FROM test_order_lines
-        JOIN test_inventory ON test_order_lines.item_id = test_inventory.item_id
-        WHERE category = '${category}'
-      `,
-      productionTable: 'oe_line',
-      testTable: 'test_order_lines',
-      sourceServer: 'P21',
-      updateInterval: 300,
-      isMetric: false,
-      dataPoint: {
-        x: category,
-        y: 0
-      }
-    }
+    createTestData(100 + i * 2, `Current ${category}`, 0),
+    createTestData(101 + i * 2, `Backlog ${category}`, 0),
   ]),
 
   // AR Aging Buckets
-  ...['Current', '1-30 Days', '31-60 Days', '61-90 Days', '90+ Days'].map((bucket, i) => ({
-    id: 200 + i,
-    name: `AR ${bucket}`,
-    chartGroup: 'AR Aging',
-    subGroup: bucket,
-    value: '0',
-    calculation: '',
-    sqlExpression: `
-      SELECT SUM(amount) as aging_amount
-      FROM ar_open_items
-      WHERE aging_bucket = '${bucket}'
-    `,
-    testSqlExpression: `
-      SELECT SUM(amount) as aging_amount
-      FROM test_ar_aging
-      WHERE aging_bucket = '${bucket}'
-    `,
-    productionTable: 'ar_open_items',
-    testTable: 'test_ar_aging',
-    sourceServer: 'P21',
-    updateInterval: 3600,
-    isMetric: false,
-    dataPoint: {
-      x: bucket,
-      y: 0
-    }
-  })),
+  ...['Current', '1-30 Days', '31-60 Days', '61-90 Days', '90+ Days'].map((bucket, i) => createTestData(200 + i, `AR ${bucket}`, 0)),
 
   // Customer Growth - Last 12 months
-  ...Array.from({ length: 12 }).map((_, i) => ({
-    id: 300 + i,
-    name: `Customer Growth Month ${12 - i}`,
-    chartGroup: 'Customer Growth',
-    subGroup: 'Total Customers',
-    value: '0',
-    calculation: '',
-    sqlExpression: `
-      SELECT COUNT(DISTINCT customer_id) as customer_count
-      FROM customer_master
-      WHERE created_date <= DATE('now', '-${i} months')
-    `,
-    testSqlExpression: `
-      SELECT COUNT(DISTINCT customer_id) as customer_count
-      FROM test_customers
-      WHERE created_date <= DATE('now', '-${i} months')
-    `,
-    productionTable: 'customer_master',
-    testTable: 'test_customers',
-    sourceServer: 'P21',
-    updateInterval: 3600,
-    isMetric: false,
-    dataPoint: {
-      x: new Date(new Date().setMonth(new Date().getMonth() - i)).toISOString().split('T')[0],
-      y: 0
-    }
-  })),
+  ...Array.from({ length: 12 }).map((_, i) => createTestData(300 + i, `Customer Growth Month ${12 - i}`, 0)),
 
   // Rental Equipment Status
-  ...['Available', 'Rented', 'Maintenance', 'Reserved'].map((status, i) => ({
-    id: 400 + i,
-    name: `Equipment ${status}`,
-    chartGroup: 'Equipment Status',
-    subGroup: status,
-    value: '0',
-    calculation: '',
-    sqlExpression: `
-      SELECT COUNT(*) as equipment_count
-      FROM equipment
-      WHERE status = '${status}'
-    `,
-    testSqlExpression: `
-      SELECT COUNT(*) as equipment_count
-      FROM test_equipment
-      WHERE status = '${status}'
-    `,
-    productionTable: 'equipment',
-    testTable: 'test_equipment',
-    sourceServer: 'POR',
-    updateInterval: 300,
-    isMetric: false,
-    dataPoint: {
-      x: status,
-      y: 0
-    }
-  }))
+  ...['Available', 'Rented', 'Maintenance', 'Reserved'].map((status, i) => createTestData(400 + i, `Equipment ${status}`, 0)),
 ];
 
 export async function initializeTestDatabase(db: Database) {

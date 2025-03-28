@@ -30,17 +30,25 @@ const getCardColor = (name: string): string => {
   return colorMap[name] || 'bg-gray-500';
 };
 
-const formatValue = (value: number, formatAsCurrency?: boolean): string => {
+const formatValue = (value: string | number, formatAsCurrency?: boolean): string => {
+  // Convert string to number if needed
+  const numValue = typeof value === 'string' ? parseFloat(value) : value;
+  
+  // Check if it's a valid number
+  if (isNaN(numValue)) {
+    return String(value);
+  }
+  
   if (formatAsCurrency) {
     return new Intl.NumberFormat('en-US', { 
       style: 'currency', 
       currency: 'USD',
       minimumFractionDigits: 0,
       maximumFractionDigits: 0 
-    }).format(value);
+    }).format(numValue);
   }
   
-  return value.toLocaleString();
+  return numValue.toLocaleString();
 };
 
 export function Metrics({ variables }: MetricsProps) {

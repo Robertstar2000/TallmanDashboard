@@ -1,0 +1,21 @@
+{
+  "timestamp": "2025-03-21T01:23:17.089Z",
+  "siteQueriesUpdated": true,
+  "accountsRowsVerified": true,
+  "sqliteUpdated": true,
+  "initialDataUpdated": true,
+  "siteQueries": {
+    "columbus": {
+      "count": 1552,
+      "sales": 1856971.62
+    },
+    "addison": {
+      "count": 430,
+      "sales": 1291.62
+    },
+    "lakeCity": {
+      "count": 34,
+      "sales": 0
+    }
+  }
+}

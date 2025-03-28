@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -10,16 +10,25 @@ interface EditableMetricCardProps {
   icon: React.ReactNode;
   title: string;
   value: string | number;
-  gradient: string;
-  onUpdate: (value: number) => void;
+  gradient?: string;
 }
+
+const COLORS = [
+  'bg-[#2563eb]', // blue
+  'bg-[#7c3aed]', // purple
+  'bg-[#0891b2]', // cyan
+  'bg-[#059669]', // emerald
+  'bg-[#4f46e5]', // indigo
+  'bg-[#c026d3]', // fuchsia
+  'bg-[#0284c7]', // sky
+  'bg-[#9333ea]'  // violet
+];
 
 export function EditableMetricCard({
   title,
   value,
   icon,
   gradient,
-  onUpdate
 }: EditableMetricCardProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [editValue, setEditValue] = useState<string | number>('');
@@ -30,46 +39,47 @@ export function EditableMetricCard({
   };
 
   const handleUpdate = (newValue: string | number) => {
-    if (newValue && !isNaN(Number(newValue))) {
-      onUpdate(Number(newValue));
-    }
     setIsEditing(false);
   };
 
+  // Get a color based on the title to ensure consistent colors
+  const colorIndex = Math.abs(title.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0)) % COLORS.length;
+  const backgroundColor = gradient || COLORS[colorIndex];
+
   return (
-    <Card className={`w-full h-full ${gradient} text-white`}>
-      <CardHeader className="p-0.5 h-[14px]">
-        <div className="flex justify-between items-center">
-          <div className="w-2.5 h-2.5">{icon}</div>
-          <CardTitle className="text-[clamp(0.6rem,0.9vw,0.8rem)] font-medium">
+    <Card 
+      className={`${backgroundColor} ${gradient} text-white border-0 cursor-pointer hover:opacity-90 transition-opacity`}
+      onClick={handleStartEditing}
+    >
+      <CardContent className="p-4">
+        <div className="flex items-center gap-2 mb-2">
+          <div className="w-5 h-5">
+            {icon}
+          </div>
+          <div className="text-sm font-medium">
             {title}
-          </CardTitle>
+          </div>
         </div>
-      </CardHeader>
-      <CardContent className="p-0.5">
-        {isEditing ? (
-          <input
-            type="text"
+        <div className="text-2xl font-bold">
+          {typeof value === 'number' ? value.toLocaleString() : value}
+        </div>
+      </CardContent>
+
+      <Dialog open={isEditing} onOpenChange={setIsEditing}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Edit {title}</DialogTitle>
+          </DialogHeader>
+          <Input
             value={editValue}
             onChange={(e) => setEditValue(e.target.value)}
-            onBlur={() => handleUpdate(editValue)}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter') {
-                handleUpdate(editValue);
-              }
-            }}
-            className="w-full text-[clamp(0.8rem,1.2vw,1rem)] font-bold text-center bg-transparent border-b border-white text-white focus:outline-none focus:border-blue-300"
-            autoFocus
+            className="mt-4"
           />
-        ) : (
-          <div
-            onClick={handleStartEditing}
-            className="text-[clamp(0.8rem,1.2vw,1rem)] font-bold text-center cursor-pointer text-white"
-          >
-            {value}
-          </div>
-        )}
-      </CardContent>
+          <DialogFooter className="mt-4">
+            <Button onClick={() => handleUpdate(editValue)}>Update</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </Card>
   );
 }

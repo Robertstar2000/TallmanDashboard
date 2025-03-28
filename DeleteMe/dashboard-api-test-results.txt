@@ -1,0 +1,57 @@
+# Dashboard API Data Analysis
+
+## Key Metrics (metrics): 7 items (Expected: 7) - MATCH
+
+## Historical Data (historicalData): 12 items (Expected: 12) - MATCH
+
+### Historical Data Analysis:
+Months found: Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec
+Jan: P21 (sales)=0, POR (orders)=0, Total (combined)=0
+Feb: P21 (sales)=0, POR (orders)=0, Total (combined)=0
+Mar: P21 (sales)=0, POR (orders)=0, Total (combined)=0
+Apr: P21 (sales)=0, POR (orders)=0, Total (combined)=0
+May: P21 (sales)=0, POR (orders)=0, Total (combined)=0
+Jun: P21 (sales)=0, POR (orders)=0, Total (combined)=0
+Jul: P21 (sales)=0, POR (orders)=0, Total (combined)=0
+Aug: P21 (sales)=0, POR (orders)=0, Total (combined)=0
+Sep: P21 (sales)=0, POR (orders)=0, Total (combined)=0
+Oct: P21 (sales)=0, POR (orders)=0, Total (combined)=0
+Nov: P21 (sales)=0, POR (orders)=0, Total (combined)=0
+Dec: P21 (sales)=0, POR (orders)=0, Total (combined)=0
+
+Zero value counts: P21 (sales)=12, POR (orders)=12, Total (combined)=12
+
+## Accounts (accounts): 12 items (Expected: 12) - MATCH
+
+### Accounts Data Analysis:
+Months found: Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec
+Jan: Payable=77919, Receivable=82456, Overdue=87654
+Feb: Payable=43971, Receivable=48765, Overdue=56789
+Mar: Payable=24567, Receivable=35678, Overdue=45678
+Apr: Payable=70123, Receivable=65432, Overdue=76543
+May: Payable=99941, Receivable=90123, Overdue=87654
+Jun: Payable=98638, Receivable=87654, Overdue=90123
+Jul: Payable=90578, Receivable=76543, Overdue=87654
+Aug: Payable=31487, Receivable=43210, Overdue=56789
+Sep: Payable=102340, Receivable=87654, Overdue=98765
+Oct: Payable=16714, Receivable=24567, Overdue=34567
+Nov: Payable=75051, Receivable=65432, Overdue=78901
+Dec: Payable=80547, Receivable=76543, Overdue=90123
+
+Zero value counts: Payable=0, Receivable=0, Overdue=0
+
+## Customer Metrics (customerMetrics): 12 items (Expected: 12) - MATCH
+
+## Inventory (inventory): 4 items (Expected: 4) - MATCH
+
+## POR Overview (porOverview): 12 items (Expected: 12) - MATCH
+
+## Site Distribution (siteDistribution): 3 items (Expected: 3) - MATCH
+
+## AR Aging (arAging): 5 items (Expected: 5) - MATCH
+
+## Daily Orders (dailyOrders): 7 items (Expected: 7) - MATCH
+
+## Web Orders (webOrders): 12 items (Expected: 12) - MATCH
+
+## Open Orders (openOrders): Missing data

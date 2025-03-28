@@ -1,0 +1,194 @@
+[
+  {
+    "name": "Historical Data - P21 - Month 1",
+    "variableName": "P21",
+    "serverName": "P21",
+    "timeframe": "Month 1",
+    "sqlExpression": "SELECT COALESCE(SUM(value), 0) as value FROM historical_data WHERE source = 'p21' AND strftime('%Y-%m', date) = strftime('%Y-%m', datetime('now', ''))",
+    "productionSqlExpression": "SELECT ISNULL(SUM(order_amt), 0) as value FROM P21.dbo.oe_hdr WITH (NOLOCK) WHERE FORMAT(order_date, 'yyyy-MM') = FORMAT(DATEADD(month, 0, GETDATE()), 'yyyy-MM')"
+  },
+  {
+    "name": "Historical Data - POR - Month 1",
+    "variableName": "POR",
+    "serverName": "POR",
+    "timeframe": "Month 1",
+    "sqlExpression": "SELECT COALESCE(SUM(value), 0) as value FROM historical_data WHERE source = 'por' AND strftime('%Y-%m', date) = strftime('%Y-%m', datetime('now', ''))",
+    "productionSqlExpression": "SELECT Sum(Nz([Total],0)) AS value FROM [PurchaseOrder] WHERE Format([Date],\"yyyy-mm\") = Format(DateAdd(\"m\",0,Date()),\"yyyy-mm\")"
+  },
+  {
+    "name": "Historical Data - P21 - Month 2",
+    "variableName": "P21",
+    "serverName": "P21",
+    "timeframe": "Month 2",
+    "sqlExpression": "SELECT COALESCE(SUM(value), 0) as value FROM historical_data WHERE source = 'p21' AND strftime('%Y-%m', date) = strftime('%Y-%m', datetime('now', '-1 month'))",
+    "productionSqlExpression": "SELECT ISNULL(SUM(order_amt), 0) as value FROM P21.dbo.oe_hdr WITH (NOLOCK) WHERE FORMAT(order_date, 'yyyy-MM') = FORMAT(DATEADD(month, -1, GETDATE()), 'yyyy-MM')"
+  },
+  {
+    "name": "Historical Data - POR - Month 2",
+    "variableName": "POR",
+    "serverName": "POR",
+    "timeframe": "Month 2",
+    "sqlExpression": "SELECT COALESCE(SUM(value), 0) as value FROM historical_data WHERE source = 'por' AND strftime('%Y-%m', date) = strftime('%Y-%m', datetime('now', '-1 month'))",
+    "productionSqlExpression": "SELECT Sum(Nz([Total],0)) AS value FROM [PurchaseOrder] WHERE Format([Date],\"yyyy-mm\") = Format(DateAdd(\"m\",-1,Date()),\"yyyy-mm\")"
+  },
+  {
+    "name": "Historical Data - P21 - Month 3",
+    "variableName": "P21",
+    "serverName": "P21",
+    "timeframe": "Month 3",
+    "sqlExpression": "SELECT COALESCE(SUM(value), 0) as value FROM historical_data WHERE source = 'p21' AND strftime('%Y-%m', date) = strftime('%Y-%m', datetime('now', '-2 month'))",
+    "productionSqlExpression": "SELECT ISNULL(SUM(order_amt), 0) as value FROM P21.dbo.oe_hdr WITH (NOLOCK) WHERE FORMAT(order_date, 'yyyy-MM') = FORMAT(DATEADD(month, -2, GETDATE()), 'yyyy-MM')"
+  },
+  {
+    "name": "Historical Data - POR - Month 3",
+    "variableName": "POR",
+    "serverName": "POR",
+    "timeframe": "Month 3",
+    "sqlExpression": "SELECT COALESCE(SUM(value), 0) as value FROM historical_data WHERE source = 'por' AND strftime('%Y-%m', date) = strftime('%Y-%m', datetime('now', '-2 month'))",
+    "productionSqlExpression": "SELECT Sum(Nz([Total],0)) AS value FROM [PurchaseOrder] WHERE Format([Date],\"yyyy-mm\") = Format(DateAdd(\"m\",-2,Date()),\"yyyy-mm\")"
+  },
+  {
+    "name": "Historical Data - P21 - Month 4",
+    "variableName": "P21",
+    "serverName": "P21",
+    "timeframe": "Month 4",
+    "sqlExpression": "SELECT COALESCE(SUM(value), 0) as value FROM historical_data WHERE source = 'p21' AND strftime('%Y-%m', date) = strftime('%Y-%m', datetime('now', '-3 month'))",
+    "productionSqlExpression": "SELECT ISNULL(SUM(order_amt), 0) as value FROM P21.dbo.oe_hdr WITH (NOLOCK) WHERE FORMAT(order_date, 'yyyy-MM') = FORMAT(DATEADD(month, -3, GETDATE()), 'yyyy-MM')"
+  },
+  {
+    "name": "Historical Data - POR - Month 4",
+    "variableName": "POR",
+    "serverName": "POR",
+    "timeframe": "Month 4",
+    "sqlExpression": "SELECT COALESCE(SUM(value), 0) as value FROM historical_data WHERE source = 'por' AND strftime('%Y-%m', date) = strftime('%Y-%m', datetime('now', '-3 month'))",
+    "productionSqlExpression": "SELECT Sum(Nz([Total],0)) AS value FROM [PurchaseOrder] WHERE Format([Date],\"yyyy-mm\") = Format(DateAdd(\"m\",-3,Date()),\"yyyy-mm\")"
+  },
+  {
+    "name": "Historical Data - P21 - Month 5",
+    "variableName": "P21",
+    "serverName": "P21",
+    "timeframe": "Month 5",
+    "sqlExpression": "SELECT COALESCE(SUM(value), 0) as value FROM historical_data WHERE source = 'p21' AND strftime('%Y-%m', date) = strftime('%Y-%m', datetime('now', '-4 month'))",
+    "productionSqlExpression": "SELECT ISNULL(SUM(order_amt), 0) as value FROM P21.dbo.oe_hdr WITH (NOLOCK) WHERE FORMAT(order_date, 'yyyy-MM') = FORMAT(DATEADD(month, -4, GETDATE()), 'yyyy-MM')"
+  },
+  {
+    "name": "Historical Data - POR - Month 5",
+    "variableName": "POR",
+    "serverName": "POR",
+    "timeframe": "Month 5",
+    "sqlExpression": "SELECT COALESCE(SUM(value), 0) as value FROM historical_data WHERE source = 'por' AND strftime('%Y-%m', date) = strftime('%Y-%m', datetime('now', '-4 month'))",
+    "productionSqlExpression": "SELECT Sum(Nz([Total],0)) AS value FROM [PurchaseOrder] WHERE Format([Date],\"yyyy-mm\") = Format(DateAdd(\"m\",-4,Date()),\"yyyy-mm\")"
+  },
+  {
+    "name": "Historical Data - P21 - Month 6",
+    "variableName": "P21",
+    "serverName": "P21",
+    "timeframe": "Month 6",
+    "sqlExpression": "SELECT COALESCE(SUM(value), 0) as value FROM historical_data WHERE source = 'p21' AND strftime('%Y-%m', date) = strftime('%Y-%m', datetime('now', '-5 month'))",
+    "productionSqlExpression": "SELECT ISNULL(SUM(order_amt), 0) as value FROM P21.dbo.oe_hdr WITH (NOLOCK) WHERE FORMAT(order_date, 'yyyy-MM') = FORMAT(DATEADD(month, -5, GETDATE()), 'yyyy-MM')"
+  },
+  {
+    "name": "Historical Data - POR - Month 6",
+    "variableName": "POR",
+    "serverName": "POR",
+    "timeframe": "Month 6",
+    "sqlExpression": "SELECT COALESCE(SUM(value), 0) as value FROM historical_data WHERE source = 'por' AND strftime('%Y-%m', date) = strftime('%Y-%m', datetime('now', '-5 month'))",
+    "productionSqlExpression": "SELECT Sum(Nz([Total],0)) AS value FROM [PurchaseOrder] WHERE Format([Date],\"yyyy-mm\") = Format(DateAdd(\"m\",-5,Date()),\"yyyy-mm\")"
+  },
+  {
+    "name": "Historical Data - P21 - Month 7",
+    "variableName": "P21",
+    "serverName": "P21",
+    "timeframe": "Month 7",
+    "sqlExpression": "SELECT COALESCE(SUM(value), 0) as value FROM historical_data WHERE source = 'p21' AND strftime('%Y-%m', date) = strftime('%Y-%m', datetime('now', '-6 month'))",
+    "productionSqlExpression": "SELECT ISNULL(SUM(order_amt), 0) as value FROM P21.dbo.oe_hdr WITH (NOLOCK) WHERE FORMAT(order_date, 'yyyy-MM') = FORMAT(DATEADD(month, -6, GETDATE()), 'yyyy-MM')"
+  },
+  {
+    "name": "Historical Data - POR - Month 7",
+    "variableName": "POR",
+    "serverName": "POR",
+    "timeframe": "Month 7",
+    "sqlExpression": "SELECT COALESCE(SUM(value), 0) as value FROM historical_data WHERE source = 'por' AND strftime('%Y-%m', date) = strftime('%Y-%m', datetime('now', '-6 month'))",
+    "productionSqlExpression": "SELECT Sum(Nz([Total],0)) AS value FROM [PurchaseOrder] WHERE Format([Date],\"yyyy-mm\") = Format(DateAdd(\"m\",-6,Date()),\"yyyy-mm\")"
+  },
+  {
+    "name": "Historical Data - P21 - Month 8",
+    "variableName": "P21",
+    "serverName": "P21",
+    "timeframe": "Month 8",
+    "sqlExpression": "SELECT COALESCE(SUM(value), 0) as value FROM historical_data WHERE source = 'p21' AND strftime('%Y-%m', date) = strftime('%Y-%m', datetime('now', '-7 month'))",
+    "productionSqlExpression": "SELECT ISNULL(SUM(order_amt), 0) as value FROM P21.dbo.oe_hdr WITH (NOLOCK) WHERE FORMAT(order_date, 'yyyy-MM') = FORMAT(DATEADD(month, -7, GETDATE()), 'yyyy-MM')"
+  },
+  {
+    "name": "Historical Data - POR - Month 8",
+    "variableName": "POR",
+    "serverName": "POR",
+    "timeframe": "Month 8",
+    "sqlExpression": "SELECT COALESCE(SUM(value), 0) as value FROM historical_data WHERE source = 'por' AND strftime('%Y-%m', date) = strftime('%Y-%m', datetime('now', '-7 month'))",
+    "productionSqlExpression": "SELECT Sum(Nz([Total],0)) AS value FROM [PurchaseOrder] WHERE Format([Date],\"yyyy-mm\") = Format(DateAdd(\"m\",-7,Date()),\"yyyy-mm\")"
+  },
+  {
+    "name": "Historical Data - P21 - Month 9",
+    "variableName": "P21",
+    "serverName": "P21",
+    "timeframe": "Month 9",
+    "sqlExpression": "SELECT COALESCE(SUM(value), 0) as value FROM historical_data WHERE source = 'p21' AND strftime('%Y-%m', date) = strftime('%Y-%m', datetime('now', '-8 month'))",
+    "productionSqlExpression": "SELECT ISNULL(SUM(order_amt), 0) as value FROM P21.dbo.oe_hdr WITH (NOLOCK) WHERE FORMAT(order_date, 'yyyy-MM') = FORMAT(DATEADD(month, -8, GETDATE()), 'yyyy-MM')"
+  },
+  {
+    "name": "Historical Data - POR - Month 9",
+    "variableName": "POR",
+    "serverName": "POR",
+    "timeframe": "Month 9",
+    "sqlExpression": "SELECT COALESCE(SUM(value), 0) as value FROM historical_data WHERE source = 'por' AND strftime('%Y-%m', date) = strftime('%Y-%m', datetime('now', '-8 month'))",
+    "productionSqlExpression": "SELECT Sum(Nz([Total],0)) AS value FROM [PurchaseOrder] WHERE Format([Date],\"yyyy-mm\") = Format(DateAdd(\"m\",-8,Date()),\"yyyy-mm\")"
+  },
+  {
+    "name": "Historical Data - P21 - Month 10",
+    "variableName": "P21",
+    "serverName": "P21",
+    "timeframe": "Month 10",
+    "sqlExpression": "SELECT COALESCE(SUM(value), 0) as value FROM historical_data WHERE source = 'p21' AND strftime('%Y-%m', date) = strftime('%Y-%m', datetime('now', '-9 month'))",
+    "productionSqlExpression": "SELECT ISNULL(SUM(order_amt), 0) as value FROM P21.dbo.oe_hdr WITH (NOLOCK) WHERE FORMAT(order_date, 'yyyy-MM') = FORMAT(DATEADD(month, -9, GETDATE()), 'yyyy-MM')"
+  },
+  {
+    "name": "Historical Data - POR - Month 10",
+    "variableName": "POR",
+    "serverName": "POR",
+    "timeframe": "Month 10",
+    "sqlExpression": "SELECT COALESCE(SUM(value), 0) as value FROM historical_data WHERE source = 'por' AND strftime('%Y-%m', date) = strftime('%Y-%m', datetime('now', '-9 month'))",
+    "productionSqlExpression": "SELECT Sum(Nz([Total],0)) AS value FROM [PurchaseOrder] WHERE Format([Date],\"yyyy-mm\") = Format(DateAdd(\"m\",-9,Date()),\"yyyy-mm\")"
+  },
+  {
+    "name": "Historical Data - P21 - Month 11",
+    "variableName": "P21",
+    "serverName": "P21",
+    "timeframe": "Month 11",
+    "sqlExpression": "SELECT COALESCE(SUM(value), 0) as value FROM historical_data WHERE source = 'p21' AND strftime('%Y-%m', date) = strftime('%Y-%m', datetime('now', '-10 month'))",
+    "productionSqlExpression": "SELECT ISNULL(SUM(order_amt), 0) as value FROM P21.dbo.oe_hdr WITH (NOLOCK) WHERE FORMAT(order_date, 'yyyy-MM') = FORMAT(DATEADD(month, -10, GETDATE()), 'yyyy-MM')"
+  },
+  {
+    "name": "Historical Data - POR - Month 11",
+    "variableName": "POR",
+    "serverName": "POR",
+    "timeframe": "Month 11",
+    "sqlExpression": "SELECT COALESCE(SUM(value), 0) as value FROM historical_data WHERE source = 'por' AND strftime('%Y-%m', date) = strftime('%Y-%m', datetime('now', '-10 month'))",
+    "productionSqlExpression": "SELECT Sum(Nz([Total],0)) AS value FROM [PurchaseOrder] WHERE Format([Date],\"yyyy-mm\") = Format(DateAdd(\"m\",-10,Date()),\"yyyy-mm\")"
+  },
+  {
+    "name": "Historical Data - P21 - Month 12",
+    "variableName": "P21",
+    "serverName": "P21",
+    "timeframe": "Month 12",
+    "sqlExpression": "SELECT COALESCE(SUM(value), 0) as value FROM historical_data WHERE source = 'p21' AND strftime('%Y-%m', date) = strftime('%Y-%m', datetime('now', '-11 month'))",
+    "productionSqlExpression": "SELECT ISNULL(SUM(order_amt), 0) as value FROM P21.dbo.oe_hdr WITH (NOLOCK) WHERE FORMAT(order_date, 'yyyy-MM') = FORMAT(DATEADD(month, -11, GETDATE()), 'yyyy-MM')"
+  },
+  {
+    "name": "Historical Data - POR - Month 12",
+    "variableName": "POR",
+    "serverName": "POR",
+    "timeframe": "Month 12",
+    "sqlExpression": "SELECT COALESCE(SUM(value), 0) as value FROM historical_data WHERE source = 'por' AND strftime('%Y-%m', date) = strftime('%Y-%m', datetime('now', '-11 month'))",
+    "productionSqlExpression": "SELECT Sum(Nz([Total],0)) AS value FROM [PurchaseOrder] WHERE Format([Date],\"yyyy-mm\") = Format(DateAdd(\"m\",-11,Date()),\"yyyy-mm\")"
+  }
+]

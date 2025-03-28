@@ -1,0 +1,61 @@
+{
+  "tableName": "PurchaseOrder",
+  "rowCount": 6747,
+  "columns": [
+    "PONumber",
+    "Sequence",
+    "Date",
+    "Batch",
+    "Store",
+    "Status",
+    "VendorNumber",
+    "Opr",
+    "ShipMethod",
+    "PaymentMethod",
+    "EstShipDate",
+    "ShippingCost",
+    "Tax",
+    "Miscellaneous",
+    "TotalAmount",
+    "POForRepair",
+    "POForItem",
+    "Notes",
+    "Posted",
+    "PostedDate",
+    "InvoiceNumber",
+    "PaymentMethodNumber",
+    "Subrental",
+    "Credit",
+    "CurrencyNumber",
+    "ExchangeRate",
+    "InvoiceDate",
+    "Modification",
+    "Pending",
+    "ReferenceNumber",
+    "InvoiceReceived",
+    "TaxCode",
+    "RejectedInvoice",
+    "RejectReasonID",
+    "RejectAssignedOperator",
+    "InvoiceDueDate"
+  ],
+  "amountColumns": [
+    "ShippingCost",
+    "TotalAmount"
+  ],
+  "nonZeroAnalysis": {
+    "ShippingCost": {
+      "nonZeroCount": 0,
+      "sum": 0,
+      "min": null,
+      "max": null
+    },
+    "TotalAmount": {
+      "nonZeroCount": 6353,
+      "sum": 30329881.41999989,
+      "min": 1,
+      "max": 264763.1
+    }
+  },
+  "recommendedColumn": "TotalAmount"
+}

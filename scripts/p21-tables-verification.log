@@ -1,0 +1,158 @@
+﻿**********************
+Windows PowerShell transcript start
+Start time: 20250324232435
+Username: TALLMAN\BobM
+RunAs User: TALLMAN\BobM
+Configuration Name: 
+Machine: WEB03 (Microsoft Windows NT 10.0.20348.0)
+Host Application: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -File C:\Users\BobM\CascadeProjects\TallmanDashboard_new\scripts\verify-p21-tables.ps1
+Process ID: 22192
+PSVersion: 5.1.20348.2849
+PSEdition: Desktop
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.20348.2849
+BuildVersion: 10.0.20348.2849
+CLRVersion: 4.0.30319.42000
+WSManStackVersion: 3.0
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
+**********************
+Transcript started, output file is C:\Users\BobM\CascadeProjects\TallmanDashboard_new\scripts\p21-tables-verification.log
+Starting P21 table verification at 03/24/2025 23:24:35
+Created backup at C:\Users\BobM\CascadeProjects\TallmanDashboard_new\lib\db\complete-chart-data.ts.bak
+Found P21 entry with ID 1
+Found P21 entry with ID 2
+Found P21 entry with ID 3
+Found P21 entry with ID 4
+Found P21 entry with ID 5
+Found P21 entry with ID 6
+Found P21 entry with ID 7
+Found P21 entry with ID 8
+Found P21 entry with ID 9
+Found P21 entry with ID 10
+Found P21 entry with ID 11
+Found P21 entry with ID 12
+Found P21 entry with ID 13
+Found P21 entry with ID 14
+Found P21 entry with ID 15
+Found P21 entry with ID 16
+Found P21 entry with ID 17
+Found P21 entry with ID 18
+Found P21 entry with ID 19
+Found P21 entry with ID 20
+Found P21 entry with ID 21
+Found P21 entry with ID 22
+Found P21 entry with ID 23
+Found P21 entry with ID 24
+Found P21 entry with ID 25
+Found P21 entry with ID 26
+Found P21 entry with ID 27
+Found P21 entry with ID 28
+Found P21 entry with ID 29
+Found P21 entry with ID 30
+Found P21 entry with ID 31
+Found P21 entry with ID 32
+Found P21 entry with ID 33
+Found P21 entry with ID 34
+Found P21 entry with ID 35
+Found P21 entry with ID 36
+Found P21 entry with ID 37
+Found P21 entry with ID 38
+Found P21 entry with ID 39
+Found P21 entry with ID 40
+Found P21 entry with ID 41
+Found P21 entry with ID 42
+Found P21 entry with ID 43
+Found P21 entry with ID 44
+Found P21 entry with ID 45
+Found P21 entry with ID 46
+Found P21 entry with ID 47
+Found P21 entry with ID 48
+Found P21 entry with ID 49
+Found P21 entry with ID 50
+Found P21 entry with ID 51
+Found P21 entry with ID 52
+Found P21 entry with ID 53
+Found P21 entry with ID 54
+Found P21 entry with ID 55
+Found P21 entry with ID 56
+Found P21 entry with ID 57
+Found P21 entry with ID 58
+Found P21 entry with ID 59
+Found P21 entry with ID 60
+Found P21 entry with ID 61
+Found P21 entry with ID 62
+Found P21 entry with ID 63
+Found P21 entry with ID 64
+Found P21 entry with ID 65
+Found P21 entry with ID 66
+Found P21 entry with ID 67
+Found P21 entry with ID 68
+Found P21 entry with ID 69
+Found P21 entry with ID 70
+Found P21 entry with ID 71
+Found P21 entry with ID 72
+Found P21 entry with ID 73
+Found P21 entry with ID 74
+Found P21 entry with ID 75
+Found P21 entry with ID 76
+Found P21 entry with ID 77
+Found P21 entry with ID 78
+Found P21 entry with ID 79
+Found P21 entry with ID 80
+Found P21 entry with ID 81
+Found P21 entry with ID 82
+Found P21 entry with ID 83
+Found P21 entry with ID 84
+Found P21 entry with ID 85
+Found P21 entry with ID 86
+Found P21 entry with ID 87
+Found P21 entry with ID 88
+Found P21 entry with ID 89
+Found P21 entry with ID 90
+Found P21 entry with ID 91
+Found P21 entry with ID 92
+Found P21 entry with ID 93
+Found P21 entry with ID 94
+Found P21 entry with ID 95
+Found P21 entry with ID 96
+Found P21 entry with ID 97
+Found P21 entry with ID 98
+Found P21 entry with ID 99
+Found P21 entry with ID 100
+Found P21 entry with ID 101
+Found P21 entry with ID 102
+Found P21 entry with ID 103
+Found P21 entry with ID 104
+Found P21 entry with ID 105
+Found P21 entry with ID 106
+Found P21 entry with ID 107
+Found P21 entry with ID 108
+Found P21 entry with ID 109
+Found P21 entry with ID 110
+Found P21 entry with ID 111
+Found P21 entry with ID 112
+Found P21 entry with ID 113
+Found P21 entry with ID 114
+Found P21 entry with ID 115
+Found P21 entry with ID 116
+Found P21 entry with ID 117
+Found P21 entry with ID 118
+Found P21 entry with ID 119
+Found P21 entry with ID 120
+Found P21 entry with ID 121
+Found P21 entry with ID 122
+Found P21 entry with ID 123
+Found P21 entry with ID 124
+Found P21 entry with ID 125
+Found P21 entry with ID 126
+
+Summary:
+Total entries: 174
+P21 entries: 126
+SQL expressions updated: 0
+No changes to apply
+P21 table verification completed at 03/24/2025 23:24:36
+**********************
+Windows PowerShell transcript end
+End time: 20250324232436
+**********************

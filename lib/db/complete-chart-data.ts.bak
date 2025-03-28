@@ -1,0 +1,153 @@
+/**
+ * Complete Chart Data
+ * 
+ * This file provides a complete set of chart data for the dashboard.
+ * It is used as a fallback when the database is not available or
+ * when testing components that require chart data.
+ */
+
+import { SpreadsheetRow } from '../types/dashboard';
+
+// Initial spreadsheet data for testing and development
+export const initialSpreadsheetData: SpreadsheetRow[] = [
+  {
+    id: '1',
+    DataPoint: 'AR Aging Amount Due 1-30 Days',
+    chartGroup: 'AR Aging',
+    chartName: '',
+    variableName: 'Amount Due',
+    serverName: 'P21',
+    tableName: 'dbo.ar_open_items',
+    calculation: 'number',
+    productionSqlExpression: 'SELECT SUM(balance) as value FROM dbo.ar_open_items WITH (NOLOCK) WHERE DATEDIFF(day, due_date, GETDATE()) BETWEEN 1 AND 30',
+    value: '1000',
+    lastUpdated: new Date().toISOString()
+  },
+  {
+    id: '6',
+    DataPoint: 'Accounts Payable Jan',
+    chartGroup: 'Accounts',
+    chartName: '',
+    variableName: 'Payable',
+    serverName: 'P21',
+    tableName: 'dbo.ap_hdr',
+    calculation: 'number',
+    productionSqlExpression: 'SELECT SUM(open_balance) as value FROM dbo.ap_hdr WITH (NOLOCK) WHERE MONTH(invoice_date) = 1 AND YEAR(invoice_date) = YEAR(GETDATE())',
+    value: '1100',
+    lastUpdated: new Date().toISOString()
+  },
+  {
+    id: '18',
+    DataPoint: 'Accounts Receivable Jan',
+    chartGroup: 'Accounts',
+    chartName: '',
+    variableName: 'Receivable',
+    serverName: 'P21',
+    tableName: 'dbo.ar_hdr',
+    calculation: 'number',
+    productionSqlExpression: 'SELECT SUM(open_balance) as value FROM dbo.ar_hdr WITH (NOLOCK) WHERE MONTH(invoice_date) = 1 AND YEAR(invoice_date) = YEAR(GETDATE())',
+    value: '2100',
+    lastUpdated: new Date().toISOString()
+  },
+  {
+    id: '30',
+    DataPoint: 'Accounts Overdue Jan',
+    chartGroup: 'Accounts',
+    chartName: '',
+    variableName: 'Overdue',
+    serverName: 'P21',
+    tableName: 'dbo.ar_hdr',
+    calculation: 'number',
+    productionSqlExpression: 'SELECT SUM(open_balance) as value FROM dbo.ar_hdr WITH (NOLOCK) WHERE MONTH(invoice_date) = 1 AND YEAR(invoice_date) = YEAR(GETDATE()) AND DATEDIFF(day, due_date, GETDATE()) > 30',
+    value: '550',
+    lastUpdated: new Date().toISOString()
+  },
+  {
+    id: '42',
+    DataPoint: 'Customer Metrics New, Jan',
+    chartGroup: 'Customer Metrics',
+    chartName: '',
+    variableName: 'New',
+    serverName: 'P21',
+    tableName: 'dbo.customer',
+    calculation: 'number',
+    productionSqlExpression: 'SELECT COUNT(*) as value FROM dbo.customer WITH (NOLOCK) WHERE MONTH(created_date) = 1 AND YEAR(created_date) = YEAR(GETDATE())',
+    value: '25',
+    lastUpdated: new Date().toISOString()
+  },
+  {
+    id: '54',
+    DataPoint: 'Customer Metrics Prospects, Jan',
+    chartGroup: 'Customer Metrics',
+    chartName: '',
+    variableName: 'Prospects',
+    serverName: 'P21',
+    tableName: 'dbo.customer',
+    calculation: 'number',
+    productionSqlExpression: 'SELECT COUNT(*) as value FROM dbo.customer WITH (NOLOCK) WHERE MONTH(created_date) = 1 AND YEAR(created_date) = YEAR(GETDATE()) AND customer_type = \'Prospect\'',
+    value: '15',
+    lastUpdated: new Date().toISOString()
+  },
+  {
+    id: '66',
+    DataPoint: 'Daily Orders Orders Today-, 0',
+    chartGroup: 'Daily Orders',
+    chartName: '',
+    variableName: 'Orders',
+    serverName: 'P21',
+    tableName: 'dbo.oe_hdr',
+    calculation: 'number',
+    productionSqlExpression: 'SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE CONVERT(date, order_date) = CONVERT(date, GETDATE())',
+    value: '42',
+    lastUpdated: new Date().toISOString()
+  },
+  {
+    id: '78',
+    DataPoint: 'Historical Data P21, Jun',
+    chartGroup: 'Historical Data',
+    chartName: '',
+    variableName: 'P21',
+    serverName: 'P21',
+    tableName: 'dbo.oe_hdr',
+    calculation: 'number',
+    productionSqlExpression: 'SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE MONTH(order_date) = 6 AND YEAR(order_date) = YEAR(GETDATE())',
+    value: '350',
+    lastUpdated: new Date().toISOString()
+  },
+  {
+    id: '90',
+    DataPoint: 'Historical Data POR, Jun',
+    chartGroup: 'Historical Data',
+    chartName: '',
+    variableName: 'POR',
+    serverName: 'POR',
+    tableName: 'PurchaseOrderDetail',
+    calculation: 'number',
+    productionSqlExpression: 'SELECT Count(*) as value FROM PurchaseOrderDetail WHERE Month(Date) = 6 AND Year(Date) = Year(Date())',
+    value: '120',
+    lastUpdated: new Date().toISOString()
+  },
+  {
+    id: '102',
+    DataPoint: 'Historical Data Total, Jun',
+    chartGroup: 'Historical Data',
+    chartName: '',
+    variableName: 'Total',
+    serverName: 'P21',
+    tableName: 'dbo.oe_hdr',
+    calculation: 'number',
+    productionSqlExpression: 'SELECT (SELECT COUNT(*) FROM dbo.oe_hdr WITH (NOLOCK) WHERE MONTH(order_date) = 6 AND YEAR(order_date) = YEAR(GETDATE())) + (SELECT Count(*) FROM PurchaseOrderDetail WHERE Month(Date) = 6 AND Year(Date) = Year(Date())) AS value',
+    value: '470',
+    lastUpdated: new Date().toISOString()
+  }
+];
+
+// Export a function to get a specific chart data item by ID
+export function getChartDataById(id: string): SpreadsheetRow | undefined {
+  return initialSpreadsheetData.find(item => item.id === id);
+}
+
+// Export a function to get chart data by chart group
+export function getChartDataByGroup(chartGroup: string): SpreadsheetRow[] {
+  return initialSpreadsheetData.filter(item => item.chartGroup === chartGroup);
+}

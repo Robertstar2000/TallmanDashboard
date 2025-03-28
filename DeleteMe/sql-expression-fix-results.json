@@ -1,0 +1,377 @@
+{
+  "timestamp": "2025-03-24T13:45:47.865Z",
+  "totalRows": 174,
+  "testedRows": 174,
+  "errorRows": 46,
+  "fixedRows": 0,
+  "errors": [
+    {
+      "id": "9",
+      "name": "Accounts - February - Payable",
+      "serverType": "P21",
+      "originalExpression": "SELECT SUM(amount) as value FROM dbo.payable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 2 AND YEAR(transaction_date) = YEAR(GETDATE())",
+      "fixedExpression": "SELECT ISNULL(SUM(amount), 0) as value FROM dbo.payable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 2 AND YEAR(transaction_date) = YEAR(GETDATE())",
+      "error": "[odbc] Error executing the sql statement"
+    },
+    {
+      "id": "10",
+      "name": "Accounts - February - Receivable",
+      "serverType": "P21",
+      "originalExpression": "SELECT SUM(amount) as value FROM dbo.receivable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 2 AND YEAR(transaction_date) = YEAR(GETDATE())",
+      "fixedExpression": "SELECT ISNULL(SUM(amount), 0) as value FROM dbo.receivable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 2 AND YEAR(transaction_date) = YEAR(GETDATE())",
+      "error": "[odbc] Error executing the sql statement"
+    },
+    {
+      "id": "11",
+      "name": "Accounts - February - Overdue",
+      "serverType": "P21",
+      "originalExpression": "SELECT SUM(amount) as value FROM dbo.overdue_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 2 AND YEAR(transaction_date) = YEAR(GETDATE())",
+      "fixedExpression": "SELECT ISNULL(SUM(amount), 0) as value FROM dbo.overdue_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 2 AND YEAR(transaction_date) = YEAR(GETDATE())",
+      "error": "[odbc] Error executing the sql statement"
+    },
+    {
+      "id": "12",
+      "name": "Accounts - March - Payable",
+      "serverType": "P21",
+      "originalExpression": "SELECT SUM(amount) as value FROM dbo.payable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 3 AND YEAR(transaction_date) = YEAR(GETDATE())",
+      "fixedExpression": "SELECT ISNULL(SUM(amount), 0) as value FROM dbo.payable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 3 AND YEAR(transaction_date) = YEAR(GETDATE())",
+      "error": "[odbc] Error executing the sql statement"
+    },
+    {
+      "id": "13",
+      "name": "Accounts - March - Receivable",
+      "serverType": "P21",
+      "originalExpression": "SELECT SUM(amount) as value FROM dbo.receivable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 3 AND YEAR(transaction_date) = YEAR(GETDATE())",
+      "fixedExpression": "SELECT ISNULL(SUM(amount), 0) as value FROM dbo.receivable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 3 AND YEAR(transaction_date) = YEAR(GETDATE())",
+      "error": "[odbc] Error executing the sql statement"
+    },
+    {
+      "id": "14",
+      "name": "Accounts - March - Overdue",
+      "serverType": "P21",
+      "originalExpression": "SELECT SUM(amount) as value FROM dbo.overdue_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 3 AND YEAR(transaction_date) = YEAR(GETDATE())",
+      "fixedExpression": "SELECT ISNULL(SUM(amount), 0) as value FROM dbo.overdue_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 3 AND YEAR(transaction_date) = YEAR(GETDATE())",
+      "error": "[odbc] Error executing the sql statement"
+    },
+    {
+      "id": "15",
+      "name": "Accounts - April - Payable",
+      "serverType": "P21",
+      "originalExpression": "SELECT SUM(amount) as value FROM dbo.payable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 4 AND YEAR(transaction_date) = YEAR(GETDATE())",
+      "fixedExpression": "SELECT ISNULL(SUM(amount), 0) as value FROM dbo.payable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 4 AND YEAR(transaction_date) = YEAR(GETDATE())",
+      "error": "[odbc] Error executing the sql statement"
+    },
+    {
+      "id": "16",
+      "name": "Accounts - April - Receivable",
+      "serverType": "P21",
+      "originalExpression": "SELECT SUM(amount) as value FROM dbo.receivable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 4 AND YEAR(transaction_date) = YEAR(GETDATE())",
+      "fixedExpression": "SELECT ISNULL(SUM(amount), 0) as value FROM dbo.receivable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 4 AND YEAR(transaction_date) = YEAR(GETDATE())",
+      "error": "[odbc] Error executing the sql statement"
+    },
+    {
+      "id": "17",
+      "name": "Accounts - April - Overdue",
+      "serverType": "P21",
+      "originalExpression": "SELECT SUM(amount) as value FROM dbo.overdue_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 4 AND YEAR(transaction_date) = YEAR(GETDATE())",
+      "fixedExpression": "SELECT ISNULL(SUM(amount), 0) as value FROM dbo.overdue_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 4 AND YEAR(transaction_date) = YEAR(GETDATE())",
+      "error": "[odbc] Error executing the sql statement"
+    },
+    {
+      "id": "18",
+      "name": "Accounts - May - Payable",
+      "serverType": "P21",
+      "originalExpression": "SELECT SUM(amount) as value FROM dbo.payable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 5 AND YEAR(transaction_date) = YEAR(GETDATE())",
+      "fixedExpression": "SELECT ISNULL(SUM(amount), 0) as value FROM dbo.payable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 5 AND YEAR(transaction_date) = YEAR(GETDATE())",
+      "error": "[odbc] Error executing the sql statement"
+    },
+    {
+      "id": "19",
+      "name": "Accounts - May - Receivable",
+      "serverType": "P21",
+      "originalExpression": "SELECT SUM(amount) as value FROM dbo.receivable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 5 AND YEAR(transaction_date) = YEAR(GETDATE())",
+      "fixedExpression": "SELECT ISNULL(SUM(amount), 0) as value FROM dbo.receivable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 5 AND YEAR(transaction_date) = YEAR(GETDATE())",
+      "error": "[odbc] Error executing the sql statement"
+    },
+    {
+      "id": "20",
+      "name": "Accounts - May - Overdue",
+      "serverType": "P21",
+      "originalExpression": "SELECT SUM(amount) as value FROM dbo.overdue_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 5 AND YEAR(transaction_date) = YEAR(GETDATE())",
+      "fixedExpression": "SELECT ISNULL(SUM(amount), 0) as value FROM dbo.overdue_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 5 AND YEAR(transaction_date) = YEAR(GETDATE())",
+      "error": "[odbc] Error executing the sql statement"
+    },
+    {
+      "id": "21",
+      "name": "Accounts - June - Payable",
+      "serverType": "P21",
+      "originalExpression": "SELECT SUM(amount) as value FROM dbo.payable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 6 AND YEAR(transaction_date) = YEAR(GETDATE())",
+      "fixedExpression": "SELECT ISNULL(SUM(amount), 0) as value FROM dbo.payable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 6 AND YEAR(transaction_date) = YEAR(GETDATE())",
+      "error": "[odbc] Error executing the sql statement"
+    },
+    {
+      "id": "22",
+      "name": "Accounts - June - Receivable",
+      "serverType": "P21",
+      "originalExpression": "SELECT SUM(amount) as value FROM dbo.receivable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 6 AND YEAR(transaction_date) = YEAR(GETDATE())",
+      "fixedExpression": "SELECT ISNULL(SUM(amount), 0) as value FROM dbo.receivable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 6 AND YEAR(transaction_date) = YEAR(GETDATE())",
+      "error": "[odbc] Error executing the sql statement"
+    },
+    {
+      "id": "23",
+      "name": "Accounts - June - Overdue",
+      "serverType": "P21",
+      "originalExpression": "SELECT SUM(amount) as value FROM dbo.overdue_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 6 AND YEAR(transaction_date) = YEAR(GETDATE())",
+      "fixedExpression": "SELECT ISNULL(SUM(amount), 0) as value FROM dbo.overdue_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 6 AND YEAR(transaction_date) = YEAR(GETDATE())",
+      "error": "[odbc] Error executing the sql statement"
+    },
+    {
+      "id": "24",
+      "name": "Accounts - July - Payable",
+      "serverType": "P21",
+      "originalExpression": "SELECT SUM(amount) as value FROM dbo.payable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 7 AND YEAR(transaction_date) = YEAR(GETDATE())",
+      "fixedExpression": "SELECT ISNULL(SUM(amount), 0) as value FROM dbo.payable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 7 AND YEAR(transaction_date) = YEAR(GETDATE())",
+      "error": "[odbc] Error executing the sql statement"
+    },
+    {
+      "id": "25",
+      "name": "Accounts - July - Receivable",
+      "serverType": "P21",
+      "originalExpression": "SELECT SUM(amount) as value FROM dbo.receivable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 7 AND YEAR(transaction_date) = YEAR(GETDATE())",
+      "fixedExpression": "SELECT ISNULL(SUM(amount), 0) as value FROM dbo.receivable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 7 AND YEAR(transaction_date) = YEAR(GETDATE())",
+      "error": "[odbc] Error executing the sql statement"
+    },
+    {
+      "id": "26",
+      "name": "Accounts - July - Overdue",
+      "serverType": "P21",
+      "originalExpression": "SELECT SUM(amount) as value FROM dbo.overdue_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 7 AND YEAR(transaction_date) = YEAR(GETDATE())",
+      "fixedExpression": "SELECT ISNULL(SUM(amount), 0) as value FROM dbo.overdue_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 7 AND YEAR(transaction_date) = YEAR(GETDATE())",
+      "error": "[odbc] Error executing the sql statement"
+    },
+    {
+      "id": "27",
+      "name": "Accounts - August - Payable",
+      "serverType": "P21",
+      "originalExpression": "SELECT SUM(amount) as value FROM dbo.payable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 8 AND YEAR(transaction_date) = YEAR(GETDATE())",
+      "fixedExpression": "SELECT ISNULL(SUM(amount), 0) as value FROM dbo.payable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 8 AND YEAR(transaction_date) = YEAR(GETDATE())",
+      "error": "[odbc] Error executing the sql statement"
+    },
+    {
+      "id": "28",
+      "name": "Accounts - August - Receivable",
+      "serverType": "P21",
+      "originalExpression": "SELECT SUM(amount) as value FROM dbo.receivable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 8 AND YEAR(transaction_date) = YEAR(GETDATE())",
+      "fixedExpression": "SELECT ISNULL(SUM(amount), 0) as value FROM dbo.receivable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 8 AND YEAR(transaction_date) = YEAR(GETDATE())",
+      "error": "[odbc] Error executing the sql statement"
+    },
+    {
+      "id": "29",
+      "name": "Accounts - August - Overdue",
+      "serverType": "P21",
+      "originalExpression": "SELECT SUM(amount) as value FROM dbo.overdue_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 8 AND YEAR(transaction_date) = YEAR(GETDATE())",
+      "fixedExpression": "SELECT ISNULL(SUM(amount), 0) as value FROM dbo.overdue_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 8 AND YEAR(transaction_date) = YEAR(GETDATE())",
+      "error": "[odbc] Error executing the sql statement"
+    },
+    {
+      "id": "30",
+      "name": "Accounts - September - Payable",
+      "serverType": "P21",
+      "originalExpression": "SELECT SUM(amount) as value FROM dbo.payable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 9 AND YEAR(transaction_date) = YEAR(GETDATE())",
+      "fixedExpression": "SELECT ISNULL(SUM(amount), 0) as value FROM dbo.payable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 9 AND YEAR(transaction_date) = YEAR(GETDATE())",
+      "error": "[odbc] Error executing the sql statement"
+    },
+    {
+      "id": "31",
+      "name": "Accounts - September - Receivable",
+      "serverType": "P21",
+      "originalExpression": "SELECT SUM(amount) as value FROM dbo.receivable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 9 AND YEAR(transaction_date) = YEAR(GETDATE())",
+      "fixedExpression": "SELECT ISNULL(SUM(amount), 0) as value FROM dbo.receivable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 9 AND YEAR(transaction_date) = YEAR(GETDATE())",
+      "error": "[odbc] Error executing the sql statement"
+    },
+    {
+      "id": "32",
+      "name": "Accounts - September - Overdue",
+      "serverType": "P21",
+      "originalExpression": "SELECT SUM(amount) as value FROM dbo.overdue_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 9 AND YEAR(transaction_date) = YEAR(GETDATE())",
+      "fixedExpression": "SELECT ISNULL(SUM(amount), 0) as value FROM dbo.overdue_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 9 AND YEAR(transaction_date) = YEAR(GETDATE())",
+      "error": "[odbc] Error executing the sql statement"
+    },
+    {
+      "id": "33",
+      "name": "Accounts - October - Payable",
+      "serverType": "P21",
+      "originalExpression": "SELECT SUM(amount) as value FROM dbo.payable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 10 AND YEAR(transaction_date) = YEAR(GETDATE())",
+      "fixedExpression": "SELECT ISNULL(SUM(amount), 0) as value FROM dbo.payable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 10 AND YEAR(transaction_date) = YEAR(GETDATE())",
+      "error": "[odbc] Error executing the sql statement"
+    },
+    {
+      "id": "34",
+      "name": "Accounts - October - Receivable",
+      "serverType": "P21",
+      "originalExpression": "SELECT SUM(amount) as value FROM dbo.receivable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 10 AND YEAR(transaction_date) = YEAR(GETDATE())",
+      "fixedExpression": "SELECT ISNULL(SUM(amount), 0) as value FROM dbo.receivable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 10 AND YEAR(transaction_date) = YEAR(GETDATE())",
+      "error": "[odbc] Error executing the sql statement"
+    },
+    {
+      "id": "35",
+      "name": "Accounts - October - Overdue",
+      "serverType": "P21",
+      "originalExpression": "SELECT SUM(amount) as value FROM dbo.overdue_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 10 AND YEAR(transaction_date) = YEAR(GETDATE())",
+      "fixedExpression": "SELECT ISNULL(SUM(amount), 0) as value FROM dbo.overdue_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 10 AND YEAR(transaction_date) = YEAR(GETDATE())",
+      "error": "[odbc] Error executing the sql statement"
+    },
+    {
+      "id": "36",
+      "name": "Accounts - November - Payable",
+      "serverType": "P21",
+      "originalExpression": "SELECT SUM(amount) as value FROM dbo.payable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 11 AND YEAR(transaction_date) = YEAR(GETDATE())",
+      "fixedExpression": "SELECT ISNULL(SUM(amount), 0) as value FROM dbo.payable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 11 AND YEAR(transaction_date) = YEAR(GETDATE())",
+      "error": "[odbc] Error executing the sql statement"
+    },
+    {
+      "id": "37",
+      "name": "Accounts - November - Receivable",
+      "serverType": "P21",
+      "originalExpression": "SELECT SUM(amount) as value FROM dbo.receivable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 11 AND YEAR(transaction_date) = YEAR(GETDATE())",
+      "fixedExpression": "SELECT ISNULL(SUM(amount), 0) as value FROM dbo.receivable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 11 AND YEAR(transaction_date) = YEAR(GETDATE())",
+      "error": "[odbc] Error executing the sql statement"
+    },
+    {
+      "id": "38",
+      "name": "Accounts - November - Overdue",
+      "serverType": "P21",
+      "originalExpression": "SELECT SUM(amount) as value FROM dbo.overdue_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 11 AND YEAR(transaction_date) = YEAR(GETDATE())",
+      "fixedExpression": "SELECT ISNULL(SUM(amount), 0) as value FROM dbo.overdue_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 11 AND YEAR(transaction_date) = YEAR(GETDATE())",
+      "error": "[odbc] Error executing the sql statement"
+    },
+    {
+      "id": "39",
+      "name": "Accounts - December - Payable",
+      "serverType": "P21",
+      "originalExpression": "SELECT SUM(amount) as value FROM dbo.payable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 12 AND YEAR(transaction_date) = YEAR(GETDATE())",
+      "fixedExpression": "SELECT ISNULL(SUM(amount), 0) as value FROM dbo.payable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 12 AND YEAR(transaction_date) = YEAR(GETDATE())",
+      "error": "[odbc] Error executing the sql statement"
+    },
+    {
+      "id": "40",
+      "name": "Accounts - December - Receivable",
+      "serverType": "P21",
+      "originalExpression": "SELECT SUM(amount) as value FROM dbo.receivable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 12 AND YEAR(transaction_date) = YEAR(GETDATE())",
+      "fixedExpression": "SELECT ISNULL(SUM(amount), 0) as value FROM dbo.receivable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 12 AND YEAR(transaction_date) = YEAR(GETDATE())",
+      "error": "[odbc] Error executing the sql statement"
+    },
+    {
+      "id": "41",
+      "name": "Accounts - December - Overdue",
+      "serverType": "P21",
+      "originalExpression": "SELECT SUM(amount) as value FROM dbo.overdue_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 12 AND YEAR(transaction_date) = YEAR(GETDATE())",
+      "fixedExpression": "SELECT ISNULL(SUM(amount), 0) as value FROM dbo.overdue_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 12 AND YEAR(transaction_date) = YEAR(GETDATE())",
+      "error": "[odbc] Error executing the sql statement"
+    },
+    {
+      "id": "109",
+      "name": "Inventory - Columbus - In Stock",
+      "serverType": "P21",
+      "originalExpression": "SELECT SUM(qty_on_hand) as value FROM dbo.item_warehouse WITH (NOLOCK) WHERE warehouse_id = 'COL' AND qty_on_hand > 0",
+      "fixedExpression": "SELECT ISNULL(SUM(qty_on_hand), 0) as value FROM dbo.item_warehouse WITH (NOLOCK) WHERE warehouse_id = 'COL' AND qty_on_hand > 0",
+      "error": "[odbc] Error executing the sql statement"
+    },
+    {
+      "id": "110",
+      "name": "Inventory - Columbus - On Order",
+      "serverType": "P21",
+      "originalExpression": "SELECT SUM(qty_on_hand) as value FROM dbo.item_warehouse WITH (NOLOCK) WHERE warehouse_id = 'COL' AND qty_on_order > 0",
+      "fixedExpression": "SELECT ISNULL(SUM(qty_on_hand), 0) as value FROM dbo.item_warehouse WITH (NOLOCK) WHERE warehouse_id = 'COL' AND qty_on_order > 0",
+      "error": "[odbc] Error executing the sql statement"
+    },
+    {
+      "id": "111",
+      "name": "Inventory - Addison - In Stock",
+      "serverType": "P21",
+      "originalExpression": "SELECT SUM(qty_on_hand) as value FROM dbo.item_warehouse WITH (NOLOCK) WHERE warehouse_id = 'ADD' AND qty_on_hand > 0",
+      "fixedExpression": "SELECT ISNULL(SUM(qty_on_hand), 0) as value FROM dbo.item_warehouse WITH (NOLOCK) WHERE warehouse_id = 'ADD' AND qty_on_hand > 0",
+      "error": "[odbc] Error executing the sql statement"
+    },
+    {
+      "id": "112",
+      "name": "Inventory - Addison - On Order",
+      "serverType": "P21",
+      "originalExpression": "SELECT SUM(qty_on_hand) as value FROM dbo.item_warehouse WITH (NOLOCK) WHERE warehouse_id = 'ADD' AND qty_on_order > 0",
+      "fixedExpression": "SELECT ISNULL(SUM(qty_on_hand), 0) as value FROM dbo.item_warehouse WITH (NOLOCK) WHERE warehouse_id = 'ADD' AND qty_on_order > 0",
+      "error": "[odbc] Error executing the sql statement"
+    },
+    {
+      "id": "113",
+      "name": "Inventory - Lake City - In Stock",
+      "serverType": "P21",
+      "originalExpression": "SELECT SUM(qty_on_hand) as value FROM dbo.item_warehouse WITH (NOLOCK) WHERE warehouse_id = 'LKC' AND qty_on_hand > 0",
+      "fixedExpression": "SELECT ISNULL(SUM(qty_on_hand), 0) as value FROM dbo.item_warehouse WITH (NOLOCK) WHERE warehouse_id = 'LKC' AND qty_on_hand > 0",
+      "error": "[odbc] Error executing the sql statement"
+    },
+    {
+      "id": "114",
+      "name": "Inventory - Lake City - On Order",
+      "serverType": "P21",
+      "originalExpression": "SELECT SUM(qty_on_hand) as value FROM dbo.item_warehouse WITH (NOLOCK) WHERE warehouse_id = 'LKC' AND qty_on_order > 0",
+      "fixedExpression": "SELECT ISNULL(SUM(qty_on_hand), 0) as value FROM dbo.item_warehouse WITH (NOLOCK) WHERE warehouse_id = 'LKC' AND qty_on_order > 0",
+      "error": "[odbc] Error executing the sql statement"
+    },
+    {
+      "id": "115",
+      "name": "Inventory - Warehouse - In Stock",
+      "serverType": "P21",
+      "originalExpression": "SELECT SUM(qty_on_hand) as value FROM dbo.item_warehouse WITH (NOLOCK) WHERE warehouse_id = 'WHS' AND qty_on_hand > 0",
+      "fixedExpression": "SELECT ISNULL(SUM(qty_on_hand), 0) as value FROM dbo.item_warehouse WITH (NOLOCK) WHERE warehouse_id = 'WHS' AND qty_on_hand > 0",
+      "error": "[odbc] Error executing the sql statement"
+    },
+    {
+      "id": "116",
+      "name": "Inventory - Warehouse - On Order",
+      "serverType": "P21",
+      "originalExpression": "SELECT SUM(qty_on_hand) as value FROM dbo.item_warehouse WITH (NOLOCK) WHERE warehouse_id = 'WHS' AND qty_on_order > 0",
+      "fixedExpression": "SELECT ISNULL(SUM(qty_on_hand), 0) as value FROM dbo.item_warehouse WITH (NOLOCK) WHERE warehouse_id = 'WHS' AND qty_on_order > 0",
+      "error": "[odbc] Error executing the sql statement"
+    },
+    {
+      "id": "120",
+      "name": "Key Metrics - Total Sales - Value",
+      "serverType": "P21",
+      "originalExpression": "SELECT SUM(order_amt) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_date >= DATEADD(day, -30, GETDATE())",
+      "fixedExpression": "SELECT ISNULL(SUM(order_amt), 0) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_date >= DATEADD(day, -30, GETDATE())",
+      "error": "[odbc] Error executing the sql statement"
+    },
+    {
+      "id": "121",
+      "name": "Key Metrics - Average Order Value - Value",
+      "serverType": "P21",
+      "originalExpression": "SELECT AVG(order_amt) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_date >= DATEADD(day, -30, GETDATE())",
+      "fixedExpression": "SELECT ISNULL(AVG(order_amt), 0) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_date >= DATEADD(day, -30, GETDATE())",
+      "error": "[odbc] Error executing the sql statement"
+    },
+    {
+      "id": "124",
+      "name": "Site Distribution - Columbus - Inventory",
+      "serverType": "P21",
+      "originalExpression": "SELECT SUM(qty_on_hand) as value FROM dbo.item_warehouse WITH (NOLOCK) WHERE warehouse_id = 'COL'",
+      "fixedExpression": "SELECT ISNULL(SUM(qty_on_hand), 0) as value FROM dbo.item_warehouse WITH (NOLOCK) WHERE warehouse_id = 'COL'",
+      "error": "[odbc] Error executing the sql statement"
+    },
+    {
+      "id": "125",
+      "name": "Site Distribution - Addison - Inventory",
+      "serverType": "P21",
+      "originalExpression": "SELECT SUM(qty_on_hand) as value FROM dbo.item_warehouse WITH (NOLOCK) WHERE warehouse_id = 'ADD'",
+      "fixedExpression": "SELECT ISNULL(SUM(qty_on_hand), 0) as value FROM dbo.item_warehouse WITH (NOLOCK) WHERE warehouse_id = 'ADD'",
+      "error": "[odbc] Error executing the sql statement"
+    },
+    {
+      "id": "126",
+      "name": "Site Distribution - Lake City - Inventory",
+      "serverType": "P21",
+      "originalExpression": "SELECT SUM(qty_on_hand) as value FROM dbo.item_warehouse WITH (NOLOCK) WHERE warehouse_id = 'LKC'",
+      "fixedExpression": "SELECT ISNULL(SUM(qty_on_hand), 0) as value FROM dbo.item_warehouse WITH (NOLOCK) WHERE warehouse_id = 'LKC'",
+      "error": "[odbc] Error executing the sql statement"
+    }
+  ]
+}

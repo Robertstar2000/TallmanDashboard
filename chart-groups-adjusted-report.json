@@ -1,0 +1,56 @@
+{
+  "originalCount": 67,
+  "adjustedCount": 151,
+  "chartGroupStatistics": [
+    {
+      "group": "Customer Metrics",
+      "count": 24,
+      "required": 24
+    },
+    {
+      "group": "Historical Data",
+      "count": 36,
+      "required": 36
+    },
+    {
+      "group": "Inventory",
+      "count": 8,
+      "required": 8
+    },
+    {
+      "group": "Daily Orders",
+      "count": 7,
+      "required": 7
+    },
+    {
+      "group": "Ar Aging",
+      "count": 5,
+      "required": 5
+    },
+    {
+      "group": "Site Distribution",
+      "count": 3,
+      "required": 3
+    },
+    {
+      "group": "Key Metrics",
+      "count": 7,
+      "required": 7
+    },
+    {
+      "group": "Unknown",
+      "count": 1,
+      "required": "Not specified"
+    },
+    {
+      "group": "Por Overview",
+      "count": 36,
+      "required": 36
+    },
+    {
+      "group": "Web Orders",
+      "count": 24,
+      "required": 24
+    }
+  ]
+}

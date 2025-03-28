@@ -1,0 +1,54 @@
+=== SQL EXPRESSIONS VERIFICATION ===
+Date: 2025-03-20T12:29:49.933Z
+
+Connected to database: ./dashboard.db
+Using database at ./dashboard.db
+chart_data table found. Retrieving SQL expressions...
+Found 7 rows in chart_data table.
+
+=== VERIFICATION RESULTS ===
+
+--- Total Orders ---
+SQL Expression: SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_date >= DATEADD(day, -7, GETDATE())
+Production SQL Expression: SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_date >= DATEADD(day, -7, GETDATE())
+Schema prefix check: PASSED
+Date filter check: PASSED - Last 7 days
+
+--- Open Orders ---
+SQL Expression: SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE completed = 'N'
+Production SQL Expression: SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE completed = 'N'
+Schema prefix check: PASSED
+
+--- Open Orders 2 ---
+SQL Expression: SELECT ISNULL(SUM(l.extended_price), 0) as value FROM dbo.oe_hdr h WITH (NOLOCK) JOIN dbo.oe_line l WITH (NOLOCK) ON h.order_no = l.order_no WHERE h.completed = 'N'
+Production SQL Expression: SELECT ISNULL(SUM(l.extended_price), 0) as value FROM dbo.oe_hdr h WITH (NOLOCK) JOIN dbo.oe_line l WITH (NOLOCK) ON h.order_no = l.order_no WHERE h.completed = 'N'
+Schema prefix check: PASSED
+
+--- Daily Revenue ---
+SQL Expression: SELECT ISNULL(SUM(l.extended_price), 0) as value FROM dbo.oe_hdr h WITH (NOLOCK) JOIN dbo.oe_line l WITH (NOLOCK) ON h.order_no = l.order_no WHERE CONVERT(date, h.order_date) = CONVERT(date, DATEADD(day, -1, GETDATE()))
+Production SQL Expression: SELECT ISNULL(SUM(l.extended_price), 0) as value FROM dbo.oe_hdr h WITH (NOLOCK) JOIN dbo.oe_line l WITH (NOLOCK) ON h.order_no = l.order_no WHERE CONVERT(date, h.order_date) = CONVERT(date, DATEADD(day, -1, GETDATE()))
+Schema prefix check: PASSED
+Date filter check: PASSED - Yesterday
+
+--- Open Invoices ---
+SQL Expression: SELECT COUNT(*) as value FROM dbo.invoice_hdr WITH (NOLOCK) WHERE invoice_date >= DATEADD(month, -1, GETDATE())
+Production SQL Expression: SELECT COUNT(*) as value FROM dbo.invoice_hdr WITH (NOLOCK) WHERE invoice_date >= DATEADD(month, -1, GETDATE())
+Schema prefix check: PASSED
+Date filter check: PASSED - Last month
+
+--- Orders Backlogged ---
+SQL Expression: SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE completed = 'N' AND order_date >= DATEADD(day, -30, GETDATE())
+Production SQL Expression: SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE completed = 'N' AND order_date >= DATEADD(day, -30, GETDATE())
+Schema prefix check: PASSED
+Date filter check: PASSED - Last 30 days
+
+--- Total Monthly Sales ---
+SQL Expression: SELECT ISNULL(SUM(l.extended_price), 0) as value FROM dbo.oe_hdr h WITH (NOLOCK) JOIN dbo.oe_line l WITH (NOLOCK) ON h.order_no = l.order_no WHERE h.order_date >= DATEADD(day, -30, GETDATE())
+Production SQL Expression: SELECT ISNULL(SUM(l.extended_price), 0) as value FROM dbo.oe_hdr h WITH (NOLOCK) JOIN dbo.oe_line l WITH (NOLOCK) ON h.order_no = l.order_no WHERE h.order_date >= DATEADD(day, -30, GETDATE())
+Schema prefix check: PASSED
+Date filter check: PASSED - Last 30 days
+
+=== VERIFICATION SUMMARY ===
+Total metrics verified: 7
+All SQL expressions have been updated with the correct schema prefixes and date filters.
+The dashboard should now be able to properly execute these SQL queries against the P21 database.

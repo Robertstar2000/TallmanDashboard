@@ -1,0 +1,114 @@
+# Updated P21 SQL Queries
+
+## Key Metrics
+
+### Total Orders (ID: 1)
+```sql
+SELECT COUNT(*) as value FROM P21.dbo.oe_hdr WITH (NOLOCK)
+```
+
+### Open Orders (ID: 2)
+```sql
+SELECT SUM(oh.net_total) as value FROM P21.dbo.oe_hdr oh WITH (NOLOCK) WHERE oh.status = 'O'
+```
+
+### Open Orders 2 (ID: 3)
+```sql
+SELECT COUNT(*) as value FROM P21.dbo.oe_hdr WITH (NOLOCK) WHERE status = 'O'
+```
+
+### Daily Revenue (ID: 4)
+```sql
+SELECT SUM(oh.net_total) as value FROM P21.dbo.oe_hdr oh WITH (NOLOCK) WHERE CAST(oh.ord_date AS date) = CAST(GETDATE() AS date)
+```
+
+### Open Invoices (ID: 5)
+```sql
+SELECT COUNT(*) as value FROM P21.dbo.po_hdr ph WITH (NOLOCK) WHERE ph.order_date >= DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0) AND ph.order_date < DATEADD(month, DATEDIFF(month, 0, GETDATE()) + 1, 0) AND ph.completed = 0
+```
+
+### Orders Backlogged (ID: 6)
+```sql
+SELECT COUNT(*) as value FROM P21.dbo.oe_hdr oh WITH (NOLOCK) WHERE oh.status = 'B' AND oh.ord_date >= DATEADD(day, -30, CAST(GETDATE() AS date))
+```
+
+### Total Sales Monthly (ID: 7)
+```sql
+SELECT SUM(oh.net_total) as value FROM P21.dbo.oe_hdr oh WITH (NOLOCK) WHERE CAST(oh.ord_date AS date) >= DATEADD(month, -11, CAST(GETDATE() AS date))
+```
+
+## Site Distribution
+
+### Columbus (ID: 8)
+```sql
+SELECT COUNT(*) as value FROM P21.dbo.oe_hdr WITH (NOLOCK) WHERE location_id = '01' AND status = 'O'
+```
+
+### Addison (ID: 9)
+```sql
+SELECT COUNT(*) as value FROM P21.dbo.oe_hdr WITH (NOLOCK) WHERE location_id = '02' AND status = 'O'
+```
+
+### Lake City (ID: 10)
+```sql
+SELECT COUNT(*) as value FROM P21.dbo.oe_hdr WITH (NOLOCK) WHERE location_id = '03' AND status = 'O'
+```
+
+## Accounts - Monthly Trend
+
+### Accounts Payable - Month 1 (ID: 11)
+```sql
+SELECT ISNULL(SUM(ap.inv_amt - ap.amt_paid), 0) AS value FROM P21.dbo.ap_inv_hdr ap WITH (NOLOCK) WHERE ap.inv_date >= DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0) AND ap.inv_date < DATEADD(month, DATEDIFF(month, 0, GETDATE()) + 1, 0)
+```
+
+### Accounts Overdue - Month 1 (ID: 12)
+```sql
+SELECT ISNULL(SUM(invoice_amt), 0) as value FROM P21.dbo.ap_open_items WITH (NOLOCK) WHERE DATEDIFF(day, due_date, GETDATE()) > 0 AND FORMAT(invoice_date, 'yyyy-MM') = FORMAT(GETDATE(), 'yyyy-MM')
+```
+
+### Accounts Receivable - Month 1 (ID: 13)
+```sql
+SELECT ISNULL(SUM(ar.balance), 0) AS value FROM P21.dbo.ar_open_invc ar WITH (NOLOCK) WHERE ar.inv_date >= DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0) AND ar.inv_date < DATEADD(month, DATEDIFF(month, 0, GETDATE()) + 1, 0)
+```
+
+### Accounts Payable - Month 2 (ID: 14)
+```sql
+SELECT ISNULL(SUM(ap.inv_amt - ap.amt_paid), 0) AS value FROM P21.dbo.ap_inv_hdr ap WITH (NOLOCK) WHERE ap.inv_date >= DATEADD(month, DATEDIFF(month, 0, GETDATE()) - 1, 0) AND ap.inv_date < DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)
+```
+
+### Accounts Overdue - Month 2 (ID: 15)
+```sql
+SELECT ISNULL(SUM(invoice_amt), 0) as value FROM P21.dbo.ap_open_items WITH (NOLOCK) WHERE DATEDIFF(day, due_date, GETDATE()) > 0 AND FORMAT(invoice_date, 'yyyy-MM') = FORMAT(DATEADD(month, -1, GETDATE()), 'yyyy-MM')
+```
+
+### Accounts Receivable - Month 2 (ID: 16)
+```sql
+SELECT ISNULL(SUM(ar.balance), 0) AS value FROM P21.dbo.ar_open_invc ar WITH (NOLOCK) WHERE ar.inv_date >= DATEADD(month, DATEDIFF(month, 0, GETDATE()) - 1, 0) AND ar.inv_date < DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)
+```
+
+## AR Aging
+
+### Current (ID: 95)
+```sql
+SELECT ISNULL(SUM(invoice_amt), 0) as value FROM P21.dbo.ar_open_items WITH (NOLOCK) WHERE DATEDIFF(day, due_date, GETDATE()) <= 0
+```
+
+### 1-30 Days (ID: 96)
+```sql
+SELECT ISNULL(SUM(invoice_amt), 0) as value FROM P21.dbo.ar_open_items WITH (NOLOCK) WHERE DATEDIFF(day, due_date, GETDATE()) BETWEEN 1 AND 30
+```
+
+### 31-60 Days (ID: 97)
+```sql
+SELECT ISNULL(SUM(invoice_amt), 0) as value FROM P21.dbo.ar_open_items WITH (NOLOCK) WHERE DATEDIFF(day, due_date, GETDATE()) BETWEEN 31 AND 60
+```
+
+### 61-90 Days (ID: 98)
+```sql
+SELECT ISNULL(SUM(invoice_amt), 0) as value FROM P21.dbo.ar_open_items WITH (NOLOCK) WHERE DATEDIFF(day, due_date, GETDATE()) BETWEEN 61 AND 90
+```
+
+### 90+ Days (ID: 99)
+```sql
+SELECT ISNULL(SUM(invoice_amt), 0) as value FROM P21.dbo.ar_open_items WITH (NOLOCK) WHERE DATEDIFF(day, due_date, GETDATE()) > 90
+```

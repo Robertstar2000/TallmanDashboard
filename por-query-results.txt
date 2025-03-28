@@ -1,0 +1,9 @@
+=== POR Queries Test ===
+Starting test at 2025-03-19T18:02:55.019Z
+Connection string: DSN=PORAccess;
+Connecting to ODBC data source...
+
+❌ CRITICAL ERROR: [odbc] Error connecting to the database
+
+=== Test completed at 2025-03-19T18:02:55.023Z ===
+Results have been saved to: C:\Users\BobM\CascadeProjects\TallmanDashboard_new\por-query-results.txt

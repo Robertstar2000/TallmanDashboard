@@ -38,9 +38,14 @@ export interface ChartConfig {
 }
 
 export interface ChartData {
-  date: string;
+  id: number;
+  chartName: string;
   value: number;
-  label?: string;
+  chartGroup: string;
+  calculation: string;
+  sqlExpression?: string;
+  tableName?: string;
+  serverName?: string;
 }
 
 export interface MetricData {

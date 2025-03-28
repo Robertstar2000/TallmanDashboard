@@ -1,0 +1,30 @@
+[
+  {
+    "name": "dbo",
+    "value": "dbo"
+  },
+  {
+    "name": "INFORMATION_SCHEMA",
+    "value": "INFORMATION_SCHEMA"
+  },
+  {
+    "name": "sys",
+    "value": "sys"
+  },
+  {
+    "name": "p21_application_role",
+    "value": "p21_application_role"
+  },
+  {
+    "name": "IUSR_BEAVIS",
+    "value": "IUSR_BEAVIS"
+  },
+  {
+    "name": "UTIL",
+    "value": "UTIL"
+  },
+  {
+    "name": "ssb",
+    "value": "ssb"
+  }
+]

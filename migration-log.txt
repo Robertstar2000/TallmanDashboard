@@ -1,0 +1,23 @@
+Connected to the database at C:\Users\BobM\CascadeProjects\TallmanDashboard_new\data\dashboard.db
+Updated 0 rows with missing chart_group values
+
+All rows have consistent chart_name and chart_group values
+
+Checking AR Aging queries:
+
+Checking AR Aging row 309 - Current
+No SQL updates needed for Current
+
+Checking AR Aging row 310 - 1-30 Days
+No SQL updates needed for 1-30 Days
+
+Checking AR Aging row 311 - 31-60 Days
+No SQL updates needed for 31-60 Days
+
+Checking AR Aging row 312 - 61-90 Days
+No SQL updates needed for 61-90 Days
+
+Checking AR Aging row 313 - 90+ Days
+No SQL updates needed for 90+ Days
+
+Migration completed successfully

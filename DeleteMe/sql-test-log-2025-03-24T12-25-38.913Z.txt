@@ -1,0 +1,13 @@
+[2025-03-24T12:25:38.915Z] Log file created at: logs\sql-test-log-2025-03-24T12-25-38.913Z.txt
+[2025-03-24T12:25:38.918Z] Starting SQL expression testing and updating process...
+[2025-03-24T12:25:38.919Z] Checking if server is running...
+[2025-03-24T12:25:39.477Z] ✅ Server is running.
+[2025-03-24T12:25:39.478Z] Testing P21 database connection...
+[2025-03-24T12:25:39.930Z] ❌ P21 connection test failed: Server responded with status 500
+[2025-03-24T12:25:39.930Z] Please configure P21 connection in the admin interface.
+[2025-03-24T12:25:39.931Z] 1. Start the server with "npm run dev"
+[2025-03-24T12:25:39.931Z] 2. Open http://localhost:3000/admin in your browser
+[2025-03-24T12:25:39.931Z] 3. Go to the Query Test page
+[2025-03-24T12:25:39.932Z] 4. Configure the P21 connection settings
+[2025-03-24T12:25:39.932Z] 5. Test the connection to verify it works
+[2025-03-24T12:25:39.932Z] 6. Run this script again

@@ -1,0 +1,1555 @@
+Log file created at: C:\Users\BobM\CascadeProjects\TallmanDashboard_new\logs\sql-test-2025-03-23T23-45-19.015Z.log
+Starting SQL expression testing and updating...
+Found 174 SQL expressions to test
+Found 138 P21 rows and 36 POR rows
+
+===== Processing P21 rows in batches of 5 =====
+
+Processing P21 batch 1 of 28 (rows 1-5)
+
+[1/138] Testing SQL expression for: AR Aging - Current - Amount Due
+Testing SQL expression on P21:
+SELECT SUM(amount_due) as value FROM dbo.ar_open_items WITH (NOLOCK) WHERE aging_bucket = 'Current'
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[2/138] Testing SQL expression for: AR Aging - 1-30 Days - Amount Due
+Testing SQL expression on P21:
+SELECT SUM(amount_due) as value FROM dbo.ar_open_items WITH (NOLOCK) WHERE aging_bucket = '1-30 Days'
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[3/138] Testing SQL expression for: AR Aging - 31-60 Days - Amount Due
+Testing SQL expression on P21:
+SELECT SUM(amount_due) as value FROM dbo.ar_open_items WITH (NOLOCK) WHERE aging_bucket = '31-60 Days'
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[4/138] Testing SQL expression for: AR Aging - 61-90 Days - Amount Due
+Testing SQL expression on P21:
+SELECT SUM(amount_due) as value FROM dbo.ar_open_items WITH (NOLOCK) WHERE aging_bucket = '61-90 Days'
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[5/138] Testing SQL expression for: AR Aging - 90+ Days - Amount Due
+Testing SQL expression on P21:
+SELECT SUM(amount_due) as value FROM dbo.ar_open_items WITH (NOLOCK) WHERE aging_bucket = '90+ Days'
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+Completed P21 batch 1. Progress: 5/138 rows
+
+Processing P21 batch 2 of 28 (rows 6-10)
+
+[6/138] Testing SQL expression for: Accounts - January - Payable
+Testing SQL expression on P21:
+SELECT SUM(amount) as value FROM dbo.payable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 1 AND YEAR(transaction_date) = YEAR(GETDATE())
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[7/138] Testing SQL expression for: Accounts - January - Receivable
+Testing SQL expression on P21:
+SELECT SUM(amount) as value FROM dbo.receivable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 1 AND YEAR(transaction_date) = YEAR(GETDATE())
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[8/138] Testing SQL expression for: Accounts - January - Overdue
+Testing SQL expression on P21:
+SELECT SUM(amount) as value FROM dbo.overdue_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 1 AND YEAR(transaction_date) = YEAR(GETDATE())
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[9/138] Testing SQL expression for: Accounts - February - Payable
+Testing SQL expression on P21:
+SELECT SUM(amount) as value FROM dbo.payable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 2 AND YEAR(transaction_date) = YEAR(GETDATE())
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[10/138] Testing SQL expression for: Accounts - February - Receivable
+Testing SQL expression on P21:
+SELECT SUM(amount) as value FROM dbo.receivable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 2 AND YEAR(transaction_date) = YEAR(GETDATE())
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+Completed P21 batch 2. Progress: 10/138 rows
+
+Processing P21 batch 3 of 28 (rows 11-15)
+
+[11/138] Testing SQL expression for: Accounts - February - Overdue
+Testing SQL expression on P21:
+SELECT SUM(amount) as value FROM dbo.overdue_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 2 AND YEAR(transaction_date) = YEAR(GETDATE())
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[12/138] Testing SQL expression for: Accounts - March - Payable
+Testing SQL expression on P21:
+SELECT SUM(amount) as value FROM dbo.payable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 3 AND YEAR(transaction_date) = YEAR(GETDATE())
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[13/138] Testing SQL expression for: Accounts - March - Receivable
+Testing SQL expression on P21:
+SELECT SUM(amount) as value FROM dbo.receivable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 3 AND YEAR(transaction_date) = YEAR(GETDATE())
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[14/138] Testing SQL expression for: Accounts - March - Overdue
+Testing SQL expression on P21:
+SELECT SUM(amount) as value FROM dbo.overdue_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 3 AND YEAR(transaction_date) = YEAR(GETDATE())
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[15/138] Testing SQL expression for: Accounts - April - Payable
+Testing SQL expression on P21:
+SELECT SUM(amount) as value FROM dbo.payable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 4 AND YEAR(transaction_date) = YEAR(GETDATE())
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+Completed P21 batch 3. Progress: 15/138 rows
+
+Processing P21 batch 4 of 28 (rows 16-20)
+
+[16/138] Testing SQL expression for: Accounts - April - Receivable
+Testing SQL expression on P21:
+SELECT SUM(amount) as value FROM dbo.receivable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 4 AND YEAR(transaction_date) = YEAR(GETDATE())
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[17/138] Testing SQL expression for: Accounts - April - Overdue
+Testing SQL expression on P21:
+SELECT SUM(amount) as value FROM dbo.overdue_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 4 AND YEAR(transaction_date) = YEAR(GETDATE())
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[18/138] Testing SQL expression for: Accounts - May - Payable
+Testing SQL expression on P21:
+SELECT SUM(amount) as value FROM dbo.payable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 5 AND YEAR(transaction_date) = YEAR(GETDATE())
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[19/138] Testing SQL expression for: Accounts - May - Receivable
+Testing SQL expression on P21:
+SELECT SUM(amount) as value FROM dbo.receivable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 5 AND YEAR(transaction_date) = YEAR(GETDATE())
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[20/138] Testing SQL expression for: Accounts - May - Overdue
+Testing SQL expression on P21:
+SELECT SUM(amount) as value FROM dbo.overdue_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 5 AND YEAR(transaction_date) = YEAR(GETDATE())
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+Completed P21 batch 4. Progress: 20/138 rows
+
+Processing P21 batch 5 of 28 (rows 21-25)
+
+[21/138] Testing SQL expression for: Accounts - June - Payable
+Testing SQL expression on P21:
+SELECT SUM(amount) as value FROM dbo.payable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 6 AND YEAR(transaction_date) = YEAR(GETDATE())
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[22/138] Testing SQL expression for: Accounts - June - Receivable
+Testing SQL expression on P21:
+SELECT SUM(amount) as value FROM dbo.receivable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 6 AND YEAR(transaction_date) = YEAR(GETDATE())
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[23/138] Testing SQL expression for: Accounts - June - Overdue
+Testing SQL expression on P21:
+SELECT SUM(amount) as value FROM dbo.overdue_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 6 AND YEAR(transaction_date) = YEAR(GETDATE())
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[24/138] Testing SQL expression for: Accounts - July - Payable
+Testing SQL expression on P21:
+SELECT SUM(amount) as value FROM dbo.payable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 7 AND YEAR(transaction_date) = YEAR(GETDATE())
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[25/138] Testing SQL expression for: Accounts - July - Receivable
+Testing SQL expression on P21:
+SELECT SUM(amount) as value FROM dbo.receivable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 7 AND YEAR(transaction_date) = YEAR(GETDATE())
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+Completed P21 batch 5. Progress: 25/138 rows
+
+Processing P21 batch 6 of 28 (rows 26-30)
+
+[26/138] Testing SQL expression for: Accounts - July - Overdue
+Testing SQL expression on P21:
+SELECT SUM(amount) as value FROM dbo.overdue_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 7 AND YEAR(transaction_date) = YEAR(GETDATE())
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[27/138] Testing SQL expression for: Accounts - August - Payable
+Testing SQL expression on P21:
+SELECT SUM(amount) as value FROM dbo.payable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 8 AND YEAR(transaction_date) = YEAR(GETDATE())
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[28/138] Testing SQL expression for: Accounts - August - Receivable
+Testing SQL expression on P21:
+SELECT SUM(amount) as value FROM dbo.receivable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 8 AND YEAR(transaction_date) = YEAR(GETDATE())
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[29/138] Testing SQL expression for: Accounts - August - Overdue
+Testing SQL expression on P21:
+SELECT SUM(amount) as value FROM dbo.overdue_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 8 AND YEAR(transaction_date) = YEAR(GETDATE())
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[30/138] Testing SQL expression for: Accounts - September - Payable
+Testing SQL expression on P21:
+SELECT SUM(amount) as value FROM dbo.payable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 9 AND YEAR(transaction_date) = YEAR(GETDATE())
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+Completed P21 batch 6. Progress: 30/138 rows
+
+Processing P21 batch 7 of 28 (rows 31-35)
+
+[31/138] Testing SQL expression for: Accounts - September - Receivable
+Testing SQL expression on P21:
+SELECT SUM(amount) as value FROM dbo.receivable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 9 AND YEAR(transaction_date) = YEAR(GETDATE())
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[32/138] Testing SQL expression for: Accounts - September - Overdue
+Testing SQL expression on P21:
+SELECT SUM(amount) as value FROM dbo.overdue_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 9 AND YEAR(transaction_date) = YEAR(GETDATE())
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[33/138] Testing SQL expression for: Accounts - October - Payable
+Testing SQL expression on P21:
+SELECT SUM(amount) as value FROM dbo.payable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 10 AND YEAR(transaction_date) = YEAR(GETDATE())
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[34/138] Testing SQL expression for: Accounts - October - Receivable
+Testing SQL expression on P21:
+SELECT SUM(amount) as value FROM dbo.receivable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 10 AND YEAR(transaction_date) = YEAR(GETDATE())
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[35/138] Testing SQL expression for: Accounts - October - Overdue
+Testing SQL expression on P21:
+SELECT SUM(amount) as value FROM dbo.overdue_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 10 AND YEAR(transaction_date) = YEAR(GETDATE())
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+Completed P21 batch 7. Progress: 35/138 rows
+
+Processing P21 batch 8 of 28 (rows 36-40)
+
+[36/138] Testing SQL expression for: Accounts - November - Payable
+Testing SQL expression on P21:
+SELECT SUM(amount) as value FROM dbo.payable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 11 AND YEAR(transaction_date) = YEAR(GETDATE())
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[37/138] Testing SQL expression for: Accounts - November - Receivable
+Testing SQL expression on P21:
+SELECT SUM(amount) as value FROM dbo.receivable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 11 AND YEAR(transaction_date) = YEAR(GETDATE())
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[38/138] Testing SQL expression for: Accounts - November - Overdue
+Testing SQL expression on P21:
+SELECT SUM(amount) as value FROM dbo.overdue_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 11 AND YEAR(transaction_date) = YEAR(GETDATE())
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[39/138] Testing SQL expression for: Accounts - December - Payable
+Testing SQL expression on P21:
+SELECT SUM(amount) as value FROM dbo.payable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 12 AND YEAR(transaction_date) = YEAR(GETDATE())
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[40/138] Testing SQL expression for: Accounts - December - Receivable
+Testing SQL expression on P21:
+SELECT SUM(amount) as value FROM dbo.receivable_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 12 AND YEAR(transaction_date) = YEAR(GETDATE())
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+Completed P21 batch 8. Progress: 40/138 rows
+
+Processing P21 batch 9 of 28 (rows 41-45)
+
+[41/138] Testing SQL expression for: Accounts - December - Overdue
+Testing SQL expression on P21:
+SELECT SUM(amount) as value FROM dbo.overdue_accounts WITH (NOLOCK) WHERE MONTH(transaction_date) = 12 AND YEAR(transaction_date) = YEAR(GETDATE())
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[42/138] Testing SQL expression for: Customer Metrics - January - New Customers
+Testing SQL expression on P21:
+SELECT 1 as value
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[43/138] Testing SQL expression for: Customer Metrics - January - Prospects
+Testing SQL expression on P21:
+SELECT 1 as value
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[44/138] Testing SQL expression for: Customer Metrics - February - New Customers
+Testing SQL expression on P21:
+SELECT 1 as value
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[45/138] Testing SQL expression for: Customer Metrics - February - Prospects
+Testing SQL expression on P21:
+SELECT 1 as value
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+Completed P21 batch 9. Progress: 45/138 rows
+
+Processing P21 batch 10 of 28 (rows 46-50)
+
+[46/138] Testing SQL expression for: Customer Metrics - March - New Customers
+Testing SQL expression on P21:
+SELECT 1 as value
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[47/138] Testing SQL expression for: Customer Metrics - March - Prospects
+Testing SQL expression on P21:
+SELECT 1 as value
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[48/138] Testing SQL expression for: Customer Metrics - April - New Customers
+Testing SQL expression on P21:
+SELECT 1 as value
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[49/138] Testing SQL expression for: Customer Metrics - April - Prospects
+Testing SQL expression on P21:
+SELECT 1 as value
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[50/138] Testing SQL expression for: Customer Metrics - May - New Customers
+Testing SQL expression on P21:
+SELECT 1 as value
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+Completed P21 batch 10. Progress: 50/138 rows
+
+Processing P21 batch 11 of 28 (rows 51-55)
+
+[51/138] Testing SQL expression for: Customer Metrics - May - Prospects
+Testing SQL expression on P21:
+SELECT 1 as value
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[52/138] Testing SQL expression for: Customer Metrics - June - New Customers
+Testing SQL expression on P21:
+SELECT 1 as value
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[53/138] Testing SQL expression for: Customer Metrics - June - Prospects
+Testing SQL expression on P21:
+SELECT 1 as value
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[54/138] Testing SQL expression for: Customer Metrics - July - New Customers
+Testing SQL expression on P21:
+SELECT 1 as value
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[55/138] Testing SQL expression for: Customer Metrics - July - Prospects
+Testing SQL expression on P21:
+SELECT 1 as value
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+Completed P21 batch 11. Progress: 55/138 rows
+
+Processing P21 batch 12 of 28 (rows 56-60)
+
+[56/138] Testing SQL expression for: Customer Metrics - August - New Customers
+Testing SQL expression on P21:
+SELECT 1 as value
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[57/138] Testing SQL expression for: Customer Metrics - August - Prospects
+Testing SQL expression on P21:
+SELECT 1 as value
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[58/138] Testing SQL expression for: Customer Metrics - September - New Customers
+Testing SQL expression on P21:
+SELECT 1 as value
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[59/138] Testing SQL expression for: Customer Metrics - September - Prospects
+Testing SQL expression on P21:
+SELECT 1 as value
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[60/138] Testing SQL expression for: Customer Metrics - October - New Customers
+Testing SQL expression on P21:
+SELECT 1 as value
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+Completed P21 batch 12. Progress: 60/138 rows
+
+Processing P21 batch 13 of 28 (rows 61-65)
+
+[61/138] Testing SQL expression for: Customer Metrics - October - Prospects
+Testing SQL expression on P21:
+SELECT 1 as value
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[62/138] Testing SQL expression for: Customer Metrics - November - New Customers
+Testing SQL expression on P21:
+SELECT 1 as value
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[63/138] Testing SQL expression for: Customer Metrics - November - Prospects
+Testing SQL expression on P21:
+SELECT 1 as value
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[64/138] Testing SQL expression for: Customer Metrics - December - New Customers
+Testing SQL expression on P21:
+SELECT 1 as value
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[65/138] Testing SQL expression for: Customer Metrics - December - Prospects
+Testing SQL expression on P21:
+SELECT 1 as value
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+Completed P21 batch 13. Progress: 65/138 rows
+
+Processing P21 batch 14 of 28 (rows 66-70)
+
+[66/138] Testing SQL expression for: Daily Orders - Today - Orders
+Testing SQL expression on P21:
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_date = DATEADD(day, -0, CAST(GETDATE() AS date))
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[67/138] Testing SQL expression for: Daily Orders - Yesterday - Orders
+Testing SQL expression on P21:
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_date = DATEADD(day, -1, CAST(GETDATE() AS date))
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[68/138] Testing SQL expression for: Daily Orders - Day-2 - Orders
+Testing SQL expression on P21:
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_date = DATEADD(day, -2, CAST(GETDATE() AS date))
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[69/138] Testing SQL expression for: Daily Orders - Day-3 - Orders
+Testing SQL expression on P21:
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_date = DATEADD(day, -3, CAST(GETDATE() AS date))
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[70/138] Testing SQL expression for: Daily Orders - Day-4 - Orders
+Testing SQL expression on P21:
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_date = DATEADD(day, -4, CAST(GETDATE() AS date))
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+Completed P21 batch 14. Progress: 70/138 rows
+
+Processing P21 batch 15 of 28 (rows 71-75)
+
+[71/138] Testing SQL expression for: Daily Orders - Day-5 - Orders
+Testing SQL expression on P21:
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_date = DATEADD(day, -5, CAST(GETDATE() AS date))
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[72/138] Testing SQL expression for: Daily Orders - Day-6 - Orders
+Testing SQL expression on P21:
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_date = DATEADD(day, -6, CAST(GETDATE() AS date))
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[73/138] Testing SQL expression for: Historical Data - January - P21
+Testing SQL expression on P21:
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE MONTH(order_date) = 1 AND YEAR(order_date) = YEAR(GETDATE())
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[74/138] Testing SQL expression for: Historical Data - January - POR
+Testing SQL expression on P21:
+SELECT 0 as value
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[75/138] Testing SQL expression for: Historical Data - January - Total
+Testing SQL expression on P21:
+SELECT 0 as value
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+Completed P21 batch 15. Progress: 75/138 rows
+
+Processing P21 batch 16 of 28 (rows 76-80)
+
+[76/138] Testing SQL expression for: Historical Data - February - P21
+Testing SQL expression on P21:
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE MONTH(order_date) = 2 AND YEAR(order_date) = YEAR(GETDATE())
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[77/138] Testing SQL expression for: Historical Data - February - POR
+Testing SQL expression on P21:
+SELECT 0 as value
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[78/138] Testing SQL expression for: Historical Data - February - Total
+Testing SQL expression on P21:
+SELECT 0 as value
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[79/138] Testing SQL expression for: Historical Data - March - P21
+Testing SQL expression on P21:
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE MONTH(order_date) = 3 AND YEAR(order_date) = YEAR(GETDATE())
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[80/138] Testing SQL expression for: Historical Data - March - POR
+Testing SQL expression on P21:
+SELECT 0 as value
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+Completed P21 batch 16. Progress: 80/138 rows
+
+Processing P21 batch 17 of 28 (rows 81-85)
+
+[81/138] Testing SQL expression for: Historical Data - March - Total
+Testing SQL expression on P21:
+SELECT 0 as value
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[82/138] Testing SQL expression for: Historical Data - April - P21
+Testing SQL expression on P21:
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE MONTH(order_date) = 4 AND YEAR(order_date) = YEAR(GETDATE())
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[83/138] Testing SQL expression for: Historical Data - April - POR
+Testing SQL expression on P21:
+SELECT 0 as value
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[84/138] Testing SQL expression for: Historical Data - April - Total
+Testing SQL expression on P21:
+SELECT 0 as value
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[85/138] Testing SQL expression for: Historical Data - May - P21
+Testing SQL expression on P21:
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE MONTH(order_date) = 5 AND YEAR(order_date) = YEAR(GETDATE())
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+Completed P21 batch 17. Progress: 85/138 rows
+
+Processing P21 batch 18 of 28 (rows 86-90)
+
+[86/138] Testing SQL expression for: Historical Data - May - POR
+Testing SQL expression on P21:
+SELECT 0 as value
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[87/138] Testing SQL expression for: Historical Data - May - Total
+Testing SQL expression on P21:
+SELECT 0 as value
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[88/138] Testing SQL expression for: Historical Data - June - P21
+Testing SQL expression on P21:
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE MONTH(order_date) = 6 AND YEAR(order_date) = YEAR(GETDATE())
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[89/138] Testing SQL expression for: Historical Data - June - POR
+Testing SQL expression on P21:
+SELECT 0 as value
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[90/138] Testing SQL expression for: Historical Data - June - Total
+Testing SQL expression on P21:
+SELECT 0 as value
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+Completed P21 batch 18. Progress: 90/138 rows
+
+Processing P21 batch 19 of 28 (rows 91-95)
+
+[91/138] Testing SQL expression for: Historical Data - July - P21
+Testing SQL expression on P21:
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE MONTH(order_date) = 7 AND YEAR(order_date) = YEAR(GETDATE())
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[92/138] Testing SQL expression for: Historical Data - July - POR
+Testing SQL expression on P21:
+SELECT 0 as value
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[93/138] Testing SQL expression for: Historical Data - July - Total
+Testing SQL expression on P21:
+SELECT 0 as value
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[94/138] Testing SQL expression for: Historical Data - August - P21
+Testing SQL expression on P21:
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE MONTH(order_date) = 8 AND YEAR(order_date) = YEAR(GETDATE())
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[95/138] Testing SQL expression for: Historical Data - August - POR
+Testing SQL expression on P21:
+SELECT 0 as value
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+Completed P21 batch 19. Progress: 95/138 rows
+
+Processing P21 batch 20 of 28 (rows 96-100)
+
+[96/138] Testing SQL expression for: Historical Data - August - Total
+Testing SQL expression on P21:
+SELECT 0 as value
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[97/138] Testing SQL expression for: Historical Data - September - P21
+Testing SQL expression on P21:
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE MONTH(order_date) = 9 AND YEAR(order_date) = YEAR(GETDATE())
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[98/138] Testing SQL expression for: Historical Data - September - POR
+Testing SQL expression on P21:
+SELECT 0 as value
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[99/138] Testing SQL expression for: Historical Data - September - Total
+Testing SQL expression on P21:
+SELECT 0 as value
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[100/138] Testing SQL expression for: Historical Data - October - P21
+Testing SQL expression on P21:
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE MONTH(order_date) = 10 AND YEAR(order_date) = YEAR(GETDATE())
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+Completed P21 batch 20. Progress: 100/138 rows
+
+Processing P21 batch 21 of 28 (rows 101-105)
+
+[101/138] Testing SQL expression for: Historical Data - October - POR
+Testing SQL expression on P21:
+SELECT 0 as value
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[102/138] Testing SQL expression for: Historical Data - October - Total
+Testing SQL expression on P21:
+SELECT 0 as value
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[103/138] Testing SQL expression for: Historical Data - November - P21
+Testing SQL expression on P21:
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE MONTH(order_date) = 11 AND YEAR(order_date) = YEAR(GETDATE())
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[104/138] Testing SQL expression for: Historical Data - November - POR
+Testing SQL expression on P21:
+SELECT 0 as value
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[105/138] Testing SQL expression for: Historical Data - November - Total
+Testing SQL expression on P21:
+SELECT 0 as value
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+Completed P21 batch 21. Progress: 105/138 rows
+
+Processing P21 batch 22 of 28 (rows 106-110)
+
+[106/138] Testing SQL expression for: Historical Data - December - P21
+Testing SQL expression on P21:
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE MONTH(order_date) = 12 AND YEAR(order_date) = YEAR(GETDATE())
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[107/138] Testing SQL expression for: Historical Data - December - POR
+Testing SQL expression on P21:
+SELECT 0 as value
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[108/138] Testing SQL expression for: Historical Data - December - Total
+Testing SQL expression on P21:
+SELECT 0 as value
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[109/138] Testing SQL expression for: Inventory - Columbus - In Stock
+Testing SQL expression on P21:
+SELECT SUM(qty_on_hand) as value FROM dbo.item_warehouse WITH (NOLOCK) WHERE warehouse_id = 'COL' AND qty_on_hand > 0
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[110/138] Testing SQL expression for: Inventory - Columbus - On Order
+Testing SQL expression on P21:
+SELECT SUM(qty_on_hand) as value FROM dbo.item_warehouse WITH (NOLOCK) WHERE warehouse_id = 'COL' AND qty_on_order > 0
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+Completed P21 batch 22. Progress: 110/138 rows
+
+Processing P21 batch 23 of 28 (rows 111-115)
+
+[111/138] Testing SQL expression for: Inventory - Addison - In Stock
+Testing SQL expression on P21:
+SELECT SUM(qty_on_hand) as value FROM dbo.item_warehouse WITH (NOLOCK) WHERE warehouse_id = 'ADD' AND qty_on_hand > 0
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[112/138] Testing SQL expression for: Inventory - Addison - On Order
+Testing SQL expression on P21:
+SELECT SUM(qty_on_hand) as value FROM dbo.item_warehouse WITH (NOLOCK) WHERE warehouse_id = 'ADD' AND qty_on_order > 0
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[113/138] Testing SQL expression for: Inventory - Lake City - In Stock
+Testing SQL expression on P21:
+SELECT SUM(qty_on_hand) as value FROM dbo.item_warehouse WITH (NOLOCK) WHERE warehouse_id = 'LKC' AND qty_on_hand > 0
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[114/138] Testing SQL expression for: Inventory - Lake City - On Order
+Testing SQL expression on P21:
+SELECT SUM(qty_on_hand) as value FROM dbo.item_warehouse WITH (NOLOCK) WHERE warehouse_id = 'LKC' AND qty_on_order > 0
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[115/138] Testing SQL expression for: Inventory - Warehouse - In Stock
+Testing SQL expression on P21:
+SELECT SUM(qty_on_hand) as value FROM dbo.item_warehouse WITH (NOLOCK) WHERE warehouse_id = 'WHS' AND qty_on_hand > 0
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+Completed P21 batch 23. Progress: 115/138 rows
+
+Processing P21 batch 24 of 28 (rows 116-120)
+
+[116/138] Testing SQL expression for: Inventory - Warehouse - On Order
+Testing SQL expression on P21:
+SELECT SUM(qty_on_hand) as value FROM dbo.item_warehouse WITH (NOLOCK) WHERE warehouse_id = 'WHS' AND qty_on_order > 0
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[117/138] Testing SQL expression for: Key Metrics - Total Orders - Value
+Testing SQL expression on P21:
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_date >= DATEADD(day, -30, GETDATE())
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[118/138] Testing SQL expression for: Key Metrics - Open Orders - Value
+Testing SQL expression on P21:
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_status = 'Open'
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[119/138] Testing SQL expression for: Key Metrics - Shipped Orders - Value
+Testing SQL expression on P21:
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_status = 'Shipped' AND ship_date >= DATEADD(day, -30, GETDATE())
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[120/138] Testing SQL expression for: Key Metrics - Total Sales - Value
+Testing SQL expression on P21:
+SELECT SUM(order_amt) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_date >= DATEADD(day, -30, GETDATE())
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+Completed P21 batch 24. Progress: 120/138 rows
+
+Processing P21 batch 25 of 28 (rows 121-125)
+
+[121/138] Testing SQL expression for: Key Metrics - Average Order Value - Value
+Testing SQL expression on P21:
+SELECT AVG(order_amt) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_date >= DATEADD(day, -30, GETDATE())
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[122/138] Testing SQL expression for: Key Metrics - Order Fill Rate - Value
+Testing SQL expression on P21:
+SELECT 1 as value
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[123/138] Testing SQL expression for: Key Metrics - On-Time Delivery - Value
+Testing SQL expression on P21:
+SELECT CAST(COUNT(CASE WHEN ship_date <= promised_date THEN 1 END) * 100.0 / NULLIF(COUNT(*), 0) as DECIMAL(10,2)) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE ship_date IS NOT NULL AND order_date >= DATEADD(day, -30, GETDATE())
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[124/138] Testing SQL expression for: Site Distribution - Columbus - Inventory
+Testing SQL expression on P21:
+SELECT SUM(qty_on_hand) as value FROM dbo.item_warehouse WITH (NOLOCK) WHERE warehouse_id = 'COL'
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[125/138] Testing SQL expression for: Site Distribution - Addison - Inventory
+Testing SQL expression on P21:
+SELECT SUM(qty_on_hand) as value FROM dbo.item_warehouse WITH (NOLOCK) WHERE warehouse_id = 'ADD'
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+Completed P21 batch 25. Progress: 125/138 rows
+
+Processing P21 batch 26 of 28 (rows 126-130)
+
+[126/138] Testing SQL expression for: Site Distribution - Lake City - Inventory
+Testing SQL expression on P21:
+SELECT SUM(qty_on_hand) as value FROM dbo.item_warehouse WITH (NOLOCK) WHERE warehouse_id = 'LKC'
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[127/138] Testing SQL expression for: Web Orders - January - Orders
+Testing SQL expression on P21:
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_source = 'Web' AND MONTH(order_date) = 1 AND YEAR(order_date) = YEAR(GETDATE())
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[128/138] Testing SQL expression for: Web Orders - February - Orders
+Testing SQL expression on P21:
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_source = 'Web' AND MONTH(order_date) = 2 AND YEAR(order_date) = YEAR(GETDATE())
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[129/138] Testing SQL expression for: Web Orders - March - Orders
+Testing SQL expression on P21:
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_source = 'Web' AND MONTH(order_date) = 3 AND YEAR(order_date) = YEAR(GETDATE())
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[130/138] Testing SQL expression for: Web Orders - April - Orders
+Testing SQL expression on P21:
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_source = 'Web' AND MONTH(order_date) = 4 AND YEAR(order_date) = YEAR(GETDATE())
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+Completed P21 batch 26. Progress: 130/138 rows
+
+Processing P21 batch 27 of 28 (rows 131-135)
+
+[131/138] Testing SQL expression for: Web Orders - May - Orders
+Testing SQL expression on P21:
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_source = 'Web' AND MONTH(order_date) = 5 AND YEAR(order_date) = YEAR(GETDATE())
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[132/138] Testing SQL expression for: Web Orders - June - Orders
+Testing SQL expression on P21:
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_source = 'Web' AND MONTH(order_date) = 6 AND YEAR(order_date) = YEAR(GETDATE())
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[133/138] Testing SQL expression for: Web Orders - July - Orders
+Testing SQL expression on P21:
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_source = 'Web' AND MONTH(order_date) = 7 AND YEAR(order_date) = YEAR(GETDATE())
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[134/138] Testing SQL expression for: Web Orders - August - Orders
+Testing SQL expression on P21:
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_source = 'Web' AND MONTH(order_date) = 8 AND YEAR(order_date) = YEAR(GETDATE())
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[135/138] Testing SQL expression for: Web Orders - September - Orders
+Testing SQL expression on P21:
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_source = 'Web' AND MONTH(order_date) = 9 AND YEAR(order_date) = YEAR(GETDATE())
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+Completed P21 batch 27. Progress: 135/138 rows
+
+Processing P21 batch 28 of 28 (rows 136-138)
+
+[136/138] Testing SQL expression for: Web Orders - October - Orders
+Testing SQL expression on P21:
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_source = 'Web' AND MONTH(order_date) = 10 AND YEAR(order_date) = YEAR(GETDATE())
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[137/138] Testing SQL expression for: Web Orders - November - Orders
+Testing SQL expression on P21:
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_source = 'Web' AND MONTH(order_date) = 11 AND YEAR(order_date) = YEAR(GETDATE())
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[138/138] Testing SQL expression for: Web Orders - December - Orders
+Testing SQL expression on P21:
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_source = 'Web' AND MONTH(order_date) = 12 AND YEAR(order_date) = YEAR(GETDATE())
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+Completed P21 batch 28. Progress: 138/138 rows
+
+===== Processing POR rows in batches of 5 =====
+
+Processing POR batch 1 of 8 (rows 1-5)
+
+[1/36] Testing SQL expression for: POR Overview - January - New Rentals
+Testing SQL expression on POR:
+SELECT 1 as value
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[2/36] Testing SQL expression for: POR Overview - January - Open Rentals
+Testing SQL expression on POR:
+SELECT 1 as value
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[3/36] Testing SQL expression for: POR Overview - January - Rental Value
+Testing SQL expression on POR:
+SELECT 1 as value
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[4/36] Testing SQL expression for: POR Overview - February - New Rentals
+Testing SQL expression on POR:
+SELECT 1 as value
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[5/36] Testing SQL expression for: POR Overview - February - Open Rentals
+Testing SQL expression on POR:
+SELECT 1 as value
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+Completed POR batch 1. Progress: 5/36 rows
+
+Processing POR batch 2 of 8 (rows 6-10)
+
+[6/36] Testing SQL expression for: POR Overview - February - Rental Value
+Testing SQL expression on POR:
+SELECT 1 as value
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[7/36] Testing SQL expression for: POR Overview - March - New Rentals
+Testing SQL expression on POR:
+SELECT 1 as value
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[8/36] Testing SQL expression for: POR Overview - March - Open Rentals
+Testing SQL expression on POR:
+SELECT 1 as value
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[9/36] Testing SQL expression for: POR Overview - March - Rental Value
+Testing SQL expression on POR:
+SELECT 1 as value
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[10/36] Testing SQL expression for: POR Overview - April - New Rentals
+Testing SQL expression on POR:
+SELECT 1 as value
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+Completed POR batch 2. Progress: 10/36 rows
+
+Processing POR batch 3 of 8 (rows 11-15)
+
+[11/36] Testing SQL expression for: POR Overview - April - Open Rentals
+Testing SQL expression on POR:
+SELECT 1 as value
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[12/36] Testing SQL expression for: POR Overview - April - Rental Value
+Testing SQL expression on POR:
+SELECT 1 as value
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[13/36] Testing SQL expression for: POR Overview - May - New Rentals
+Testing SQL expression on POR:
+SELECT 1 as value
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[14/36] Testing SQL expression for: POR Overview - May - Open Rentals
+Testing SQL expression on POR:
+SELECT 1 as value
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[15/36] Testing SQL expression for: POR Overview - May - Rental Value
+Testing SQL expression on POR:
+SELECT 1 as value
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+Completed POR batch 3. Progress: 15/36 rows
+
+Processing POR batch 4 of 8 (rows 16-20)
+
+[16/36] Testing SQL expression for: POR Overview - June - New Rentals
+Testing SQL expression on POR:
+SELECT 1 as value
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[17/36] Testing SQL expression for: POR Overview - June - Open Rentals
+Testing SQL expression on POR:
+SELECT 1 as value
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[18/36] Testing SQL expression for: POR Overview - June - Rental Value
+Testing SQL expression on POR:
+SELECT 1 as value
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[19/36] Testing SQL expression for: POR Overview - July - New Rentals
+Testing SQL expression on POR:
+SELECT 1 as value
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[20/36] Testing SQL expression for: POR Overview - July - Open Rentals
+Testing SQL expression on POR:
+SELECT 1 as value
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+Completed POR batch 4. Progress: 20/36 rows
+
+Processing POR batch 5 of 8 (rows 21-25)
+
+[21/36] Testing SQL expression for: POR Overview - July - Rental Value
+Testing SQL expression on POR:
+SELECT 1 as value
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[22/36] Testing SQL expression for: POR Overview - August - New Rentals
+Testing SQL expression on POR:
+SELECT 1 as value
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[23/36] Testing SQL expression for: POR Overview - August - Open Rentals
+Testing SQL expression on POR:
+SELECT 1 as value
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[24/36] Testing SQL expression for: POR Overview - August - Rental Value
+Testing SQL expression on POR:
+SELECT 1 as value
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[25/36] Testing SQL expression for: POR Overview - September - New Rentals
+Testing SQL expression on POR:
+SELECT 1 as value
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+Completed POR batch 5. Progress: 25/36 rows
+
+Processing POR batch 6 of 8 (rows 26-30)
+
+[26/36] Testing SQL expression for: POR Overview - September - Open Rentals
+Testing SQL expression on POR:
+SELECT 1 as value
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[27/36] Testing SQL expression for: POR Overview - September - Rental Value
+Testing SQL expression on POR:
+SELECT 1 as value
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[28/36] Testing SQL expression for: POR Overview - October - New Rentals
+Testing SQL expression on POR:
+SELECT 1 as value
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[29/36] Testing SQL expression for: POR Overview - October - Open Rentals
+Testing SQL expression on POR:
+SELECT 1 as value
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[30/36] Testing SQL expression for: POR Overview - October - Rental Value
+Testing SQL expression on POR:
+SELECT 1 as value
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+Completed POR batch 6. Progress: 30/36 rows
+
+Processing POR batch 7 of 8 (rows 31-35)
+
+[31/36] Testing SQL expression for: POR Overview - November - New Rentals
+Testing SQL expression on POR:
+SELECT 1 as value
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[32/36] Testing SQL expression for: POR Overview - November - Open Rentals
+Testing SQL expression on POR:
+SELECT 1 as value
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[33/36] Testing SQL expression for: POR Overview - November - Rental Value
+Testing SQL expression on POR:
+SELECT 1 as value
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[34/36] Testing SQL expression for: POR Overview - December - New Rentals
+Testing SQL expression on POR:
+SELECT 1 as value
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+[35/36] Testing SQL expression for: POR Overview - December - Open Rentals
+Testing SQL expression on POR:
+SELECT 1 as value
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+Completed POR batch 7. Progress: 35/36 rows
+
+Processing POR batch 8 of 8 (rows 36-36)
+
+[36/36] Testing SQL expression for: POR Overview - December - Rental Value
+Testing SQL expression on POR:
+SELECT 1 as value
+✅ Success! Value: [{"value":0,"error":"SQLITE_ERROR: no such column: rowid","errorType":"execution"}]
+Result is an array with 1 elements
+✅ Result is non-zero
+✅ SQL expression is successful with non-zero result!
+
+Completed POR batch 8. Progress: 36/36 rows
+✅ Generated summary report at C:\Users\BobM\CascadeProjects\TallmanDashboard_new\sql-test-summary.md
+
+===== FINAL SUMMARY =====
+Total rows processed: 174
+Successful queries: 174 (100%)
+Failed queries: 0 (0%)
+Non-zero results: 174 (100%)
+Zero results: 0 (0%)
+SQL expressions updated: 0
+
+SQL expression testing and updating complete!

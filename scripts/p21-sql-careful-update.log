@@ -1,0 +1,173 @@
+﻿**********************
+Windows PowerShell transcript start
+Start time: 20250325005309
+Username: TALLMAN\BobM
+RunAs User: TALLMAN\BobM
+Configuration Name: 
+Machine: WEB03 (Microsoft Windows NT 10.0.20348.0)
+Host Application: C:\WINDOWS\System32\WindowsPowerShell\v1.0\powershell.exe -noexit -command try { . "c:\Users\BobM\AppData\Local\Programs\Windsurf\resources\app\out\vs\workbench\contrib\terminal\common\scripts\shellIntegration.ps1" } catch {}
+Process ID: 30200
+PSVersion: 5.1.20348.2849
+PSEdition: Desktop
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.20348.2849
+BuildVersion: 10.0.20348.2849
+CLRVersion: 4.0.30319.42000
+WSManStackVersion: 3.0
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
+**********************
+Transcript started, output file is c:\Users\BobM\CascadeProjects\TallmanDashboard_new\scripts\p21-sql-careful-update.log
+Created backup at c:\Users\BobM\CascadeProjects\TallmanDashboard_new\lib\db\complete-chart-data.ts.backup-20250325005309
+Updated SQL expression for ID 1 in chart group 'AR Aging'
+Updated SQL expression for ID 2 in chart group 'AR Aging'
+Updated SQL expression for ID 3 in chart group 'AR Aging'
+Updated SQL expression for ID 4 in chart group 'AR Aging'
+Updated SQL expression for ID 5 in chart group 'AR Aging'
+Updated SQL expression for ID 6 in chart group 'Accounts'
+Updated SQL expression for ID 7 in chart group 'Accounts'
+Updated SQL expression for ID 8 in chart group 'Accounts'
+Updated SQL expression for ID 9 in chart group 'Accounts'
+Updated SQL expression for ID 10 in chart group 'Accounts'
+Updated SQL expression for ID 11 in chart group 'Accounts'
+Updated SQL expression for ID 12 in chart group 'Accounts'
+Updated SQL expression for ID 13 in chart group 'Accounts'
+Updated SQL expression for ID 14 in chart group 'Accounts'
+Updated SQL expression for ID 15 in chart group 'Accounts'
+Updated SQL expression for ID 16 in chart group 'Accounts'
+Updated SQL expression for ID 17 in chart group 'Accounts'
+Updated SQL expression for ID 18 in chart group 'Accounts'
+Updated SQL expression for ID 19 in chart group 'Accounts'
+Updated SQL expression for ID 20 in chart group 'Accounts'
+Updated SQL expression for ID 21 in chart group 'Accounts'
+Updated SQL expression for ID 22 in chart group 'Accounts'
+Updated SQL expression for ID 23 in chart group 'Accounts'
+Updated SQL expression for ID 24 in chart group 'Accounts'
+Updated SQL expression for ID 25 in chart group 'Accounts'
+Updated SQL expression for ID 26 in chart group 'Accounts'
+Updated SQL expression for ID 27 in chart group 'Accounts'
+Updated SQL expression for ID 28 in chart group 'Accounts'
+Updated SQL expression for ID 29 in chart group 'Accounts'
+Updated SQL expression for ID 30 in chart group 'Accounts'
+Updated SQL expression for ID 31 in chart group 'Accounts'
+Updated SQL expression for ID 32 in chart group 'Accounts'
+Updated SQL expression for ID 33 in chart group 'Accounts'
+Updated SQL expression for ID 34 in chart group 'Accounts'
+Updated SQL expression for ID 35 in chart group 'Accounts'
+Updated SQL expression for ID 36 in chart group 'Accounts'
+Updated SQL expression for ID 37 in chart group 'Accounts'
+Updated SQL expression for ID 38 in chart group 'Accounts'
+Updated SQL expression for ID 39 in chart group 'Accounts'
+Updated SQL expression for ID 40 in chart group 'Accounts'
+Updated SQL expression for ID 41 in chart group 'Accounts'
+Updated SQL expression for ID 42 in chart group 'Customer Metrics'
+Updated SQL expression for ID 43 in chart group 'Customer Metrics'
+Updated SQL expression for ID 44 in chart group 'Customer Metrics'
+Updated SQL expression for ID 45 in chart group 'Customer Metrics'
+Updated SQL expression for ID 46 in chart group 'Customer Metrics'
+Updated SQL expression for ID 47 in chart group 'Customer Metrics'
+Updated SQL expression for ID 48 in chart group 'Customer Metrics'
+Updated SQL expression for ID 49 in chart group 'Customer Metrics'
+Updated SQL expression for ID 50 in chart group 'Customer Metrics'
+Updated SQL expression for ID 51 in chart group 'Customer Metrics'
+Updated SQL expression for ID 52 in chart group 'Customer Metrics'
+Updated SQL expression for ID 53 in chart group 'Customer Metrics'
+Updated SQL expression for ID 54 in chart group 'Customer Metrics'
+Updated SQL expression for ID 55 in chart group 'Customer Metrics'
+Updated SQL expression for ID 56 in chart group 'Customer Metrics'
+Updated SQL expression for ID 57 in chart group 'Customer Metrics'
+Updated SQL expression for ID 58 in chart group 'Customer Metrics'
+Updated SQL expression for ID 59 in chart group 'Customer Metrics'
+Updated SQL expression for ID 60 in chart group 'Customer Metrics'
+Updated SQL expression for ID 61 in chart group 'Customer Metrics'
+Updated SQL expression for ID 62 in chart group 'Customer Metrics'
+Updated SQL expression for ID 63 in chart group 'Customer Metrics'
+Updated SQL expression for ID 64 in chart group 'Customer Metrics'
+Updated SQL expression for ID 65 in chart group 'Customer Metrics'
+Updated SQL expression for ID 66 in chart group 'Daily Orders'
+Updated SQL expression for ID 67 in chart group 'Daily Orders'
+Updated SQL expression for ID 68 in chart group 'Daily Orders'
+Updated SQL expression for ID 69 in chart group 'Daily Orders'
+Updated SQL expression for ID 70 in chart group 'Daily Orders'
+Updated SQL expression for ID 71 in chart group 'Daily Orders'
+Updated SQL expression for ID 72 in chart group 'Daily Orders'
+Updated SQL expression for ID 73 in chart group 'Historical Data'
+Updated SQL expression for ID 74 in chart group 'Historical Data'
+Updated SQL expression for ID 75 in chart group 'Historical Data'
+Updated SQL expression for ID 76 in chart group 'Historical Data'
+Updated SQL expression for ID 77 in chart group 'Historical Data'
+Updated SQL expression for ID 78 in chart group 'Historical Data'
+Updated SQL expression for ID 79 in chart group 'Historical Data'
+Updated SQL expression for ID 80 in chart group 'Historical Data'
+Updated SQL expression for ID 81 in chart group 'Historical Data'
+Updated SQL expression for ID 82 in chart group 'Historical Data'
+Updated SQL expression for ID 83 in chart group 'Historical Data'
+Updated SQL expression for ID 84 in chart group 'Historical Data'
+Updated SQL expression for ID 85 in chart group 'Historical Data'
+Updated SQL expression for ID 86 in chart group 'Historical Data'
+Updated SQL expression for ID 87 in chart group 'Historical Data'
+Updated SQL expression for ID 88 in chart group 'Historical Data'
+Updated SQL expression for ID 89 in chart group 'Historical Data'
+Updated SQL expression for ID 90 in chart group 'Historical Data'
+Updated SQL expression for ID 91 in chart group 'Historical Data'
+Updated SQL expression for ID 92 in chart group 'Historical Data'
+Updated SQL expression for ID 93 in chart group 'Historical Data'
+Updated SQL expression for ID 94 in chart group 'Historical Data'
+Updated SQL expression for ID 95 in chart group 'Historical Data'
+Updated SQL expression for ID 96 in chart group 'Historical Data'
+Updated SQL expression for ID 97 in chart group 'Historical Data'
+Updated SQL expression for ID 98 in chart group 'Historical Data'
+Updated SQL expression for ID 99 in chart group 'Historical Data'
+Updated SQL expression for ID 100 in chart group 'Historical Data'
+Updated SQL expression for ID 101 in chart group 'Historical Data'
+Updated SQL expression for ID 102 in chart group 'Historical Data'
+Updated SQL expression for ID 103 in chart group 'Historical Data'
+Updated SQL expression for ID 104 in chart group 'Historical Data'
+Updated SQL expression for ID 105 in chart group 'Historical Data'
+Updated SQL expression for ID 106 in chart group 'Historical Data'
+Updated SQL expression for ID 107 in chart group 'Historical Data'
+Updated SQL expression for ID 108 in chart group 'Historical Data'
+Updated SQL expression for ID 109 in chart group 'Inventory'
+Updated SQL expression for ID 110 in chart group 'Inventory'
+Updated SQL expression for ID 111 in chart group 'Inventory'
+Updated SQL expression for ID 112 in chart group 'Inventory'
+Updated SQL expression for ID 113 in chart group 'Inventory'
+Updated SQL expression for ID 114 in chart group 'Inventory'
+Updated SQL expression for ID 115 in chart group 'Inventory'
+Updated SQL expression for ID 116 in chart group 'Inventory'
+Updated SQL expression for ID 117 in chart group 'Key Metrics'
+Updated SQL expression for ID 118 in chart group 'Key Metrics'
+Updated SQL expression for ID 119 in chart group 'Key Metrics'
+Updated SQL expression for ID 120 in chart group 'Key Metrics'
+Updated SQL expression for ID 121 in chart group 'Key Metrics'
+Updated SQL expression for ID 122 in chart group 'Key Metrics'
+Updated SQL expression for ID 123 in chart group 'Key Metrics'
+Updated SQL expression for ID 124 in chart group 'Site Distribution'
+Updated SQL expression for ID 125 in chart group 'Site Distribution'
+Updated SQL expression for ID 126 in chart group 'Site Distribution'
+Updated SQL expression for ID 163 in chart group 'Web Orders'
+Updated SQL expression for ID 164 in chart group 'Web Orders'
+Updated SQL expression for ID 165 in chart group 'Web Orders'
+Updated SQL expression for ID 166 in chart group 'Web Orders'
+Updated SQL expression for ID 167 in chart group 'Web Orders'
+Updated SQL expression for ID 168 in chart group 'Web Orders'
+Updated SQL expression for ID 169 in chart group 'Web Orders'
+Updated SQL expression for ID 170 in chart group 'Web Orders'
+Updated SQL expression for ID 171 in chart group 'Web Orders'
+Updated SQL expression for ID 172 in chart group 'Web Orders'
+Updated SQL expression for ID 173 in chart group 'Web Orders'
+Updated SQL expression for ID 174 in chart group 'Web Orders'
+
+Verification:
+Total entries found: 174 (expected: 174)
+P21 entries found: 126 (expected: 126)
+POR entries found: 48 (expected: 48)
+
+Summary:
+P21 entries updated: 138
+POR entries preserved: 36
+Other entries: 0
+P21 SQL expression update completed!
+**********************
+Windows PowerShell transcript end
+End time: 20250325005309
+**********************

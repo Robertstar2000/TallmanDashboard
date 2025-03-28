@@ -1,0 +1,61 @@
+--- Testing Accounts Data Mapping ---
+Found 36 rows for Accounts
+Payable data: 12 rows
+Receivable data: 12 rows
+Overdue data: 12 rows
+
+All Payable data:
+ID: 314, Name: Payable (March), Value: 0
+ID: 315, Name: Payable (February), Value: 0
+ID: 316, Name: Payable (January), Value: 0
+ID: 317, Name: Payable (December), Value: 0
+ID: 318, Name: Payable (November), Value: 0
+ID: 319, Name: Payable (October), Value: 0
+ID: 320, Name: Payable (September), Value: 0
+ID: 321, Name: Payable (August), Value: 0
+ID: 322, Name: Payable (July), Value: 0
+ID: 323, Name: Payable (June), Value: 0
+ID: 324, Name: Payable (May), Value: 0
+ID: 325, Name: Payable (April), Value: 0
+
+All Receivable data:
+ID: 326, Name: Receivable (March), Value: 0
+ID: 327, Name: Receivable (February), Value: 0
+ID: 328, Name: Receivable (January), Value: 0
+ID: 329, Name: Receivable (December), Value: 0
+ID: 330, Name: Receivable (November), Value: 0
+ID: 331, Name: Receivable (October), Value: 0
+ID: 332, Name: Receivable (September), Value: 0
+ID: 333, Name: Receivable (August), Value: 0
+ID: 334, Name: Receivable (July), Value: 0
+ID: 335, Name: Receivable (June), Value: 0
+ID: 336, Name: Receivable (May), Value: 0
+ID: 337, Name: Receivable (April), Value: 0
+
+All Overdue data:
+ID: 338, Name: Overdue (March), Value: 0
+ID: 339, Name: Overdue (February), Value: 0
+ID: 340, Name: Overdue (January), Value: $45,678
+ID: 341, Name: Overdue (December), Value: $76,543
+ID: 342, Name: Overdue (November), Value: $87,654
+ID: 343, Name: Overdue (October), Value: $90,123
+ID: 344, Name: Overdue (September), Value: $87,654
+ID: 345, Name: Overdue (August), Value: $56,789
+ID: 346, Name: Overdue (July), Value: $98,765
+ID: 347, Name: Overdue (June), Value: $34,567
+ID: 348, Name: Overdue (May), Value: $78,901
+ID: 349, Name: Overdue (April), Value: $90,123
+
+Monthly data mapping:
+Jan: Payable=0, Receivable=0, Overdue=0
+Feb: Payable=0, Receivable=0, Overdue=0
+Mar: Payable=0, Receivable=0, Overdue=45678
+Apr: Payable=0, Receivable=0, Overdue=76543
+May: Payable=0, Receivable=0, Overdue=87654
+Jun: Payable=0, Receivable=0, Overdue=90123
+Jul: Payable=0, Receivable=0, Overdue=87654
+Aug: Payable=0, Receivable=0, Overdue=56789
+Sep: Payable=0, Receivable=0, Overdue=98765
+Oct: Payable=0, Receivable=0, Overdue=34567
+Nov: Payable=0, Receivable=0, Overdue=78901
+Dec: Payable=0, Receivable=0, Overdue=90123

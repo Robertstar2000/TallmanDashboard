@@ -1,0 +1,1 @@
+# POR Integration Tests\n\nThis folder contains the following test scripts:\n\n1. test-por-mdb-connection.js - Tests POR MDB connection\n2. test-por-mdb-queries-updated.js - Tests updated POR MDB queries\n3. test-por-tables.js - Tests POR tables

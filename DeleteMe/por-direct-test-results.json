@@ -1,0 +1,1875 @@
+[
+  {
+    "name": "PurchaseOrderDetail",
+    "query": "SELECT * FROM PurchaseOrderDetail",
+    "success": true,
+    "result": {}
+  },
+  {
+    "name": "PurchaseOrderDetail Count",
+    "query": "SELECT Count(*) AS value FROM PurchaseOrderDetail",
+    "success": true,
+    "result": {}
+  },
+  {
+    "name": "PurchaseOrder",
+    "query": "SELECT * FROM PurchaseOrder",
+    "success": true,
+    "result": {}
+  },
+  {
+    "name": "PurchaseOrder Count",
+    "query": "SELECT Count(*) AS value FROM PurchaseOrder",
+    "success": true,
+    "result": {}
+  },
+  {
+    "name": "CustomerFile",
+    "query": "SELECT * FROM CustomerFile",
+    "success": true,
+    "result": {}
+  },
+  {
+    "name": "CustomerFile Count",
+    "query": "SELECT Count(*) AS value FROM CustomerFile",
+    "success": true,
+    "result": {}
+  },
+  {
+    "name": "Show Tables",
+    "query": "SHOW TABLES",
+    "success": true,
+    "result": [
+      {
+        "TableName": "AccountingAPIQueueCustomer",
+        "value": "AccountingAPIQueueCustomer"
+      },
+      {
+        "TableName": "AccountingAPIQueueGL",
+        "value": "AccountingAPIQueueGL"
+      },
+      {
+        "TableName": "AccountingAPIQueueGLDimensions",
+        "value": "AccountingAPIQueueGLDimensions"
+      },
+      {
+        "TableName": "AccountingAPIQueuePO",
+        "value": "AccountingAPIQueuePO"
+      },
+      {
+        "TableName": "AccountingAPIQueuePODetail",
+        "value": "AccountingAPIQueuePODetail"
+      },
+      {
+        "TableName": "AccountingAPIQueuePODimensions",
+        "value": "AccountingAPIQueuePODimensions"
+      },
+      {
+        "TableName": "AccountingAPIQueueTRDetail",
+        "value": "AccountingAPIQueueTRDetail"
+      },
+      {
+        "TableName": "AccountingAPIQueueTRDimensions",
+        "value": "AccountingAPIQueueTRDimensions"
+      },
+      {
+        "TableName": "AccountingAPIQueueVendor",
+        "value": "AccountingAPIQueueVendor"
+      },
+      {
+        "TableName": "AccountingClass",
+        "value": "AccountingClass"
+      },
+      {
+        "TableName": "AccountingCustomer",
+        "value": "AccountingCustomer"
+      },
+      {
+        "TableName": "AccountingDepartment",
+        "value": "AccountingDepartment"
+      },
+      {
+        "TableName": "AccountingEmployee",
+        "value": "AccountingEmployee"
+      },
+      {
+        "TableName": "AccountingJobsite",
+        "value": "AccountingJobsite"
+      },
+      {
+        "TableName": "AccountingLocation",
+        "value": "AccountingLocation"
+      },
+      {
+        "TableName": "AccountingMethod",
+        "value": "AccountingMethod"
+      },
+      {
+        "TableName": "AccountingProject",
+        "value": "AccountingProject"
+      },
+      {
+        "TableName": "AccountingSalesman",
+        "value": "AccountingSalesman"
+      },
+      {
+        "TableName": "AccountingTransaction",
+        "value": "AccountingTransaction"
+      },
+      {
+        "TableName": "AccountingVendor",
+        "value": "AccountingVendor"
+      },
+      {
+        "TableName": "AccountNumbers",
+        "value": "AccountNumbers"
+      },
+      {
+        "TableName": "AccountsReceivable",
+        "value": "AccountsReceivable"
+      },
+      {
+        "TableName": "AccountsReceivableAssigned",
+        "value": "AccountsReceivableAssigned"
+      },
+      {
+        "TableName": "Attachments",
+        "value": "Attachments"
+      },
+      {
+        "TableName": "AttachmentsLinkType",
+        "value": "AttachmentsLinkType"
+      },
+      {
+        "TableName": "AutoContinuationTemplates",
+        "value": "AutoContinuationTemplates"
+      },
+      {
+        "TableName": "BankDeposits",
+        "value": "BankDeposits"
+      },
+      {
+        "TableName": "BulkSerializationMethod",
+        "value": "BulkSerializationMethod"
+      },
+      {
+        "TableName": "BulkSerializationMethod_Tr",
+        "value": "BulkSerializationMethod_Tr"
+      },
+      {
+        "TableName": "CalendarSpecial",
+        "value": "CalendarSpecial"
+      },
+      {
+        "TableName": "CalendarWeek",
+        "value": "CalendarWeek"
+      },
+      {
+        "TableName": "CallLogType",
+        "value": "CallLogType"
+      },
+      {
+        "TableName": "CallLogType_Tr",
+        "value": "CallLogType_Tr"
+      },
+      {
+        "TableName": "CashDrawer",
+        "value": "CashDrawer"
+      },
+      {
+        "TableName": "CashDrawer_1229",
+        "value": "CashDrawer_1229"
+      },
+      {
+        "TableName": "CashDrawer_BAK",
+        "value": "CashDrawer_BAK"
+      },
+      {
+        "TableName": "CategoryIncome",
+        "value": "CategoryIncome"
+      },
+      {
+        "TableName": "CategoryIncomeDetail",
+        "value": "CategoryIncomeDetail"
+      },
+      {
+        "TableName": "CategoryIncomeDetail_1229",
+        "value": "CategoryIncomeDetail_1229"
+      },
+      {
+        "TableName": "CertificationDetail",
+        "value": "CertificationDetail"
+      },
+      {
+        "TableName": "CertificationDetailBackup_2016",
+        "value": "CertificationDetailBackup_2016"
+      },
+      {
+        "TableName": "CertificationType",
+        "value": "CertificationType"
+      },
+      {
+        "TableName": "CertificationType_Tr",
+        "value": "CertificationType_Tr"
+      },
+      {
+        "TableName": "CheckCardFile",
+        "value": "CheckCardFile"
+      },
+      {
+        "TableName": "ColumnOrder",
+        "value": "ColumnOrder"
+      },
+      {
+        "TableName": "CommissionLevelCustomer",
+        "value": "CommissionLevelCustomer"
+      },
+      {
+        "TableName": "CommissionLevelCustomer_Tr",
+        "value": "CommissionLevelCustomer_Tr"
+      },
+      {
+        "TableName": "CommissionLevelExcessiveDiscounts",
+        "value": "CommissionLevelExcessiveDiscounts"
+      },
+      {
+        "TableName": "CommissionLevelItem",
+        "value": "CommissionLevelItem"
+      },
+      {
+        "TableName": "CommissionLevelItem_Tr",
+        "value": "CommissionLevelItem_Tr"
+      },
+      {
+        "TableName": "CommissionLevelSalesman",
+        "value": "CommissionLevelSalesman"
+      },
+      {
+        "TableName": "Contract",
+        "value": "Contract"
+      },
+      {
+        "TableName": "ContractColumns",
+        "value": "ContractColumns"
+      },
+      {
+        "TableName": "ContractColumns_Tr",
+        "value": "ContractColumns_Tr"
+      },
+      {
+        "TableName": "ContractDetail",
+        "value": "ContractDetail"
+      },
+      {
+        "TableName": "ContractFooter",
+        "value": "ContractFooter"
+      },
+      {
+        "TableName": "ContractFormat",
+        "value": "ContractFormat"
+      },
+      {
+        "TableName": "ContractFormat_Tr",
+        "value": "ContractFormat_Tr"
+      },
+      {
+        "TableName": "ContractHeader",
+        "value": "ContractHeader"
+      },
+      {
+        "TableName": "ContractSalesRepType",
+        "value": "ContractSalesRepType"
+      },
+      {
+        "TableName": "CountryCodes",
+        "value": "CountryCodes"
+      },
+      {
+        "TableName": "CRMTerritories",
+        "value": "CRMTerritories"
+      },
+      {
+        "TableName": "CurrencyExchange",
+        "value": "CurrencyExchange"
+      },
+      {
+        "TableName": "CurrentStoreTransfers",
+        "value": "CurrentStoreTransfers"
+      },
+      {
+        "TableName": "CustomerCard",
+        "value": "CustomerCard"
+      },
+      {
+        "TableName": "CustomerComments",
+        "value": "CustomerComments"
+      },
+      {
+        "TableName": "CustomerComments_Tr",
+        "value": "CustomerComments_Tr"
+      },
+      {
+        "TableName": "CustomerEdit",
+        "value": "CustomerEdit"
+      },
+      {
+        "TableName": "CustomerEntityType",
+        "value": "CustomerEntityType"
+      },
+      {
+        "TableName": "CustomerFile",
+        "value": "CustomerFile"
+      },
+      {
+        "TableName": "CustomerFile_Tr",
+        "value": "CustomerFile_Tr"
+      },
+      {
+        "TableName": "CustomerGroup",
+        "value": "CustomerGroup"
+      },
+      {
+        "TableName": "CustomerGroup_Tr",
+        "value": "CustomerGroup_Tr"
+      },
+      {
+        "TableName": "CustomerHeard",
+        "value": "CustomerHeard"
+      },
+      {
+        "TableName": "CustomerHeard_Tr",
+        "value": "CustomerHeard_Tr"
+      },
+      {
+        "TableName": "CustomerJobSite",
+        "value": "CustomerJobSite"
+      },
+      {
+        "TableName": "CustomerJobSite_Tr",
+        "value": "CustomerJobSite_Tr"
+      },
+      {
+        "TableName": "CustomerJobSiteType_Tr",
+        "value": "CustomerJobSiteType_Tr"
+      },
+      {
+        "TableName": "CustomerMessage",
+        "value": "CustomerMessage"
+      },
+      {
+        "TableName": "CustomerMessage_Tr",
+        "value": "CustomerMessage_Tr"
+      },
+      {
+        "TableName": "CustomerNameFormat",
+        "value": "CustomerNameFormat"
+      },
+      {
+        "TableName": "CustomerNotifications",
+        "value": "CustomerNotifications"
+      },
+      {
+        "TableName": "CustomerPicture",
+        "value": "CustomerPicture"
+      },
+      {
+        "TableName": "CustomerRestriction",
+        "value": "CustomerRestriction"
+      },
+      {
+        "TableName": "CustomerStatus",
+        "value": "CustomerStatus"
+      },
+      {
+        "TableName": "CustomerStatus_Tr",
+        "value": "CustomerStatus_Tr"
+      },
+      {
+        "TableName": "CustomerType_Tr",
+        "value": "CustomerType_Tr"
+      },
+      {
+        "TableName": "CustomerTypePricing",
+        "value": "CustomerTypePricing"
+      },
+      {
+        "TableName": "CustomerTypePricing_Tr",
+        "value": "CustomerTypePricing_Tr"
+      },
+      {
+        "TableName": "DailyDeliveryPickupMax",
+        "value": "DailyDeliveryPickupMax"
+      },
+      {
+        "TableName": "Dates",
+        "value": "Dates"
+      },
+      {
+        "TableName": "DeliveryTrucks",
+        "value": "DeliveryTrucks"
+      },
+      {
+        "TableName": "DeliveryTrucks_Tr",
+        "value": "DeliveryTrucks_Tr"
+      },
+      {
+        "TableName": "DeliveryWindows",
+        "value": "DeliveryWindows"
+      },
+      {
+        "TableName": "DisbursementDetail",
+        "value": "DisbursementDetail"
+      },
+      {
+        "TableName": "DisbursementItems",
+        "value": "DisbursementItems"
+      },
+      {
+        "TableName": "DisbursementItems_Tr",
+        "value": "DisbursementItems_Tr"
+      },
+      {
+        "TableName": "DiscountTable_Tr",
+        "value": "DiscountTable_Tr"
+      },
+      {
+        "TableName": "DiscountTableByCategory",
+        "value": "DiscountTableByCategory"
+      },
+      {
+        "TableName": "District",
+        "value": "District"
+      },
+      {
+        "TableName": "DistrictStores",
+        "value": "DistrictStores"
+      },
+      {
+        "TableName": "EmailMessages",
+        "value": "EmailMessages"
+      },
+      {
+        "TableName": "EmailMessages_Tr",
+        "value": "EmailMessages_Tr"
+      },
+      {
+        "TableName": "EmployeeHours",
+        "value": "EmployeeHours"
+      },
+      {
+        "TableName": "EmployeeLogType",
+        "value": "EmployeeLogType"
+      },
+      {
+        "TableName": "EmployeePay",
+        "value": "EmployeePay"
+      },
+      {
+        "TableName": "EntityTypes",
+        "value": "EntityTypes"
+      },
+      {
+        "TableName": "EpicorContractHistory",
+        "value": "EpicorContractHistory"
+      },
+      {
+        "TableName": "EpicorContractLines",
+        "value": "EpicorContractLines"
+      },
+      {
+        "TableName": "EpicorProfile",
+        "value": "EpicorProfile"
+      },
+      {
+        "TableName": "EpicorSKUIntegration",
+        "value": "EpicorSKUIntegration"
+      },
+      {
+        "TableName": "EpicorVersion",
+        "value": "EpicorVersion"
+      },
+      {
+        "TableName": "ErrorLog",
+        "value": "ErrorLog"
+      },
+      {
+        "TableName": "ExportFormat",
+        "value": "ExportFormat"
+      },
+      {
+        "TableName": "FeatureLicense",
+        "value": "FeatureLicense"
+      },
+      {
+        "TableName": "FeatureLicenseType",
+        "value": "FeatureLicenseType"
+      },
+      {
+        "TableName": "FeatureLimitType",
+        "value": "FeatureLimitType"
+      },
+      {
+        "TableName": "FeaturePermissionType",
+        "value": "FeaturePermissionType"
+      },
+      {
+        "TableName": "FieldDefinitions",
+        "value": "FieldDefinitions"
+      },
+      {
+        "TableName": "FileDescriptions",
+        "value": "FileDescriptions"
+      },
+      {
+        "TableName": "FulfillmentActions_Tr",
+        "value": "FulfillmentActions_Tr"
+      },
+      {
+        "TableName": "FulFillmentVersion",
+        "value": "FulFillmentVersion"
+      },
+      {
+        "TableName": "GLDetailLevel",
+        "value": "GLDetailLevel"
+      },
+      {
+        "TableName": "GLMode",
+        "value": "GLMode"
+      },
+      {
+        "TableName": "GroupFile",
+        "value": "GroupFile"
+      },
+      {
+        "TableName": "GroupFile_Tr",
+        "value": "GroupFile_Tr"
+      },
+      {
+        "TableName": "GroupType",
+        "value": "GroupType"
+      },
+      {
+        "TableName": "Images",
+        "value": "Images"
+      },
+      {
+        "TableName": "ImagesLinkType",
+        "value": "ImagesLinkType"
+      },
+      {
+        "TableName": "ImportTableDefinitions",
+        "value": "ImportTableDefinitions"
+      },
+      {
+        "TableName": "IncomeType",
+        "value": "IncomeType"
+      },
+      {
+        "TableName": "IntacctDimensionCandidates",
+        "value": "IntacctDimensionCandidates"
+      },
+      {
+        "TableName": "IntacctDimensions",
+        "value": "IntacctDimensions"
+      },
+      {
+        "TableName": "IntegrationResources",
+        "value": "IntegrationResources"
+      },
+      {
+        "TableName": "ItemCategory_Tr",
+        "value": "ItemCategory_Tr"
+      },
+      {
+        "TableName": "ItemCategoryPicture",
+        "value": "ItemCategoryPicture"
+      },
+      {
+        "TableName": "ItemCategorySuper",
+        "value": "ItemCategorySuper"
+      },
+      {
+        "TableName": "ItemCategorySuper_Tr",
+        "value": "ItemCategorySuper_Tr"
+      },
+      {
+        "TableName": "ItemComments",
+        "value": "ItemComments"
+      },
+      {
+        "TableName": "ItemComments_Tr",
+        "value": "ItemComments_Tr"
+      },
+      {
+        "TableName": "ItemDepartment_Tr",
+        "value": "ItemDepartment_Tr"
+      },
+      {
+        "TableName": "ItemDepr179Working",
+        "value": "ItemDepr179Working"
+      },
+      {
+        "TableName": "ItemDepreciation",
+        "value": "ItemDepreciation"
+      },
+      {
+        "TableName": "ItemDepreciationDetail",
+        "value": "ItemDepreciationDetail"
+      },
+      {
+        "TableName": "ItemDepreciationMethods",
+        "value": "ItemDepreciationMethods"
+      },
+      {
+        "TableName": "ItemDepreciationMethods_Tr",
+        "value": "ItemDepreciationMethods_Tr"
+      },
+      {
+        "TableName": "ItemDepreciationStoreDetail",
+        "value": "ItemDepreciationStoreDetail"
+      },
+      {
+        "TableName": "ItemDivision",
+        "value": "ItemDivision"
+      },
+      {
+        "TableName": "ItemDivision_Tr",
+        "value": "ItemDivision_Tr"
+      },
+      {
+        "TableName": "ItemEdit",
+        "value": "ItemEdit"
+      },
+      {
+        "TableName": "ItemEngine",
+        "value": "ItemEngine"
+      },
+      {
+        "TableName": "ItemFile",
+        "value": "ItemFile"
+      },
+      {
+        "TableName": "ItemFile_Tr",
+        "value": "ItemFile_Tr"
+      },
+      {
+        "TableName": "ItemIncome",
+        "value": "ItemIncome"
+      },
+      {
+        "TableName": "ItemKits",
+        "value": "ItemKits"
+      },
+      {
+        "TableName": "ItemKitsAuto",
+        "value": "ItemKitsAuto"
+      },
+      {
+        "TableName": "ItemKitsRepairs",
+        "value": "ItemKitsRepairs"
+      },
+      {
+        "TableName": "ItemLocationDefaults",
+        "value": "ItemLocationDefaults"
+      },
+      {
+        "TableName": "ItemLocations",
+        "value": "ItemLocations"
+      },
+      {
+        "TableName": "ItemMaintenance",
+        "value": "ItemMaintenance"
+      },
+      {
+        "TableName": "ItemMaintenanceDescription",
+        "value": "ItemMaintenanceDescription"
+      },
+      {
+        "TableName": "ItemMaintenanceDescription_Tr",
+        "value": "ItemMaintenanceDescription_Tr"
+      },
+      {
+        "TableName": "ItemMaintenanceDetail",
+        "value": "ItemMaintenanceDetail"
+      },
+      {
+        "TableName": "ItemMaintenanceType",
+        "value": "ItemMaintenanceType"
+      },
+      {
+        "TableName": "ItemMaintenanceType_Tr",
+        "value": "ItemMaintenanceType_Tr"
+      },
+      {
+        "TableName": "ItemPicture",
+        "value": "ItemPicture"
+      },
+      {
+        "TableName": "ItemPurchaseDetail",
+        "value": "ItemPurchaseDetail"
+      },
+      {
+        "TableName": "ItemPurchaseDetailFinancing",
+        "value": "ItemPurchaseDetailFinancing"
+      },
+      {
+        "TableName": "ItemQuantityChange",
+        "value": "ItemQuantityChange"
+      },
+      {
+        "TableName": "ItemQYOTLedger",
+        "value": "ItemQYOTLedger"
+      },
+      {
+        "TableName": "ItemRateCode",
+        "value": "ItemRateCode"
+      },
+      {
+        "TableName": "ItemRates",
+        "value": "ItemRates"
+      },
+      {
+        "TableName": "ItemRatesDaily",
+        "value": "ItemRatesDaily"
+      },
+      {
+        "TableName": "ItemSerialization",
+        "value": "ItemSerialization"
+      },
+      {
+        "TableName": "ItemsForSale",
+        "value": "ItemsForSale"
+      },
+      {
+        "TableName": "ItemsRelatedType",
+        "value": "ItemsRelatedType"
+      },
+      {
+        "TableName": "ItemStatus",
+        "value": "ItemStatus"
+      },
+      {
+        "TableName": "ItemType",
+        "value": "ItemType"
+      },
+      {
+        "TableName": "ItemType_Tr",
+        "value": "ItemType_Tr"
+      },
+      {
+        "TableName": "ItemWarranty",
+        "value": "ItemWarranty"
+      },
+      {
+        "TableName": "KitsActionTypes",
+        "value": "KitsActionTypes"
+      },
+      {
+        "TableName": "KitsActionTypes_Tr",
+        "value": "KitsActionTypes_Tr"
+      },
+      {
+        "TableName": "LanguageCode",
+        "value": "LanguageCode"
+      },
+      {
+        "TableName": "LedgerCode",
+        "value": "LedgerCode"
+      },
+      {
+        "TableName": "LedgerContractLineDetail",
+        "value": "LedgerContractLineDetail"
+      },
+      {
+        "TableName": "LedgerDetail",
+        "value": "LedgerDetail"
+      },
+      {
+        "TableName": "LedgerDetailCode",
+        "value": "LedgerDetailCode"
+      },
+      {
+        "TableName": "LedgerKeyContract",
+        "value": "LedgerKeyContract"
+      },
+      {
+        "TableName": "Letters",
+        "value": "Letters"
+      },
+      {
+        "TableName": "LicenseInfo",
+        "value": "LicenseInfo"
+      },
+      {
+        "TableName": "Locks",
+        "value": "Locks"
+      },
+      {
+        "TableName": "LoyaltyDetail",
+        "value": "LoyaltyDetail"
+      },
+      {
+        "TableName": "LoyaltyLevel",
+        "value": "LoyaltyLevel"
+      },
+      {
+        "TableName": "MapAddressAliases",
+        "value": "MapAddressAliases"
+      },
+      {
+        "TableName": "MapColLayout",
+        "value": "MapColLayout"
+      },
+      {
+        "TableName": "MapGPSMessages",
+        "value": "MapGPSMessages"
+      },
+      {
+        "TableName": "MapGPSWorkOrders",
+        "value": "MapGPSWorkOrders"
+      },
+      {
+        "TableName": "MapIt",
+        "value": "MapIt"
+      },
+      {
+        "TableName": "MapNotifyDetail",
+        "value": "MapNotifyDetail"
+      },
+      {
+        "TableName": "MapNotifyDetailLog",
+        "value": "MapNotifyDetailLog"
+      },
+      {
+        "TableName": "MapNotifyTriggerDefinitions",
+        "value": "MapNotifyTriggerDefinitions"
+      },
+      {
+        "TableName": "MapRouteDetails",
+        "value": "MapRouteDetails"
+      },
+      {
+        "TableName": "MapRouteEdits",
+        "value": "MapRouteEdits"
+      },
+      {
+        "TableName": "MapRouteNames",
+        "value": "MapRouteNames"
+      },
+      {
+        "TableName": "MapRouterOptions",
+        "value": "MapRouterOptions"
+      },
+      {
+        "TableName": "MapRouterVersion",
+        "value": "MapRouterVersion"
+      },
+      {
+        "TableName": "MapRoutes",
+        "value": "MapRoutes"
+      },
+      {
+        "TableName": "MapTabLayout",
+        "value": "MapTabLayout"
+      },
+      {
+        "TableName": "MapTruckTypes",
+        "value": "MapTruckTypes"
+      },
+      {
+        "TableName": "MapUsers",
+        "value": "MapUsers"
+      },
+      {
+        "TableName": "MassFaxEmail",
+        "value": "MassFaxEmail"
+      },
+      {
+        "TableName": "MenuCounter",
+        "value": "MenuCounter"
+      },
+      {
+        "TableName": "MenuDayAtAGlance",
+        "value": "MenuDayAtAGlance"
+      },
+      {
+        "TableName": "MenuPasswords",
+        "value": "MenuPasswords"
+      },
+      {
+        "TableName": "MeterReadingCalledOffRent",
+        "value": "MeterReadingCalledOffRent"
+      },
+      {
+        "TableName": "MissedRentalReasons",
+        "value": "MissedRentalReasons"
+      },
+      {
+        "TableName": "MissedRentalReasons_Tr",
+        "value": "MissedRentalReasons_Tr"
+      },
+      {
+        "TableName": "MissedRentals",
+        "value": "MissedRentals"
+      },
+      {
+        "TableName": "NetworkDevices",
+        "value": "NetworkDevices"
+      },
+      {
+        "TableName": "NextNumberNew",
+        "value": "NextNumberNew"
+      },
+      {
+        "TableName": "OperatorId",
+        "value": "OperatorId"
+      },
+      {
+        "TableName": "OperatorIdEdit",
+        "value": "OperatorIdEdit"
+      },
+      {
+        "TableName": "OperatorIdEmail",
+        "value": "OperatorIdEmail"
+      },
+      {
+        "TableName": "OperatorIdGroupFileXref",
+        "value": "OperatorIdGroupFileXref"
+      },
+      {
+        "TableName": "ParameterFile",
+        "value": "ParameterFile"
+      },
+      {
+        "TableName": "ParameterFileAdditional",
+        "value": "ParameterFileAdditional"
+      },
+      {
+        "TableName": "ParameterFileBrand",
+        "value": "ParameterFileBrand"
+      },
+      {
+        "TableName": "ParameterFileCompany",
+        "value": "ParameterFileCompany"
+      },
+      {
+        "TableName": "ParameterFileSecurity",
+        "value": "ParameterFileSecurity"
+      },
+      {
+        "TableName": "PassName",
+        "value": "PassName"
+      },
+      {
+        "TableName": "Password",
+        "value": "Password"
+      },
+      {
+        "TableName": "PasswordRemoteOverride",
+        "value": "PasswordRemoteOverride"
+      },
+      {
+        "TableName": "PaymentFile",
+        "value": "PaymentFile"
+      },
+      {
+        "TableName": "PaymentMethod",
+        "value": "PaymentMethod"
+      },
+      {
+        "TableName": "PaymentMethod_Tr",
+        "value": "PaymentMethod_Tr"
+      },
+      {
+        "TableName": "PaymentType",
+        "value": "PaymentType"
+      },
+      {
+        "TableName": "PriceLevel",
+        "value": "PriceLevel"
+      },
+      {
+        "TableName": "PriceLevel_Tr",
+        "value": "PriceLevel_Tr"
+      },
+      {
+        "TableName": "PrintSendOption",
+        "value": "PrintSendOption"
+      },
+      {
+        "TableName": "PrintSendOption_Tr",
+        "value": "PrintSendOption_Tr"
+      },
+      {
+        "TableName": "ProcessLog",
+        "value": "ProcessLog"
+      },
+      {
+        "TableName": "PurchaseOrder",
+        "value": "PurchaseOrder"
+      },
+      {
+        "TableName": "PurchaseOrderColumns",
+        "value": "PurchaseOrderColumns"
+      },
+      {
+        "TableName": "PurchaseOrderEdit",
+        "value": "PurchaseOrderEdit"
+      },
+      {
+        "TableName": "PurchaseOrderFormat",
+        "value": "PurchaseOrderFormat"
+      },
+      {
+        "TableName": "PurchaseOrderGL",
+        "value": "PurchaseOrderGL"
+      },
+      {
+        "TableName": "PurchaseOrderRejectedReasons",
+        "value": "PurchaseOrderRejectedReasons"
+      },
+      {
+        "TableName": "PurchaseOrderRejectedReasons_Tr",
+        "value": "PurchaseOrderRejectedReasons_Tr"
+      },
+      {
+        "TableName": "PurchaseOrderShipTo",
+        "value": "PurchaseOrderShipTo"
+      },
+      {
+        "TableName": "PurchaseOrderTransport",
+        "value": "PurchaseOrderTransport"
+      },
+      {
+        "TableName": "QueueFile",
+        "value": "QueueFile"
+      },
+      {
+        "TableName": "QuickButton",
+        "value": "QuickButton"
+      },
+      {
+        "TableName": "QuoteDetail",
+        "value": "QuoteDetail"
+      },
+      {
+        "TableName": "RateEngine",
+        "value": "RateEngine"
+      },
+      {
+        "TableName": "Region",
+        "value": "Region"
+      },
+      {
+        "TableName": "RegisterFileHistory",
+        "value": "RegisterFileHistory"
+      },
+      {
+        "TableName": "ReportDates",
+        "value": "ReportDates"
+      },
+      {
+        "TableName": "ReportFavorites",
+        "value": "ReportFavorites"
+      },
+      {
+        "TableName": "ReportFormat",
+        "value": "ReportFormat"
+      },
+      {
+        "TableName": "ReportPrinting",
+        "value": "ReportPrinting"
+      },
+      {
+        "TableName": "ReportPrintingFrequencies",
+        "value": "ReportPrintingFrequencies"
+      },
+      {
+        "TableName": "RevenueDateCode_Tr",
+        "value": "RevenueDateCode_Tr"
+      },
+      {
+        "TableName": "Salesman",
+        "value": "Salesman"
+      },
+      {
+        "TableName": "SalesTaxMethod",
+        "value": "SalesTaxMethod"
+      },
+      {
+        "TableName": "SchedulingBudgetExceptions",
+        "value": "SchedulingBudgetExceptions"
+      },
+      {
+        "TableName": "SchedulingBudgetPlan",
+        "value": "SchedulingBudgetPlan"
+      },
+      {
+        "TableName": "SchedulingEmployee",
+        "value": "SchedulingEmployee"
+      },
+      {
+        "TableName": "SchedulingOptions",
+        "value": "SchedulingOptions"
+      },
+      {
+        "TableName": "SchedulingShiftExceptions",
+        "value": "SchedulingShiftExceptions"
+      },
+      {
+        "TableName": "SchedulingShiftPlan",
+        "value": "SchedulingShiftPlan"
+      },
+      {
+        "TableName": "SchedulingShiftTemplateEmployees",
+        "value": "SchedulingShiftTemplateEmployees"
+      },
+      {
+        "TableName": "SchedulingShiftTemplates",
+        "value": "SchedulingShiftTemplates"
+      },
+      {
+        "TableName": "SchedulingUserPreferences",
+        "value": "SchedulingUserPreferences"
+      },
+      {
+        "TableName": "SchedulingVersion",
+        "value": "SchedulingVersion"
+      },
+      {
+        "TableName": "SecurityArea",
+        "value": "SecurityArea"
+      },
+      {
+        "TableName": "SecurityArea_Tr",
+        "value": "SecurityArea_Tr"
+      },
+      {
+        "TableName": "SecurityDetail",
+        "value": "SecurityDetail"
+      },
+      {
+        "TableName": "SecurityList",
+        "value": "SecurityList"
+      },
+      {
+        "TableName": "SecurityList_Tr",
+        "value": "SecurityList_Tr"
+      },
+      {
+        "TableName": "SecurityType_Tr",
+        "value": "SecurityType_Tr"
+      },
+      {
+        "TableName": "SelectionCriteria",
+        "value": "SelectionCriteria"
+      },
+      {
+        "TableName": "SFSync_AuthorizedContacts",
+        "value": "SFSync_AuthorizedContacts"
+      },
+      {
+        "TableName": "SFSync_CallLogCalls",
+        "value": "SFSync_CallLogCalls"
+      },
+      {
+        "TableName": "SFSync_ItemFileProducts",
+        "value": "SFSync_ItemFileProducts"
+      },
+      {
+        "TableName": "SFSync_OperatorIdUsers",
+        "value": "SFSync_OperatorIdUsers"
+      },
+      {
+        "TableName": "SFSync_Parameters",
+        "value": "SFSync_Parameters"
+      },
+      {
+        "TableName": "SFSync_SalesmanUsers",
+        "value": "SFSync_SalesmanUsers"
+      },
+      {
+        "TableName": "SFSync_TransactionOpportunities",
+        "value": "SFSync_TransactionOpportunities"
+      },
+      {
+        "TableName": "SFSync_TransactionPDFs",
+        "value": "SFSync_TransactionPDFs"
+      },
+      {
+        "TableName": "SignatureRequests",
+        "value": "SignatureRequests"
+      },
+      {
+        "TableName": "SocialMedia",
+        "value": "SocialMedia"
+      },
+      {
+        "TableName": "SoldAssetFile",
+        "value": "SoldAssetFile"
+      },
+      {
+        "TableName": "SpecialRateType",
+        "value": "SpecialRateType"
+      },
+      {
+        "TableName": "StatementFormat",
+        "value": "StatementFormat"
+      },
+      {
+        "TableName": "StatementFormat_Tr",
+        "value": "StatementFormat_Tr"
+      },
+      {
+        "TableName": "StatementHeader",
+        "value": "StatementHeader"
+      },
+      {
+        "TableName": "Statements",
+        "value": "Statements"
+      },
+      {
+        "TableName": "StoreGroupType",
+        "value": "StoreGroupType"
+      },
+      {
+        "TableName": "StoreGroupType_Tr",
+        "value": "StoreGroupType_Tr"
+      },
+      {
+        "TableName": "StoreTaxClass",
+        "value": "StoreTaxClass"
+      },
+      {
+        "TableName": "SuspenseFund",
+        "value": "SuspenseFund"
+      },
+      {
+        "TableName": "SuspenseFund_1229",
+        "value": "SuspenseFund_1229"
+      },
+      {
+        "TableName": "SuspenseReason",
+        "value": "SuspenseReason"
+      },
+      {
+        "TableName": "SuspenseReason_Tr",
+        "value": "SuspenseReason_Tr"
+      },
+      {
+        "TableName": "SystemEdit",
+        "value": "SystemEdit"
+      },
+      {
+        "TableName": "SystemNotificationTypes",
+        "value": "SystemNotificationTypes"
+      },
+      {
+        "TableName": "TaskList",
+        "value": "TaskList"
+      },
+      {
+        "TableName": "TaskQueue",
+        "value": "TaskQueue"
+      },
+      {
+        "TableName": "TaskQueueCode",
+        "value": "TaskQueueCode"
+      },
+      {
+        "TableName": "TaskQueueLog",
+        "value": "TaskQueueLog"
+      },
+      {
+        "TableName": "TaxExternalFields",
+        "value": "TaxExternalFields"
+      },
+      {
+        "TableName": "TaxExternalMappedSelections",
+        "value": "TaxExternalMappedSelections"
+      },
+      {
+        "TableName": "TaxJurisdiction",
+        "value": "TaxJurisdiction"
+      },
+      {
+        "TableName": "TaxTable",
+        "value": "TaxTable"
+      },
+      {
+        "TableName": "Tempcoryj",
+        "value": "Tempcoryj"
+      },
+      {
+        "TableName": "tempItemFileNew",
+        "value": "tempItemFileNew"
+      },
+      {
+        "TableName": "tempLocks",
+        "value": "tempLocks"
+      },
+      {
+        "TableName": "tempRetHist",
+        "value": "tempRetHist"
+      },
+      {
+        "TableName": "TimeClock",
+        "value": "TimeClock"
+      },
+      {
+        "TableName": "TotalsCompare",
+        "value": "TotalsCompare"
+      },
+      {
+        "TableName": "TotalsContractsAccrual",
+        "value": "TotalsContractsAccrual"
+      },
+      {
+        "TableName": "TotalsContractsCash",
+        "value": "TotalsContractsCash"
+      },
+      {
+        "TableName": "TotalsDaily",
+        "value": "TotalsDaily"
+      },
+      {
+        "TableName": "TotalsDailyHistory",
+        "value": "TotalsDailyHistory"
+      },
+      {
+        "TableName": "TotalsSummary",
+        "value": "TotalsSummary"
+      },
+      {
+        "TableName": "TransactionClassification",
+        "value": "TransactionClassification"
+      },
+      {
+        "TableName": "TransactionEdit",
+        "value": "TransactionEdit"
+      },
+      {
+        "TableName": "TransactionFulfillmentLog",
+        "value": "TransactionFulfillmentLog"
+      },
+      {
+        "TableName": "TransactionItems",
+        "value": "TransactionItems"
+      },
+      {
+        "TableName": "TransactionItems_Tr",
+        "value": "TransactionItems_Tr"
+      },
+      {
+        "TableName": "TransactionItemsSerialization",
+        "value": "TransactionItemsSerialization"
+      },
+      {
+        "TableName": "TransactionItemsSerializationAction",
+        "value": "TransactionItemsSerializationAction"
+      },
+      {
+        "TableName": "TransactionItemsSerializationActionSources",
+        "value": "TransactionItemsSerializationActionSources"
+      },
+      {
+        "TableName": "TransactionItemsSubstatus",
+        "value": "TransactionItemsSubstatus"
+      },
+      {
+        "TableName": "TransactionKey",
+        "value": "TransactionKey"
+      },
+      {
+        "TableName": "TransactionKeyBackup",
+        "value": "TransactionKeyBackup"
+      },
+      {
+        "TableName": "TransactionNotificationMessages",
+        "value": "TransactionNotificationMessages"
+      },
+      {
+        "TableName": "TransactionNotificationMessagesType",
+        "value": "TransactionNotificationMessagesType"
+      },
+      {
+        "TableName": "TransactionNotifications",
+        "value": "TransactionNotifications"
+      },
+      {
+        "TableName": "TransactionOperation",
+        "value": "TransactionOperation"
+      },
+      {
+        "TableName": "TransactionOperation_Tr",
+        "value": "TransactionOperation_Tr"
+      },
+      {
+        "TableName": "Transactions",
+        "value": "Transactions"
+      },
+      {
+        "TableName": "Transactions_Tr",
+        "value": "Transactions_Tr"
+      },
+      {
+        "TableName": "TransactionSecondaryStatus",
+        "value": "TransactionSecondaryStatus"
+      },
+      {
+        "TableName": "TransactionService",
+        "value": "TransactionService"
+      },
+      {
+        "TableName": "TransactionServiceType",
+        "value": "TransactionServiceType"
+      },
+      {
+        "TableName": "TransactionServiceType_Tr",
+        "value": "TransactionServiceType_Tr"
+      },
+      {
+        "TableName": "TransactionSignature",
+        "value": "TransactionSignature"
+      },
+      {
+        "TableName": "TransactionsRelated",
+        "value": "TransactionsRelated"
+      },
+      {
+        "TableName": "TransactionsRelatedType",
+        "value": "TransactionsRelatedType"
+      },
+      {
+        "TableName": "TransactionsRelatedType_Tr",
+        "value": "TransactionsRelatedType_Tr"
+      },
+      {
+        "TableName": "TransactionStatus",
+        "value": "TransactionStatus"
+      },
+      {
+        "TableName": "TransactionsVoided",
+        "value": "TransactionsVoided"
+      },
+      {
+        "TableName": "TransactionTaxDefinition",
+        "value": "TransactionTaxDefinition"
+      },
+      {
+        "TableName": "TransactionTaxDetail",
+        "value": "TransactionTaxDetail"
+      },
+      {
+        "TableName": "TransactionType",
+        "value": "TransactionType"
+      },
+      {
+        "TableName": "TransactionType_Tr",
+        "value": "TransactionType_Tr"
+      },
+      {
+        "TableName": "TransEditCode_Tr",
+        "value": "TransEditCode_Tr"
+      },
+      {
+        "TableName": "TransferDelay",
+        "value": "TransferDelay"
+      },
+      {
+        "TableName": "TransfersBetweenStores",
+        "value": "TransfersBetweenStores"
+      },
+      {
+        "TableName": "TransferToRent",
+        "value": "TransferToRent"
+      },
+      {
+        "TableName": "TransHistory",
+        "value": "TransHistory"
+      },
+      {
+        "TableName": "TransItemsSuspense",
+        "value": "TransItemsSuspense"
+      },
+      {
+        "TableName": "TranslationColumn",
+        "value": "TranslationColumn"
+      },
+      {
+        "TableName": "TranslationMessages",
+        "value": "TranslationMessages"
+      },
+      {
+        "TableName": "TranslationNames",
+        "value": "TranslationNames"
+      },
+      {
+        "TableName": "Translations",
+        "value": "Translations"
+      },
+      {
+        "TableName": "TranslationTable",
+        "value": "TranslationTable"
+      },
+      {
+        "TableName": "TriggerEvents",
+        "value": "TriggerEvents"
+      },
+      {
+        "TableName": "TriggerTypes",
+        "value": "TriggerTypes"
+      },
+      {
+        "TableName": "UserProfile",
+        "value": "UserProfile"
+      },
+      {
+        "TableName": "VendorEdit",
+        "value": "VendorEdit"
+      },
+      {
+        "TableName": "VendorFile",
+        "value": "VendorFile"
+      },
+      {
+        "TableName": "VendorMarkup",
+        "value": "VendorMarkup"
+      },
+      {
+        "TableName": "VeriFoneTerminal",
+        "value": "VeriFoneTerminal"
+      },
+      {
+        "TableName": "Version",
+        "value": "Version"
+      },
+      {
+        "TableName": "VersionHistory",
+        "value": "VersionHistory"
+      },
+      {
+        "TableName": "VoidReasonCode",
+        "value": "VoidReasonCode"
+      },
+      {
+        "TableName": "WarningMessage",
+        "value": "WarningMessage"
+      },
+      {
+        "TableName": "WarningMessage_Tr",
+        "value": "WarningMessage_Tr"
+      },
+      {
+        "TableName": "WarrantyClaims",
+        "value": "WarrantyClaims"
+      },
+      {
+        "TableName": "WarrantyClaimStatus",
+        "value": "WarrantyClaimStatus"
+      },
+      {
+        "TableName": "WorkOrderFormat",
+        "value": "WorkOrderFormat"
+      },
+      {
+        "TableName": "zCustomersIn",
+        "value": "zCustomersIn"
+      },
+      {
+        "TableName": "ZipFile",
+        "value": "ZipFile"
+      },
+      {
+        "TableName": "ZipFileAustralia",
+        "value": "ZipFileAustralia"
+      },
+      {
+        "TableName": "ZipFileLocation",
+        "value": "ZipFileLocation"
+      },
+      {
+        "TableName": "ZipFileTaxJurisdiction",
+        "value": "ZipFileTaxJurisdiction"
+      },
+      {
+        "TableName": "zItemsIn",
+        "value": "zItemsIn"
+      },
+      {
+        "TableName": "zItemsInCats",
+        "value": "zItemsInCats"
+      },
+      {
+        "TableName": "zJobSitesIn",
+        "value": "zJobSitesIn"
+      },
+      {
+        "TableName": "AccountingAPIQueueTR",
+        "value": "AccountingAPIQueueTR"
+      },
+      {
+        "TableName": "AccountingItem",
+        "value": "AccountingItem"
+      },
+      {
+        "TableName": "AccountingTransType",
+        "value": "AccountingTransType"
+      },
+      {
+        "TableName": "Authorized",
+        "value": "Authorized"
+      },
+      {
+        "TableName": "CallLog",
+        "value": "CallLog"
+      },
+      {
+        "TableName": "CellProvider",
+        "value": "CellProvider"
+      },
+      {
+        "TableName": "Contract_Tr",
+        "value": "Contract_Tr"
+      },
+      {
+        "TableName": "CostOfGoods",
+        "value": "CostOfGoods"
+      },
+      {
+        "TableName": "CustomerFile_Tr_Bak",
+        "value": "CustomerFile_Tr_Bak"
+      },
+      {
+        "TableName": "CustomerJobSiteType",
+        "value": "CustomerJobSiteType"
+      },
+      {
+        "TableName": "CustomerRestriction_Tr",
+        "value": "CustomerRestriction_Tr"
+      },
+      {
+        "TableName": "CustomerType",
+        "value": "CustomerType"
+      },
+      {
+        "TableName": "DiscountTable",
+        "value": "DiscountTable"
+      },
+      {
+        "TableName": "EmployeeLog",
+        "value": "EmployeeLog"
+      },
+      {
+        "TableName": "EpicorPaidItems",
+        "value": "EpicorPaidItems"
+      },
+      {
+        "TableName": "FeaturePermission",
+        "value": "FeaturePermission"
+      },
+      {
+        "TableName": "FulfillmentActions",
+        "value": "FulfillmentActions"
+      },
+      {
+        "TableName": "ItemCategory",
+        "value": "ItemCategory"
+      },
+      {
+        "TableName": "ItemDepartment",
+        "value": "ItemDepartment"
+      },
+      {
+        "TableName": "ItemDepreciationSchedules",
+        "value": "ItemDepreciationSchedules"
+      },
+      {
+        "TableName": "ItemLocationHistory",
+        "value": "ItemLocationHistory"
+      },
+      {
+        "TableName": "ItemManufacturer",
+        "value": "ItemManufacturer"
+      },
+      {
+        "TableName": "ItemRateCode_Tr",
+        "value": "ItemRateCode_Tr"
+      },
+      {
+        "TableName": "ItemsRelated",
+        "value": "ItemsRelated"
+      },
+      {
+        "TableName": "Ledger",
+        "value": "Ledger"
+      },
+      {
+        "TableName": "LedgerKeyContractLine",
+        "value": "LedgerKeyContractLine"
+      },
+      {
+        "TableName": "MapGPSFences",
+        "value": "MapGPSFences"
+      },
+      {
+        "TableName": "MapRouteCrewDetail",
+        "value": "MapRouteCrewDetail"
+      },
+      {
+        "TableName": "MapTruckDetail",
+        "value": "MapTruckDetail"
+      },
+      {
+        "TableName": "MenuProgram",
+        "value": "MenuProgram"
+      },
+      {
+        "TableName": "ParameterFile_Tr",
+        "value": "ParameterFile_Tr"
+      },
+      {
+        "TableName": "PaymentDetail",
+        "value": "PaymentDetail"
+      },
+      {
+        "TableName": "PrinterFile",
+        "value": "PrinterFile"
+      },
+      {
+        "TableName": "PurchaseOrderDetail",
+        "value": "PurchaseOrderDetail"
+      },
+      {
+        "TableName": "PurchaseOrderPaymentMethods",
+        "value": "PurchaseOrderPaymentMethods"
+      },
+      {
+        "TableName": "RegisterFile",
+        "value": "RegisterFile"
+      },
+      {
+        "TableName": "RevenueDateCode",
+        "value": "RevenueDateCode"
+      },
+      {
+        "TableName": "SchedulingEmployeeShiftExceptions",
+        "value": "SchedulingEmployeeShiftExceptions"
+      },
+      {
+        "TableName": "SchedulingShiftTemplateEmployeeGroups",
+        "value": "SchedulingShiftTemplateEmployeeGroups"
+      },
+      {
+        "TableName": "SecurityType",
+        "value": "SecurityType"
+      },
+      {
+        "TableName": "SFSync_CustomerFileAccounts",
+        "value": "SFSync_CustomerFileAccounts"
+      },
+      {
+        "TableName": "SocialMediaSites",
+        "value": "SocialMediaSites"
+      },
+      {
+        "TableName": "StoreGroups",
+        "value": "StoreGroups"
+      },
+      {
+        "TableName": "StoreLogo",
+        "value": "StoreLogo"
+      },
+      {
+        "TableName": "SystemNotifications",
+        "value": "SystemNotifications"
+      },
+      {
+        "TableName": "TaxExternalModels",
+        "value": "TaxExternalModels"
+      },
+      {
+        "TableName": "TimeClockAdditions",
+        "value": "TimeClockAdditions"
+      },
+      {
+        "TableName": "TransactionItemsSubStatus_Tr",
+        "value": "TransactionItemsSubStatus_Tr"
+      },
+      {
+        "TableName": "TransactionSecondaryStatus_Tr",
+        "value": "TransactionSecondaryStatus_Tr"
+      },
+      {
+        "TableName": "TransactionStatus_Tr",
+        "value": "TransactionStatus_Tr"
+      },
+      {
+        "TableName": "TransEditCode",
+        "value": "TransEditCode"
+      },
+      {
+        "TableName": "TransItemsHistory",
+        "value": "TransItemsHistory"
+      },
+      {
+        "TableName": "TranslationsCustom",
+        "value": "TranslationsCustom"
+      },
+      {
+        "TableName": "VersionedObjectDetail",
+        "value": "VersionedObjectDetail"
+      },
+      {
+        "TableName": "TEMPQYOT",
+        "value": "TEMPQYOT"
+      }
+    ]
+  },
+  {
+    "name": "SELECT * FROM Rentals",
+    "query": "SELECT * FROM Rentals",
+    "success": true,
+    "result": [
+      {
+        "error": "Table 'Rentals' not found in the database"
+      }
+    ]
+  },
+  {
+    "name": "SELECT * FROM Orders",
+    "query": "SELECT * FROM Orders",
+    "success": true,
+    "result": [
+      {
+        "error": "Table 'Orders' not found in the database"
+      }
+    ]
+  },
+  {
+    "name": "SELECT * FROM Contracts",
+    "query": "SELECT * FROM Contracts",
+    "success": true,
+    "result": [
+      {
+        "error": "Table 'Contracts' not found in the database"
+      }
+    ]
+  },
+  {
+    "name": "SELECT * FROM WorkOrders",
+    "query": "SELECT * FROM WorkOrders",
+    "success": true,
+    "result": [
+      {
+        "error": "Table 'WorkOrders' not found in the database"
+      }
+    ]
+  },
+  {
+    "name": "SELECT * FROM MapGPSWorkOrders",
+    "query": "SELECT * FROM MapGPSWorkOrders",
+    "success": true,
+    "result": {}
+  }
+]

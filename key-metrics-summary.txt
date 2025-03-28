@@ -1,0 +1,30 @@
+=== KEY METRICS SUMMARY ===
+
+Total Orders (Total number of orders in the last 7 days):
+Value: 18
+SQL: SELECT COUNT(*) as value FROM oe_hdr WITH (NOLOCK)  WHERE order_date >= DATEADD(day, -7, GETDATE())
+
+Open Orders (Total number of orders that are not closed):
+Value: 2034
+SQL: SELECT COUNT(*) as value FROM oe_hdr WITH (NOLOCK)  WHERE completed = 'N'
+
+Open Orders 2 (Total dollar value of all open orders):
+Value: 24643150.24
+SQL: SELECT ISNULL(SUM(l.extended_price), 0) as value  FROM oe_hdr h WITH (NOLOCK) JOIN oe_line l WITH (NOLOCK) ON h.order_no = l.order_no WHERE h.completed = 'N'
+
+Daily Revenue (Total dollar value of orders shipped today (using yesterday's data)):
+Value: 75500
+SQL: SELECT ISNULL(SUM(l.extended_price), 0) as value  FROM oe_hdr h WITH (NOLOCK) JOIN oe_line l WITH (NOLOCK) ON h.order_no = l.order_no WHERE CONVERT(date, h.order_date) = CONVERT(date, DATEADD(day, -1, GETDATE()))
+
+Open Invoices (Total number of open invoices outstanding):
+Value: 1
+SQL: SELECT COUNT(*) as value  FROM invoice_hdr WITH (NOLOCK)  WHERE invoice_date >= DATEADD(month, -1, GETDATE())
+
+Orders Backlogged (Total number of orders that are on hold or backlogged):
+Value: 27
+SQL: SELECT COUNT(*) as value  FROM oe_hdr WITH (NOLOCK)  WHERE completed = 'N'  AND order_date >= DATEADD(day, -30, GETDATE())
+
+Total Monthly Sales (Total dollar amount of all orders for the last 30 days):
+Value: 1708263.24
+SQL: SELECT ISNULL(SUM(l.extended_price), 0) as value  FROM oe_hdr h WITH (NOLOCK) JOIN oe_line l WITH (NOLOCK) ON h.order_no = l.order_no WHERE h.order_date >= DATEADD(day, -30, GETDATE())
+

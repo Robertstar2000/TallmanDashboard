@@ -1,7 +1,6 @@
 'use client';
 
 import { DashboardData } from '@/lib/types/dashboard';
-import { transformDashboardData } from '@/lib/db/data-transformers';
 
 type DashboardState = {
   data: DashboardData;
@@ -20,16 +19,15 @@ export class DashboardStateMachine {
     this.state = {
       data: {
         metrics: [],
-        accountsPayable: [],
         historicalData: [],
-        dailyShipments: [],
+        accounts: [],
+        customerMetrics: [],
+        inventory: [],
+        porOverview: [],
         siteDistribution: [],
-        customers: [],
-        products: {
-          online: [],
-          inside: [],
-          outside: []
-        }
+        arAging: [],
+        dailyOrders: [],
+        webOrders: []
       }
     };
     this.listeners = new Set();
@@ -53,8 +51,9 @@ export class DashboardStateMachine {
   dispatch(action: DashboardAction) {
     switch (action.type) {
       case 'REFRESH':
+        // Don't transform, use API data directly
         this.state = {
-          data: transformDashboardData(action.payload)
+          data: action.payload
         };
         break;
       case 'UPDATE_DATA':
@@ -72,11 +71,32 @@ export class DashboardStateMachine {
   }
 
   initialize() {
-    this.dispatch({ type: 'REFRESH', payload: null });
+    // Don't initialize with any data, wait for API
+    return;
   }
 
-  refresh(rawDashboardData: any) {
-    this.dispatch({ type: 'REFRESH', payload: rawDashboardData });
+  refresh(dashboardData: DashboardData) {
+    // Validate and transform data before setting state
+    const validatedData: DashboardData = {
+      metrics: Array.isArray(dashboardData.metrics) ? dashboardData.metrics : [],
+      historicalData: Array.isArray(dashboardData.historicalData) ? dashboardData.historicalData : [],
+      accounts: Array.isArray(dashboardData.accounts) ? dashboardData.accounts.map(account => ({
+        id: account.id || '',
+        date: account.date || '',
+        payable: Number(account.payable) || 0,
+        receivable: Number(account.receivable) || 0,
+        overdue: Number(account.overdue) || 0
+      })) : [],
+      customerMetrics: Array.isArray(dashboardData.customerMetrics) ? dashboardData.customerMetrics : [],
+      inventory: Array.isArray(dashboardData.inventory) ? dashboardData.inventory : [],
+      porOverview: Array.isArray(dashboardData.porOverview) ? dashboardData.porOverview : [],
+      siteDistribution: Array.isArray(dashboardData.siteDistribution) ? dashboardData.siteDistribution : [],
+      arAging: Array.isArray(dashboardData.arAging) ? dashboardData.arAging : [],
+      dailyOrders: Array.isArray(dashboardData.dailyOrders) ? dashboardData.dailyOrders : [],
+      webOrders: Array.isArray(dashboardData.webOrders) ? dashboardData.webOrders : []
+    };
+
+    this.dispatch({ type: 'LOAD_DATA', payload: validatedData });
   }
 }
 

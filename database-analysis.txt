@@ -1,0 +1,271 @@
+Starting database examination...
+Using database at ./dashboard.db
+Tables in database: sqlite_sequence, inventory, accounts_payable, daily_shipments, top_products, metrics, oe_hdr, ar_open_items, ap_open_items, inv_mstr, por_rentals, historical_data, site_distribution, web_metrics
+
+=== Table: sqlite_sequence ===
+Columns: name (), seq ()
+Row count: 0
+No data in table
+
+Checking for Key Metrics related data:
+
+Searching for 'Key Metrics' in name:
+  No Key Metrics rows found
+
+=== Table: inventory ===
+Columns: id (TEXT), name (TEXT), inventoryValueDate (TEXT), inventory (TEXT), turnover (TEXT)
+Row count: 0
+No data in table
+
+Checking for Key Metrics related data:
+
+Searching for 'Key Metrics' in name:
+  No Key Metrics rows found
+
+=== Table: accounts_payable ===
+Columns: id (TEXT), name (TEXT), accountsPayableDate (TEXT), total (TEXT), overdue (TEXT)
+Row count: 0
+No data in table
+
+Checking for Key Metrics related data:
+
+Searching for 'Key Metrics' in name:
+  No Key Metrics rows found
+
+=== Table: daily_shipments ===
+Columns: id (TEXT), name (TEXT), updateTime (TEXT), value (TEXT)
+Row count: 0
+No data in table
+
+Checking for Key Metrics related data:
+
+Searching for 'Key Metrics' in name:
+  No Key Metrics rows found
+
+=== Table: top_products ===
+Columns: id (TEXT), name (TEXT), subGroup (TEXT), value (TEXT)
+Row count: 0
+No data in table
+
+Checking for Key Metrics related data:
+
+Searching for 'Key Metrics' in name:
+  No Key Metrics rows found
+
+=== Table: metrics ===
+Columns: id (TEXT), name (TEXT), value (TEXT), calculation (TEXT), sqlExpression (TEXT), p21DataDictionary (TEXT)
+Row count: 0
+No data in table
+
+This table contains SQL-related columns:
+  sqlExpression (TEXT)
+
+Sample of non-empty values in sqlExpression:
+  No non-empty values found
+
+Checking for Key Metrics related data:
+
+Searching for 'Key Metrics' in name:
+  No Key Metrics rows found
+
+=== Table: oe_hdr ===
+Columns: order_no (TEXT), order_status (TEXT), order_amt (REAL), order_date (TEXT), customer_id (TEXT), order_type (TEXT), total_lines (INTEGER), user_id (TEXT), company_id (TEXT), location_id (TEXT), currency_code (TEXT)
+Row count: 12847
+Sample rows:
+
+--- Row 1 ---
+  order_no: ORD000000
+  order_status: open
+  order_amt: 4911.22137838657
+  order_date: 2025-02-01
+  customer_id: CUST669
+  order_type: STANDARD
+  total_lines: 9
+  user_id: null
+  company_id: 1
+  location_id: ADDISON
+  currency_code: null
+
+--- Row 2 ---
+  order_no: ORD000001
+  order_status: closed
+  order_amt: 1596.292012448895
+  order_date: 2025-02-19
+  customer_id: CUST205
+  order_type: STANDARD
+  total_lines: 3
+  user_id: null
+  company_id: 1
+  location_id: COLUMBUS
+  currency_code: null
+
+--- Row 3 ---
+  order_no: ORD000002
+  order_status: closed
+  order_amt: 7849.0259173199975
+  order_date: 2025-02-10
+  customer_id: CUST348
+  order_type: STANDARD
+  total_lines: 10
+  user_id: null
+  company_id: 1
+  location_id: COLUMBUS
+  currency_code: null
+
+=== Table: ar_open_items ===
+Columns: document_no (TEXT), amount (REAL), document_date (TEXT), due_date (TEXT), status (TEXT), customer_id (TEXT), document_type (TEXT), balance (REAL), company_id (TEXT), terms_code (TEXT)
+Row count: 1000
+Sample rows:
+
+--- Row 1 ---
+  document_no: INV000000
+  amount: 13259.777785335304
+  document_date: 2025-01-10
+  due_date: 2025-01-10
+  status: open
+  customer_id: CUST534
+  document_type: INVOICE
+  balance: 13259.777785335304
+  company_id: 1
+  terms_code: null
+
+--- Row 2 ---
+  document_no: INV000001
+  amount: 13380.775551701936
+  document_date: 2025-01-20
+  due_date: 2025-01-20
+  status: open
+  customer_id: CUST260
+  document_type: INVOICE
+  balance: 13380.775551701936
+  company_id: 1
+  terms_code: null
+
+--- Row 3 ---
+  document_no: INV000002
+  amount: 5883.571087226038
+  document_date: 2025-01-07
+  due_date: 2025-01-07
+  status: open
+  customer_id: CUST559
+  document_type: INVOICE
+  balance: 5883.571087226038
+  company_id: 1
+  terms_code: null
+
+=== Table: ap_open_items ===
+Columns: invoice_no (TEXT), invoice_amt (REAL), invoice_date (TEXT), invoice_status (TEXT), vendor_id (TEXT), due_date (TEXT), terms_code (TEXT), company_id (TEXT), open_balance (REAL)
+Row count: 0
+No data in table
+
+=== Table: inv_mstr ===
+Columns: item_no (TEXT), item_desc (TEXT), qty_on_hand (INTEGER), qty_on_order (INTEGER), unit_cost (REAL), list_price (REAL), company_id (TEXT), location_id (TEXT)
+Row count: 1000
+Sample rows:
+
+--- Row 1 ---
+  item_no: ITEM000000
+  item_desc: Test Item 0
+  qty_on_hand: 79
+  qty_on_order: 36
+  unit_cost: 970.436690998037
+  list_price: 829.2299452016125
+  company_id: 1
+  location_id: COLUMBUS
+
+--- Row 2 ---
+  item_no: ITEM000001
+  item_desc: Test Item 1
+  qty_on_hand: 34
+  qty_on_order: 42
+  unit_cost: 627.5064667889628
+  list_price: 1131.3936961898921
+  company_id: 1
+  location_id: COLUMBUS
+
+--- Row 3 ---
+  item_no: ITEM000002
+  item_desc: Test Item 2
+  qty_on_hand: 49
+  qty_on_order: 33
+  unit_cost: 976.1522854190792
+  list_price: 1952.3774170518084
+  company_id: 1
+  location_id: COLUMBUS
+
+=== Table: por_rentals ===
+Columns: rental_no (TEXT), rental_status (TEXT), start_date (TEXT), end_date (TEXT), customer_id (TEXT), total_amount (REAL), company_id (TEXT), location_id (TEXT)
+Row count: 500
+Sample rows:
+
+--- Row 1 ---
+  rental_no: RENT000000
+  rental_status: active
+  start_date: 2025-02-01
+  end_date: 2025-03-05
+  customer_id: CUST470
+  total_amount: 3687.1031367878713
+  company_id: 1
+  location_id: COLUMBUS
+
+--- Row 2 ---
+  rental_no: RENT000001
+  rental_status: completed
+  start_date: 2025-02-14
+  end_date: 2025-03-13
+  customer_id: CUST572
+  total_amount: 8280.498164407902
+  company_id: 1
+  location_id: COLUMBUS
+
+--- Row 3 ---
+  rental_no: RENT000002
+  rental_status: completed
+  start_date: 2025-01-28
+  end_date: 2025-03-05
+  customer_id: CUST957
+  total_amount: 4965.339932007099
+  company_id: 1
+  location_id: ADDISON
+
+=== Table: historical_data ===
+Columns: id (TEXT), name (TEXT), historicalDate (TEXT), p21 (TEXT), por (TEXT)
+Row count: 0
+No data in table
+
+Checking for Key Metrics related data:
+
+Searching for 'Key Metrics' in name:
+  No Key Metrics rows found
+
+=== Table: site_distribution ===
+Columns: id (TEXT), name (TEXT), value (TEXT)
+Row count: 3
+Sample rows:
+
+--- Row 1 ---
+  id: 1
+  name: Columbus
+  value: 4300000
+
+--- Row 2 ---
+  id: 2
+  name: Addison
+  value: 2700000
+
+--- Row 3 ---
+  id: 3
+  name: Lake City
+  value: 1400000
+
+Checking for Key Metrics related data:
+
+Searching for 'Key Metrics' in name:
+  No Key Metrics rows found
+
+=== Table: web_metrics ===
+Columns: id (INTEGER), month (TEXT), W_Orders (INTEGER), W_Revenue (REAL)
+Row count: 0
+No data in table
+
+Database examination complete. Results written to: C:\Users\BobM\CascadeProjects\TallmanDashboard_new\database-analysis.txt

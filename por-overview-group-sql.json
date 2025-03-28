@@ -1,0 +1,44 @@
+[
+  {
+    "name": "POR - Total Purchase Orders",
+    "chart_name": "Total Purchase Orders",
+    "sqlExpression": "SELECT COUNT(*) as value FROM [PurchaseOrder]",
+    "productionSqlExpression": "SELECT Count(*) AS value FROM [PurchaseOrder]"
+  },
+  {
+    "name": "POR - Open Purchase Orders",
+    "chart_name": "Open Purchase Orders",
+    "sqlExpression": "SELECT COUNT(*) as value FROM [PurchaseOrder] WHERE [Status] = 'O'",
+    "productionSqlExpression": "SELECT Count(*) AS value FROM [PurchaseOrder] WHERE [Status] = 'O'"
+  },
+  {
+    "name": "POR - Completed Purchase Orders",
+    "chart_name": "Completed Purchase Orders",
+    "sqlExpression": "SELECT COUNT(*) as value FROM [PurchaseOrder] WHERE [Status] = 'C'",
+    "productionSqlExpression": "SELECT Count(*) AS value FROM [PurchaseOrder] WHERE [Status] = 'C'"
+  },
+  {
+    "name": "POR - Total Purchase Amount",
+    "chart_name": "Total Purchase Amount",
+    "sqlExpression": "SELECT ISNULL(SUM([TotalAmount]), 0) as value FROM [PurchaseOrder]",
+    "productionSqlExpression": "SELECT Sum(Nz([TotalAmount],0)) AS value FROM [PurchaseOrder]"
+  },
+  {
+    "name": "POR - Average Purchase Order Amount",
+    "chart_name": "Average Purchase Order Amount",
+    "sqlExpression": "SELECT ISNULL(AVG([TotalAmount]), 0) as value FROM [PurchaseOrder] WHERE [TotalAmount] > 0",
+    "productionSqlExpression": "SELECT Avg(Nz([TotalAmount],0)) AS value FROM [PurchaseOrder] WHERE [TotalAmount] > 0"
+  },
+  {
+    "name": "POR - Current Month Purchase Orders",
+    "chart_name": "Current Month Purchase Orders",
+    "sqlExpression": "SELECT COUNT(*) as value FROM [PurchaseOrder] WHERE FORMAT([Date], 'yyyy-MM') = FORMAT(GETDATE(), 'yyyy-MM')",
+    "productionSqlExpression": "SELECT Count(*) AS value FROM [PurchaseOrder] WHERE Format([Date],'yyyy-mm') = Format(Date(),'yyyy-mm')"
+  },
+  {
+    "name": "POR - Current Month Purchase Amount",
+    "chart_name": "Current Month Purchase Amount",
+    "sqlExpression": "SELECT ISNULL(SUM([TotalAmount]), 0) as value FROM [PurchaseOrder] WHERE FORMAT([Date], 'yyyy-MM') = FORMAT(GETDATE(), 'yyyy-MM')",
+    "productionSqlExpression": "SELECT Sum(Nz([TotalAmount],0)) AS value FROM [PurchaseOrder] WHERE Format([Date],'yyyy-mm') = Format(Date(),'yyyy-mm')"
+  }
+]

@@ -1,0 +1,11 @@
+=== POR MDB Queries Test ===
+Starting test at 2025-03-19T18:10:46.101Z
+❌ ERROR: MDB file not found at C:\Users\BobM\CascadeProjects\TallmanDashboard_new\data\por.mdb
+Please ensure the POR database file exists at the specified path.
+Alternatively, provide the correct path to the POR database file.
+
+Searching for MDB files in the project directory...
+Found 1 MDB files:
+  C:\Users\BobM\CascadeProjects\TallmanDashboard_new\node_modules\node-adodb\examples\node-adodb.mdb
+
+Please update the mdbFilePath variable with the correct path.

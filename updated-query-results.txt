@@ -1,0 +1,66 @@
+=== P21 Updated SQL Query Test ===
+Starting test at 2025-03-19T17:22:35.216Z
+Connection string: DSN=P21Play;Trusted_Connection=Yes;
+Connecting to ODBC data source...
+✅ CONNECTED SUCCESSFULLY to ODBC data source!
+
+=== Testing query for: Accounts - Payable - Month 1 ===
+Table: apinv_hdr
+SQL Query: SELECT ISNULL(COUNT(*), 0) AS value FROM dbo.apinv_hdr WITH (NOLOCK) WHERE invoice_date >= DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0) AND invoice_date < DATEADD(month, DATEDIFF(month, 0, GETDATE()) + 1, 0)
+✅ Query executed successfully
+Result: {"value":0}
+⚠️ WARNING: Returned zero value
+
+=== Testing query for: Accounts - Overdue - Month 1 ===
+Table: apinv_hdr
+SQL Query: SELECT ISNULL(COUNT(*), 0) as value FROM dbo.apinv_hdr WITH (NOLOCK) WHERE DATEDIFF(day, net_due_date, GETDATE()) > 0 AND FORMAT(invoice_date, 'yyyy-MM') = FORMAT(GETDATE(), 'yyyy-MM')
+✅ Query executed successfully
+Result: {"value":0}
+⚠️ WARNING: Returned zero value
+
+=== Testing query for: Accounts - Receivable - Month 1 ===
+Table: ar_receipts
+SQL Query: SELECT ISNULL(COUNT(*), 0) AS value FROM dbo.ar_receipts WITH (NOLOCK) WHERE date_received >= DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0) AND date_received < DATEADD(month, DATEDIFF(month, 0, GETDATE()) + 1, 0)
+✅ Query executed successfully
+Result: {"value":0}
+⚠️ WARNING: Returned zero value
+
+=== Testing query for: AR Aging - Current ===
+Table: customer
+SQL Query: SELECT ISNULL(COUNT(*), 0) as value FROM dbo.customer WITH (NOLOCK) WHERE credit_limit > credit_limit_used
+✅ Query executed successfully
+Result: {"value":8113}
+✅ RETURNED NON-ZERO VALUE: 8113
+
+=== Testing query for: AR Aging - 1-30 Days ===
+Table: customer
+SQL Query: SELECT ISNULL(COUNT(*), 0) as value FROM dbo.customer WITH (NOLOCK) WHERE DATEDIFF(day, date_last_modified, GETDATE()) BETWEEN 1 AND 30
+✅ Query executed successfully
+Result: {"value":19}
+✅ RETURNED NON-ZERO VALUE: 19
+
+=== Testing query for: AR Aging - 31-60 Days ===
+Table: customer
+SQL Query: SELECT ISNULL(COUNT(*), 0) as value FROM dbo.customer WITH (NOLOCK) WHERE DATEDIFF(day, date_last_modified, GETDATE()) BETWEEN 31 AND 60
+✅ Query executed successfully
+Result: {"value":7}
+✅ RETURNED NON-ZERO VALUE: 7
+
+=== Testing query for: AR Aging - 61-90 Days ===
+Table: customer
+SQL Query: SELECT ISNULL(COUNT(*), 0) as value FROM dbo.customer WITH (NOLOCK) WHERE DATEDIFF(day, date_last_modified, GETDATE()) BETWEEN 61 AND 90
+✅ Query executed successfully
+Result: {"value":17}
+✅ RETURNED NON-ZERO VALUE: 17
+
+=== Testing query for: AR Aging - 90+ Days ===
+Table: customer
+SQL Query: SELECT ISNULL(COUNT(*), 0) as value FROM dbo.customer WITH (NOLOCK) WHERE DATEDIFF(day, date_last_modified, GETDATE()) > 90
+✅ Query executed successfully
+Result: {"value":8298}
+✅ RETURNED NON-ZERO VALUE: 8298
+
+✅ Connection closed successfully
+
+=== Test completed at 2025-03-19T17:22:44.450Z ===
+Results have been saved to: C:\Users\BobM\CascadeProjects\TallmanDashboard_new\updated-query-results.txt

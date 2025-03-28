@@ -1,0 +1,260 @@
+=== AR Aging Queries Test and Fix ===
+Starting at 2025-03-22T12:55:42.890Z
+Fetching current AR Aging queries from the database...
+Found 5 AR Aging queries in the database
+
+Current AR Aging Queries:
+
+Current (Amount Due):
+ID: 309
+Server: P21
+Table: ar_open_items
+SQL: SELECT 0 /* Default SQL for AR Aging - Amount Due */
+Production SQL: SELECT 0 /* Default SQL for AR Aging - Amount Due */
+Current Value: 0
+
+1-30 Days (Amount Due):
+ID: 310
+Server: P21
+Table: ar_open_items
+SQL: SELECT 0 /* Default SQL for AR Aging - Amount Due */
+Production SQL: SELECT 0 /* Default SQL for AR Aging - Amount Due */
+Current Value: 0
+
+31-60 Days (Amount Due):
+ID: 311
+Server: P21
+Table: ar_open_items
+SQL: SELECT 0 /* Default SQL for AR Aging - Amount Due */
+Production SQL: SELECT 0 /* Default SQL for AR Aging - Amount Due */
+Current Value: 0
+
+61-90 Days (Amount Due):
+ID: 312
+Server: P21
+Table: ar_open_items
+SQL: SELECT 0 /* Default SQL for AR Aging - Amount Due */
+Production SQL: SELECT 0 /* Default SQL for AR Aging - Amount Due */
+Current Value: 0
+
+90+ Days (Amount Due):
+ID: 313
+Server: P21
+Table: ar_open_items
+SQL: SELECT 0 /* Default SQL for AR Aging - Amount Due */
+Production SQL: SELECT 0 /* Default SQL for AR Aging - Amount Due */
+Current Value: 0
+Creating test database with sample AR aging data...
+Inserted 65 sample records into ar_open_items table
+Data distribution by aging bucket:
+  Current: 20 invoices, $12824.00 total
+  1-30 Days: 15 invoices, $8325.00 total
+  31-60 Days: 10 invoices, $5824.00 total
+  61-90 Days: 8 invoices, $3969.00 total
+  90+ Days: 12 invoices, $8190.00 total
+
+Generating improved queries for AR Aging:
+
+Working on bucket: Current
+
+Testing query for "Current" against test database:
+SQL: SELECT 0 /* Default SQL for AR Aging - Amount Due */
+Result: {"0 /* Default SQL for AR Aging - Amount Due */":0}
+Non-zero result: NO
+
+Testing query for "Current" against test database:
+SQL: 
+          SELECT SUM(open_amount) as value 
+          FROM ar_open_items 
+          WHERE days_past_due = 0
+        
+Result: {"value":12824}
+Non-zero result: YES
+Improved query works and returns non-zero results.
+
+Working on bucket: 1-30 Days
+
+Testing query for "1-30 Days" against test database:
+SQL: SELECT 0 /* Default SQL for AR Aging - Amount Due */
+Result: {"0 /* Default SQL for AR Aging - Amount Due */":0}
+Non-zero result: NO
+
+Testing query for "1-30 Days" against test database:
+SQL: 
+          SELECT SUM(open_amount) as value 
+          FROM ar_open_items 
+          WHERE days_past_due BETWEEN 1 AND 30
+        
+Result: {"value":8325}
+Non-zero result: YES
+Improved query works and returns non-zero results.
+
+Working on bucket: 31-60 Days
+
+Testing query for "31-60 Days" against test database:
+SQL: SELECT 0 /* Default SQL for AR Aging - Amount Due */
+Result: {"0 /* Default SQL for AR Aging - Amount Due */":0}
+Non-zero result: NO
+
+Testing query for "31-60 Days" against test database:
+SQL: 
+          SELECT SUM(open_amount) as value 
+          FROM ar_open_items 
+          WHERE days_past_due BETWEEN 31 AND 60
+        
+Result: {"value":5824}
+Non-zero result: YES
+Improved query works and returns non-zero results.
+
+Working on bucket: 61-90 Days
+
+Testing query for "61-90 Days" against test database:
+SQL: SELECT 0 /* Default SQL for AR Aging - Amount Due */
+Result: {"0 /* Default SQL for AR Aging - Amount Due */":0}
+Non-zero result: NO
+
+Testing query for "61-90 Days" against test database:
+SQL: 
+          SELECT SUM(open_amount) as value 
+          FROM ar_open_items 
+          WHERE days_past_due BETWEEN 61 AND 90
+        
+Result: {"value":3969}
+Non-zero result: YES
+Improved query works and returns non-zero results.
+
+Working on bucket: 90+ Days
+
+Testing query for "90+ Days" against test database:
+SQL: SELECT 0 /* Default SQL for AR Aging - Amount Due */
+Result: {"0 /* Default SQL for AR Aging - Amount Due */":0}
+Non-zero result: NO
+
+Testing query for "90+ Days" against test database:
+SQL: 
+          SELECT SUM(open_amount) as value 
+          FROM ar_open_items 
+          WHERE days_past_due > 90
+        
+Result: {"value":8190}
+Non-zero result: YES
+Improved query works and returns non-zero results.
+
+Improved AR Aging Queries:
+
+Current (Amount Due):
+ID: 309
+Improved SQL: 
+          SELECT SUM(open_amount) as value 
+          FROM ar_open_items 
+          WHERE days_past_due = 0
+        
+Improved Production SQL: 
+          SELECT SUM(open_amount) as value 
+          FROM dbo.ar_open_items WITH (NOLOCK)
+          WHERE days_past_due = 0
+        
+
+1-30 Days (Amount Due):
+ID: 310
+Improved SQL: 
+          SELECT SUM(open_amount) as value 
+          FROM ar_open_items 
+          WHERE days_past_due BETWEEN 1 AND 30
+        
+Improved Production SQL: 
+          SELECT SUM(open_amount) as value 
+          FROM dbo.ar_open_items WITH (NOLOCK)
+          WHERE days_past_due BETWEEN 1 AND 30
+        
+
+31-60 Days (Amount Due):
+ID: 311
+Improved SQL: 
+          SELECT SUM(open_amount) as value 
+          FROM ar_open_items 
+          WHERE days_past_due BETWEEN 31 AND 60
+        
+Improved Production SQL: 
+          SELECT SUM(open_amount) as value 
+          FROM dbo.ar_open_items WITH (NOLOCK)
+          WHERE days_past_due BETWEEN 31 AND 60
+        
+
+61-90 Days (Amount Due):
+ID: 312
+Improved SQL: 
+          SELECT SUM(open_amount) as value 
+          FROM ar_open_items 
+          WHERE days_past_due BETWEEN 61 AND 90
+        
+Improved Production SQL: 
+          SELECT SUM(open_amount) as value 
+          FROM dbo.ar_open_items WITH (NOLOCK)
+          WHERE days_past_due BETWEEN 61 AND 90
+        
+
+90+ Days (Amount Due):
+ID: 313
+Improved SQL: 
+          SELECT SUM(open_amount) as value 
+          FROM ar_open_items 
+          WHERE days_past_due > 90
+        
+Improved Production SQL: 
+          SELECT SUM(open_amount) as value 
+          FROM dbo.ar_open_items WITH (NOLOCK)
+          WHERE days_past_due > 90
+        
+
+Updating database with improved queries:
+Updating query for Current...
+Updating query for 1-30 Days...
+Updating query for 31-60 Days...
+Updating query for 61-90 Days...
+Updating query for 90+ Days...
+Database updated successfully.
+
+Attempting to test against real P21 database (if available):
+Using Windows Authentication with ODBC
+Executing query: 
+          SELECT SUM(open_amount) as value 
+          FROM dbo.ar_open_items WITH (NOLOCK)
+          WHERE days_past_due = 0
+        
+Error executing P21 query: [odbc] Error executing the sql statement
+P21 test for Current: No result or not available
+Using Windows Authentication with ODBC
+Executing query: 
+          SELECT SUM(open_amount) as value 
+          FROM dbo.ar_open_items WITH (NOLOCK)
+          WHERE days_past_due BETWEEN 1 AND 30
+        
+Error executing P21 query: [odbc] Error executing the sql statement
+P21 test for 1-30 Days: No result or not available
+Using Windows Authentication with ODBC
+Executing query: 
+          SELECT SUM(open_amount) as value 
+          FROM dbo.ar_open_items WITH (NOLOCK)
+          WHERE days_past_due BETWEEN 31 AND 60
+        
+Error executing P21 query: [odbc] Error executing the sql statement
+P21 test for 31-60 Days: No result or not available
+Using Windows Authentication with ODBC
+Executing query: 
+          SELECT SUM(open_amount) as value 
+          FROM dbo.ar_open_items WITH (NOLOCK)
+          WHERE days_past_due BETWEEN 61 AND 90
+        
+Error executing P21 query: [odbc] Error executing the sql statement
+P21 test for 61-90 Days: No result or not available
+Using Windows Authentication with ODBC
+Executing query: 
+          SELECT SUM(open_amount) as value 
+          FROM dbo.ar_open_items WITH (NOLOCK)
+          WHERE days_past_due > 90
+        
+Error executing P21 query: [odbc] Error executing the sql statement
+P21 test for 90+ Days: No result or not available
+
+Process completed successfully.

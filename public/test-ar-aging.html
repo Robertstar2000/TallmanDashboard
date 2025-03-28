@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AR Aging Query Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+        .card {
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 16px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .card-header {
+            margin-bottom: 16px;
+        }
+        .card-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin: 0;
+        }
+        .card-description {
+            color: #666;
+            margin-top: 4px;
+        }
+        .card-content {
+            margin-bottom: 16px;
+        }
+        .card-footer {
+            display: flex;
+            justify-content: flex-end;
+        }
+        textarea {
+            width: 100%;
+            min-height: 100px;
+            font-family: monospace;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #0070f3;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0051a8;
+        }
+        .result-card {
+            background-color: #f5f5f5;
+            padding: 12px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+        pre {
+            margin: 0;
+            white-space: pre-wrap;
+        }
+        .error {
+            color: #d32f2f;
+        }
+        .test-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>AR Aging Query Test Tool</h1>
+    
+    <div class="test-buttons">
+        <button id="test-current">Test Current</button>
+        <button id="test-30days">Test 1-30 Days</button>
+        <button id="test-60days">Test 31-60 Days</button>
+        <button id="test-90days">Test 61-90 Days</button>
+        <button id="test-90plus">Test 90+ Days</button>
+        <button id="test-all">Test All Queries</button>
+    </div>
+    
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">P21 SQL Query</h2>
+                <p class="card-description">Enter a SQL query to execute against the P21 database</p>
+            </div>
+            <div class="card-content">
+                <textarea id="query-input" placeholder="Enter SQL query...">SELECT ISNULL(SUM(amount_open), 0) as value FROM dbo.ar_open_items WITH (NOLOCK) WHERE days_past_due = 0</textarea>
+            </div>
+            <div class="card-footer">
+                <button id="execute-btn">Execute Query</button>
+            </div>
+        </div>
+        
+        <div id="error-container" style="display: none;" class="card">
+            <div class="card-header">
+                <h2 class="card-title error">Error</h2>
+            </div>
+            <div class="card-content">
+                <p id="error-message" class="error"></p>
+            </div>
+        </div>
+        
+        <div id="result-container" style="display: none;" class="card">
+            <div class="card-header">
+                <h2 class="card-title">Query Result</h2>
+            </div>
+            <div class="card-content">
+                <div class="result-card">
+                    <h3>First Row:</h3>
+                    <pre id="result-data"></pre>
+                </div>
+            </div>
+        </div>
+        
+        <div id="raw-container" style="display: none;" class="card">
+            <div class="card-header">
+                <h2 class="card-title">Raw API Response</h2>
+            </div>
+            <div class="card-content">
+                <div class="result-card">
+                    <pre id="raw-data"></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // AR Aging queries from initial-data.ts
+        const queries = {
+            'current': "SELECT ISNULL(SUM(amount_open), 0) as value FROM dbo.ar_open_items WITH (NOLOCK) WHERE days_past_due = 0",
+            '30days': "SELECT ISNULL(SUM(amount_open), 0) as value FROM dbo.ar_open_items WITH (NOLOCK) WHERE days_past_due > 0 AND days_past_due <= 30",
+            '60days': "SELECT ISNULL(SUM(amount_open), 0) as value FROM dbo.ar_open_items WITH (NOLOCK) WHERE days_past_due > 30 AND days_past_due <= 60",
+            '90days': "SELECT ISNULL(SUM(amount_open), 0) as value FROM dbo.ar_open_items WITH (NOLOCK) WHERE days_past_due > 60 AND days_past_due <= 90",
+            '90plus': "SELECT ISNULL(SUM(amount_open), 0) as value FROM dbo.ar_open_items WITH (NOLOCK) WHERE days_past_due > 90"
+        };
+
+        // Elements
+        const queryInput = document.getElementById('query-input');
+        const executeBtn = document.getElementById('execute-btn');
+        const errorContainer = document.getElementById('error-container');
+        const errorMessage = document.getElementById('error-message');
+        const resultContainer = document.getElementById('result-container');
+        const resultData = document.getElementById('result-data');
+        const rawContainer = document.getElementById('raw-container');
+        const rawData = document.getElementById('raw-data');
+        
+        // Test buttons
+        document.getElementById('test-current').addEventListener('click', () => {
+            queryInput.value = queries.current;
+            executeQuery();
+        });
+        
+        document.getElementById('test-30days').addEventListener('click', () => {
+            queryInput.value = queries['30days'];
+            executeQuery();
+        });
+        
+        document.getElementById('test-60days').addEventListener('click', () => {
+            queryInput.value = queries['60days'];
+            executeQuery();
+        });
+        
+        document.getElementById('test-90days').addEventListener('click', () => {
+            queryInput.value = queries['90days'];
+            executeQuery();
+        });
+        
+        document.getElementById('test-90plus').addEventListener('click', () => {
+            queryInput.value = queries['90plus'];
+            executeQuery();
+        });
+        
+        document.getElementById('test-all').addEventListener('click', async () => {
+            const results = {};
+            
+            for (const [key, query] of Object.entries(queries)) {
+                queryInput.value = query;
+                console.log(`Testing query for ${key}...`);
+                
+                try {
+                    const result = await executeQueryAsync(query);
+                    results[key] = result;
+                    console.log(`Result for ${key}:`, result);
+                } catch (error) {
+                    results[key] = { error: error.message };
+                    console.error(`Error for ${key}:`, error);
+                }
+            }
+            
+            // Display all results
+            rawContainer.style.display = 'block';
+            rawData.textContent = JSON.stringify(results, null, 2);
+        });
+        
+        // Execute query button
+        executeBtn.addEventListener('click', executeQuery);
+        
+        async function executeQueryAsync(query) {
+            try {
+                const response = await fetch('/api/executeQuery', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        server: 'P21',
+                        query: query
+                    }),
+                });
+                
+                const data = await response.json();
+                return data;
+            } catch (error) {
+                throw error;
+            }
+        }
+        
+        async function executeQuery() {
+            // Reset UI
+            errorContainer.style.display = 'none';
+            resultContainer.style.display = 'none';
+            rawContainer.style.display = 'none';
+            
+            const query = queryInput.value.trim();
+            if (!query) {
+                showError('Query cannot be empty');
+                return;
+            }
+            
+            try {
+                const data = await executeQueryAsync(query);
+                
+                // Display raw response
+                rawContainer.style.display = 'block';
+                rawData.textContent = JSON.stringify(data, null, 2);
+                
+                if (!data.success) {
+                    showError(data.error || data.message || 'Query execution failed');
+                    return;
+                }
+                
+                if (data.data && data.data.length > 0) {
+                    resultContainer.style.display = 'block';
+                    resultData.textContent = JSON.stringify(data.data[0], null, 2);
+                } else {
+                    showError('No data returned');
+                }
+            } catch (error) {
+                showError(error.message || 'An unknown error occurred');
+                console.error('Error executing query:', error);
+            }
+        }
+        
+        function showError(message) {
+            errorContainer.style.display = 'block';
+            errorMessage.textContent = message;
+        }
+    </script>
+</body>
+</html>
