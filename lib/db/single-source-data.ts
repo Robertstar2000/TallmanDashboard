@@ -3,7 +3,7 @@
  * Last updated: 2025-03-29T00:27:52.784Z
  */
 
-import { SpreadsheetRow } from '@/lib/types/dashboard';
+import { SpreadsheetRow, ChartGroupSettings, ServerConfig } from '@/lib/types/dashboard';
 
 export const dashboardData: SpreadsheetRow[] = [
   {
@@ -2283,6 +2283,6 @@ export const dashboardData: SpreadsheetRow[] = [
   }
 ];
 
-// Add empty arrays for chartGroupSettings and serverConfigs to fix TypeScript errors
-export const chartGroupSettings = [];
-export const serverConfigs = [];
+// Add properly typed empty arrays for chartGroupSettings and serverConfigs to fix TypeScript errors
+export const chartGroupSettings: ChartGroupSettings[] = [];
+export const serverConfigs: ServerConfig[] = [];
