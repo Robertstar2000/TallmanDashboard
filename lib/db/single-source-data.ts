@@ -1,6 +1,6 @@
 /**
  * Single source of truth for dashboard data
- * Last updated: 2025-03-29T00:27:52.784Z
+ * Last updated: 2025-03-29T23:31:06.569Z
  */
 
 import { SpreadsheetRow, ChartGroupSettings, ServerConfig } from '@/lib/types/dashboard';
@@ -15,7 +15,7 @@ export const dashboardData: SpreadsheetRow[] = [
     "serverName": "Test",
     "tableName": "",
     "calculation": "number",
-    "productionSqlExpression": "number",
+    "productionSqlExpression": "SELECT Count(*) as value FROM [Rentals]",
     "value": "474",
     "lastUpdated": "2025-03-29T00:27:52.708Z"
   },
@@ -28,7 +28,7 @@ export const dashboardData: SpreadsheetRow[] = [
     "serverName": "",
     "tableName": "",
     "calculation": "number",
-    "productionSqlExpression": "number",
+    "productionSqlExpression": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_date >= DATEADD(day, -7, GETDATE())",
     "value": "905",
     "lastUpdated": "2025-03-29T00:27:52.709Z"
   },
@@ -41,7 +41,7 @@ export const dashboardData: SpreadsheetRow[] = [
     "serverName": "",
     "tableName": "",
     "calculation": "number",
-    "productionSqlExpression": "number",
+    "productionSqlExpression": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE completed = 'N'",
     "value": "104",
     "lastUpdated": "2025-03-29T00:27:52.709Z"
   },
@@ -54,7 +54,7 @@ export const dashboardData: SpreadsheetRow[] = [
     "serverName": "",
     "tableName": "",
     "calculation": "number",
-    "productionSqlExpression": "number",
+    "productionSqlExpression": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK)",
     "value": "791",
     "lastUpdated": "2025-03-29T00:27:52.710Z"
   },
@@ -67,7 +67,7 @@ export const dashboardData: SpreadsheetRow[] = [
     "serverName": "",
     "tableName": "",
     "calculation": "number",
-    "productionSqlExpression": "number",
+    "productionSqlExpression": "SELECT ISNULL(SUM(l.extended_price), 0) as value FROM dbo.oe_hdr h WITH (NOLOCK) JOIN dbo.oe_line l WITH (NOLOCK) ON h.order_no = l.order_no WHERE CONVERT(date, h.order_date) = CONVERT(date, DATEADD(day, -1, GETDATE()))",
     "value": "424",
     "lastUpdated": "2025-03-29T00:27:52.710Z"
   },
@@ -80,7 +80,7 @@ export const dashboardData: SpreadsheetRow[] = [
     "serverName": "",
     "tableName": "",
     "calculation": "number",
-    "productionSqlExpression": "number",
+    "productionSqlExpression": "SELECT COUNT(*) as value FROM dbo.invoice_hdr WITH (NOLOCK) WHERE invoice_date >= DATEADD(month, -1, GETDATE())",
     "value": "265",
     "lastUpdated": "2025-03-29T00:27:52.710Z"
   },
@@ -93,7 +93,7 @@ export const dashboardData: SpreadsheetRow[] = [
     "serverName": "",
     "tableName": "",
     "calculation": "number",
-    "productionSqlExpression": "number",
+    "productionSqlExpression": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE completed = 'N' AND order_date >= DATEADD(day, -30, GETDATE())",
     "value": "743",
     "lastUpdated": "2025-03-29T00:27:52.711Z"
   },
@@ -106,7 +106,7 @@ export const dashboardData: SpreadsheetRow[] = [
     "serverName": "",
     "tableName": "",
     "calculation": "number",
-    "productionSqlExpression": "number",
+    "productionSqlExpression": "SELECT ISNULL(SUM(l.extended_price), 0) as value FROM dbo.oe_hdr h WITH (NOLOCK) JOIN dbo.oe_line l WITH (NOLOCK) ON h.order_no = l.order_no WHERE h.order_date >= DATEADD(day, -30, GETDATE())",
     "value": "883",
     "lastUpdated": "2025-03-29T00:27:52.711Z"
   },
@@ -119,7 +119,7 @@ export const dashboardData: SpreadsheetRow[] = [
     "serverName": "",
     "tableName": "",
     "calculation": "number",
-    "productionSqlExpression": "number",
+    "productionSqlExpression": "SELECT ISNULL(SUM(amount), 0) as value FROM dbo.apinv_hdr WITH (NOLOCK) WHERE MONTH(invoice_date) = MONTH(GETDATE()) AND YEAR(invoice_date) = YEAR(GETDATE())",
     "value": "16169",
     "lastUpdated": "2025-03-29T00:27:52.714Z"
   },
@@ -132,7 +132,7 @@ export const dashboardData: SpreadsheetRow[] = [
     "serverName": "",
     "tableName": "",
     "calculation": "number",
-    "productionSqlExpression": "number",
+    "productionSqlExpression": "SELECT ISNULL(SUM(amount), 0) as value FROM dbo.invoice_hdr WITH (NOLOCK) WHERE MONTH(invoice_date) = MONTH(GETDATE()) AND YEAR(invoice_date) = YEAR(GETDATE())",
     "value": "34807",
     "lastUpdated": "2025-03-29T00:27:52.715Z"
   },
@@ -145,7 +145,7 @@ export const dashboardData: SpreadsheetRow[] = [
     "serverName": "",
     "tableName": "",
     "calculation": "number",
-    "productionSqlExpression": "number",
+    "productionSqlExpression": "SELECT ISNULL(SUM(amount), 0) as value FROM dbo.invoice_hdr WITH (NOLOCK) WHERE invoice_date < DATEADD(day, -30, GETDATE()) AND paid = 'N'",
     "value": "11637",
     "lastUpdated": "2025-03-29T00:27:52.715Z"
   },
@@ -158,7 +158,7 @@ export const dashboardData: SpreadsheetRow[] = [
     "serverName": "",
     "tableName": "",
     "calculation": "number",
-    "productionSqlExpression": "number",
+    "productionSqlExpression": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE MONTH(order_date) = MONTH(GETDATE()) AND YEAR(order_date) = YEAR(GETDATE())",
     "value": "4780",
     "lastUpdated": "2025-03-29T00:27:52.716Z"
   },
@@ -171,7 +171,7 @@ export const dashboardData: SpreadsheetRow[] = [
     "serverName": "",
     "tableName": "",
     "calculation": "number",
-    "productionSqlExpression": "number",
+    "productionSqlExpression": "SELECT 0 as value",
     "value": "1134",
     "lastUpdated": "2025-03-29T00:27:52.716Z"
   },
@@ -184,7 +184,7 @@ export const dashboardData: SpreadsheetRow[] = [
     "serverName": "",
     "tableName": "",
     "calculation": "number",
-    "productionSqlExpression": "number",
+    "productionSqlExpression": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE MONTH(order_date) = MONTH(GETDATE()) AND YEAR(order_date) = YEAR(GETDATE())",
     "value": "3628",
     "lastUpdated": "2025-03-29T00:27:52.716Z"
   },
@@ -197,7 +197,7 @@ export const dashboardData: SpreadsheetRow[] = [
     "serverName": "",
     "tableName": "",
     "calculation": "number",
-    "productionSqlExpression": "number",
+    "productionSqlExpression": "SELECT ISNULL(SUM(l.extended_price), 0) as value FROM dbo.oe_hdr h WITH (NOLOCK) JOIN dbo.oe_line l WITH (NOLOCK) ON h.order_no = l.order_no WHERE MONTH(h.order_date) = MONTH(GETDATE()) AND YEAR(h.order_date) = YEAR(GETDATE())",
     "value": "3827",
     "lastUpdated": "2025-03-29T00:27:52.717Z"
   },
@@ -210,7 +210,7 @@ export const dashboardData: SpreadsheetRow[] = [
     "serverName": "",
     "tableName": "",
     "calculation": "number",
-    "productionSqlExpression": "number",
+    "productionSqlExpression": "SELECT ISNULL(SUM(l.extended_price), 0) as value FROM dbo.oe_hdr h WITH (NOLOCK) JOIN dbo.oe_line l WITH (NOLOCK) ON h.order_no = l.order_no WHERE MONTH(h.order_date) = MONTH(DATEADD(month, -1, GETDATE())) AND YEAR(h.order_date) = YEAR(DATEADD(month, -1, GETDATE()))",
     "value": "2087",
     "lastUpdated": "2025-03-29T00:27:52.717Z"
   },
@@ -223,7 +223,7 @@ export const dashboardData: SpreadsheetRow[] = [
     "serverName": "",
     "tableName": "",
     "calculation": "number",
-    "productionSqlExpression": "number",
+    "productionSqlExpression": "SELECT ISNULL(SUM(l.extended_price), 0) as value FROM dbo.oe_hdr h WITH (NOLOCK) JOIN dbo.oe_line l WITH (NOLOCK) ON h.order_no = l.order_no WHERE MONTH(h.order_date) = MONTH(DATEADD(month, -2, GETDATE())) AND YEAR(h.order_date) = YEAR(DATEADD(month, -2, GETDATE()))",
     "value": "3436",
     "lastUpdated": "2025-03-29T00:27:52.717Z"
   },
@@ -236,7 +236,7 @@ export const dashboardData: SpreadsheetRow[] = [
     "serverName": "",
     "tableName": "",
     "calculation": "number",
-    "productionSqlExpression": "number",
+    "productionSqlExpression": "SELECT COUNT(*) as value FROM dbo.customer WITH (NOLOCK) WHERE MONTH(date_created) = MONTH(GETDATE()) AND YEAR(date_created) = YEAR(GETDATE())",
     "value": "470",
     "lastUpdated": "2025-03-29T00:27:52.736Z"
   },
@@ -249,7 +249,7 @@ export const dashboardData: SpreadsheetRow[] = [
     "serverName": "",
     "tableName": "",
     "calculation": "number",
-    "productionSqlExpression": "number",
+    "productionSqlExpression": "SELECT COUNT(*) as value FROM dbo.customer WITH (NOLOCK) WHERE last_sale_date >= DATEADD(month, -1, GETDATE()) AND date_created < DATEADD(month, -1, GETDATE())",
     "value": "395",
     "lastUpdated": "2025-03-29T00:27:52.736Z"
   },
@@ -262,7 +262,7 @@ export const dashboardData: SpreadsheetRow[] = [
     "serverName": "",
     "tableName": "",
     "calculation": "number",
-    "productionSqlExpression": "number",
+    "productionSqlExpression": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK)",
     "value": "689",
     "lastUpdated": "2025-03-29T00:27:52.745Z"
   },
@@ -275,7 +275,7 @@ export const dashboardData: SpreadsheetRow[] = [
     "serverName": "",
     "tableName": "",
     "calculation": "number",
-    "productionSqlExpression": "number",
+    "productionSqlExpression": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK)",
     "value": "967",
     "lastUpdated": "2025-03-29T00:27:52.745Z"
   },
@@ -288,7 +288,7 @@ export const dashboardData: SpreadsheetRow[] = [
     "serverName": "",
     "tableName": "",
     "calculation": "number",
-    "productionSqlExpression": "number",
+    "productionSqlExpression": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK)",
     "value": "79",
     "lastUpdated": "2025-03-29T00:27:52.746Z"
   },
@@ -301,7 +301,7 @@ export const dashboardData: SpreadsheetRow[] = [
     "serverName": "",
     "tableName": "",
     "calculation": "number",
-    "productionSqlExpression": "number",
+    "productionSqlExpression": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK)",
     "value": "179",
     "lastUpdated": "2025-03-29T00:27:52.746Z"
   },
@@ -314,7 +314,7 @@ export const dashboardData: SpreadsheetRow[] = [
     "serverName": "",
     "tableName": "",
     "calculation": "number",
-    "productionSqlExpression": "number",
+    "productionSqlExpression": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK)",
     "value": "63",
     "lastUpdated": "2025-03-29T00:27:52.746Z"
   },
@@ -327,7 +327,7 @@ export const dashboardData: SpreadsheetRow[] = [
     "serverName": "",
     "tableName": "",
     "calculation": "number",
-    "productionSqlExpression": "number",
+    "productionSqlExpression": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE completed = 'N'",
     "value": "39",
     "lastUpdated": "2025-03-29T00:27:52.758Z"
   },
@@ -340,7 +340,7 @@ export const dashboardData: SpreadsheetRow[] = [
     "serverName": "",
     "tableName": "",
     "calculation": "number",
-    "productionSqlExpression": "number",
+    "productionSqlExpression": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE completed = 'N'",
     "value": "35",
     "lastUpdated": "2025-03-29T00:27:52.758Z"
   },
@@ -353,7 +353,7 @@ export const dashboardData: SpreadsheetRow[] = [
     "serverName": "",
     "tableName": "",
     "calculation": "number",
-    "productionSqlExpression": "number",
+    "productionSqlExpression": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE completed = 'N'",
     "value": "63",
     "lastUpdated": "2025-03-29T00:27:52.758Z"
   },
@@ -366,7 +366,7 @@ export const dashboardData: SpreadsheetRow[] = [
     "serverName": "",
     "tableName": "",
     "calculation": "number",
-    "productionSqlExpression": "number",
+    "productionSqlExpression": "SELECT ISNULL(SUM(amount), 0) as value FROM dbo.invoice_hdr WITH (NOLOCK) WHERE invoice_date >= DATEADD(day, -30, GETDATE()) AND paid = 'N'",
     "value": "7943",
     "lastUpdated": "2025-03-29T00:27:52.760Z"
   },
@@ -379,7 +379,7 @@ export const dashboardData: SpreadsheetRow[] = [
     "serverName": "",
     "tableName": "",
     "calculation": "number",
-    "productionSqlExpression": "number",
+    "productionSqlExpression": "SELECT ISNULL(SUM(amount), 0) as value FROM dbo.invoice_hdr WITH (NOLOCK) WHERE paid = 'N'",
     "value": "4590",
     "lastUpdated": "2025-03-29T00:27:52.760Z"
   },
@@ -392,7 +392,7 @@ export const dashboardData: SpreadsheetRow[] = [
     "serverName": "",
     "tableName": "",
     "calculation": "number",
-    "productionSqlExpression": "number",
+    "productionSqlExpression": "SELECT ISNULL(SUM(amount), 0) as value FROM dbo.invoice_hdr WITH (NOLOCK) WHERE paid = 'N'",
     "value": "5694",
     "lastUpdated": "2025-03-29T00:27:52.760Z"
   },
@@ -405,7 +405,7 @@ export const dashboardData: SpreadsheetRow[] = [
     "serverName": "",
     "tableName": "",
     "calculation": "number",
-    "productionSqlExpression": "number",
+    "productionSqlExpression": "SELECT ISNULL(SUM(amount), 0) as value FROM dbo.invoice_hdr WITH (NOLOCK) WHERE paid = 'N'",
     "value": "7482",
     "lastUpdated": "2025-03-29T00:27:52.761Z"
   },
@@ -418,7 +418,7 @@ export const dashboardData: SpreadsheetRow[] = [
     "serverName": "",
     "tableName": "",
     "calculation": "number",
-    "productionSqlExpression": "number",
+    "productionSqlExpression": "SELECT ISNULL(SUM(amount), 0) as value FROM dbo.invoice_hdr WITH (NOLOCK) WHERE paid = 'N'",
     "value": "7531",
     "lastUpdated": "2025-03-29T00:27:52.761Z"
   },
@@ -431,7 +431,7 @@ export const dashboardData: SpreadsheetRow[] = [
     "serverName": "",
     "tableName": "",
     "calculation": "number",
-    "productionSqlExpression": "number",
+    "productionSqlExpression": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE CONVERT(date, order_date) = CONVERT(date, DATEADD(day, -1, GETDATE()))",
     "value": "69",
     "lastUpdated": "2025-03-29T00:27:52.761Z"
   },
@@ -444,7 +444,7 @@ export const dashboardData: SpreadsheetRow[] = [
     "serverName": "",
     "tableName": "",
     "calculation": "number",
-    "productionSqlExpression": "number",
+    "productionSqlExpression": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE CONVERT(date, order_date) = CONVERT(date, DATEADD(day, -1, GETDATE()))",
     "value": "50",
     "lastUpdated": "2025-03-29T00:27:52.762Z"
   },
@@ -457,7 +457,7 @@ export const dashboardData: SpreadsheetRow[] = [
     "serverName": "",
     "tableName": "",
     "calculation": "number",
-    "productionSqlExpression": "number",
+    "productionSqlExpression": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE CONVERT(date, order_date) = CONVERT(date, DATEADD(day, -1, GETDATE()))",
     "value": "81",
     "lastUpdated": "2025-03-29T00:27:52.762Z"
   },
@@ -470,7 +470,7 @@ export const dashboardData: SpreadsheetRow[] = [
     "serverName": "",
     "tableName": "",
     "calculation": "number",
-    "productionSqlExpression": "number",
+    "productionSqlExpression": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE CONVERT(date, order_date) = CONVERT(date, DATEADD(day, -1, GETDATE()))",
     "value": "62",
     "lastUpdated": "2025-03-29T00:27:52.762Z"
   },
@@ -483,7 +483,7 @@ export const dashboardData: SpreadsheetRow[] = [
     "serverName": "",
     "tableName": "",
     "calculation": "number",
-    "productionSqlExpression": "number",
+    "productionSqlExpression": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE CONVERT(date, order_date) = CONVERT(date, DATEADD(day, -1, GETDATE()))",
     "value": "24",
     "lastUpdated": "2025-03-29T00:27:52.762Z"
   },
@@ -496,7 +496,7 @@ export const dashboardData: SpreadsheetRow[] = [
     "serverName": "",
     "tableName": "",
     "calculation": "number",
-    "productionSqlExpression": "number",
+    "productionSqlExpression": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE MONTH(order_date) = MONTH(GETDATE()) AND YEAR(order_date) = YEAR(GETDATE()) AND order_source = 'WEB'",
     "value": "85",
     "lastUpdated": "2025-03-29T00:27:52.765Z"
   },
@@ -509,7 +509,7 @@ export const dashboardData: SpreadsheetRow[] = [
     "serverName": "",
     "tableName": "",
     "calculation": "number",
-    "productionSqlExpression": "number",
+    "productionSqlExpression": "SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE MONTH(order_date) = MONTH(GETDATE()) AND YEAR(order_date) = YEAR(GETDATE()) AND order_source = 'WEB'",
     "value": "96",
     "lastUpdated": "2025-03-29T00:27:52.766Z"
   },
