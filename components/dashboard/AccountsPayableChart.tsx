@@ -1,7 +1,7 @@
 'use client';
 
 import { LineChart } from '@/components/charts/LineChart';
-import { RawAccountsPayableData } from '@/lib/types/dashboard';
+import { RawAccountsPayableData } from '@/lib/db/types';
 
 interface AccountsPayableData {
   date: string;

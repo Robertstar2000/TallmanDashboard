@@ -1,7 +1,7 @@
 'use client';
 
 import { LineChart } from '@/components/charts/LineChart';
-import { POROverviewData } from '@/lib/types/dashboard';
+import { POROverviewData } from '@/lib/db/types';
 
 interface POROverviewChartProps {
   data: POROverviewData[];

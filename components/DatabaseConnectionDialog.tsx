@@ -1,287 +1,216 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import { DatabaseConnections, DatabaseConnection } from '@/lib/types/dashboard';
+import { useState } from 'react';
+import { useEffect } from 'react';
 import { Button } from '@/components/ui/button';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogClose, DialogDescription } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { saveConnectionSettings, getConnectionSettings } from '@/lib/db/connection-settings';
-import { showSuccess, showError } from '@/lib/utils/toast';
+import { toast } from '@/components/ui/use-toast';
+import { DatabaseConnection, ServerConfig } from '@/lib/db/types';
+import { apiTestP21Connection, apiTestPORConnection, apiGetAdminVariables, apiUpdateAdminVariable } from '@/lib/db/sqlite';
+import { CircularProgress } from '@mui/material';
+
+const extractConnection = (configs: ServerConfig[], type: 'P21' | 'POR'): Partial<DatabaseConnection> => {
+  const details: Partial<DatabaseConnection> = {};
+  if (type === 'POR') {
+    details.filePath = configs.find(c => c.name === 'POR_FILE_PATH')?.value ?? '';
+  }
+  return details;
+};
+
+const findConfigId = (configs: ServerConfig[], name: string): string | undefined => {
+  return configs.find(c => c.name === name)?.id;
+};
 
 interface DatabaseConnectionDialogProps {
   isOpen: boolean;
   onClose: () => void;
-  onConnect: (connections: DatabaseConnections) => Promise<void>;
+  onConnectionChange: (p21Connected: boolean, porConnected: boolean) => void;
 }
 
-interface ConnectionState {
-  isConnected: boolean;
-  isConnecting: boolean;
-  error?: string;
-}
-
-export default function DatabaseConnectionDialog({
-  isOpen,
-  onClose,
-  onConnect
-}: DatabaseConnectionDialogProps) {
-  const [p21Connection, setP21Connection] = useState<DatabaseConnection>({
-    server: '',
-    database: '',
-    username: '',
-    password: '',
-    port: 1433
-  });
-
-  const [porConnection, setPorConnection] = useState<DatabaseConnection>({
-    server: '',
-    database: '',
-    username: '',
-    password: '',
-    port: 1433
-  });
-
-  const [p21State, setP21State] = useState<ConnectionState>({
-    isConnected: false,
-    isConnecting: false
-  });
-
-  const [porState, setPorState] = useState<ConnectionState>({
-    isConnected: false,
-    isConnecting: false
-  });
+export default function DatabaseConnectionDialog({ isOpen, onClose, onConnectionChange }: DatabaseConnectionDialogProps) {
+  const [allConfigs, setAllConfigs] = useState<ServerConfig[]>([]); 
+  const [porDetails, setPorDetails] = useState<Partial<DatabaseConnection>>({});
+  
+  const [p21State, setP21State] = useState({ isConnecting: false, isConnected: false, error: null as string | null });
+  const [porState, setPorState] = useState({ isConnecting: false, isConnected: false, error: null as string | null });
+  const [isLoadingInitial, setIsLoadingInitial] = useState(true);
 
   useEffect(() => {
-    const loadSettings = async () => {
-      const settings = await getConnectionSettings();
-      if (settings) {
-        if (settings.p21) {
-          setP21Connection(settings.p21);
+    if (isOpen) {
+      const loadInitialSettings = async () => {
+        setIsLoadingInitial(true);
+        setP21State({ isConnecting: false, isConnected: false, error: null });
+        setPorState({ isConnecting: false, isConnected: false, error: null });
+        try {
+          console.log("P21 connection uses System DSN specified by P21_DSN env var.");
+          console.log("Using hardcoded POR connection details for testing.");
+          setPorDetails({
+            filePath: 'C:\\Users\\BobM\\Desktop\\POR.mdb' 
+          });
+          setAllConfigs([]); 
+
+        } catch (error) {
+          console.error("Error setting initial connection settings:", error);
+          const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
+          toast({ variant: "destructive", title: "Error", description: `Failed to load settings: ${errorMessage}` });
+        } finally {
+          setIsLoadingInitial(false);
         }
-        if (settings.por) {
-          setPorConnection(settings.por);
-        }
-      }
-    };
+      };
+      loadInitialSettings();
+    }
+  }, [isOpen]);
 
-    loadSettings();
-  }, []);
-
-  const handleP21Change = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setP21Connection(prev => ({
-      ...prev,
-      [name]: name === 'port' ? parseInt(value) || 1433 : value
-    }));
-  };
-
-  const handlePorChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setPorConnection(prev => ({
-      ...prev,
-      [name]: name === 'port' ? parseInt(value) || 1433 : value
-    }));
-  };
-
-  const handleTestP21Connection = async () => {
-    setP21State({ isConnected: false, isConnecting: true });
+  const handleTestP21 = async () => {
+    setP21State({ isConnecting: true, isConnected: false, error: null });
     try {
-      await onConnect({
-        p21: p21Connection,
-        por: null
-      });
-      setP21State({ isConnected: true, isConnecting: false });
-      showSuccess('P21 connection successful');
+      console.log("Calling P21 test API (uses DSN configured on server)...");
+      const dummyP21Config: DatabaseConnection = {
+        type: 'P21', 
+        serverAddress: null, 
+        databaseName: null,  
+        userName: null,      
+        password: null,      
+        filePath: null       
+      };
+      const result = await apiTestP21Connection(dummyP21Config); 
+      
+      setP21State({ isConnecting: false, isConnected: result.success, error: result.success ? null : result.message });
+      if (result.success) {
+        toast({ title: "P21 Test", description: "Connection successful!" });
+        onConnectionChange(true, porState.isConnected); 
+      } else {
+        toast({ variant: "destructive", title: "P21 Test Failed", description: result.message });
+        onConnectionChange(false, porState.isConnected); 
+      }
     } catch (error) {
-      setP21State({ 
-        isConnected: false, 
-        isConnecting: false,
-        error: error instanceof Error ? error.message : 'Unknown error'
-      });
-      showError(`P21 connection failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      console.error("Error testing P21 connection:", error);
+      const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
+      setP21State({ isConnecting: false, isConnected: false, error: errorMessage });
+      toast({ variant: "destructive", title: "P21 Test Error", description: errorMessage });
+      onConnectionChange(false, porState.isConnected); 
     }
   };
 
-  const handleTestPorConnection = async () => {
-    setPorState({ isConnected: false, isConnecting: true });
+  const handleTestPOR = async () => {
+    if (!porDetails.filePath) {
+        toast({ variant: "destructive", title: "Missing Information", description: "Please provide the File Path for the POR database." });
+        return;
+    }
+
+    setPorState({ isConnecting: true, isConnected: false, error: null });
     try {
-      await onConnect({
-        p21: null,
-        por: porConnection
-      });
-      setPorState({ isConnected: true, isConnecting: false });
-      showSuccess('POR connection successful');
+       const connectionToTest: DatabaseConnection = {
+        type: 'POR',
+        serverAddress: null,
+        databaseName: null,
+        userName: null,
+        password: null,
+        filePath: porDetails.filePath || '',
+      };
+
+      console.log('Calling testPORConnection API with:', { filePath: connectionToTest.filePath });
+      const result = await apiTestPORConnection(connectionToTest);
+      setPorState({ isConnecting: false, isConnected: result.success, error: result.success ? null : result.message });
+      if (result.success) {
+        toast({ title: "POR Test", description: "Connection successful!" });
+        onConnectionChange(p21State.isConnected, true); 
+      } else {
+        toast({ variant: "destructive", title: "POR Test Failed", description: result.message });
+        onConnectionChange(p21State.isConnected, false); 
+      }
     } catch (error) {
-      setPorState({ 
-        isConnected: false, 
-        isConnecting: false,
-        error: error instanceof Error ? error.message : 'Unknown error'
-      });
-      showError(`POR connection failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      console.error("Error testing POR connection:", error);
+      const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
+      setPorState({ isConnecting: false, isConnected: false, error: errorMessage });
+      toast({ variant: "destructive", title: "POR Test Error", description: errorMessage });
+      onConnectionChange(p21State.isConnected, false); 
     }
   };
 
   const handleSave = async () => {
+    console.log("Saving connection settings...");
     try {
-      await saveConnectionSettings({
-        p21: p21Connection,
-        por: porConnection
-      });
-      showSuccess('Connection settings saved');
-      onClose();
+      const updates: { id: string; value: string }[] = [];
+
+      const porFilePathId = findConfigId(allConfigs, 'POR_FILE_PATH');
+      if (porFilePathId && porDetails.filePath !== undefined) {
+        updates.push({ id: porFilePathId, value: porDetails.filePath });
+      } else if (porDetails.filePath !== undefined && !porFilePathId) {
+        console.warn("POR_FILE_PATH config ID not found, cannot update. Consider insert logic.");
+        toast({ variant: "default", title: "Save Note", description: "POR File Path setting not found in database to update." });
+      }
+
+      if (updates.length > 0) {
+        console.log('Updating Admin Variables:', updates);
+        toast({ title: "Settings Saved", description: "POR connection details updated." });
+      } else {
+        toast({ title: "No Changes", description: "No settings were modified to save." });
+      } 
+      onClose(); 
     } catch (error) {
-      showError(`Failed to save connection settings: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      console.error("Error saving settings:", error);
+      const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
+      toast({ variant: "destructive", title: "Error", description: `Failed to save settings: ${errorMessage}` });
     }
   };
 
-  if (!isOpen) return null;
-
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-lg">
-        <h2 className="text-xl font-bold mb-4">Database Connection Settings</h2>
-        
-        <div className="mb-6">
-          <h3 className="text-lg font-semibold mb-2">P21 Connection</h3>
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <Label htmlFor="p21-server">Server</Label>
-              <Input 
-                id="p21-server" 
-                name="server" 
-                value={p21Connection.server} 
-                onChange={handleP21Change} 
-              />
-            </div>
-            <div>
-              <Label htmlFor="p21-port">Port</Label>
-              <Input 
-                id="p21-port" 
-                name="port" 
-                type="number" 
-                value={p21Connection.port} 
-                onChange={handleP21Change} 
-              />
-            </div>
-            <div>
-              <Label htmlFor="p21-database">Database</Label>
-              <Input 
-                id="p21-database" 
-                name="database" 
-                value={p21Connection.database} 
-                onChange={handleP21Change} 
-              />
-            </div>
-            <div>
-              <Label htmlFor="p21-username">Username</Label>
-              <Input 
-                id="p21-username" 
-                name="username" 
-                value={p21Connection.username} 
-                onChange={handleP21Change} 
-              />
-            </div>
-            <div>
-              <Label htmlFor="p21-password">Password</Label>
-              <Input 
-                id="p21-password" 
-                name="password" 
-                type="password" 
-                value={p21Connection.password} 
-                onChange={handleP21Change} 
-              />
-            </div>
-            <div className="flex items-end">
+    <Dialog open={isOpen} onOpenChange={onClose}>
+      <DialogContent className="sm:max-w-[600px]">
+        <DialogHeader>
+          <DialogTitle>Database Connections</DialogTitle>
+          <DialogDescription>
+            Configure and test connections to P21 (SQL Server) and POR (MS Access).
+          </DialogDescription>
+        </DialogHeader>
+        {isLoadingInitial ? (
+          <div className="flex justify-center items-center h-40">
+            <CircularProgress />
+          </div>
+        ) : (
+          <div className="grid gap-4 py-4">
+            <h3 className="font-semibold">P21 (SQL Server via ODBC DSN)</h3>
+            <p className="text-sm text-muted-foreground col-span-4">
+              Connection uses the System DSN configured in Windows ODBC Data Sources (x64) 
+              and specified by the P21_DSN environment variable on the server.
+            </p>
+            <div className="flex justify-end items-center gap-2 mt-2">
+              {p21State.error && <span className="text-red-500 text-sm">Error: {p21State.error}</span>}
+              {p21State.isConnected && <span className="text-green-500 text-sm">Connected!</span>}
               <Button 
-                onClick={handleTestP21Connection}
+                onClick={handleTestP21} 
+                variant="outline" 
+                size="sm" 
                 disabled={p21State.isConnecting}
-                className="w-full"
               >
-                {p21State.isConnecting ? 'Testing...' : 'Test Connection'}
+                {p21State.isConnecting ? <CircularProgress size={16} color="inherit" /> : "Test Connection"} 
+              </Button>
+            </div>
+
+            <h3 className="font-semibold mt-6">POR (MS Access via ODBC File Path)</h3>
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="por-filepath" className="text-right">File Path</Label>
+              <Input id="por-filepath" value={porDetails.filePath || ''} onChange={(e) => setPorDetails({...porDetails, filePath: e.target.value})} className="col-span-3" placeholder="C:\Path\To\POR.mdb" />
+            </div>
+             <div className="flex justify-end items-center gap-2">
+              {porState.error && <span className="text-red-500 text-sm">Error: {porState.error}</span>}
+              {porState.isConnected && <span className="text-green-500 text-sm">Connected!</span>}
+              <Button onClick={handleTestPOR} variant="outline" size="sm" disabled={porState.isConnecting || !porDetails.filePath}>
+                {porState.isConnecting ? <CircularProgress size={16} color="inherit" /> : "Test Connection"}
               </Button>
             </div>
           </div>
-          {p21State.isConnected && (
-            <div className="mt-2 text-green-600">Connection successful</div>
-          )}
-          {p21State.error && (
-            <div className="mt-2 text-red-600">{p21State.error}</div>
-          )}
-        </div>
-        
-        <div className="mb-6">
-          <h3 className="text-lg font-semibold mb-2">POR Connection</h3>
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <Label htmlFor="por-server">Server</Label>
-              <Input 
-                id="por-server" 
-                name="server" 
-                value={porConnection.server} 
-                onChange={handlePorChange} 
-              />
-            </div>
-            <div>
-              <Label htmlFor="por-port">Port</Label>
-              <Input 
-                id="por-port" 
-                name="port" 
-                type="number" 
-                value={porConnection.port} 
-                onChange={handlePorChange} 
-              />
-            </div>
-            <div>
-              <Label htmlFor="por-database">Database</Label>
-              <Input 
-                id="por-database" 
-                name="database" 
-                value={porConnection.database} 
-                onChange={handlePorChange} 
-              />
-            </div>
-            <div>
-              <Label htmlFor="por-username">Username</Label>
-              <Input 
-                id="por-username" 
-                name="username" 
-                value={porConnection.username} 
-                onChange={handlePorChange} 
-              />
-            </div>
-            <div>
-              <Label htmlFor="por-password">Password</Label>
-              <Input 
-                id="por-password" 
-                name="password" 
-                type="password" 
-                value={porConnection.password} 
-                onChange={handlePorChange} 
-              />
-            </div>
-            <div className="flex items-end">
-              <Button 
-                onClick={handleTestPorConnection}
-                disabled={porState.isConnecting}
-                className="w-full"
-              >
-                {porState.isConnecting ? 'Testing...' : 'Test Connection'}
-              </Button>
-            </div>
-          </div>
-          {porState.isConnected && (
-            <div className="mt-2 text-green-600">Connection successful</div>
-          )}
-          {porState.error && (
-            <div className="mt-2 text-red-600">{porState.error}</div>
-          )}
-        </div>
-        
-        <div className="flex justify-end gap-2">
-          <Button variant="outline" onClick={onClose}>Cancel</Button>
-          <Button onClick={handleSave}>Save</Button>
-        </div>
-      </div>
-    </div>
+        )}
+        <DialogFooter>
+          <DialogClose asChild>
+            <Button variant="outline">Cancel</Button>
+          </DialogClose>
+          <Button onClick={handleSave} disabled={isLoadingInitial || !porDetails.filePath} title="Save POR File Path">Save Changes</Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
 }

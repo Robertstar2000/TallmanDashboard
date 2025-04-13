@@ -1,7 +1,7 @@
 'use client';
 
 import { LineChart } from '@/components/charts/LineChart';
-import { WebOrderData } from '@/lib/types/dashboard';
+import { WebOrderData } from '@/lib/db/types';
 
 interface WebOrdersChartProps {
   data: WebOrderData[];

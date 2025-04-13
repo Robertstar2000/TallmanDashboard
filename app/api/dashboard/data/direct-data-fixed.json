@@ -1,0 +1,1046 @@
+{
+  "metrics": [
+    {
+      "id": "1",
+      "name": "Total Orders",
+      "value": 863,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "2",
+      "name": "Open Orders",
+      "value": 475,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "3",
+      "name": "Open Orders > 2",
+      "value": 122,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "4",
+      "name": "Daily Revenue",
+      "value": 5250.75,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "5",
+      "name": "Open Invoices",
+      "value": 854,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "6",
+      "name": "Orders Backlogged",
+      "value": 519,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "7",
+      "name": "Total Sales Monthly",
+      "value": 87541.25,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    }
+  ],
+  "accountsData": [
+    {
+      "id": "8",
+      "month": "Jan",
+      "type": "Payable",
+      "value": 45872,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "9",
+      "month": "Jan",
+      "type": "Receivable",
+      "value": 67234,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "10",
+      "month": "Jan",
+      "type": "Overdue",
+      "value": 12453,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "11",
+      "month": "Feb",
+      "type": "Payable",
+      "value": 48752,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "12",
+      "month": "Feb",
+      "type": "Receivable",
+      "value": 69845,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "13",
+      "month": "Feb",
+      "type": "Overdue",
+      "value": 13245,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "14",
+      "month": "Mar",
+      "type": "Payable",
+      "value": 52341,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "15",
+      "month": "Mar",
+      "type": "Receivable",
+      "value": 72456,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "16",
+      "month": "Mar",
+      "type": "Overdue",
+      "value": 14532,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "17",
+      "month": "Apr",
+      "type": "Payable",
+      "value": 54678,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "18",
+      "month": "Apr",
+      "type": "Receivable",
+      "value": 75123,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "19",
+      "month": "Apr",
+      "type": "Overdue",
+      "value": 15678,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "20",
+      "month": "May",
+      "type": "Payable",
+      "value": 56789,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "21",
+      "month": "May",
+      "type": "Receivable",
+      "value": 78234,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "22",
+      "month": "May",
+      "type": "Overdue",
+      "value": 16789,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "23",
+      "month": "Jun",
+      "type": "Payable",
+      "value": 58901,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "24",
+      "month": "Jun",
+      "type": "Receivable",
+      "value": 81345,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "25",
+      "month": "Jun",
+      "type": "Overdue",
+      "value": 17890,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "26",
+      "month": "Jul",
+      "type": "Payable",
+      "value": 61234,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "27",
+      "month": "Jul",
+      "type": "Receivable",
+      "value": 84567,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "28",
+      "month": "Jul",
+      "type": "Overdue",
+      "value": 18901,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "29",
+      "month": "Aug",
+      "type": "Payable",
+      "value": 63456,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "30",
+      "month": "Aug",
+      "type": "Receivable",
+      "value": 87678,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    }
+  ],
+  "historicalData": [
+    {
+      "id": "44",
+      "month": "Jan",
+      "type": "P21",
+      "value": 12500,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "45",
+      "month": "Jan",
+      "type": "POR",
+      "value": 8750,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "46",
+      "month": "Jan",
+      "type": "Combined",
+      "value": 21250,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "47",
+      "month": "Feb",
+      "type": "P21",
+      "value": 13200,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "48",
+      "month": "Feb",
+      "type": "POR",
+      "value": 9100,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "49",
+      "month": "Feb",
+      "type": "Combined",
+      "value": 22300,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "50",
+      "month": "Mar",
+      "type": "P21",
+      "value": 14100,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "51",
+      "month": "Mar",
+      "type": "POR",
+      "value": 9800,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "52",
+      "month": "Mar",
+      "type": "Combined",
+      "value": 23900,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "53",
+      "month": "Apr",
+      "type": "P21",
+      "value": 15200,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "54",
+      "month": "Apr",
+      "type": "POR",
+      "value": 10500,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "55",
+      "month": "Apr",
+      "type": "Combined",
+      "value": 25700,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "56",
+      "month": "May",
+      "type": "P21",
+      "value": 16300,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "57",
+      "month": "May",
+      "type": "POR",
+      "value": 11200,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "58",
+      "month": "May",
+      "type": "Combined",
+      "value": 27500,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "59",
+      "month": "Jun",
+      "type": "P21",
+      "value": 17400,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "60",
+      "month": "Jun",
+      "type": "POR",
+      "value": 12100,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "61",
+      "month": "Jun",
+      "type": "Combined",
+      "value": 29500,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "62",
+      "month": "Jul",
+      "type": "P21",
+      "value": 18500,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "63",
+      "month": "Jul",
+      "type": "POR",
+      "value": 13000,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "64",
+      "month": "Jul",
+      "type": "Combined",
+      "value": 31500,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "65",
+      "month": "Aug",
+      "type": "P21",
+      "value": 19600,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "66",
+      "month": "Aug",
+      "type": "POR",
+      "value": 13900,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "67",
+      "month": "Aug",
+      "type": "Combined",
+      "value": 33500,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "68",
+      "month": "Sep",
+      "type": "P21",
+      "value": 20700,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "69",
+      "month": "Sep",
+      "type": "POR",
+      "value": 14800,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "70",
+      "month": "Sep",
+      "type": "Combined",
+      "value": 35500,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "71",
+      "month": "Oct",
+      "type": "P21",
+      "value": 21800,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "72",
+      "month": "Oct",
+      "type": "POR",
+      "value": 15700,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "73",
+      "month": "Oct",
+      "type": "Combined",
+      "value": 37500,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "74",
+      "month": "Nov",
+      "type": "P21",
+      "value": 22900,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "75",
+      "month": "Nov",
+      "type": "POR",
+      "value": 16600,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "76",
+      "month": "Nov",
+      "type": "Combined",
+      "value": 39500,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "77",
+      "month": "Dec",
+      "type": "P21",
+      "value": 24000,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "78",
+      "month": "Dec",
+      "type": "POR",
+      "value": 17500,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "79",
+      "month": "Dec",
+      "type": "Combined",
+      "value": 41500,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    }
+  ],
+  "customerMetrics": [
+    {
+      "id": "85",
+      "month": "Jan",
+      "type": "New",
+      "value": 42,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "86",
+      "month": "Jan",
+      "type": "Prospects",
+      "value": 65,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "87",
+      "month": "Feb",
+      "type": "New",
+      "value": 48,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "88",
+      "month": "Feb",
+      "type": "Prospects",
+      "value": 72,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "89",
+      "month": "Mar",
+      "type": "New",
+      "value": 55,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "90",
+      "month": "Mar",
+      "type": "Prospects",
+      "value": 79,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "91",
+      "month": "Apr",
+      "type": "New",
+      "value": 62,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "92",
+      "month": "Apr",
+      "type": "Prospects",
+      "value": 85,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "93",
+      "month": "May",
+      "type": "New",
+      "value": 68,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "94",
+      "month": "May",
+      "type": "Prospects",
+      "value": 92,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "95",
+      "month": "Jun",
+      "type": "New",
+      "value": 75,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "96",
+      "month": "Jun",
+      "type": "Prospects",
+      "value": 98,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "97",
+      "month": "Jul",
+      "type": "New",
+      "value": 82,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "98",
+      "month": "Jul",
+      "type": "Prospects",
+      "value": 105,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "99",
+      "month": "Aug",
+      "type": "New",
+      "value": 88,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "100",
+      "month": "Aug",
+      "type": "Prospects",
+      "value": 112,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "101",
+      "month": "Sep",
+      "type": "New",
+      "value": 95,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "102",
+      "month": "Sep",
+      "type": "Prospects",
+      "value": 118,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "103",
+      "month": "Oct",
+      "type": "New",
+      "value": 102,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "104",
+      "month": "Oct",
+      "type": "Prospects",
+      "value": 125,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "105",
+      "month": "Nov",
+      "type": "New",
+      "value": 108,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "106",
+      "month": "Nov",
+      "type": "Prospects",
+      "value": 132,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "107",
+      "month": "Dec",
+      "type": "New",
+      "value": 115,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "108",
+      "month": "Dec",
+      "type": "Prospects",
+      "value": 138,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    }
+  ],
+  "porOverview": [
+    {
+      "id": "109",
+      "month": "Jan",
+      "type": "New Rentals",
+      "value": 45,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "110",
+      "month": "Jan",
+      "type": "Open Rentals",
+      "value": 120,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "111",
+      "month": "Jan",
+      "type": "Rental Value",
+      "value": 15000,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "112",
+      "month": "Feb",
+      "type": "New Rentals",
+      "value": 48,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "113",
+      "month": "Feb",
+      "type": "Open Rentals",
+      "value": 125,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "114",
+      "month": "Feb",
+      "type": "Rental Value",
+      "value": 16200,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "115",
+      "month": "Mar",
+      "type": "New Rentals",
+      "value": 52,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "116",
+      "month": "Mar",
+      "type": "Open Rentals",
+      "value": 130,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "117",
+      "month": "Mar",
+      "type": "Rental Value",
+      "value": 17500,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "118",
+      "month": "Apr",
+      "type": "New Rentals",
+      "value": 55,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "119",
+      "month": "Apr",
+      "type": "Open Rentals",
+      "value": 135,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "120",
+      "month": "Apr",
+      "type": "Rental Value",
+      "value": 18700,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "121",
+      "month": "May",
+      "type": "New Rentals",
+      "value": 58,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "122",
+      "month": "May",
+      "type": "Open Rentals",
+      "value": 140,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "123",
+      "month": "May",
+      "type": "Rental Value",
+      "value": 20000,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "124",
+      "month": "Jun",
+      "type": "New Rentals",
+      "value": 62,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "125",
+      "month": "Jun",
+      "type": "Open Rentals",
+      "value": 145,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "126",
+      "month": "Jun",
+      "type": "Rental Value",
+      "value": 21500,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "127",
+      "month": "Jul",
+      "type": "New Rentals",
+      "value": 65,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "128",
+      "month": "Jul",
+      "type": "Open Rentals",
+      "value": 150,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "129",
+      "month": "Jul",
+      "type": "Rental Value",
+      "value": 23000,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "130",
+      "month": "Aug",
+      "type": "New Rentals",
+      "value": 68,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "131",
+      "month": "Aug",
+      "type": "Open Rentals",
+      "value": 155,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "132",
+      "month": "Aug",
+      "type": "Rental Value",
+      "value": 24500,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "133",
+      "month": "Sep",
+      "type": "New Rentals",
+      "value": 72,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "134",
+      "month": "Sep",
+      "type": "Open Rentals",
+      "value": 160,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "135",
+      "month": "Sep",
+      "type": "Rental Value",
+      "value": 26000,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "136",
+      "month": "Oct",
+      "type": "New Rentals",
+      "value": 75,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "137",
+      "month": "Oct",
+      "type": "Open Rentals",
+      "value": 165,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "138",
+      "month": "Oct",
+      "type": "Rental Value",
+      "value": 27500,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "139",
+      "month": "Nov",
+      "type": "New Rentals",
+      "value": 78,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "140",
+      "month": "Nov",
+      "type": "Open Rentals",
+      "value": 170,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "141",
+      "month": "Nov",
+      "type": "Rental Value",
+      "value": 29000,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "142",
+      "month": "Dec",
+      "type": "New Rentals",
+      "value": 82,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "143",
+      "month": "Dec",
+      "type": "Open Rentals",
+      "value": 175,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "144",
+      "month": "Dec",
+      "type": "Rental Value",
+      "value": 30500,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    }
+  ],
+  "webOrders": [
+    {
+      "id": "145",
+      "month": "Jan",
+      "value": 45,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "146",
+      "month": "Feb",
+      "value": 52,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "147",
+      "month": "Mar",
+      "value": 58,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "148",
+      "month": "Apr",
+      "value": 65,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "149",
+      "month": "May",
+      "value": 72,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "150",
+      "month": "Jun",
+      "value": 78,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "151",
+      "month": "Jul",
+      "value": 85,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "152",
+      "month": "Aug",
+      "value": 92,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "153",
+      "month": "Sep",
+      "value": 98,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "154",
+      "month": "Oct",
+      "value": 105,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "155",
+      "month": "Nov",
+      "value": 112,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "156",
+      "month": "Dec",
+      "value": 118,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    }
+  ],
+  "inventoryData": [
+    {
+      "id": "19",
+      "name": "In Stock",
+      "value": 1863,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "20",
+      "name": "On Order",
+      "value": 834,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    }
+  ],
+  "siteDistribution": [
+    {
+      "id": "24",
+      "name": "Site 1",
+      "value": 214,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "25",
+      "name": "Site 2",
+      "value": 349,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "26",
+      "name": "Site 3",
+      "value": 110,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "124",
+      "name": "Site Distribution Value Columbus",
+      "value": 487,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "125",
+      "name": "Site Distribution Value Addison",
+      "value": 346,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "126",
+      "name": "Site Distribution Value Lake City",
+      "value": 215,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    }
+  ],
+  "dailyOrders": [],
+  "arAging": [
+    {
+      "id": "80",
+      "range": "Current (0-30 days)",
+      "value": 45000,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "81",
+      "range": "31-60 days",
+      "value": 25000,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "82",
+      "range": "61-90 days",
+      "value": 15000,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "83",
+      "range": "Over 90 days",
+      "value": 10000,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    },
+    {
+      "id": "84",
+      "range": "Total",
+      "value": 95000,
+      "lastUpdated": "2025-03-29T00:36:50.353Z"
+    }
+  ]
+}

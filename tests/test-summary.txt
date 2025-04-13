@@ -1,0 +1,19 @@
+TallmanDashboard Test Summary
+Run at: 4/1/2025, 11:12:15 AM
+--------------------------------------------------
+
+Test Suite Results:
+PASS - Dashboard Tests (0.08s)
+PASS - Admin Page Tests (0.10s)
+PASS - Query Page Tests (0.08s)
+PASS - Database Connection Tests (0.26s)
+PASS - SQL Expression Tests (0.35s)
+PASS - Data Completeness Tests (0.07s)
+FAIL - Integration Tests (0.03s)
+
+Summary:
+Total: 7
+Passed: 6
+Failed: 1
+Skipped: 0
+Duration: 0.99 seconds

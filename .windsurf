@@ -1,0 +1,44 @@
+{
+  "autoRun": [
+    {
+      "name": "Run JavaScript Tests",
+      "command": "npx jest",
+      "events": ["fileSave"],
+      "paths": [
+        "lib/**/*.js",
+        "lib/**/*.ts",
+        "components/**/*.js",
+        "components/**/*.ts",
+        "components/**/*.tsx",
+        "app/**/*.js",
+        "app/**/*.ts",
+        "app/**/*.tsx",
+        "scripts/**/*.js",
+        "__tests__/**/*.js",
+        "__tests__/**/*.ts"
+      ]
+    },
+    {
+      "name": "Run SQL Expression Tests",
+      "command": "node scripts/test-key-metrics-updated.js",
+      "events": ["fileSave"],
+      "paths": [
+        "lib/db/single-source-data.ts",
+        "scripts/test-key-metrics-updated.js"
+      ]
+    },
+    {
+      "name": "Lint TypeScript Files",
+      "command": "npx eslint {lib,components,app}/**/*.{ts,tsx} --fix",
+      "events": ["fileSave"],
+      "paths": [
+        "lib/**/*.ts",
+        "lib/**/*.tsx",
+        "components/**/*.ts",
+        "components/**/*.tsx",
+        "app/**/*.ts",
+        "app/**/*.tsx"
+      ]
+    }
+  ]
+}

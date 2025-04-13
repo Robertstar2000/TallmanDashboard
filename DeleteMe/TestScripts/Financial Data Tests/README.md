@@ -1,1 +1,0 @@
-# Financial Data Tests\n\nThis folder contains the following test scripts:\n\n1. test-ar-aging-data-flow.js - Tests AR aging data flow\n2. test-ar-aging-sql-fixed.js - Tests fixed AR aging SQL\n3. test-accounts-queries.js - Tests account-related queries

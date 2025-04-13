@@ -2,7 +2,7 @@
 
 import { MetricsSection } from './dashboard/MetricsSection';
 import { ChartsSection } from './dashboard/ChartsSection';
-import { MetricItem } from '@/lib/types/dashboard';
+import { MetricItem } from '@/lib/db/types';
 
 interface DashboardGridProps {
   data: {

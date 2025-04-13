@@ -1,0 +1,132 @@
+Schemas for Tallman Dashboard 
+
+
+KPI-Focused Database Schemas: Point of Rental Expert vs Epicor P21
+Point of Rental Expert (MS Access) – Key Tables for KPI Data
+Point of Rental Expert’s MS Access backend contains tables for customers, inventory items, rental contracts, and related transactions. The schema below highlights key tables and columns commonly used to calculate rental business KPIs (e.g. revenue, equipment utilization, inventory status, customer metrics, and overdue returns):
+
+
+
+Table Name	Column Name	Description
+Customers	CustomerID	Unique customer identifier (primary key for customers).
+CustomerName	Full name or company name of the customer.
+CustomerSince	Date the customer account was created (customer “start” or acquisition date).
+CustomerSource	Source of customer acquisition (e.g. referral, marketing channel).
+Items	ItemID	Unique inventory item identifier or SKU for the rental equipment.
+ItemName	Descriptive name of the item/equipment.
+ItemType	Type of item (e.g. Rental vs Sale item designation).
+Category	Category or classification of the item (for grouping similar items).
+QuantityOnHand	Total units of this item currently owned/in inventory.
+QuantityOnRent	Units of this item currently out on rent (checked out to customers).
+Cost	Purchase or book value cost of one unit of the item (for margin/ROI analysis).
+ItemLocations	LocationID	Identifier of the branch or location (if using multiple rental locations).
+ItemID	Item identifier (links to the item being stocked at this location).
+QuantityOnHand	Units of the item physically at this location.
+QuantityOnRent	Units of the item currently rented out from this location.
+EquipmentUnits	UnitID	Unique asset/unit identifier for a specific piece of equipment (if items are serialized).
+(Serialized Units)	ItemID	Item identifier for the model/type this unit belongs to (links to Items table).
+SerialNumber	Serial number or asset tag of the individual unit (if applicable).
+Status	Current status of this unit (e.g. Available, On Rent, In Maintenance, Retired).
+CurrentLocation	Current location of the unit (e.g. home branch, or indication that it’s on rent at a customer site).
+RentalContracts	ContractID	Unique rental contract/agreement number (primary key for rental orders).
+CustomerID	Customer who is renting (references the Customers table).
+ContractDate	Date the contract was created (transaction date).
+StartDate	Date the rental period begins (when the item was picked up or delivered).
+TotalAmount	Total expected charges for the contract (sum of all line item charges, taxes, fees).
+Status	Contract status (e.g. Open/Active if ongoing, Closed when all items returned and invoiced).
+ContractLines	ContractID	Reference to the rental contract (links to RentalContracts table).
+LineNumber	Line item number on the contract.
+ItemID	Item being rented on this line (references the Items table).
+Quantity	Quantity of the item rented on this line.
+DueDate	Scheduled return date for this item/line (when the rental is due back).
+ReturnDate	Actual date the item was returned (NULL or blank if not yet returned).
+UnitPrice	Agreed rental rate or price per unit for the rental period (e.g. per day or overall period price).
+LineTotal	Total charge for this line item (e.g. UnitPrice × Quantity for the rental duration).
+Payments	PaymentID	Unique payment transaction identifier.
+ContractID	The rental contract or invoice that this payment is applied to.
+PaymentDate	Date of the payment.
+Amount	Amount paid by the customer in this transaction.
+PaymentMethod	Method of payment (e.g. credit card, cash, check).
+
+
+
+Epicor Prophet 21 (SQL Server) – Key Tables for KPI Data
+Epicor Prophet 21’s SQL Server database has tables for customers, products, sales orders, invoices, and related records. The schema below outlines the main tables and fields used for KPI tracking in a distribution context (e.g. sales revenue, inventory levels, order fulfillment, stock-outs, and accounts receivable performance):
+
+
+
+Table Name	Column Name	Description
+Customers	CustomerID	Unique customer account identifier.
+CustomerName	Name of the customer or business.
+CustomerType	Classification of customer (e.g. segment or type for sales/marketing).
+CreatedDate	Date the customer record was created (customer since).
+Item Master	ItemID	Unique product/item code (primary key in inventory master)​
+support.optimizely.com
+.
+(Products)	ItemDescription	Description of the product (extended item name/description)​
+support.optimizely.com
+.
+ProductCategory	Category or product group classification of the item.
+BaseUnit	Base unit of measure for this item (stocking unit)​
+support.optimizely.com
+.
+StandardCost	Standard or average cost of the item (for margin calculations).
+ListPrice	Base list price of the item (standard selling price)​
+support.optimizely.com
+.
+InventoryLocations	LocationID	Identifier of the warehouse or location.
+(Stock by Warehouse)	ItemID	Item code (links to the Item Master for product details).
+QuantityOnHand	Current on-hand quantity of the item at this location.
+QuantityAllocated	Quantity of the item reserved/allocated to open orders at this location.
+QuantityAvailable	Available stock = OnHand minus allocated (unreserved stock ready to sell).
+SalesOrderHeader	OrderNumber	Sales order number (unique identifier for the order)​
+support.optimizely.com
+.
+CustomerID	Customer who placed the order (links to Customers table)​
+support.optimizely.com
+.
+OrderDate	Date the sales order was entered/created​
+support.optimizely.com
+.
+OrderStatus	Order status (e.g. Open or Completed; completed when fully shipped)​
+support.optimizely.com
+.
+RequestedShipDate	Requested shipping/delivery date for the order (customer’s requirement)​
+support.optimizely.com
+.
+ShippedDate	Actual date the order was shipped or completed (date of final shipment).
+TotalAmount	Total value of the order (sum of line item totals plus applicable tax/shipping).
+SalesOrderLine	OrderNumber	Sales order number (links to SalesOrderHeader).
+LineNumber	Line item number on the order.
+ItemID	Product being ordered (links to Item Master).
+QuantityOrdered	Quantity of the product ordered on this line.
+QuantityShipped	Quantity that has shipped for this line (if partially shipped or complete).
+QuantityBackordered	Quantity backordered (not fulfilled immediately due to stockout).
+UnitPrice	Selling price per unit for this line item.
+ExtendedPrice	Line total amount = UnitPrice × quantity actually shipped (or ordered, before tax/discount).
+Invoices	InvoiceNumber	Invoice number (unique identifier for the invoice record)​
+support.optimizely.com
+​
+support.optimizely.com
+.
+(AR Invoices)	OrderNumber	Associated sales order number for this invoice (if the invoice relates to an order).
+InvoiceDate	Date the invoice was issued (typically the shipment date)​
+support.optimizely.com
+.
+DueDate	Invoice due date for payment (based on payment terms)​
+support.optimizely.com
+.
+CustomerID	Customer billed on this invoice (links to Customers).
+TotalAmount	Total amount of the invoice (including product charges, tax, shipping)​
+support.optimizely.com
+.
+Balance	Current outstanding balance for this invoice (if not fully paid).
+Payments	PaymentID	Unique payment transaction identifier.
+(AR Payments)	CustomerID	Customer who made the payment.
+InvoiceNumber	Invoice to which this payment was applied (references Invoices table).
+PaymentDate	Date the payment was received.
+Amount	Payment amount received.
+PaymentMethod	Method of payment (e.g. check, ACH, credit card).
+
+Favicon
+Sources

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ServerConfig } from '@/lib/db/connections';
+import { ServerConfig } from '@/lib/db/types';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
@@ -8,7 +8,7 @@ import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import Spinner from '../ui/spinner';
-import { useLocalStorage } from '../../lib/hooks/use-local-storage';
+// import { useLocalStorage } from '@/lib/hooks/use-local-storage';
 
 /**
  * Database Connection Manager component for the admin dashboard
@@ -27,23 +27,23 @@ export function DatabaseConnectionManager() {
   };
 
   const defaultPORConfig: ServerConfig = {
-    server: 'TS03',
-    database: 'POR',
+    server: 'TS03', // Not used for Access, but keep for type consistency
+    database: 'POR', // Not used for Access
     username: '',
     password: '',
     useWindowsAuth: false,
-    port: 0,
+    port: 0, // Not used for Access
     type: 'POR',
-    filePath: 'C:\\Users\\BobM\\Desktop\\POR'
+    filePath: 'C:\\Users\\BobM\\Desktop\\POR.MDB' // Updated default path
   };
 
-  // Local storage hooks for persisting connection configurations
-  const [storedP21Config, setStoredP21Config] = useLocalStorage<ServerConfig>('p21-connection-config', defaultP21Config);
-  const [storedPORConfig, setStoredPORConfig] = useLocalStorage<ServerConfig>('por-connection-config', defaultPORConfig);
+  // Local storage hooks for persisting connection configurations - Temporarily disabled
+  // const [storedP21Config, setStoredP21Config] = useLocalStorage<ServerConfig>('p21-connection-config', defaultP21Config);
+  // const [storedPORConfig, setStoredPORConfig] = useLocalStorage<ServerConfig>('por-connection-config', defaultPORConfig);
 
-  // State for configurations
-  const [p21Config, setP21Config] = useState<ServerConfig>(storedP21Config);
-  const [porConfig, setPORConfig] = useState<ServerConfig>(storedPORConfig);
+  // State for configurations - Initialize directly with defaults
+  const [p21Config, setP21Config] = useState<ServerConfig>(defaultP21Config);
+  const [porConfig, setPORConfig] = useState<ServerConfig>(defaultPORConfig);
   
   // State for test results
   const [p21TestResult, setP21TestResult] = useState<{ success: boolean; message: string } | null>(null);
@@ -57,15 +57,15 @@ export function DatabaseConnectionManager() {
   const [p21Connected, setP21Connected] = useState(false);
   const [porConnected, setPORConnected] = useState(false);
 
-  // Update state when stored configs change
-  useEffect(() => {
-    setP21Config(storedP21Config);
-    setPORConfig(storedPORConfig);
-  }, [storedP21Config, storedPORConfig]);
+  // Update state when stored configs change - Temporarily disabled
+  // useEffect(() => {
+  //   setP21Config(storedP21Config);
+  //   setPORConfig(storedPORConfig);
+  // }, [storedP21Config, storedPORConfig]);
 
   // Handle input changes for P21
   const handleP21Change = (field: keyof ServerConfig, value: string | boolean) => {
-    setP21Config((prev) => ({
+    setP21Config((prev: ServerConfig) => ({
       ...prev,
       [field]: field === 'port' && typeof value === 'string' ? parseInt(value, 10) || 1433 : value,
     }));
@@ -75,7 +75,7 @@ export function DatabaseConnectionManager() {
 
   // Handle input changes for POR
   const handlePORChange = (field: keyof ServerConfig, value: string | boolean) => {
-    setPORConfig((prev) => ({
+    setPORConfig((prev: ServerConfig) => ({
       ...prev,
       [field]: field === 'port' && typeof value === 'string' ? parseInt(value, 10) || 0 : value,
     }));
@@ -102,8 +102,8 @@ export function DatabaseConnectionManager() {
       setP21Connected(result.success);
       
       if (result.success) {
-        // Save successful configuration
-        setStoredP21Config(p21Config);
+        // Save successful configuration - Temporarily disabled
+        // setStoredP21Config(p21Config);
       }
     } catch (error) {
       setP21TestResult({
@@ -122,18 +122,23 @@ export function DatabaseConnectionManager() {
     setPORTestResult(null);
     
     try {
-      const response = await fetch('/api/connection/test', {
+      // Validate filePath locally first
+      if (!porConfig.filePath) {
+        setPORTestResult({ success: false, message: 'MS Access File Path is required.' });
+        setPORTesting(false);
+        return;
+      }
+
+      // --- DEBUG LOG --- 
+      console.log('Frontend: Sending POR test request with filePath:', porConfig.filePath);
+
+      const response = await fetch('/api/admin/test-por', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ 
-          config: {
-            ...porConfig,
-            type: 'POR',
-            // Ensure MS Access specific properties are set
-            filePath: porConfig.filePath || 'C:\\Users\\BobM\\Desktop\\POR'
-          }
+          filePath: porConfig.filePath
         }),
       });
       
@@ -142,12 +147,13 @@ export function DatabaseConnectionManager() {
       setPORConnected(result.success);
       
       if (result.success) {
-        // Save successful configuration
-        setStoredPORConfig({
-          ...porConfig,
-          type: 'POR',
-          filePath: porConfig.filePath || 'C:\\Users\\BobM\\Desktop\\POR'
-        });
+        // Save successful configuration (only if needed, potentially just the path) - Temporarily disabled
+        // Keeping the existing save logic for now
+        // setStoredPORConfig({
+        //   ...porConfig,
+        //   type: 'POR',
+        //   filePath: porConfig.filePath
+        // });
       }
     } catch (error) {
       setPORTestResult({
@@ -280,41 +286,16 @@ export function DatabaseConnectionManager() {
           
           {/* POR Connection Tab */}
           <TabsContent value="por" className="space-y-4 mt-4">
-            <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label htmlFor="por-server">Server</Label>
-                <Input
-                  id="por-server"
-                  value={porConfig.server}
-                  onChange={(e) => handlePORChange('server', e.target.value)}
-                  placeholder="TS03"
-                  disabled={true}
-                />
-                <p className="text-xs text-muted-foreground">MS Access doesn't require server configuration</p>
-              </div>
-              
-              <div className="space-y-2">
-                <Label htmlFor="por-database">Database</Label>
-                <Input
-                  id="por-database"
-                  value={porConfig.database}
-                  onChange={(e) => handlePORChange('database', e.target.value)}
-                  placeholder="POR"
-                  disabled={true}
-                />
-                <p className="text-xs text-muted-foreground">Fixed to POR database</p>
-              </div>
-            </div>
             
             <div className="space-y-2">
               <Label htmlFor="por-file-path">MS Access File Path</Label>
               <Input
                 id="por-file-path"
-                value={porConfig.filePath || 'C:\\Users\\BobM\\Desktop\\POR'}
+                value={porConfig.filePath || ''}
                 onChange={(e) => handlePORChange('filePath', e.target.value)}
-                placeholder="C:\\Users\\BobM\\Desktop\\POR"
+                placeholder="C:\\Path\\To\\Your\\Database.mdb"
               />
-              <p className="text-xs text-muted-foreground">Path to the MS Access database file</p>
+              <p className="text-xs text-muted-foreground">Full path to the MS Access database file (e.g., .mdb or .accdb)</p>
             </div>
             
             <Button 

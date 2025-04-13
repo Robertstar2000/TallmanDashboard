@@ -1,7 +1,7 @@
 'use client';
 
 import { Card, CardContent } from "@/components/ui/card";
-import { MetricItem } from "@/lib/types/dashboard";
+import { MetricItem } from "@/lib/db/types";
 
 export interface MetricsProps {
   data: MetricItem[];

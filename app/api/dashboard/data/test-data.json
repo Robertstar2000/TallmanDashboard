@@ -1,0 +1,1000 @@
+{
+  "metrics": [
+    {
+      "id": "1",
+      "name": "Total Orders",
+      "value": 905,
+      "lastUpdated": "2025-03-29T00:27:52.709Z"
+    },
+    {
+      "id": "2",
+      "name": "Open Orders",
+      "value": 104,
+      "lastUpdated": "2025-03-29T00:27:52.709Z"
+    },
+    {
+      "id": "3",
+      "name": "Open Orders > 2",
+      "value": 791,
+      "lastUpdated": "2025-03-29T00:27:52.710Z"
+    },
+    {
+      "id": "4",
+      "name": "Daily Revenue",
+      "value": 424,
+      "lastUpdated": "2025-03-29T00:27:52.710Z"
+    },
+    {
+      "id": "5",
+      "name": "Open Invoices",
+      "value": 265,
+      "lastUpdated": "2025-03-29T00:27:52.710Z"
+    },
+    {
+      "id": "6",
+      "name": "Orders Backlogged",
+      "value": 743,
+      "lastUpdated": "2025-03-29T00:27:52.711Z"
+    },
+    {
+      "id": "7",
+      "name": "Total Sales Monthly",
+      "value": 883,
+      "lastUpdated": "2025-03-29T00:27:52.711Z"
+    },
+    {
+      "id": "117",
+      "name": "Key Metrics Total Orders Overview",
+      "value": 471,
+      "lastUpdated": "2025-03-29T00:27:52.712Z"
+    },
+    {
+      "id": "118",
+      "name": "Key Metrics Open Orders (/day) Overview",
+      "value": 250,
+      "lastUpdated": "2025-03-29T00:27:52.712Z"
+    },
+    {
+      "id": "119",
+      "name": "Key Metrics All Open Orders Overview",
+      "value": 527,
+      "lastUpdated": "2025-03-29T00:27:52.712Z"
+    },
+    {
+      "id": "120",
+      "name": "Key Metrics Daily Revenue Overview",
+      "value": 595,
+      "lastUpdated": "2025-03-29T00:27:52.713Z"
+    },
+    {
+      "id": "121",
+      "name": "Key Metrics Open Invoices Overview",
+      "value": 640,
+      "lastUpdated": "2025-03-29T00:27:52.713Z"
+    },
+    {
+      "id": "122",
+      "name": "Key Metrics OrdersBackloged Overview",
+      "value": 541,
+      "lastUpdated": "2025-03-29T00:27:52.713Z"
+    },
+    {
+      "id": "123",
+      "name": "Key Metrics Total Sales Monthly Overview",
+      "value": 650,
+      "lastUpdated": "2025-03-29T00:27:52.714Z"
+    }
+  ],
+  "historicalData": [
+    {
+      "id": "11",
+      "name": "P21",
+      "value": 4780,
+      "lastUpdated": "2025-03-29T00:27:52.716Z"
+    },
+    {
+      "id": "12",
+      "name": "POR",
+      "value": 1134,
+      "lastUpdated": "2025-03-29T00:27:52.716Z"
+    },
+    {
+      "id": "13",
+      "name": "Combined",
+      "value": 3628,
+      "lastUpdated": "2025-03-29T00:27:52.716Z"
+    },
+    {
+      "id": "14",
+      "name": "Value 1",
+      "value": 3827,
+      "lastUpdated": "2025-03-29T00:27:52.717Z"
+    },
+    {
+      "id": "15",
+      "name": "Value 2",
+      "value": 2087,
+      "lastUpdated": "2025-03-29T00:27:52.717Z"
+    },
+    {
+      "id": "16",
+      "name": "Value 3",
+      "value": 3436,
+      "lastUpdated": "2025-03-29T00:27:52.717Z"
+    },
+    {
+      "id": "73",
+      "name": "Historical Data P21, Jan",
+      "value": 3152,
+      "lastUpdated": "2025-03-29T00:27:52.718Z"
+    },
+    {
+      "id": "74",
+      "name": "Historical Data P21, Feb",
+      "value": 2709,
+      "lastUpdated": "2025-03-29T00:27:52.718Z"
+    },
+    {
+      "id": "75",
+      "name": "Historical Data P21, Mar",
+      "value": 4558,
+      "lastUpdated": "2025-03-29T00:27:52.718Z"
+    },
+    {
+      "id": "76",
+      "name": "Historical Data P21, Apr",
+      "value": 3213,
+      "lastUpdated": "2025-03-29T00:27:52.718Z"
+    },
+    {
+      "id": "77",
+      "name": "Historical Data P21, May",
+      "value": 1286,
+      "lastUpdated": "2025-03-29T00:27:52.719Z"
+    },
+    {
+      "id": "78",
+      "name": "Historical Data P21, Jun",
+      "value": 4554,
+      "lastUpdated": "2025-03-29T00:27:52.719Z"
+    },
+    {
+      "id": "79",
+      "name": "Historical Data P21, Jul",
+      "value": 1871,
+      "lastUpdated": "2025-03-29T00:27:52.719Z"
+    },
+    {
+      "id": "80",
+      "name": "Historical Data P21, Aug",
+      "value": 1546,
+      "lastUpdated": "2025-03-29T00:27:52.720Z"
+    },
+    {
+      "id": "81",
+      "name": "Historical Data P21, Sep",
+      "value": 4464,
+      "lastUpdated": "2025-03-29T00:27:52.720Z"
+    },
+    {
+      "id": "82",
+      "name": "Historical Data P21, Oct",
+      "value": 1290,
+      "lastUpdated": "2025-03-29T00:27:52.720Z"
+    },
+    {
+      "id": "83",
+      "name": "Historical Data P21, Nov",
+      "value": 3905,
+      "lastUpdated": "2025-03-29T00:27:52.720Z"
+    },
+    {
+      "id": "84",
+      "name": "Historical Data P21, Dec",
+      "value": 2124,
+      "lastUpdated": "2025-03-29T00:27:52.721Z"
+    },
+    {
+      "id": "85",
+      "name": "Historical Data POR, Jan",
+      "value": 4635,
+      "lastUpdated": "2025-03-29T00:27:52.721Z"
+    },
+    {
+      "id": "86",
+      "name": "Historical Data POR, Feb",
+      "value": 2595,
+      "lastUpdated": "2025-03-29T00:27:52.722Z"
+    },
+    {
+      "id": "87",
+      "name": "Historical Data POR, Mar",
+      "value": 3051,
+      "lastUpdated": "2025-03-29T00:27:52.722Z"
+    },
+    {
+      "id": "88",
+      "name": "Historical Data POR, Apr",
+      "value": 3074,
+      "lastUpdated": "2025-03-29T00:27:52.723Z"
+    },
+    {
+      "id": "89",
+      "name": "Historical Data POR, May",
+      "value": 2490,
+      "lastUpdated": "2025-03-29T00:27:52.723Z"
+    },
+    {
+      "id": "90",
+      "name": "Historical Data POR, Jun",
+      "value": 1727,
+      "lastUpdated": "2025-03-29T00:27:52.723Z"
+    },
+    {
+      "id": "91",
+      "name": "Historical Data POR, Jul",
+      "value": 4621,
+      "lastUpdated": "2025-03-29T00:27:52.724Z"
+    },
+    {
+      "id": "92",
+      "name": "Historical Data POR, Aug",
+      "value": 1729,
+      "lastUpdated": "2025-03-29T00:27:52.724Z"
+    },
+    {
+      "id": "93",
+      "name": "Historical Data POR, Sep",
+      "value": 4217,
+      "lastUpdated": "2025-03-29T00:27:52.724Z"
+    },
+    {
+      "id": "94",
+      "name": "Historical Data POR, Oct",
+      "value": 4142,
+      "lastUpdated": "2025-03-29T00:27:52.725Z"
+    },
+    {
+      "id": "95",
+      "name": "Historical Data POR, Nov",
+      "value": 3954,
+      "lastUpdated": "2025-03-29T00:27:52.725Z"
+    },
+    {
+      "id": "96",
+      "name": "Historical Data POR, Dec",
+      "value": 2156,
+      "lastUpdated": "2025-03-29T00:27:52.725Z"
+    },
+    {
+      "id": "97",
+      "name": "Historical Data Total, Jan",
+      "value": 4774,
+      "lastUpdated": "2025-03-29T00:27:52.725Z"
+    },
+    {
+      "id": "98",
+      "name": "Historical Data Total, Feb",
+      "value": 1083,
+      "lastUpdated": "2025-03-29T00:27:52.726Z"
+    },
+    {
+      "id": "99",
+      "name": "Historical Data Total, Mar",
+      "value": 3633,
+      "lastUpdated": "2025-03-29T00:27:52.726Z"
+    },
+    {
+      "id": "100",
+      "name": "Historical Data Total, Apr",
+      "value": 3503,
+      "lastUpdated": "2025-03-29T00:27:52.730Z"
+    },
+    {
+      "id": "101",
+      "name": "Historical Data Total, May",
+      "value": 4666,
+      "lastUpdated": "2025-03-29T00:27:52.730Z"
+    },
+    {
+      "id": "102",
+      "name": "Historical Data Total, Jun",
+      "value": 4381,
+      "lastUpdated": "2025-03-29T00:27:52.731Z"
+    },
+    {
+      "id": "103",
+      "name": "Historical Data Total, Jul",
+      "value": 4373,
+      "lastUpdated": "2025-03-29T00:27:52.733Z"
+    },
+    {
+      "id": "104",
+      "name": "Historical Data Total, Aug",
+      "value": 4546,
+      "lastUpdated": "2025-03-29T00:27:52.734Z"
+    },
+    {
+      "id": "105",
+      "name": "Historical Data Total, Sep",
+      "value": 2061,
+      "lastUpdated": "2025-03-29T00:27:52.734Z"
+    },
+    {
+      "id": "106",
+      "name": "Historical Data Total, Oct",
+      "value": 3917,
+      "lastUpdated": "2025-03-29T00:27:52.734Z"
+    },
+    {
+      "id": "107",
+      "name": "Historical Data Total, Nov",
+      "value": 3837,
+      "lastUpdated": "2025-03-29T00:27:52.735Z"
+    },
+    {
+      "id": "108",
+      "name": "Historical Data Total, Dec",
+      "value": 1413,
+      "lastUpdated": "2025-03-29T00:27:52.735Z"
+    }
+  ],
+  "accountsData": [
+    {
+      "id": "8",
+      "name": "Payable",
+      "value": 16169,
+      "lastUpdated": "2025-03-29T00:27:52.714Z"
+    },
+    {
+      "id": "9",
+      "name": "Receivable",
+      "value": 34807,
+      "lastUpdated": "2025-03-29T00:27:52.715Z"
+    },
+    {
+      "id": "10",
+      "name": "Overdue",
+      "value": 11637,
+      "lastUpdated": "2025-03-29T00:27:52.715Z"
+    }
+  ],
+  "customerMetrics": [
+    {
+      "id": "17",
+      "name": "New Customers",
+      "value": 470,
+      "lastUpdated": "2025-03-29T00:27:52.736Z"
+    },
+    {
+      "id": "18",
+      "name": "Returning Customers",
+      "value": 395,
+      "lastUpdated": "2025-03-29T00:27:52.736Z"
+    },
+    {
+      "id": "42",
+      "name": "Customer Metrics New, Jan",
+      "value": 316,
+      "lastUpdated": "2025-03-29T00:27:52.736Z"
+    },
+    {
+      "id": "43",
+      "name": "Customer Metrics New, Feb",
+      "value": 421,
+      "lastUpdated": "2025-03-29T00:27:52.737Z"
+    },
+    {
+      "id": "44",
+      "name": "Customer Metrics New, Mar",
+      "value": 130,
+      "lastUpdated": "2025-03-29T00:27:52.737Z"
+    },
+    {
+      "id": "45",
+      "name": "Customer Metrics New, Apr",
+      "value": 240,
+      "lastUpdated": "2025-03-29T00:27:52.737Z"
+    },
+    {
+      "id": "46",
+      "name": "Customer Metrics New, May",
+      "value": 299,
+      "lastUpdated": "2025-03-29T00:27:52.738Z"
+    },
+    {
+      "id": "47",
+      "name": "Customer Metrics New, Jun",
+      "value": 301,
+      "lastUpdated": "2025-03-29T00:27:52.738Z"
+    },
+    {
+      "id": "48",
+      "name": "Customer Metrics New, Jul",
+      "value": 206,
+      "lastUpdated": "2025-03-29T00:27:52.739Z"
+    },
+    {
+      "id": "49",
+      "name": "Customer Metrics New, Aug",
+      "value": 366,
+      "lastUpdated": "2025-03-29T00:27:52.739Z"
+    },
+    {
+      "id": "50",
+      "name": "Customer Metrics New, Sep",
+      "value": 152,
+      "lastUpdated": "2025-03-29T00:27:52.740Z"
+    },
+    {
+      "id": "51",
+      "name": "Customer Metrics New, Oct",
+      "value": 134,
+      "lastUpdated": "2025-03-29T00:27:52.740Z"
+    },
+    {
+      "id": "52",
+      "name": "Customer Metrics New, Nov",
+      "value": 327,
+      "lastUpdated": "2025-03-29T00:27:52.740Z"
+    },
+    {
+      "id": "53",
+      "name": "Customer Metrics New, Dec",
+      "value": 437,
+      "lastUpdated": "2025-03-29T00:27:52.741Z"
+    },
+    {
+      "id": "54",
+      "name": "Customer Metrics Prospects, Jan",
+      "value": 444,
+      "lastUpdated": "2025-03-29T00:27:52.741Z"
+    },
+    {
+      "id": "55",
+      "name": "Customer Metrics Prospects, Feb",
+      "value": 380,
+      "lastUpdated": "2025-03-29T00:27:52.741Z"
+    },
+    {
+      "id": "56",
+      "name": "Customer Metrics Prospects, Mar",
+      "value": 304,
+      "lastUpdated": "2025-03-29T00:27:52.741Z"
+    },
+    {
+      "id": "57",
+      "name": "Customer Metrics Prospects, Apr",
+      "value": 212,
+      "lastUpdated": "2025-03-29T00:27:52.742Z"
+    },
+    {
+      "id": "58",
+      "name": "Customer Metrics Prospects, May",
+      "value": 316,
+      "lastUpdated": "2025-03-29T00:27:52.742Z"
+    },
+    {
+      "id": "59",
+      "name": "Customer Metrics Prospects, Jun",
+      "value": 149,
+      "lastUpdated": "2025-03-29T00:27:52.742Z"
+    },
+    {
+      "id": "60",
+      "name": "Customer Metrics Prospects, Jul",
+      "value": 468,
+      "lastUpdated": "2025-03-29T00:27:52.743Z"
+    },
+    {
+      "id": "61",
+      "name": "Customer Metrics Prospects, Aug",
+      "value": 490,
+      "lastUpdated": "2025-03-29T00:27:52.743Z"
+    },
+    {
+      "id": "62",
+      "name": "Customer Metrics Prospects, Sep",
+      "value": 371,
+      "lastUpdated": "2025-03-29T00:27:52.743Z"
+    },
+    {
+      "id": "63",
+      "name": "Customer Metrics Prospects, Oct",
+      "value": 453,
+      "lastUpdated": "2025-03-29T00:27:52.744Z"
+    },
+    {
+      "id": "64",
+      "name": "Customer Metrics Prospects, Nov",
+      "value": 311,
+      "lastUpdated": "2025-03-29T00:27:52.744Z"
+    },
+    {
+      "id": "65",
+      "name": "Customer Metrics Prospects, Dec",
+      "value": 150,
+      "lastUpdated": "2025-03-29T00:27:52.744Z"
+    }
+  ],
+  "inventoryData": [
+    {
+      "id": "19",
+      "name": "In Stock",
+      "value": 689,
+      "lastUpdated": "2025-03-29T00:27:52.745Z"
+    },
+    {
+      "id": "20",
+      "name": "On Order",
+      "value": 967,
+      "lastUpdated": "2025-03-29T00:27:52.745Z"
+    }
+  ],
+  "porOverview": [
+    {
+      "id": "21",
+      "name": "New Rentals",
+      "value": 79,
+      "lastUpdated": "2025-03-29T00:27:52.746Z"
+    },
+    {
+      "id": "22",
+      "name": "Open Rentals",
+      "value": 179,
+      "lastUpdated": "2025-03-29T00:27:52.746Z"
+    },
+    {
+      "id": "23",
+      "name": "Rental Value",
+      "value": 63,
+      "lastUpdated": "2025-03-29T00:27:52.746Z"
+    },
+    {
+      "id": "127",
+      "name": "POR Overview New Rentals, Jan",
+      "value": 144,
+      "lastUpdated": "2025-03-29T00:27:52.746Z"
+    },
+    {
+      "id": "128",
+      "name": "POR Overview New Rentals, Feb",
+      "value": 111,
+      "lastUpdated": "2025-03-29T00:27:52.747Z"
+    },
+    {
+      "id": "129",
+      "name": "POR Overview New Rentals, Mar",
+      "value": 143,
+      "lastUpdated": "2025-03-29T00:27:52.747Z"
+    },
+    {
+      "id": "130",
+      "name": "POR Overview New Rentals, Apr",
+      "value": 124,
+      "lastUpdated": "2025-03-29T00:27:52.747Z"
+    },
+    {
+      "id": "131",
+      "name": "POR Overview New Rentals, May",
+      "value": 113,
+      "lastUpdated": "2025-03-29T00:27:52.748Z"
+    },
+    {
+      "id": "132",
+      "name": "POR Overview New Rentals, Jun",
+      "value": 156,
+      "lastUpdated": "2025-03-29T00:27:52.748Z"
+    },
+    {
+      "id": "133",
+      "name": "POR Overview New Rentals, Jul",
+      "value": 132,
+      "lastUpdated": "2025-03-29T00:27:52.748Z"
+    },
+    {
+      "id": "134",
+      "name": "POR Overview New Rentals, Aug",
+      "value": 173,
+      "lastUpdated": "2025-03-29T00:27:52.749Z"
+    },
+    {
+      "id": "135",
+      "name": "POR Overview New Rentals, Sep",
+      "value": 177,
+      "lastUpdated": "2025-03-29T00:27:52.749Z"
+    },
+    {
+      "id": "136",
+      "name": "POR Overview New Rentals, Oct",
+      "value": 128,
+      "lastUpdated": "2025-03-29T00:27:52.749Z"
+    },
+    {
+      "id": "137",
+      "name": "POR Overview New Rentals, Nov",
+      "value": 147,
+      "lastUpdated": "2025-03-29T00:27:52.750Z"
+    },
+    {
+      "id": "138",
+      "name": "POR Overview New Rentals, Dec",
+      "value": 96,
+      "lastUpdated": "2025-03-29T00:27:52.750Z"
+    },
+    {
+      "id": "139",
+      "name": "POR Overview Open Rentals, Jan",
+      "value": 161,
+      "lastUpdated": "2025-03-29T00:27:52.750Z"
+    },
+    {
+      "id": "140",
+      "name": "POR Overview Open Rentals, Feb",
+      "value": 136,
+      "lastUpdated": "2025-03-29T00:27:52.750Z"
+    },
+    {
+      "id": "141",
+      "name": "POR Overview Open Rentals, Mar",
+      "value": 92,
+      "lastUpdated": "2025-03-29T00:27:52.751Z"
+    },
+    {
+      "id": "142",
+      "name": "POR Overview Open Rentals, Apr",
+      "value": 63,
+      "lastUpdated": "2025-03-29T00:27:52.751Z"
+    },
+    {
+      "id": "143",
+      "name": "POR Overview Open Rentals, May",
+      "value": 84,
+      "lastUpdated": "2025-03-29T00:27:52.751Z"
+    },
+    {
+      "id": "144",
+      "name": "POR Overview Open Rentals, Jun",
+      "value": 184,
+      "lastUpdated": "2025-03-29T00:27:52.752Z"
+    },
+    {
+      "id": "145",
+      "name": "POR Overview Open Rentals, Jul",
+      "value": 182,
+      "lastUpdated": "2025-03-29T00:27:52.752Z"
+    },
+    {
+      "id": "146",
+      "name": "POR Overview Open Rentals, Aug",
+      "value": 71,
+      "lastUpdated": "2025-03-29T00:27:52.752Z"
+    },
+    {
+      "id": "147",
+      "name": "POR Overview Open Rentals, Sep",
+      "value": 156,
+      "lastUpdated": "2025-03-29T00:27:52.752Z"
+    },
+    {
+      "id": "148",
+      "name": "POR Overview Open Rentals, Oct",
+      "value": 85,
+      "lastUpdated": "2025-03-29T00:27:52.753Z"
+    },
+    {
+      "id": "149",
+      "name": "POR Overview Open Rentals, Nov",
+      "value": 130,
+      "lastUpdated": "2025-03-29T00:27:52.753Z"
+    },
+    {
+      "id": "150",
+      "name": "POR Overview Open Rentals, Dec",
+      "value": 77,
+      "lastUpdated": "2025-03-29T00:27:52.753Z"
+    },
+    {
+      "id": "151",
+      "name": "POR Overview Rental Value, Jan",
+      "value": 65,
+      "lastUpdated": "2025-03-29T00:27:52.754Z"
+    },
+    {
+      "id": "152",
+      "name": "POR Overview Rental Value, Feb",
+      "value": 61,
+      "lastUpdated": "2025-03-29T00:27:52.754Z"
+    },
+    {
+      "id": "153",
+      "name": "POR Overview Rental Value, Mar",
+      "value": 119,
+      "lastUpdated": "2025-03-29T00:27:52.754Z"
+    },
+    {
+      "id": "154",
+      "name": "POR Overview Rental Value, Apr",
+      "value": 132,
+      "lastUpdated": "2025-03-29T00:27:52.755Z"
+    },
+    {
+      "id": "155",
+      "name": "POR Overview Rental Value, May",
+      "value": 174,
+      "lastUpdated": "2025-03-29T00:27:52.755Z"
+    },
+    {
+      "id": "156",
+      "name": "POR Overview Rental Value, Jun",
+      "value": 127,
+      "lastUpdated": "2025-03-29T00:27:52.755Z"
+    },
+    {
+      "id": "157",
+      "name": "POR Overview Rental Value, Jul",
+      "value": 174,
+      "lastUpdated": "2025-03-29T00:27:52.756Z"
+    },
+    {
+      "id": "158",
+      "name": "POR Overview Rental Value, Aug",
+      "value": 136,
+      "lastUpdated": "2025-03-29T00:27:52.756Z"
+    },
+    {
+      "id": "159",
+      "name": "POR Overview Rental Value, Sep",
+      "value": 193,
+      "lastUpdated": "2025-03-29T00:27:52.756Z"
+    },
+    {
+      "id": "160",
+      "name": "POR Overview Rental Value, Oct",
+      "value": 148,
+      "lastUpdated": "2025-03-29T00:27:52.756Z"
+    },
+    {
+      "id": "161",
+      "name": "POR Overview Rental Value, Nov",
+      "value": 60,
+      "lastUpdated": "2025-03-29T00:27:52.757Z"
+    },
+    {
+      "id": "162",
+      "name": "POR Overview Rental Value, Dec",
+      "value": 153,
+      "lastUpdated": "2025-03-29T00:27:52.757Z"
+    }
+  ],
+  "siteDistribution": [
+    {
+      "id": "24",
+      "name": "Site 1",
+      "value": 39,
+      "lastUpdated": "2025-03-29T00:27:52.758Z"
+    },
+    {
+      "id": "25",
+      "name": "Site 2",
+      "value": 35,
+      "lastUpdated": "2025-03-29T00:27:52.758Z"
+    },
+    {
+      "id": "26",
+      "name": "Site 3",
+      "value": 63,
+      "lastUpdated": "2025-03-29T00:27:52.758Z"
+    },
+    {
+      "id": "124",
+      "name": "Site Distribution Value Columbus",
+      "value": 93,
+      "lastUpdated": "2025-03-29T00:27:52.759Z"
+    },
+    {
+      "id": "125",
+      "name": "Site Distribution Value Addison",
+      "value": 49,
+      "lastUpdated": "2025-03-29T00:27:52.759Z"
+    },
+    {
+      "id": "126",
+      "name": "Site Distribution Value Lake City",
+      "value": 51,
+      "lastUpdated": "2025-03-29T00:27:52.759Z"
+    }
+  ],
+  "arAging": [
+    {
+      "id": "27",
+      "name": "Current",
+      "value": 7943,
+      "lastUpdated": "2025-03-29T00:27:52.760Z"
+    },
+    {
+      "id": "28",
+      "name": "1-30 Days",
+      "value": 4590,
+      "lastUpdated": "2025-03-29T00:27:52.760Z"
+    },
+    {
+      "id": "29",
+      "name": "31-60 Days",
+      "value": 5694,
+      "lastUpdated": "2025-03-29T00:27:52.760Z"
+    },
+    {
+      "id": "30",
+      "name": "61-90 Days",
+      "value": 7482,
+      "lastUpdated": "2025-03-29T00:27:52.761Z"
+    },
+    {
+      "id": "31",
+      "name": "Over 90 Days",
+      "value": 7531,
+      "lastUpdated": "2025-03-29T00:27:52.761Z"
+    }
+  ],
+  "dailyOrders": [
+    {
+      "id": "32",
+      "name": "Monday",
+      "value": 69,
+      "lastUpdated": "2025-03-29T00:27:52.761Z"
+    },
+    {
+      "id": "33",
+      "name": "Tuesday",
+      "value": 50,
+      "lastUpdated": "2025-03-29T00:27:52.762Z"
+    },
+    {
+      "id": "34",
+      "name": "Wednesday",
+      "value": 81,
+      "lastUpdated": "2025-03-29T00:27:52.762Z"
+    },
+    {
+      "id": "35",
+      "name": "Thursday",
+      "value": 62,
+      "lastUpdated": "2025-03-29T00:27:52.762Z"
+    },
+    {
+      "id": "36",
+      "name": "Friday",
+      "value": 24,
+      "lastUpdated": "2025-03-29T00:27:52.762Z"
+    },
+    {
+      "id": "66",
+      "name": "Daily Orders Orders Today",
+      "value": 22,
+      "lastUpdated": "2025-03-29T00:27:52.763Z"
+    },
+    {
+      "id": "67",
+      "name": "Daily Orders Orders Today-, 1",
+      "value": 80,
+      "lastUpdated": "2025-03-29T00:27:52.763Z"
+    },
+    {
+      "id": "68",
+      "name": "Daily Orders Orders Today-, 2",
+      "value": 55,
+      "lastUpdated": "2025-03-29T00:27:52.764Z"
+    },
+    {
+      "id": "69",
+      "name": "Daily Orders Orders Today-, 3",
+      "value": 43,
+      "lastUpdated": "2025-03-29T00:27:52.764Z"
+    },
+    {
+      "id": "70",
+      "name": "Daily Orders Orders Today-, 4",
+      "value": 40,
+      "lastUpdated": "2025-03-29T00:27:52.764Z"
+    },
+    {
+      "id": "71",
+      "name": "Daily Orders Orders Today-, 5",
+      "value": 31,
+      "lastUpdated": "2025-03-29T00:27:52.765Z"
+    },
+    {
+      "id": "72",
+      "name": "Daily Orders Orders Today-, 6",
+      "value": 32,
+      "lastUpdated": "2025-03-29T00:27:52.765Z"
+    }
+  ],
+  "webOrders": [
+    {
+      "id": "37",
+      "name": "Orders",
+      "value": 85,
+      "lastUpdated": "2025-03-29T00:27:52.765Z"
+    },
+    {
+      "id": "38",
+      "name": "Revenue",
+      "value": 96,
+      "lastUpdated": "2025-03-29T00:27:52.766Z"
+    },
+    {
+      "id": "163",
+      "name": "Web Orders Orders, Jan",
+      "value": 25,
+      "lastUpdated": "2025-03-29T00:27:52.766Z"
+    },
+    {
+      "id": "164",
+      "name": "Web Orders Orders, Feb",
+      "value": 44,
+      "lastUpdated": "2025-03-29T00:27:52.766Z"
+    },
+    {
+      "id": "165",
+      "name": "Web Orders Orders, Mar",
+      "value": 74,
+      "lastUpdated": "2025-03-29T00:27:52.766Z"
+    },
+    {
+      "id": "166",
+      "name": "Web Orders Orders, Apr",
+      "value": 36,
+      "lastUpdated": "2025-03-29T00:27:52.767Z"
+    },
+    {
+      "id": "167",
+      "name": "Web Orders Orders, May",
+      "value": 35,
+      "lastUpdated": "2025-03-29T00:27:52.767Z"
+    },
+    {
+      "id": "168",
+      "name": "Web Orders Orders, Jun",
+      "value": 32,
+      "lastUpdated": "2025-03-29T00:27:52.767Z"
+    },
+    {
+      "id": "169",
+      "name": "Web Orders Orders, Jul",
+      "value": 92,
+      "lastUpdated": "2025-03-29T00:27:52.768Z"
+    },
+    {
+      "id": "170",
+      "name": "Web Orders Orders, Aug",
+      "value": 46,
+      "lastUpdated": "2025-03-29T00:27:52.768Z"
+    },
+    {
+      "id": "171",
+      "name": "Web Orders Orders, Sep",
+      "value": 76,
+      "lastUpdated": "2025-03-29T00:27:52.768Z"
+    },
+    {
+      "id": "172",
+      "name": "Web Orders Orders, Oct",
+      "value": 91,
+      "lastUpdated": "2025-03-29T00:27:52.769Z"
+    },
+    {
+      "id": "173",
+      "name": "Web Orders Orders, Nov",
+      "value": 86,
+      "lastUpdated": "2025-03-29T00:27:52.769Z"
+    },
+    {
+      "id": "174",
+      "name": "Web Orders Orders, Dec",
+      "value": 67,
+      "lastUpdated": "2025-03-29T00:27:52.769Z"
+    }
+  ]
+}

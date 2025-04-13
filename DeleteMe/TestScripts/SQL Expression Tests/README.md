@@ -1,1 +1,0 @@
-# SQL Expression Tests\n\nThis folder contains the following test scripts:\n\n1. test-and-update-sql-expressions.js - Comprehensive SQL expression testing and updating\n2. test-p21-queries-fixed.js - Tests fixed P21 queries\n3. test-all-queries.js - Tests all queries in the system

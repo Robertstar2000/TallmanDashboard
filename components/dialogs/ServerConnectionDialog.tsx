@@ -15,7 +15,7 @@ import { Button } from "@/components/ui/button";
 import { X } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { connectToServer } from '@/lib/db';
-import { DatabaseConfig } from '@/lib/types/dashboard';
+import { DatabaseConfig } from '@/lib/db/types';
 
 interface ConnectionData {
   serverName: string;

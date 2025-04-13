@@ -1,6 +1,0 @@
-Node application is starting...
-Proxy server running on port 3201
-stdout: [?25h
-stdout: 
-
-Next.js process exited with code 0

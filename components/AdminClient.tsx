@@ -1,10 +1,25 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useToast } from "@/components/ui/use-toast";
+import { useToast, toast } from '@/components/ui/use-toast';
 import AdminHeader from '@/components/admin/AdminHeader';
 import AdminSpreadsheet from '@/components/admin/AdminSpreadsheet';
-import { SpreadsheetRow } from '@/lib/types/dashboard';
+import { SpreadsheetRow } from '@/lib/db/types';
+
+// Basic column definitions for the spreadsheet - TODO: Refine these as needed
+// We assume SpreadsheetRow has properties similar to ChartDataRow for now
+const columns = [
+  { accessorKey: 'id', header: 'ID' },
+  { accessorKey: 'chartGroup', header: 'Group' },
+  { accessorKey: 'variableName', header: 'Variable' },
+  { accessorKey: 'dataPoint', header: 'Data Point Label' },
+  { accessorKey: 'serverName', header: 'Server' },
+  { accessorKey: 'tableName', header: 'Table' },
+  { accessorKey: 'productionSqlExpression', header: 'SQL Expression' },
+  { accessorKey: 'value', header: 'Current Value' },
+  { accessorKey: 'lastUpdated', header: 'Last Updated' },
+  { accessorKey: 'calculationType', header: 'Calc Type' },
+];
 
 export default function AdminClient() {
   const [data, setData] = useState<SpreadsheetRow[]>([]);
@@ -236,6 +251,7 @@ export default function AdminClient() {
       />
       <AdminSpreadsheet 
         data={data} 
+        columns={columns}
         onDataChange={handleDataUpdate}
         isRunning={isRunning}
         isProduction={isProduction}

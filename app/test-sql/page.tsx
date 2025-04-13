@@ -3,7 +3,8 @@
 import { useState, useEffect } from 'react';
 import { Box, Button, FormControl, InputLabel, MenuItem, Select, TextField, Typography, Paper } from '@mui/material';
 import Link from 'next/link';
-import { dashboardData as initialSpreadsheetData } from '@/lib/db/single-source-data';
+import { singleSourceData, SourceDataDefinition } from '@/lib/db/single-source-data';
+import { ChartDataRow } from '@/lib/db/types';
 
 export default function TestSQLPage() {
   const [serverType, setServerType] = useState('POR');
@@ -37,8 +38,8 @@ export default function TestSQLPage() {
   }, []);
 
   // Filter expressions by server type
-  const filteredExpressions = initialSpreadsheetData.filter(
-    item => item.serverName === serverType
+  const filteredExpressions = singleSourceData.filter(
+    (item: SourceDataDefinition) => item.serverName === serverType
   );
 
   // Execute SQL expression
@@ -84,7 +85,7 @@ export default function TestSQLPage() {
     setSelectedExpression(expressionId);
     
     if (expressionId) {
-      const selectedExpr = initialSpreadsheetData.find(item => item.id === expressionId);
+      const selectedExpr = (singleSourceData as ChartDataRow[]).find((expr) => expr.id === expressionId);
       if (selectedExpr && selectedExpr.productionSqlExpression) {
         setSqlExpression(selectedExpr.productionSqlExpression);
       }
@@ -128,7 +129,7 @@ export default function TestSQLPage() {
               label="Select SQL Expression"
             >
               <MenuItem value="">-- Select an expression --</MenuItem>
-              {filteredExpressions.map((expr) => (
+              {(filteredExpressions as ChartDataRow[]).map((expr) => (
                 <MenuItem key={expr.id} value={expr.id}>
                   {expr.DataPoint} (ID: {expr.id})
                 </MenuItem>

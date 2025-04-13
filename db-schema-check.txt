@@ -7,11 +7,11 @@ Columns in chart_data table:
 3: server_name (TEXT)
 4: db_table_name (TEXT)
 5: sql_expression (TEXT)
-6: production_sql (TEXT)
+6: sql (TEXT)
 7: value (TEXT)
 8: transformer (TEXT)
 9: last_updated (TEXT)
-10: production_sql_expression (TEXT)
+10: sql_expression (TEXT)
 11: chart_group (TEXT)
 
 Has chart_name column: true

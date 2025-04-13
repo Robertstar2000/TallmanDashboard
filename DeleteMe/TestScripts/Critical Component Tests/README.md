@@ -1,1 +1,0 @@
-# Critical Component Tests\n\nThis folder contains the following test scripts:\n\n1. test-dashboard-api.js - Tests the dashboard API\n2. test-dashboard-data-mapping.js - Tests data mapping for the dashboard\n3. test-production-queries.js - Tests queries in production environment

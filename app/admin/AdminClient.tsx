@@ -1,66 +1,90 @@
 import { useState, useEffect, useCallback } from 'react';
 import AdminSpreadsheet from '@/components/admin/AdminSpreadsheet';
 import { AdminControls } from '@/components/admin/AdminControls';
-import { SpreadsheetRow } from '@/lib/types/dashboard';
-import { useToast } from '@/components/ui/use-toast';
-import { useQueryStatusStore } from '@/lib/stores/queryStatusStore';
-import { checkAllConnections } from '@/lib/db/connections';
+import { ChartDataRow, DatabaseStatus } from '@/lib/db/types';
+import { useToast } from '@/hooks/use-toast';
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { DataTable } from "@/components/ui/data-table";
-import { ConnectionDialog } from "@/components/admin/ConnectionDialog";
-import { ConnectionStatus } from "@/components/admin/ConnectionStatus";
-import { Switch } from "@/components/ui/switch";
-import { Label } from "@/components/ui/label";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { AlertCircle } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import { DEFAULT_P21_CONFIG, DEFAULT_POR_CONFIG } from '@/lib/db/server';
+import { Label } from "@/components/ui/label"; 
+import { Save } from "lucide-react"; 
+import DatabaseConnectionDialog from '@/components/DatabaseConnectionDialog';
 
-export function AdminClient() {
+interface QueryExecutionState {
+  [key: string]: {
+    value: any;
+    status: 'pending' | 'success' | 'error';
+    error?: string;
+    timestamp?: string; 
+  };
+}
+
+interface ConnectionStatusResponse {
+  statuses: DatabaseStatus[];
+  error?: string;
+}
+
+interface SpreadsheetDataResponse {
+  data: ChartDataRow[];
+  sqliteAvailable?: boolean;
+  error?: string;
+}
+
+interface SpreadsheetRowUpdate {
+  rowId: string;
+  variableName?: string;
+  productionSqlExpression?: string | null; 
+  value?: number | string | null; 
+}
+
+export default function AdminClient() {
   const { toast } = useToast();
   
-  // Get status from the global store  
-  const isStatusRunning = useQueryStatusStore(state => state.isRunning);
-  const activeRowId = useQueryStatusStore(state => state.activeRowId);
-  const statusError = useQueryStatusStore(state => state.error);
-  const updatedData = useQueryStatusStore(state => state.updatedData);
-  
-  // Import the useQueryStatusStore
-  const queryStatus = useQueryStatusStore();
-  
   // Local component state
-  const [data, setData] = useState<SpreadsheetRow[]>([]);
-  const [isRunning, setIsRunning] = useState(false);
-  const [p21Connected, setP21Connected] = useState(false);
-  const [porConnected, setPorConnected] = useState(false);
-  const [sqliteConnected, setSqliteConnected] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  
+  const [data, setData] = useState<ChartDataRow[]>([]);
+  const [lastRefresh, setLastRefresh] = useState('');
+  const [isSaving, setIsSaving] = useState(false); 
+
   // UI state for dialogs
-  const [showP21Dialog, setShowP21Dialog] = useState(false);
-  const [showPorDialog, setShowPorDialog] = useState(false);
   const [loading, setLoading] = useState(true);
   const [initializing, setInitializing] = useState(false);
-  const [lastRefresh, setLastRefresh] = useState('');
+  const [isConnectionDialogOpen, setIsConnectionDialogOpen] = useState(false); // State for dialog visibility
 
-  // State for button colors
-  const [saveButtonColor, setSaveButtonColor] = useState('bg-white');
-  const [loadButtonColor, setLoadButtonColor] = useState('bg-white');
+  // Function to execute a single SQL expression
+  // Ensure row is explicitly typed
+  const executeSqlExpression = async (row: ChartDataRow) => { 
+    const rowId = row.rowId; // Use rowId from ChartDataRow
+    if (!rowId) {
+      console.error("AdminClient: Cannot execute SQL, rowId is missing for row:", row);
+      // Potentially add toast notification here
+      return; // Exit if no rowId
+    }
+    console.log(`AdminClient: Attempting to execute SQL for rowId: ${rowId}`);
+    // ... (rest of the execution logic, currently commented out)
+    // try {
+    //   // ... API call ...
+    // } catch (error) {
+    //   console.error(`AdminClient: Error executing SQL for rowId ${rowId}:`, error);
+    //   // Handle error (e.g., update UI, show toast)
+    // }
+  };
 
   // Fetch initial data and connection status
   useEffect(() => {
     const init = async () => {
       try {
         setLoading(true);
-        setError(null);
         // Add timeout to prevent infinite loading
         const timeoutPromise = new Promise((_, reject) => 
           setTimeout(() => reject(new Error('Loading timed out')), 30000)
         );
         
+        // Remove checkConnections from initial load
         await Promise.race([
-          Promise.all([fetchData(), checkConnections()]),
+          Promise.all([fetchData()]), // <-- Removed checkConnections()
           timeoutPromise
         ]);
       } catch (error) {
@@ -75,9 +99,6 @@ export function AdminClient() {
         
         // Set a more descriptive error message
         const errorMessage = error instanceof Error ? error.message : 'Failed to initialize admin panel';
-        setError(errorMessage);
-        setLoading(false);
-        
         toast({
           title: "Admin Panel Error",
           description: errorMessage,
@@ -90,318 +111,191 @@ export function AdminClient() {
     init();
   }, [toast]);
 
-  // Function to check connection status for all databases
+  // Function to check connection status using the dedicated API route
+  // NOTE: This function is no longer called on initial load.
+  // It might be useful later for a manual refresh button, but the primary
+  // status update mechanism is now via the DatabaseConnectionDialog's callback.
   const checkConnections = async () => {
     try {
-      console.log('Checking connections...');
+      console.log('Fetching connection statuses from /api/admin/connection-status...');
       
-      // Set temporary connecting state
-      setP21Connected(false); 
-      setPorConnected(false);
-      setSqliteConnected(false);
-      
-      // Check P21 connection with retry
-      let p21Retries = 2;
-      let p21Connected = false;
-      let p21Data;
-      
-      while (p21Retries > 0 && !p21Connected) {
-        try {
-          const p21Response = await fetch('/api/admin/health', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ 
-              server: 'P21',
-              config: {
-                ...DEFAULT_P21_CONFIG,
-                dsn: 'P21Play',
-                database: 'P21Play'
-              }
-            }),
-            // Add timeout to prevent hanging requests
-            signal: AbortSignal.timeout(10000)
-          });
-          p21Data = await p21Response.json();
-          p21Connected = p21Data.isConnected;
-          if (!p21Connected) p21Retries--;
-        } catch (err) {
-          console.warn('P21 connection attempt failed, retries left:', p21Retries - 1);
-          p21Retries--;
-        }
-      }
-      setP21Connected(p21Connected);
-      
-      // Check POR connection with retry
-      let porRetries = 2;
-      let porConnected = false;
-      let porData;
-      
-      while (porRetries > 0 && !porConnected) {
-        try {
-          const porResponse = await fetch('/api/admin/health', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ 
-              server: 'POR',
-              config: DEFAULT_POR_CONFIG
-            }),
-            // Add timeout to prevent hanging requests
-            signal: AbortSignal.timeout(10000)
-          });
-          porData = await porResponse.json();
-          porConnected = porData.isConnected;
-          if (!porConnected) porRetries--;
-        } catch (err) {
-          console.warn('POR connection attempt failed, retries left:', porRetries - 1);
-          porRetries--;
-        }
-      }
-      setPorConnected(porConnected);
-      
-      // Check SQLite connection
-      try {
-        const sqliteResponse = await fetch('/api/admin/health/sqlite', {
-          // Add timeout to prevent hanging requests
-          signal: AbortSignal.timeout(5000)
-        });
-        const sqliteData = await sqliteResponse.json();
-        setSqliteConnected(sqliteData.isConnected);
-      } catch (err) {
-        console.error('SQLite connection check failed:', err);
-        setSqliteConnected(false);
-      }
-      
-      console.log('Connection check complete:', {
-        p21: p21Connected,
-        por: porConnected,
-        sqlite: sqliteConnected
-      });
-      
-      return { p21Connected, porConnected, sqliteConnected };
-    } catch (error) {
-      console.error('Error checking connections:', error);
-      toast({
-        title: "Connection Error",
-        description: "Failed to check database connections",
-        variant: "destructive"
-      });
-      
-      // Set all connections to false on complete failure
-      setP21Connected(false);
-      setPorConnected(false);
-      setSqliteConnected(false);
-      
-      return { p21Connected: false, porConnected: false, sqliteConnected: false };
-    }
-  };
-
-  // Function to check database connections
-  const checkDatabaseConnections = async () => {
-    try {
-      const { p21Status, porStatus } = await checkAllConnections();
-      setP21Connected(p21Status.isConnected);
-      setPorConnected(porStatus.isConnected);
-      console.log('Database connection status:', { p21: p21Status, por: porStatus });
-    } catch (error) {
-      console.error('Error checking database connections:', error);
-      setP21Connected(false);
-      setPorConnected(false);
-    }
-  };
-
-  const canRunQueries = () => {
-    return p21Connected || porConnected;
-  };
-
-  const fetchData = async () => {
-    try {
-      console.log('Fetching admin data...');
-      const response = await fetch('/api/admin/data');
+      const response = await fetch('/api/admin/connection-status');
       
       if (!response.ok) {
-        console.error('Server returned error status:', response.status, response.statusText);
-        throw new Error(`Server returned ${response.status}: ${response.statusText}`);
+        // Try to get error details from response body if possible
+        let errorBody = null;
+        try {
+            errorBody = await response.json();
+        } catch (parseError) {
+            // Ignore if response body isn't valid JSON
+        }
+        console.error('Failed to fetch connection statuses:', response.status, response.statusText, errorBody);
+        throw new Error(`HTTP error ${response.status}: ${response.statusText}${errorBody?.error ? ` - ${errorBody.error}` : ''}`);
       }
       
-      const responseData = await response.json();
-      console.log('Raw response data:', JSON.stringify(responseData).substring(0, 500) + '...');
+      const result: ConnectionStatusResponse = await response.json();
       
-      // Check if responseData has the expected structure
-      if (!responseData || typeof responseData !== 'object') {
-        console.error('Unexpected response format:', responseData);
-        throw new Error('Invalid data format received from server');
+      if (result.error) {
+        console.error('API returned error for connection statuses:', result.error);
+        throw new Error(result.error);
       }
       
-      // Check if data property exists and is an array
-      if (!responseData.data && !Array.isArray(responseData)) {
-        console.error('Response missing data array:', responseData);
-        throw new Error('Invalid data format received from server');
+      if (!result.statuses) {
+          console.error('API response missing statuses array');
+          throw new Error('Invalid response structure from connection status API');
       }
       
-      // Determine where the actual rows are
-      const rows = responseData.data || responseData;
+      console.log('Received connection statuses:', result.statuses);
+      // setConnectionStatuses(result.statuses);
       
-      if (!Array.isArray(rows)) {
-        console.error('Rows is not an array:', rows);
-        throw new Error('Invalid data format received from server');
-      }
+      // Update individual connection states based on the fetched statuses
+      // const p21Status = result.statuses.find(s => s.serverName === 'P21');
+      // const porStatus = result.statuses.find(s => s.serverName === 'POR');
+      // const sqliteStatus = result.statuses.find(s => s.serverName === 'SQLite');
       
-      console.log(`Fetched ${rows.length} rows of spreadsheet data`);
-      setData(rows);
+      // // Setting state here is now less relevant on init, but kept for potential future use
+      // setP21Connected(p21Status?.status === 'connected');
+      // setPorConnected(porStatus?.status === 'connected');
+      // setSqliteConnected(sqliteStatus?.status === 'connected');
       
-      // Force a re-render by updating lastRefresh
-      setLastRefresh(new Date().toISOString());
-      
-      return rows;
     } catch (error) {
-      // Improved error logging with more details
-      console.error('Error fetching data:', {
-        message: error instanceof Error ? error.message : 'Unknown error',
-        stack: error instanceof Error ? error.stack : 'No stack trace',
-        name: error instanceof Error ? error.name : 'Unknown error type'
-      });
-      throw error;
+      // Log detailed error and re-throw to be caught by the main useEffect catch block
+      console.error('Detailed error in checkConnections:', error instanceof Error ? error.stack : error);
+      throw error; // Re-throw the error to be handled by the caller (init function)
     }
   };
 
-  const handleRunQueries = async () => {
-    if (!canRunQueries()) {
-      toast({
-        title: "Error",
-        description: "Please connect to at least one database (P21 or POR) first",
-        variant: "destructive"
+  const fetchData = useCallback(async () => { 
+    try {
+      setLoading(true);
+      
+      console.log('Fetching spreadsheet data from /api/admin/spreadsheet-data...'); 
+      const response = await fetch('/api/admin/spreadsheet-data');
+
+      if (!response.ok) {
+        let errorBody = null;
+        try {
+            errorBody = await response.json();
+        } catch (parseError) { /* Ignore */ }
+        console.error('Failed to fetch spreadsheet data:', response.status, response.statusText, errorBody);
+        const apiErrorMsg = errorBody?.error || `HTTP error ${response.status}`;
+        toast({
+          title: "Admin Panel Error",
+          description: apiErrorMsg,
+          variant: "destructive",
+        });
+        return; // Stop execution here if fetch failed
+      }
+
+      // Expecting { data: ChartDataRow[], sqliteAvailable?: boolean, error?: string } on success
+      const result: SpreadsheetDataResponse = await response.json();
+
+      if (result.error) { // Handle potential error message even with 200 OK
+          console.error('API returned error in success response:', result.error);
+          toast({
+            title: "Admin Panel Error",
+            description: result.error,
+            variant: "destructive",
+          });
+          return;
+      }
+
+      // Access the data array
+      const resultData = result.data;
+       
+      // Ensure resultData is an array before sorting
+      if (!Array.isArray(resultData)) {
+          console.error('API response data is not an array:', resultData);
+          toast({
+            title: "Admin Panel Error",
+            description: 'Invalid data format received from API',
+            variant: "destructive",
+          });
+          return;
+      }
+
+      // Sort data by ID
+      const sortedData = [...resultData].sort((a, b) => { // Use spread to avoid mutating original
+        // Handle potential non-numeric IDs gracefully, although they should be numbers
+        const idA = typeof a.rowId === 'number' ? a.rowId : parseInt(String(a.rowId), 10);
+        const idB = typeof b.rowId === 'number' ? b.rowId : parseInt(String(b.rowId), 10);
+        if (isNaN(idA) || isNaN(idB)) return 0; // Avoid NaN issues
+        return idA - idB;
       });
+
+      setData(sortedData);
+      setLastRefresh(new Date().toLocaleString()); // Update refresh time
+      console.log(`SQLite available status from API: ${result.sqliteAvailable}`);
+
+    } catch (error) {
+      // Catch network errors or JSON parsing errors
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error during fetch';
+      console.error('Error in fetchData catch block:', error instanceof Error ? error.stack : error);
+      toast({
+        title: "Admin Panel Error",
+        description: errorMessage,
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  const handleSaveChanges = useCallback(async (updatedDataFromSpreadsheet: ChartDataRow[]) => {
+    setIsSaving(true);
+    console.log('AdminClient: handleSaveChanges triggered with data:', updatedDataFromSpreadsheet);
+
+    // Basic validation: Check if it's an array
+    if (!Array.isArray(updatedDataFromSpreadsheet)) {
+      console.error('AdminClient: Invalid data received in handleSaveChanges. Expected an array.');
+      toast({ title: "Save Error", description: "Invalid data format received.", variant: "destructive" });
+      setIsSaving(false);
       return;
     }
 
+    // Map SpreadsheetRow[] to SpreadsheetRowUpdate[] for the API
+    const updates: SpreadsheetRowUpdate[] = updatedDataFromSpreadsheet.map(row => ({
+      rowId: row.rowId,
+      // Only include fields that might have changed and are relevant for the update
+      ...(row.variableName !== undefined && { variableName: row.variableName }),
+      ...(row.productionSqlExpression !== undefined && { productionSqlExpression: row.productionSqlExpression }),
+      ...(row.value !== undefined && { value: row.value }),
+    }));
+
+    console.log('AdminClient: Mapped updates for API:', updates);
+
     try {
-      // Set local running state first to update UI immediately
-      setIsRunning(true);
-      
-      console.log('Starting query execution with data:', data.length, 'rows');
-      
-      const response = await fetch('/api/admin/run', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          data,
-        }),
+      const response = await fetch('/api/admin/spreadsheet-data', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ updates }),
       });
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.error || 'Failed to start query execution');
+        throw new Error(errorData.error || `HTTP error! status: ${response.status}`);
       }
 
-      const result = await response.json();
-      console.log('Query execution started:', result);
-
-      if (result.status === 'already_running') {
-        console.log('Query execution was already running');
-        toast({
-          title: "Already Running",
-          description: "Query execution is already in progress",
-          duration: 3000,
-        });
-      } else {
-        toast({
-          title: "Success",
-          description: "Continuous query execution started - will run until stopped",
-          duration: 5000,
-        });
-      }
-
-      // Start global polling for query status
-      queryStatus.startPolling();
+      // Assuming the API returns the updated full data set or confirms success
+      // It's often better to refetch data to ensure consistency
+      await fetchData(); // Refetch data after successful save
       
-      // Ensure the polling is active
-      setTimeout(() => {
-        if (!queryStatus.isPolling) {
-          console.log('Polling did not start, forcing start');
-          queryStatus.startPolling();
-        }
-      }, 500);
-      
+      toast({ title: "Success", description: "Changes saved successfully." });
+      console.log('AdminClient: Changes saved successfully.');
+
     } catch (error) {
-      setIsRunning(false);
-      console.error('Error running queries:', error);
-      toast({
-        title: "Error",
-        description: error instanceof Error ? error.message : 'Failed to run queries',
-        variant: "destructive"
-      });
+      const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred during save.';
+      console.error('AdminClient: Error saving spreadsheet data:', error);
+      toast({ title: "Save Error", description: errorMessage, variant: "destructive" });
+    } finally {
+      setIsSaving(false);
     }
-  };
+  }, [toast, fetchData]); // Added fetchData to dependencies
 
-  const handleStopQueries = async () => {
-    try {
-      // Set local state first for immediate UI feedback
-      setIsRunning(false);
-      
-      // Make multiple attempts to stop the query execution
-      let stopSuccess = false;
-      let attempts = 0;
-      
-      while (!stopSuccess && attempts < 3) {
-        attempts++;
-        try {
-          const response = await fetch('/api/admin/run/stop', { 
-            method: 'POST',
-            // Add a timeout to prevent hanging requests
-            signal: AbortSignal.timeout(5000)
-          });
-          
-          if (response.ok) {
-            stopSuccess = true;
-            console.log(`Successfully stopped queries on attempt ${attempts}`);
-          } else {
-            console.warn(`Failed to stop queries on attempt ${attempts}, status: ${response.status}`);
-          }
-        } catch (err) {
-          console.error(`Error on stop attempt ${attempts}:`, err);
-        }
-        
-        // Wait a bit before retrying
-        if (!stopSuccess && attempts < 3) {
-          await new Promise(resolve => setTimeout(resolve, 500));
-        }
-      }
-      
-      // Stop the global polling regardless of stop success
-      queryStatus.stopPolling();
-      
-      // Force reset the execution state through a separate call
-      try {
-        await fetch('/api/admin/run/reset', { 
-          method: 'POST',
-          signal: AbortSignal.timeout(3000)
-        });
-      } catch (resetErr) {
-        console.warn('Error resetting execution state:', resetErr);
-      }
-      
-      toast({
-        title: "Success",
-        description: "Query execution stopped",
-        duration: 3000,
-      });
-    } catch (error) {
-      console.error('Error stopping queries:', error);
-      toast({
-        title: "Error",
-        description: error instanceof Error ? error.message : 'Failed to stop queries',
-        variant: "destructive"
-      });
-    }
-  };
-
-  // Function to save database content to single source data file
   const handleSaveToInitFile = async () => {
     try {
       // Change button color to red during loading
-      setSaveButtonColor('bg-red-500');
+      // setSaveButtonColor('bg-red-500');
       
       // Show loading toast
       toast({
@@ -433,12 +327,12 @@ export function AdminClient() {
       });
       
       // Change button color to green to indicate success
-      setSaveButtonColor('bg-green-500');
+      // setSaveButtonColor('bg-green-500');
       
       // Set a timeout to change the button color back to white after 3 seconds
-      setTimeout(() => {
-        setSaveButtonColor('bg-white');
-      }, 3000);
+      // setTimeout(() => {
+      //   setSaveButtonColor('bg-white');
+      // }, 3000);
       
     } catch (error) {
       console.error('Error saving database content to single source data file:', error);
@@ -452,62 +346,42 @@ export function AdminClient() {
       });
       
       // Change button color back to white
-      setSaveButtonColor('bg-white');
+      // setSaveButtonColor('bg-white');
     }
   };
 
-  // Function to load database content from single source data file
   const handleLoadFromInitFile = async () => {
     try {
-      // Change button color to red during loading
-      setLoadButtonColor('bg-red-500');
-      
-      // Show loading toast
-      toast({
-        title: "Loading...",
-        description: "Loading database content from single source data file",
-        duration: 3000,
-      });
-      
-      // Call the API endpoint to load database content from single source data file
-      const response = await fetch('/api/admin/loadFromInitFile', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-      
+      setInitializing(true);
+      const response = await fetch('/api/admin/loadFromInitFile', { method: 'POST' });
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.message || 'Failed to load database content from single source data file');
+        throw new Error(errorData.error || 'Failed to load data');
       }
-      
-      const data = await response.json();
-      
-      // Show success toast
+      const result = await response.json();
+      setData(result.data); // Update local data state
       toast({
-        title: "Success",
-        description: data.message || "Database content loaded from single source data file successfully",
+        title: 'Success',
+        description: 'Data loaded from single source data file',
         duration: 5000,
       });
-      
       // Add a small delay to ensure the database has fully updated
       await new Promise(resolve => setTimeout(resolve, 1000));
       
-      // Refresh the data to show the newly loaded data
-      console.log('Fetching updated data after database load...');
-      await fetchData();
+      // Refresh the data to show the newly loaded data, forcing a refresh
+      console.log('Fetching updated data after database load with force refresh...');
+      await fetchData(); // Pass true here
       
-      // Force a re-render by setting a state variable
+      // Force a re-render by setting a state variable (keep this for now)
       setLastRefresh(new Date().toISOString());
       
       // Change button color to green to indicate success
-      setLoadButtonColor('bg-green-500');
+      // setLoadButtonColor('bg-green-500');
       
       // Set a timeout to change the button color back to white after 3 seconds
-      setTimeout(() => {
-        setLoadButtonColor('bg-white');
-      }, 3000);
+      // setTimeout(() => {
+      //   setLoadButtonColor('bg-white');
+      // }, 3000);
       
     } catch (error) {
       console.error('Error loading database content from single source data file:', error);
@@ -521,122 +395,37 @@ export function AdminClient() {
       });
       
       // Change button color back to white
-      setLoadButtonColor('bg-white');
+      // setLoadButtonColor('bg-white');
+    } finally {
+      setInitializing(false);
     }
   };
 
-  // Effect to check for running processes and sync with global state
-  useEffect(() => {
-    const checkRunningStatus = async () => {
-      try {
-        const response = await fetch('/api/admin/run/status');
-        if (response.ok) {
-          const { status, activeRow } = await response.json();
-          
-          if (status === 'running' || status === 'processing') {
-            setIsRunning(true);
-            
-            // If a process is already running, start polling
-            queryStatus.startPolling();
-            
-            // If there's an active row, update both local and global state
-            if (activeRow) {
-              queryStatus.setActiveRowId(activeRow);
-            }
-          }
-        }
-      } catch (error) {
-        console.error('Error checking status:', error);
-      }
-    };
-    
-    checkRunningStatus();
-    
-    // Sync local isRunning state with global state whenever it changes
-    if (queryStatus.isRunning !== isRunning) {
-      setIsRunning(queryStatus.isRunning);
-    }
-    
-    return () => {
-      // Don't stop polling when switching pages - it will continue in the background
-    };
-  }, [isRunning, queryStatus.isRunning]);
+  const handleRefresh = useCallback(async () => {
+    await fetchData();
+  }, [fetchData]);
 
-  useEffect(() => {
-    const updateDataFromExecutionState = async () => {
-      try {
-        // Check for any updates from the background process
-        const response = await fetch('/api/admin/run/status');
-        if (response.ok) {
-          const { updatedData } = await response.json();
-          
-          if (updatedData && updatedData.length > 0) {
-            console.log('Received updated data from execution state:', updatedData.length, 'rows');
-            
-            // Log a sample of the updated data for debugging
-            if (updatedData.length > 0) {
-              console.log('Sample updated row:', updatedData[0]);
-            }
-            
-            setData(prevData => {
-              const newData = [...prevData];
-              let updatedCount = 0;
-              
-              for (const updatedRow of updatedData) {
-                const index = newData.findIndex(row => row.id === updatedRow.id);
-                if (index !== -1) {
-                  // Only update if the values are actually different
-                  if (newData[index].value !== updatedRow.value) {
-                    console.log(`Updating row ${updatedRow.id} from ${newData[index].value} to ${updatedRow.value}`);
-                    newData[index] = { ...updatedRow };
-                    updatedCount++;
-                  }
-                }
-              }
-              
-              console.log(`Updated ${updatedCount} rows in the spreadsheet data`);
-              return newData;
-            });
-          }
-        }
-      } catch (error) {
-        console.error('Error checking for data updates:', error);
-      }
-    };
-    
-    // Only poll for updates when queries are running
-    if (isRunning) {
-      updateDataFromExecutionState(); // Run immediately on status change
-      const updateInterval = setInterval(updateDataFromExecutionState, 1000); // Poll more frequently
-      return () => clearInterval(updateInterval);
-    }
-  }, [isRunning]);
+  const handleConnectionChange = (p21Connected: boolean, porConnected: boolean) => {
+    console.log(`AdminClient: Connection status updated - P21: ${p21Connected}, POR: ${porConnected}`);
+    // TODO: Update the static connection status indicators if needed
+    // Currently, they are hardcoded as disconnected
+  };
 
-  useEffect(() => {
-    if (updatedData && updatedData.length > 0) {
-      console.log('Received updated data from query status store:', updatedData.length, 'rows');
-      
-      setData(prevData => {
-        const newData = [...prevData];
-        let updatedCount = 0;
-        
-        for (const updatedRow of updatedData) {
-          const index = newData.findIndex(row => row.id === updatedRow.id);
-          if (index !== -1) {
-            // Only update if the values are actually different
-            if (newData[index].value !== updatedRow.value) {
-              console.log(`Updating row ${updatedRow.id} from ${newData[index].value} to ${updatedRow.value}`);
-              newData[index] = { ...updatedRow };
-              updatedCount++;
-            }
-          }
-        }
-        
-        console.log(`Updated ${updatedCount} rows in the spreadsheet data from store`);
-        return updatedCount > 0 ? [...newData] : prevData; // Only trigger re-render if data changed
-      });
-    }
-  }, [updatedData]);
+  const columns = [
+    { Header: 'ID', accessor: 'id', editable: false },
+    { Header: 'Row ID', accessor: 'rowId', editable: false },
+    { Header: 'Chart Group', accessor: 'chartGroup', editable: false },
+    { Header: 'Variable Name', accessor: 'variableName', editable: true },
+    { Header: 'Data Point', accessor: 'DataPoint', editable: false },
+    // { Header: 'Chart Name', accessor: 'chartName', editable: false }, // Likely redundant
+    { Header: 'Server', accessor: 'serverName', editable: true }, // Make server editable (e.g., Dropdown)
+    { Header: 'Table Name', accessor: 'tableName', editable: false },
+    { Header: 'SQL Expression', accessor: 'productionSqlExpression', editable: true },
+    { Header: 'Value', accessor: 'value', editable: false }, // Value is calculated, not directly edited
+    { Header: 'Last Updated', accessor: 'lastUpdated', editable: false },
+    { Header: 'Calc Type', accessor: 'calculationType', editable: false },
+    // { Header: 'Axis Step', accessor: 'axisStep', editable: false }, // Likely not needed in admin view
+  ];
 
   if (loading) {
     return (
@@ -648,36 +437,38 @@ export function AdminClient() {
   }
 
   return (
+    // Main content wrapper
     <div className="space-y-4">
       <div className="flex justify-between items-center">
         <div className="flex items-center space-x-4">
           <Button 
-            onClick={isRunning ? handleStopQueries : handleRunQueries}
-            variant={isRunning ? "destructive" : "default"}
-          >
-            {isRunning ? "Stop Queries" : "Run Queries"}
-          </Button>
-          <Button 
             onClick={handleSaveToInitFile}
             variant="outline"
-            className={`transition-colors duration-300 ${saveButtonColor} hover:bg-blue-100`}
             title="Save current database content to single source data file"
+            className={`transition-colors duration-300 hover:bg-blue-100`}
           >
-            {saveButtonColor === 'bg-red-500' ? 'Saving...' : 'Save DB'}
+            Save DB
           </Button>
           <Button 
             onClick={handleLoadFromInitFile}
             variant="outline"
-            className={`transition-colors duration-300 ${loadButtonColor} hover:bg-blue-100`}
             title="Load database content from single source data file"
+            className={`transition-colors duration-300 hover:bg-blue-100`}
           >
-            {loadButtonColor === 'bg-red-500' ? 'Loading...' : 'Load DB'}
+            Load DB
+          </Button>
+          <Button 
+            onClick={handleRefresh}
+            variant="outline"
+            title="Refresh data from the database"
+          >
+            Refresh
           </Button>
         </div>
 
         <div className="flex items-center space-x-4">
           {/* Connection dialogs are still needed for functionality, but buttons are removed */}
-          <ConnectionDialog
+          {/* <ConnectionDialog
             serverType="P21"
             open={showP21Dialog}
             onOpenChange={setShowP21Dialog}
@@ -688,31 +479,36 @@ export function AdminClient() {
             open={showPorDialog}
             onOpenChange={setShowPorDialog}
             onSuccess={() => setPorConnected(true)}
-          />
+          /> */}
         </div>
       </div>
 
-      {error && (
-        <Alert variant="destructive" className="mb-4">
-          <AlertCircle className="h-4 w-4" />
-          <AlertDescription>
-            {error}
-          </AlertDescription>
-        </Alert>
-      )}
+      {/* Controls */}
+      <AdminControls 
+        lastRefresh={lastRefresh}
+        onRefresh={handleRefresh}
+        onManageConnections={() => setIsConnectionDialogOpen(true)} // Open dialog
+      />
 
-      {!data || data.length === 0 && (
-        <Alert variant="destructive" className="mb-4">
-          <AlertCircle className="h-4 w-4" />
-          <AlertDescription>
-            No data found. 
-          </AlertDescription>
-        </Alert>
-      )}
+      {/* Spreadsheet Data Table Card */} 
+      <Card className="p-6">
+        <AdminSpreadsheet 
+          columns={columns} // Pass the defined columns
+          data={data} 
+          onDataChange={handleSaveChanges} // Changed prop name from onSave
+        />
+      </Card>
 
       {/* Connection Status Panel */}
       <Card className="p-4 mb-4">
         <h3 className="text-lg font-medium mb-4">Database Connections</h3>
+        {/* Display connection status here - Placeholder */} 
+        <p>P21 Status: {/* Connect this to state */}</p>
+        <p>POR Status: {/* Connect this to state */}</p>
+      </Card>
+
+      <Card className="p-4">
+        <h3 className="text-lg font-medium mb-4">Connection Status</h3>
         <div className="grid grid-cols-3 gap-4">
           {/* P21 Connection */}
           <div className="p-4 border rounded-lg">
@@ -722,7 +518,7 @@ export function AdminClient() {
                 <Label htmlFor="p21-server">Server</Label>
                 <Input 
                   id="p21-server" 
-                  value={DEFAULT_P21_CONFIG.server}
+                  value="P21"
                   className="w-48"
                   readOnly
                 />
@@ -731,7 +527,7 @@ export function AdminClient() {
                 <Label htmlFor="p21-port">Port</Label>
                 <Input 
                   id="p21-port" 
-                  value={DEFAULT_P21_CONFIG.port}
+                  value="5432"
                   className="w-48"
                   readOnly
                 />
@@ -740,7 +536,7 @@ export function AdminClient() {
                 <Label htmlFor="p21-database">Database</Label>
                 <Input 
                   id="p21-database" 
-                  value={DEFAULT_P21_CONFIG.database}
+                  value="P21Play"
                   className="w-48"
                   readOnly
                 />
@@ -749,24 +545,27 @@ export function AdminClient() {
                 <Label htmlFor="p21-user">User</Label>
                 <Input 
                   id="p21-user" 
-                  value={DEFAULT_P21_CONFIG.user}
+                  value="postgres"
                   className="w-48"
                   readOnly
                 />
               </div>
             </div>
             <div className="flex items-center justify-between">
-              <div className={`flex items-center gap-2`}>
-                <div className={`w-3 h-3 rounded-full ${p21Connected ? 'bg-green-500' : 'bg-red-500'}`} />
-                <span className="text-sm">{p21Connected ? 'Connected' : 'Disconnected'}</span>
+              {/* Make status indicator clickable */}
+              <div 
+                className={`flex items-center gap-2 cursor-pointer`} 
+              >
+                <div className={`w-3 h-3 rounded-full bg-red-500`} />
+                <span className="text-sm">Disconnected</span>
               </div>
-              <Button 
+              {/* <Button 
                 onClick={() => setShowP21Dialog(true)}
-                variant={p21Connected ? "outline" : "default"}
+                variant="outline"
                 size="sm"
               >
-                {p21Connected ? 'Reconnect' : 'Connect'}
-              </Button>
+                Connect
+              </Button> */}
             </div>
           </div>
 
@@ -789,17 +588,20 @@ export function AdminClient() {
               </div>
             </div>
             <div className="flex items-center justify-between">
-              <div className={`flex items-center gap-2`}>
-                <div className={`w-3 h-3 rounded-full ${porConnected ? 'bg-green-500' : 'bg-red-500'}`} />
-                <span className="text-sm">{porConnected ? 'Connected' : 'Disconnected'}</span>
+              {/* Make status indicator clickable */}
+              <div 
+                className={`flex items-center gap-2 cursor-pointer`} 
+              >
+                <div className={`w-3 h-3 rounded-full bg-red-500`} />
+                <span className="text-sm">Disconnected</span>
               </div>
-              <Button 
+              {/* <Button 
                 onClick={() => setShowPorDialog(true)}
-                variant={porConnected ? "outline" : "default"}
+                variant="outline"
                 size="sm"
               >
-                {porConnected ? 'Reconnect' : 'Connect'}
-              </Button>
+                Connect
+              </Button> */}
             </div>
           </div>
 
@@ -817,28 +619,23 @@ export function AdminClient() {
               </div>
               <div className="flex items-center justify-between">
                 <Label>Status</Label>
-                <span className="text-sm">{sqliteConnected ? 'Available' : 'Unavailable'}</span>
+                <span className="text-sm">Unavailable</span>
               </div>
             </div>
             <div className="flex items-center justify-between">
               <div className={`flex items-center gap-2`}>
-                <div className={`w-3 h-3 rounded-full ${sqliteConnected ? 'bg-green-500' : 'bg-red-500'}`} />
-                <span className="text-sm">{sqliteConnected ? 'Connected' : 'Disconnected'}</span>
+                <div className={`w-3 h-3 rounded-full bg-red-500`} />
+                <span className="text-sm">Disconnected</span>
               </div>
             </div>
-          </div>
         </div>
-      </Card>
-
-      <Card className="p-6">
-        <AdminSpreadsheet
-          data={data}
-          onDataChange={setData}
-          isRunning={isRunning}
-          isProduction={process.env.NODE_ENV === 'production'}
-          activeRowId={activeRowId}
-        />
-      </Card>
+      </div> {/* Correct closing div for the connection status grid */}
+      </Card> {/* Add missing closing Card tag */}
+      <DatabaseConnectionDialog 
+        isOpen={isConnectionDialogOpen}
+        onClose={() => setIsConnectionDialogOpen(false)}
+        onConnectionChange={handleConnectionChange}
+      />
     </div>
   );
 }

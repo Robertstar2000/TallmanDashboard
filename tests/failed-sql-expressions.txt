@@ -1,0 +1,800 @@
+# File: Database row with id = "test_connection"
+# Group: Test
+# Error: Missing P21-specific syntax elements
+SELECT Count(*) as value FROM [Rentals]
+
+# File: Database row with id = "12"
+# Group: Historical Data
+# Error: Missing P21-specific syntax elements
+SELECT 0 as value
+
+# File: Database row with id = "85"
+# Group: Historical Data
+# Error: Missing POR-specific syntax elements
+SELECT Count(*) AS value FROM PurchaseOrderDetail WHERE DatePart('m', Date) = 1 AND DatePart('yyyy', Date) = DatePart('yyyy', Now())
+
+# File: Database row with id = "86"
+# Group: Historical Data
+# Error: Missing POR-specific syntax elements
+SELECT Count(*) AS value FROM PurchaseOrderDetail WHERE DatePart('m', Date) = 2 AND DatePart('yyyy', Date) = DatePart('yyyy', Now())
+
+# File: Database row with id = "87"
+# Group: Historical Data
+# Error: Missing POR-specific syntax elements
+SELECT Count(*) AS value FROM PurchaseOrderDetail WHERE DatePart('m', Date) = 3 AND DatePart('yyyy', Date) = DatePart('yyyy', Now())
+
+# File: Database row with id = "127"
+# Group: POR Overview
+# Error: Missing POR-specific syntax elements
+SELECT Count(*) as value FROM Contracts WHERE ContractType = 'Rental' AND DatePart('m', ContractDate) = 1 AND DatePart('yyyy', ContractDate) = DatePart('yyyy', Now())
+
+# File: Database row with id = "128"
+# Group: POR Overview
+# Error: Missing POR-specific syntax elements
+SELECT Count(*) as value FROM Contracts WHERE ContractType = 'Rental' AND DatePart('m', ContractDate) = 2 AND DatePart('yyyy', ContractDate) = DatePart('yyyy', Now())
+
+# File: Database row with id = "129"
+# Group: POR Overview
+# Error: Missing POR-specific syntax elements
+SELECT Count(*) as value FROM Contracts WHERE ContractType = 'Rental' AND DatePart('m', ContractDate) = 3 AND DatePart('yyyy', ContractDate) = DatePart('yyyy', Now())
+
+# File: Database row with id = "130"
+# Group: POR Overview
+# Error: Missing POR-specific syntax elements
+SELECT Count(*) as value FROM Contracts WHERE ContractType = 'Rental' AND DatePart('m', ContractDate) = 4 AND DatePart('yyyy', ContractDate) = DatePart('yyyy', Now())
+
+# File: Database row with id = "131"
+# Group: POR Overview
+# Error: Missing POR-specific syntax elements
+SELECT Count(*) as value FROM Contracts WHERE ContractType = 'Rental' AND DatePart('m', ContractDate) = 5 AND DatePart('yyyy', ContractDate) = DatePart('yyyy', Now())
+
+# File: Database row with id = "132"
+# Group: POR Overview
+# Error: Missing POR-specific syntax elements
+SELECT Count(*) as value FROM Contracts WHERE ContractType = 'Rental' AND DatePart('m', ContractDate) = 6 AND DatePart('yyyy', ContractDate) = DatePart('yyyy', Now())
+
+# File: Database row with id = "133"
+# Group: POR Overview
+# Error: Missing POR-specific syntax elements
+SELECT Count(*) as value FROM Contracts WHERE ContractType = 'Rental' AND DatePart('m', ContractDate) = 7 AND DatePart('yyyy', ContractDate) = DatePart('yyyy', Now())
+
+# File: Database row with id = "134"
+# Group: POR Overview
+# Error: Missing POR-specific syntax elements
+SELECT Count(*) as value FROM Contracts WHERE ContractType = 'Rental' AND DatePart('m', ContractDate) = 8 AND DatePart('yyyy', ContractDate) = DatePart('yyyy', Now())
+
+# File: Database row with id = "135"
+# Group: POR Overview
+# Error: Missing POR-specific syntax elements
+SELECT Count(*) as value FROM Contracts WHERE ContractType = 'Rental' AND DatePart('m', ContractDate) = 9 AND DatePart('yyyy', ContractDate) = DatePart('yyyy', Now())
+
+# File: Database row with id = "136"
+# Group: POR Overview
+# Error: Missing POR-specific syntax elements
+SELECT Count(*) as value FROM Contracts WHERE ContractType = 'Rental' AND DatePart('m', ContractDate) = 10 AND DatePart('yyyy', ContractDate) = DatePart('yyyy', Now())
+
+# File: Database row with id = "137"
+# Group: POR Overview
+# Error: Missing POR-specific syntax elements
+SELECT Count(*) as value FROM Contracts WHERE ContractType = 'Rental' AND DatePart('m', ContractDate) = 11 AND DatePart('yyyy', ContractDate) = DatePart('yyyy', Now())
+
+# File: Database row with id = "138"
+# Group: POR Overview
+# Error: Missing POR-specific syntax elements
+SELECT Count(*) as value FROM Contracts WHERE ContractType = 'Rental' AND DatePart('m', ContractDate) = 12 AND DatePart('yyyy', ContractDate) = DatePart('yyyy', Now())
+
+# File: Database row with id = "139"
+# Group: POR Overview
+# Error: Missing POR-specific syntax elements
+SELECT Count(*) as value FROM Contracts WHERE ContractType = 'Rental' AND Status = 'Open' AND DatePart('m', ContractDate) = 1
+
+# File: Database row with id = "140"
+# Group: POR Overview
+# Error: Missing POR-specific syntax elements
+SELECT Count(*) as value FROM Contracts WHERE ContractType = 'Rental' AND Status = 'Open' AND DatePart('m', ContractDate) = 2
+
+# File: Database row with id = "141"
+# Group: POR Overview
+# Error: Missing POR-specific syntax elements
+SELECT Count(*) as value FROM Contracts WHERE ContractType = 'Rental' AND Status = 'Open' AND DatePart('m', ContractDate) = 3
+
+# File: Database row with id = "142"
+# Group: POR Overview
+# Error: Missing POR-specific syntax elements
+SELECT Count(*) as value FROM Contracts WHERE ContractType = 'Rental' AND Status = 'Open' AND DatePart('m', ContractDate) = 4
+
+# File: Database row with id = "143"
+# Group: POR Overview
+# Error: Missing POR-specific syntax elements
+SELECT Count(*) as value FROM Contracts WHERE ContractType = 'Rental' AND Status = 'Open' AND DatePart('m', ContractDate) = 5
+
+# File: Database row with id = "144"
+# Group: POR Overview
+# Error: Missing POR-specific syntax elements
+SELECT Count(*) as value FROM Contracts WHERE ContractType = 'Rental' AND Status = 'Open' AND DatePart('m', ContractDate) = 6
+
+# File: Database row with id = "145"
+# Group: POR Overview
+# Error: Missing POR-specific syntax elements
+SELECT Count(*) as value FROM Contracts WHERE ContractType = 'Rental' AND Status = 'Open' AND DatePart('m', ContractDate) = 7
+
+# File: Database row with id = "146"
+# Group: POR Overview
+# Error: Missing POR-specific syntax elements
+SELECT Count(*) as value FROM Contracts WHERE ContractType = 'Rental' AND Status = 'Open' AND DatePart('m', ContractDate) = 8
+
+# File: Database row with id = "147"
+# Group: POR Overview
+# Error: Missing POR-specific syntax elements
+SELECT Count(*) as value FROM Contracts WHERE ContractType = 'Rental' AND Status = 'Open' AND DatePart('m', ContractDate) = 9
+
+# File: Database row with id = "148"
+# Group: POR Overview
+# Error: Missing POR-specific syntax elements
+SELECT Count(*) as value FROM Contracts WHERE ContractType = 'Rental' AND Status = 'Open' AND DatePart('m', ContractDate) = 10
+
+# File: Database row with id = "149"
+# Group: POR Overview
+# Error: Missing POR-specific syntax elements
+SELECT Count(*) as value FROM Contracts WHERE ContractType = 'Rental' AND Status = 'Open' AND DatePart('m', ContractDate) = 11
+
+# File: Database row with id = "150"
+# Group: POR Overview
+# Error: Missing POR-specific syntax elements
+SELECT Count(*) as value FROM Contracts WHERE ContractType = 'Rental' AND Status = 'Open' AND DatePart('m', ContractDate) = 12
+
+# File: Database row with id = "151"
+# Group: POR Overview
+# Error: Missing POR-specific syntax elements
+SELECT Sum(ContractValue) as value FROM Contracts WHERE ContractType = 'Rental' AND DatePart('m', ContractDate) = 1
+
+# File: Database row with id = "152"
+# Group: POR Overview
+# Error: Missing POR-specific syntax elements
+SELECT Sum(ContractValue) as value FROM Contracts WHERE ContractType = 'Rental' AND DatePart('m', ContractDate) = 2
+
+# File: Database row with id = "153"
+# Group: POR Overview
+# Error: Missing POR-specific syntax elements
+SELECT Sum(ContractValue) as value FROM Contracts WHERE ContractType = 'Rental' AND DatePart('m', ContractDate) = 3
+
+# File: Database row with id = "154"
+# Group: POR Overview
+# Error: Missing POR-specific syntax elements
+SELECT Sum(ContractValue) as value FROM Contracts WHERE ContractType = 'Rental' AND DatePart('m', ContractDate) = 4
+
+# File: Database row with id = "155"
+# Group: POR Overview
+# Error: Missing POR-specific syntax elements
+SELECT Sum(ContractValue) as value FROM Contracts WHERE ContractType = 'Rental' AND DatePart('m', ContractDate) = 5
+
+# File: Database row with id = "156"
+# Group: POR Overview
+# Error: Missing POR-specific syntax elements
+SELECT Sum(ContractValue) as value FROM Contracts WHERE ContractType = 'Rental' AND DatePart('m', ContractDate) = 6
+
+# File: Database row with id = "157"
+# Group: POR Overview
+# Error: Missing POR-specific syntax elements
+SELECT Sum(ContractValue) as value FROM Contracts WHERE ContractType = 'Rental' AND DatePart('m', ContractDate) = 7
+
+# File: Database row with id = "158"
+# Group: POR Overview
+# Error: Missing POR-specific syntax elements
+SELECT Sum(ContractValue) as value FROM Contracts WHERE ContractType = 'Rental' AND DatePart('m', ContractDate) = 8
+
+# File: Database row with id = "159"
+# Group: POR Overview
+# Error: Missing POR-specific syntax elements
+SELECT Sum(ContractValue) as value FROM Contracts WHERE ContractType = 'Rental' AND DatePart('m', ContractDate) = 9
+
+# File: Database row with id = "160"
+# Group: POR Overview
+# Error: Missing POR-specific syntax elements
+SELECT Sum(ContractValue) as value FROM Contracts WHERE ContractType = 'Rental' AND DatePart('m', ContractDate) = 10
+
+# File: Database row with id = "161"
+# Group: POR Overview
+# Error: Missing POR-specific syntax elements
+SELECT Sum(ContractValue) as value FROM Contracts WHERE ContractType = 'Rental' AND DatePart('m', ContractDate) = 11
+
+# File: Database row with id = "162"
+# Group: POR Overview
+# Error: Missing POR-specific syntax elements
+SELECT Sum(ContractValue) as value FROM Contracts WHERE ContractType = 'Rental' AND DatePart('m', ContractDate) = 12
+
+# File: Database row with id = "null"
+# Group: Historical Data
+# Error: Missing POR-specific syntax elements
+SELECT Count(*) AS value FROM PurchaseOrderDetail WHERE DatePart('m', Date) = 1 AND DatePart('yyyy', Date) = DatePart('yyyy', Now())
+
+# File: Database row with id = "null"
+# Group: Historical Data
+# Error: Missing POR-specific syntax elements
+SELECT Count(*) AS value FROM PurchaseOrderDetail WHERE DatePart('m', Date) = 1 AND DatePart('yyyy', Date) = DatePart('yyyy', Now())
+
+# File: Database row with id = "null"
+# Group: Historical Data
+# Error: Missing POR-specific syntax elements
+SELECT Count(*) AS value FROM PurchaseOrderDetail WHERE DatePart('m', Date) = 1 AND DatePart('yyyy', Date) = DatePart('yyyy', Now())
+
+# File: N/A
+# Group: ar-aging
+# Error: Missing SQL expressions for chart group: ar-aging
+
+
+# File: N/A
+# Group: accounts
+# Error: Missing SQL expressions for chart group: accounts
+
+
+# File: N/A
+# Group: customer-metrics
+# Error: Missing SQL expressions for chart group: customer-metrics
+
+
+# File: N/A
+# Group: daily-orders
+# Error: Missing SQL expressions for chart group: daily-orders
+
+
+# File: N/A
+# Group: historical-data
+# Error: Missing SQL expressions for chart group: historical-data
+
+
+# File: N/A
+# Group: inventory
+# Error: Missing SQL expressions for chart group: inventory
+
+
+# File: N/A
+# Group: key-metrics
+# Error: Missing SQL expressions for chart group: key-metrics
+
+
+# File: N/A
+# Group: site-distribution
+# Error: Missing SQL expressions for chart group: site-distribution
+
+
+# File: N/A
+# Group: por-overview
+# Error: Missing SQL expressions for chart group: por-overview
+
+
+# File: N/A
+# Group: web-orders
+# Error: Missing SQL expressions for chart group: web-orders
+
+
+# File: N/A
+# Group: all
+# Error: Found only 172 SQL expressions (expected 174)
+
+
+# File: Database row with id = "test_connection"
+# Group: Test
+# Error: Failed to execute P21 query: [odbc] Error executing the sql statement
+SELECT Count(*) as value FROM [Rentals]
+
+# File: Database row with id = "10"
+# Group: Accounts
+# Error: Failed to execute P21 query: [odbc] Error executing the sql statement
+SELECT ISNULL(SUM(amount), 0) as value FROM dbo.invoice_hdr WITH (NOLOCK) WHERE invoice_date < DATEADD(day, -30, GETDATE()) AND paid = 'N'
+
+# File: Database row with id = "11"
+# Group: Historical Data
+# Error: SQL execution returned zero value: 0
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE MONTH(order_date) = MONTH(GETDATE()) AND YEAR(order_date) = YEAR(GETDATE())
+
+# File: Database row with id = "12"
+# Group: Historical Data
+# Error: SQL execution returned zero value: 0
+SELECT 0 as value
+
+# File: Database row with id = "13"
+# Group: Historical Data
+# Error: SQL execution returned zero value: 0
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE MONTH(order_date) = MONTH(GETDATE()) AND YEAR(order_date) = YEAR(GETDATE())
+
+# File: Database row with id = "14"
+# Group: Historical Data
+# Error: SQL execution returned zero value: 0
+SELECT ISNULL(SUM(l.extended_price), 0) as value FROM dbo.oe_hdr h WITH (NOLOCK) JOIN dbo.oe_line l WITH (NOLOCK) ON h.order_no = l.order_no WHERE MONTH(h.order_date) = MONTH(GETDATE()) AND YEAR(h.order_date) = YEAR(GETDATE())
+
+# File: Database row with id = "17"
+# Group: Customer Metrics
+# Error: SQL execution returned zero value: 0
+SELECT COUNT(*) as value FROM dbo.customer WITH (NOLOCK) WHERE MONTH(date_created) = MONTH(GETDATE()) AND YEAR(date_created) = YEAR(GETDATE())
+
+# File: Database row with id = "18"
+# Group: Customer Metrics
+# Error: Failed to execute P21 query: [odbc] Error executing the sql statement
+SELECT COUNT(*) as value FROM dbo.customer WITH (NOLOCK) WHERE last_sale_date >= DATEADD(month, -1, GETDATE()) AND date_created < DATEADD(month, -1, GETDATE())
+
+# File: Database row with id = "27"
+# Group: AR Aging
+# Error: Failed to execute P21 query: [odbc] Error executing the sql statement
+SELECT ISNULL(SUM(amount), 0) as value FROM dbo.invoice_hdr WITH (NOLOCK) WHERE invoice_date >= DATEADD(day, -30, GETDATE()) AND paid = 'N'
+
+# File: Database row with id = "28"
+# Group: AR Aging
+# Error: Failed to execute P21 query: [odbc] Error executing the sql statement
+SELECT ISNULL(SUM(amount), 0) as value FROM dbo.invoice_hdr WITH (NOLOCK) WHERE paid = 'N'
+
+# File: Database row with id = "29"
+# Group: AR Aging
+# Error: Failed to execute P21 query: [odbc] Error executing the sql statement
+SELECT ISNULL(SUM(amount), 0) as value FROM dbo.invoice_hdr WITH (NOLOCK) WHERE paid = 'N'
+
+# File: Database row with id = "30"
+# Group: AR Aging
+# Error: Failed to execute P21 query: [odbc] Error executing the sql statement
+SELECT ISNULL(SUM(amount), 0) as value FROM dbo.invoice_hdr WITH (NOLOCK) WHERE paid = 'N'
+
+# File: Database row with id = "31"
+# Group: AR Aging
+# Error: Failed to execute P21 query: [odbc] Error executing the sql statement
+SELECT ISNULL(SUM(amount), 0) as value FROM dbo.invoice_hdr WITH (NOLOCK) WHERE paid = 'N'
+
+# File: Database row with id = "32"
+# Group: Daily Orders
+# Error: SQL execution returned zero value: 0
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE CONVERT(date, order_date) = CONVERT(date, DATEADD(day, -1, GETDATE()))
+
+# File: Database row with id = "33"
+# Group: Daily Orders
+# Error: SQL execution returned zero value: 0
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE CONVERT(date, order_date) = CONVERT(date, DATEADD(day, -1, GETDATE()))
+
+# File: Database row with id = "34"
+# Group: Daily Orders
+# Error: SQL execution returned zero value: 0
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE CONVERT(date, order_date) = CONVERT(date, DATEADD(day, -1, GETDATE()))
+
+# File: Database row with id = "35"
+# Group: Daily Orders
+# Error: SQL execution returned zero value: 0
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE CONVERT(date, order_date) = CONVERT(date, DATEADD(day, -1, GETDATE()))
+
+# File: Database row with id = "36"
+# Group: Daily Orders
+# Error: SQL execution returned zero value: 0
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE CONVERT(date, order_date) = CONVERT(date, DATEADD(day, -1, GETDATE()))
+
+# File: Database row with id = "39"
+# Group: Accounts
+# Error: Failed to execute P21 query: [odbc] Error executing the sql statement
+SELECT COUNT(*) as value FROM dbo.ar_hdr WITH (NOLOCK) WHERE due_date IS NOT NULL AND DATEDIFF(day, due_date, GETDATE()) > 30 AND MONTH(due_date) = 10 AND YEAR(due_date) = YEAR(GETDATE())
+
+# File: Database row with id = "40"
+# Group: Accounts
+# Error: Failed to execute P21 query: [odbc] Error executing the sql statement
+SELECT COUNT(*) as value FROM dbo.ar_hdr WITH (NOLOCK) WHERE due_date IS NOT NULL AND DATEDIFF(day, due_date, GETDATE()) > 30 AND MONTH(due_date) = 11 AND YEAR(due_date) = YEAR(GETDATE())
+
+# File: Database row with id = "45"
+# Group: Customer Metrics
+# Error: SQL execution returned zero value: 0
+
+      SELECT COUNT(DISTINCT c.customer_id) AS value 
+      FROM dbo.customer c WITH (NOLOCK)
+      WHERE c.date_created >= '2025-04-01' 
+      AND c.date_created <= '2025-04-30'
+      AND NOT EXISTS (
+        SELECT 1 
+        FROM dbo.oe_hdr o WITH (NOLOCK) 
+        WHERE o.customer_id = c.customer_id 
+        AND o.order_date < '2025-04-01' 
+        AND o.order_date >= '2024-05-01'
+      )
+    
+
+# File: Database row with id = "46"
+# Group: Customer Metrics
+# Error: SQL execution returned zero value: 0
+
+      SELECT COUNT(DISTINCT c.customer_id) AS value 
+      FROM dbo.customer c WITH (NOLOCK)
+      WHERE c.date_created >= '2025-05-01' 
+      AND c.date_created <= '2025-05-31'
+      AND NOT EXISTS (
+        SELECT 1 
+        FROM dbo.oe_hdr o WITH (NOLOCK) 
+        WHERE o.customer_id = c.customer_id 
+        AND o.order_date < '2025-05-01' 
+        AND o.order_date >= '2024-06-01'
+      )
+    
+
+# File: Database row with id = "47"
+# Group: Customer Metrics
+# Error: SQL execution returned zero value: 0
+
+      SELECT COUNT(DISTINCT c.customer_id) AS value 
+      FROM dbo.customer c WITH (NOLOCK)
+      WHERE c.date_created >= '2025-06-01' 
+      AND c.date_created <= '2025-06-30'
+      AND NOT EXISTS (
+        SELECT 1 
+        FROM dbo.oe_hdr o WITH (NOLOCK) 
+        WHERE o.customer_id = c.customer_id 
+        AND o.order_date < '2025-06-01' 
+        AND o.order_date >= '2024-07-01'
+      )
+    
+
+# File: Database row with id = "48"
+# Group: Customer Metrics
+# Error: SQL execution returned zero value: 0
+
+      SELECT COUNT(DISTINCT c.customer_id) AS value 
+      FROM dbo.customer c WITH (NOLOCK)
+      WHERE c.date_created >= '2025-07-01' 
+      AND c.date_created <= '2025-07-31'
+      AND NOT EXISTS (
+        SELECT 1 
+        FROM dbo.oe_hdr o WITH (NOLOCK) 
+        WHERE o.customer_id = c.customer_id 
+        AND o.order_date < '2025-07-01' 
+        AND o.order_date >= '2024-08-01'
+      )
+    
+
+# File: Database row with id = "49"
+# Group: Customer Metrics
+# Error: SQL execution returned zero value: 0
+
+      SELECT COUNT(DISTINCT c.customer_id) AS value 
+      FROM dbo.customer c WITH (NOLOCK)
+      WHERE c.date_created >= '2025-08-01' 
+      AND c.date_created <= '2025-08-31'
+      AND NOT EXISTS (
+        SELECT 1 
+        FROM dbo.oe_hdr o WITH (NOLOCK) 
+        WHERE o.customer_id = c.customer_id 
+        AND o.order_date < '2025-08-01' 
+        AND o.order_date >= '2024-09-01'
+      )
+    
+
+# File: Database row with id = "66"
+# Group: Daily Orders
+# Error: SQL execution returned zero value: 0
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE DATEDIFF(day, order_date, GETDATE()) = 0
+
+# File: Database row with id = "67"
+# Group: Daily Orders
+# Error: SQL execution returned zero value: 0
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE DATEDIFF(day, order_date, GETDATE()) = 1
+
+# File: Database row with id = "76"
+# Group: Historical Data
+# Error: SQL execution returned zero value: 0
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE MONTH(order_date) = 4 AND YEAR(order_date) = YEAR(GETDATE())
+
+# File: Database row with id = "77"
+# Group: Historical Data
+# Error: SQL execution returned zero value: 0
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE MONTH(order_date) = 5 AND YEAR(order_date) = YEAR(GETDATE())
+
+# File: Database row with id = "78"
+# Group: Historical Data
+# Error: SQL execution returned zero value: 0
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE MONTH(order_date) = 6 AND YEAR(order_date) = YEAR(GETDATE())
+
+# File: Database row with id = "79"
+# Group: Historical Data
+# Error: SQL execution returned zero value: 0
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE MONTH(order_date) = 7 AND YEAR(order_date) = YEAR(GETDATE())
+
+# File: Database row with id = "80"
+# Group: Historical Data
+# Error: SQL execution returned zero value: 0
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE MONTH(order_date) = 8 AND YEAR(order_date) = YEAR(GETDATE())
+
+# File: Database row with id = "81"
+# Group: Historical Data
+# Error: SQL execution returned zero value: 0
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE MONTH(order_date) = 9 AND YEAR(order_date) = YEAR(GETDATE())
+
+# File: Database row with id = "82"
+# Group: Historical Data
+# Error: SQL execution returned zero value: 0
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE MONTH(order_date) = 10 AND YEAR(order_date) = YEAR(GETDATE())
+
+# File: Database row with id = "83"
+# Group: Historical Data
+# Error: SQL execution returned zero value: 0
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE MONTH(order_date) = 11 AND YEAR(order_date) = YEAR(GETDATE())
+
+# File: Database row with id = "84"
+# Group: Historical Data
+# Error: SQL execution returned zero value: 0
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE MONTH(order_date) = 12 AND YEAR(order_date) = YEAR(GETDATE())
+
+# File: Database row with id = "100"
+# Group: Historical Data
+# Error: SQL execution returned zero value: 0
+SELECT (SELECT COUNT(*) FROM dbo.oe_hdr WITH (NOLOCK) WHERE MONTH(order_date) = 4 AND YEAR(order_date) = YEAR(GETDATE())) AS value
+
+# File: Database row with id = "101"
+# Group: Historical Data
+# Error: SQL execution returned zero value: 0
+SELECT (SELECT COUNT(*) FROM dbo.oe_hdr WITH (NOLOCK) WHERE MONTH(order_date) = 5 AND YEAR(order_date) = YEAR(GETDATE())) AS value
+
+# File: Database row with id = "102"
+# Group: Historical Data
+# Error: SQL execution returned zero value: 0
+SELECT (SELECT COUNT(*) FROM dbo.oe_hdr WITH (NOLOCK) WHERE MONTH(order_date) = 6 AND YEAR(order_date) = YEAR(GETDATE())) AS value
+
+# File: Database row with id = "103"
+# Group: Historical Data
+# Error: SQL execution returned zero value: 0
+SELECT (SELECT COUNT(*) FROM dbo.oe_hdr WITH (NOLOCK) WHERE MONTH(order_date) = 7 AND YEAR(order_date) = YEAR(GETDATE())) AS value
+
+# File: Database row with id = "104"
+# Group: Historical Data
+# Error: SQL execution returned zero value: 0
+SELECT (SELECT COUNT(*) FROM dbo.oe_hdr WITH (NOLOCK) WHERE MONTH(order_date) = 8 AND YEAR(order_date) = YEAR(GETDATE())) AS value
+
+# File: Database row with id = "105"
+# Group: Historical Data
+# Error: SQL execution returned zero value: 0
+SELECT (SELECT COUNT(*) FROM dbo.oe_hdr WITH (NOLOCK) WHERE MONTH(order_date) = 9 AND YEAR(order_date) = YEAR(GETDATE())) AS value
+
+# File: Database row with id = "106"
+# Group: Historical Data
+# Error: SQL execution returned zero value: 0
+SELECT (SELECT COUNT(*) FROM dbo.oe_hdr WITH (NOLOCK) WHERE MONTH(order_date) = 10 AND YEAR(order_date) = YEAR(GETDATE())) AS value
+
+# File: Database row with id = "107"
+# Group: Historical Data
+# Error: SQL execution returned zero value: 0
+SELECT (SELECT COUNT(*) FROM dbo.oe_hdr WITH (NOLOCK) WHERE MONTH(order_date) = 11 AND YEAR(order_date) = YEAR(GETDATE())) AS value
+
+# File: Database row with id = "108"
+# Group: Historical Data
+# Error: SQL execution returned zero value: 0
+SELECT (SELECT COUNT(*) FROM dbo.oe_hdr WITH (NOLOCK) WHERE MONTH(order_date) = 12 AND YEAR(order_date) = YEAR(GETDATE())) AS value
+
+# File: Database row with id = "117"
+# Group: Key Metrics
+# Error: SQL execution returned zero value: 0
+SELECT COUNT(*) AS value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_date >= DATEADD(day, -DATEPART(day, GETDATE()) + 1, CAST(CAST(GETDATE() AS DATE) AS DATETIME)) AND order_date < DATEADD(month, 1, DATEADD(day, -DATEPART(day, GETDATE()) + 1, CAST(CAST(GETDATE() AS DATE) AS DATETIME)))
+
+# File: Database row with id = "120"
+# Group: Key Metrics
+# Error: Failed to execute P21 query: [odbc] Error executing the sql statement
+SELECT SUM(invoice_amt) as value FROM dbo.invoice_hdr WITH (NOLOCK) WHERE MONTH(invoice_date) = MONTH(GETDATE()) AND YEAR(invoice_date) = YEAR(GETDATE())
+
+# File: Database row with id = "124"
+# Group: Site Distribution
+# Error: Failed to execute P21 query: [odbc] Error executing the sql statement
+SELECT SUM(qty_on_hand) as value FROM dbo.item_warehouse WITH (NOLOCK) WHERE location_id = '1'
+
+# File: Database row with id = "125"
+# Group: Site Distribution
+# Error: Failed to execute P21 query: [odbc] Error executing the sql statement
+SELECT SUM(qty_on_hand) as value FROM dbo.item_warehouse WITH (NOLOCK) WHERE location_id = '2'
+
+# File: Database row with id = "126"
+# Group: Site Distribution
+# Error: Failed to execute P21 query: [odbc] Error executing the sql statement
+SELECT SUM(qty_on_hand) as value FROM dbo.item_warehouse WITH (NOLOCK) WHERE location_id = '3'
+
+# File: Database row with id = "163"
+# Group: Web Orders
+# Error: Failed to execute P21 query: [odbc] Error executing the sql statement
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_source = 'Web' AND MONTH(order_date) = 1 AND YEAR(order_date) = YEAR(GETDATE())
+
+# File: Database row with id = "164"
+# Group: Web Orders
+# Error: Failed to execute P21 query: [odbc] Error executing the sql statement
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_source = 'Web' AND MONTH(order_date) = 2 AND YEAR(order_date) = YEAR(GETDATE())
+
+# File: Database row with id = "165"
+# Group: Web Orders
+# Error: Failed to execute P21 query: [odbc] Error executing the sql statement
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_source = 'Web' AND MONTH(order_date) = 3 AND YEAR(order_date) = YEAR(GETDATE())
+
+# File: Database row with id = "166"
+# Group: Web Orders
+# Error: Failed to execute P21 query: [odbc] Error executing the sql statement
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_source = 'Web' AND MONTH(order_date) = 4 AND YEAR(order_date) = YEAR(GETDATE())
+
+# File: Database row with id = "167"
+# Group: Web Orders
+# Error: Failed to execute P21 query: [odbc] Error executing the sql statement
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_source = 'Web' AND MONTH(order_date) = 5 AND YEAR(order_date) = YEAR(GETDATE())
+
+# File: Database row with id = "168"
+# Group: Web Orders
+# Error: Failed to execute P21 query: [odbc] Error executing the sql statement
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_source = 'Web' AND MONTH(order_date) = 6 AND YEAR(order_date) = YEAR(GETDATE())
+
+# File: Database row with id = "169"
+# Group: Web Orders
+# Error: Failed to execute P21 query: [odbc] Error executing the sql statement
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_source = 'Web' AND MONTH(order_date) = 7 AND YEAR(order_date) = YEAR(GETDATE())
+
+# File: Database row with id = "170"
+# Group: Web Orders
+# Error: Failed to execute P21 query: [odbc] Error executing the sql statement
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_source = 'Web' AND MONTH(order_date) = 8 AND YEAR(order_date) = YEAR(GETDATE())
+
+# File: Database row with id = "171"
+# Group: Web Orders
+# Error: Failed to execute P21 query: [odbc] Error executing the sql statement
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_source = 'Web' AND MONTH(order_date) = 9 AND YEAR(order_date) = YEAR(GETDATE())
+
+# File: Database row with id = "172"
+# Group: Web Orders
+# Error: Failed to execute P21 query: [odbc] Error executing the sql statement
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_source = 'Web' AND MONTH(order_date) = 10 AND YEAR(order_date) = YEAR(GETDATE())
+
+# File: Database row with id = "173"
+# Group: Web Orders
+# Error: Failed to execute P21 query: [odbc] Error executing the sql statement
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_source = 'Web' AND MONTH(order_date) = 11 AND YEAR(order_date) = YEAR(GETDATE())
+
+# File: Database row with id = "174"
+# Group: Web Orders
+# Error: Failed to execute P21 query: [odbc] Error executing the sql statement
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_source = 'Web' AND MONTH(order_date) = 12 AND YEAR(order_date) = YEAR(GETDATE())
+
+# File: Database row with id = "null"
+# Group: Accounts
+# Error: Failed to execute P21 query: [odbc] Error executing the sql statement
+SELECT COUNT(*) as value FROM dbo.ap_hdr WITH (NOLOCK)
+
+# File: Database row with id = "null"
+# Group: Accounts
+# Error: Failed to execute P21 query: [odbc] Error executing the sql statement
+SELECT COUNT(*) as value FROM dbo.ap_hdr WITH (NOLOCK)
+
+# File: Database row with id = "null"
+# Group: Accounts
+# Error: Failed to execute P21 query: [odbc] Error executing the sql statement
+SELECT COUNT(*) as value FROM dbo.ap_hdr WITH (NOLOCK)
+
+# File: Database row with id = "null"
+# Group: Accounts
+# Error: Failed to execute P21 query: [odbc] Error executing the sql statement
+SELECT COUNT(*) as value FROM dbo.ap_hdr WITH (NOLOCK)
+
+# File: Database row with id = "null"
+# Group: Accounts
+# Error: Failed to execute P21 query: [odbc] Error executing the sql statement
+SELECT COUNT(*) as value FROM dbo.ap_hdr WITH (NOLOCK)
+
+# File: Database row with id = "null"
+# Group: Accounts
+# Error: Failed to execute P21 query: [odbc] Error executing the sql statement
+SELECT COUNT(*) as value FROM dbo.ap_hdr WITH (NOLOCK)
+
+# File: Database row with id = "null"
+# Group: Accounts
+# Error: Failed to execute P21 query: [odbc] Error executing the sql statement
+SELECT COUNT(*) as value FROM dbo.ap_hdr WITH (NOLOCK)
+
+# File: Database row with id = "null"
+# Group: Accounts
+# Error: Failed to execute P21 query: [odbc] Error executing the sql statement
+SELECT COUNT(*) as value FROM dbo.ap_hdr WITH (NOLOCK)
+
+# File: Database row with id = "null"
+# Group: Accounts
+# Error: Failed to execute P21 query: [odbc] Error executing the sql statement
+SELECT COUNT(*) as value FROM dbo.ap_hdr WITH (NOLOCK)
+
+# File: Database row with id = "null"
+# Group: Accounts
+# Error: Failed to execute P21 query: [odbc] Error executing the sql statement
+SELECT COUNT(*) as value FROM dbo.ap_hdr WITH (NOLOCK)
+
+# File: Database row with id = "null"
+# Group: Accounts
+# Error: Failed to execute P21 query: [odbc] Error executing the sql statement
+SELECT COUNT(*) as value FROM dbo.ap_hdr WITH (NOLOCK)
+
+# File: Database row with id = "null"
+# Group: Accounts
+# Error: Failed to execute P21 query: [odbc] Error executing the sql statement
+SELECT COUNT(*) as value FROM dbo.ap_hdr WITH (NOLOCK)
+
+# File: Database row with id = "null"
+# Group: Accounts
+# Error: Failed to execute P21 query: [odbc] Error executing the sql statement
+SELECT COUNT(*) as value FROM dbo.ap_hdr WITH (NOLOCK)
+
+# File: Database row with id = "null"
+# Group: Accounts
+# Error: Failed to execute P21 query: [odbc] Error executing the sql statement
+SELECT COUNT(*) as value FROM dbo.ap_hdr WITH (NOLOCK)
+
+# File: Database row with id = "null"
+# Group: Accounts
+# Error: Failed to execute P21 query: [odbc] Error executing the sql statement
+SELECT COUNT(*) as value FROM dbo.ap_hdr WITH (NOLOCK)
+
+# File: Database row with id = "null"
+# Group: Accounts
+# Error: Failed to execute P21 query: [odbc] Error executing the sql statement
+SELECT COUNT(*) as value FROM dbo.ap_hdr WITH (NOLOCK)
+
+# File: Database row with id = "null"
+# Group: Accounts
+# Error: Failed to execute P21 query: [odbc] Error executing the sql statement
+SELECT COUNT(*) as value FROM dbo.ap_hdr WITH (NOLOCK)
+
+# File: Database row with id = "null"
+# Group: Accounts
+# Error: Failed to execute P21 query: [odbc] Error executing the sql statement
+SELECT COUNT(*) as value FROM dbo.ap_hdr WITH (NOLOCK)
+
+# File: Database row with id = "null"
+# Group: Accounts
+# Error: Failed to execute P21 query: [odbc] Error executing the sql statement
+SELECT COUNT(*) as value FROM dbo.ap_hdr WITH (NOLOCK)
+
+# File: Database row with id = "null"
+# Group: Accounts
+# Error: Failed to execute P21 query: [odbc] Error executing the sql statement
+SELECT COUNT(*) as value FROM dbo.ap_hdr WITH (NOLOCK)
+
+# File: Database row with id = "null"
+# Group: Accounts
+# Error: Failed to execute P21 query: [odbc] Error executing the sql statement
+SELECT COUNT(*) as value FROM dbo.ap_hdr WITH (NOLOCK)
+
+# File: Database row with id = "null"
+# Group: Accounts
+# Error: Failed to execute P21 query: [odbc] Error executing the sql statement
+SELECT COUNT(*) as value FROM dbo.ap_hdr WITH (NOLOCK)
+
+# File: Database row with id = "null"
+# Group: Accounts
+# Error: Failed to execute P21 query: [odbc] Error executing the sql statement
+SELECT COUNT(*) as value FROM dbo.ap_hdr WITH (NOLOCK)
+
+# File: Database row with id = "null"
+# Group: Accounts
+# Error: Failed to execute P21 query: [odbc] Error executing the sql statement
+SELECT COUNT(*) as value FROM dbo.ap_hdr WITH (NOLOCK)
+
+# File: Database row with id = "null"
+# Group: Accounts
+# Error: Failed to execute P21 query: [odbc] Error executing the sql statement
+SELECT COUNT(*) as value FROM dbo.ap_hdr WITH (NOLOCK)
+
+# File: Database row with id = "null"
+# Group: Accounts
+# Error: Failed to execute P21 query: [odbc] Error executing the sql statement
+SELECT COUNT(*) as value FROM dbo.ap_hdr WITH (NOLOCK)
+
+# File: Database row with id = "null"
+# Group: Accounts
+# Error: Failed to execute P21 query: [odbc] Error executing the sql statement
+SELECT COUNT(*) as value FROM dbo.ap_hdr WITH (NOLOCK)
+
+# File: Database row with id = "null"
+# Group: Accounts
+# Error: Failed to execute P21 query: [odbc] Error executing the sql statement
+SELECT COUNT(*) as value FROM dbo.ap_hdr WITH (NOLOCK)
+
+# File: Database row with id = "null"
+# Group: Accounts
+# Error: Failed to execute P21 query: [odbc] Error executing the sql statement
+SELECT COUNT(*) as value FROM dbo.ap_hdr WITH (NOLOCK)
+
+# File: Database row with id = "null"
+# Group: Accounts
+# Error: Failed to execute P21 query: [odbc] Error executing the sql statement
+SELECT COUNT(*) as value FROM dbo.ap_hdr WITH (NOLOCK)
+
+# File: Database row with id = "null"
+# Group: Historical Data
+# Error: SQL execution returned zero value: 0
+SELECT (SELECT COUNT(*) FROM dbo.oe_hdr WITH (NOLOCK) WHERE MONTH(order_date) = 4 AND YEAR(order_date) = YEAR(GETDATE())) AS value
+

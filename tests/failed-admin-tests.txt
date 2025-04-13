@@ -1,0 +1,24 @@
+# Test: Chart Group Check
+# Error: Expected chart group "Inventory" not found in database
+# Details: Expected chart group: Inventory
+
+# Test: Row Count Check
+# Error: Expected at least 172 rows in chart_data table, found 114
+# Details: Expected at least 172 rows, found 114
+
+# Test: Chart Group Row Count Check
+# Error: Expected 36 rows for chart group "Accounts", found 3
+# Details: Chart group: Accounts, Expected: 36, Found: 3
+
+# Test: Chart Group Row Count Check
+# Error: Expected 24 rows for chart group "Customer Metrics", found 10
+# Details: Chart group: Customer Metrics, Expected: 24, Found: 10
+
+# Test: Chart Group Row Count Check
+# Error: Expected 36 rows for chart group "Historical Data", found 30
+# Details: Chart group: Historical Data, Expected: 36, Found: 30
+
+# Test: Chart Group Row Count Check
+# Error: Expected 5 rows for chart group "Inventory", found 0
+# Details: Chart group: Inventory, Expected: 5, Found: 0
+

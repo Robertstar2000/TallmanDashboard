@@ -11,25 +11,35 @@ import {
 } from "@/components/ui/table";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { SpreadsheetRow } from '@/lib/types/dashboard';
+import { ChartDataRow } from '@/lib/db/types';
 
 interface AdminSpreadsheetProps {
-  data: SpreadsheetRow[];
-  onDataChange: (data: SpreadsheetRow[]) => void;
+  columns: any[];
+  data: ChartDataRow[];
+  onDataChange: (data: ChartDataRow[]) => Promise<void>;
   isRunning: boolean;
   isProduction: boolean;
   activeRowId?: string | null;
+  liveQueryState?: any;
 }
 
 const AdminSpreadsheet = ({ 
   data, 
   onDataChange, 
+  columns, 
   isRunning, 
   isProduction,
-  activeRowId
+  activeRowId,
+  liveQueryState
 }: AdminSpreadsheetProps) => {
   // Log when data or activeRowId changes for debugging
   useEffect(() => {
+    // Add check to ensure data is an array before proceeding
+    if (!Array.isArray(data)) {
+      console.warn('AdminSpreadsheet useEffect: data is not an array yet.');
+      return; // Exit early if data is not valid
+    }
+
     console.log('AdminSpreadsheet received data update:', data.length, 'rows');
     
     // Log the values of all rows for debugging
@@ -50,7 +60,7 @@ const AdminSpreadsheet = ({
     }
   }, [data, activeRowId]);
 
-  const handleCellChange = (id: string, field: keyof SpreadsheetRow, value: string) => {
+  const handleCellChange = (id: string, field: keyof ChartDataRow, value: string) => {
     // Log the change for debugging
     console.log(`Cell change: Row ${id}, Field ${field}, Value ${value}`);
     
@@ -58,7 +68,7 @@ const AdminSpreadsheet = ({
       if (row.id === id) {
         return { 
           ...row, 
-          [field]: field === 'serverName' ? (value as 'P21' | 'POR') : value,
+          [String(field)]: field === 'serverName' ? (value as 'P21' | 'POR') : value,
           lastUpdated: new Date().toISOString()
         };
       }
@@ -86,131 +96,107 @@ const AdminSpreadsheet = ({
     console.error('AdminSpreadsheet: data prop is not an array', data);
     return <div>Error: Invalid data format</div>;
   }
+  
+  // Sort data by Row ID in ascending order
+  const sortedData = [...data].sort((a, b) => {
+    // Convert IDs to numbers for proper numeric sorting
+    const idA = parseInt(a.id);
+    const idB = parseInt(b.id);
+    return idA - idB;
+  });
 
   return (
-    <div className="w-full overflow-x-auto">
-      <div className="min-w-full" style={{ fontSize: '0.85rem' }}>
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead className="w-[80px]">Row ID</TableHead>
-              <TableHead className="w-[150px]">Chart Group</TableHead>
-              <TableHead className="w-[120px]">Variable Name</TableHead>
-              <TableHead className="w-[120px]">Data Point</TableHead>
-              <TableHead className="w-[80px]">Server</TableHead>
-              <TableHead className="w-[120px]">Table Name</TableHead>
-              <TableHead className="w-[400px]">Production SQL</TableHead>
-              <TableHead className="w-[100px]">Value</TableHead>
-              <TableHead className="w-[120px]">Last Updated</TableHead>
-              <TableHead className="w-[120px]">Status</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {data.map((row) => (
-              <TableRow 
-                key={row.id}
-                className={activeRowId === row.id ? 'bg-blue-300 animate-pulse border-2 border-blue-500' : ''}
-              >
-                <TableCell>
-                  <div className="px-2 py-1 border rounded bg-gray-100 text-gray-800 text-xs">
-                    {row.id}
-                  </div>
-                </TableCell>
-                <TableCell>
-                  <div className="px-2 py-1 border rounded bg-gray-100 text-gray-800">
-                    {row.chartGroup}
-                  </div>
-                </TableCell>
-                <TableCell>
-                  <Input
-                    value={row.variableName}
-                    onChange={(e) => handleCellChange(row.id, 'variableName', e.target.value)}
-                    disabled={isRunning}
-                  />
-                </TableCell>
-                <TableCell>
-                  <Input
-                    value={row.DataPoint}
-                    onChange={(e) => handleCellChange(row.id, 'DataPoint', e.target.value)}
-                    disabled={isRunning}
-                  />
-                </TableCell>
-                <TableCell>
-                  <Select
-                    value={row.serverName}
-                    onValueChange={(value) => handleCellChange(row.id, 'serverName', value)}
-                    disabled={isRunning}
-                  >
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select server" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="P21">P21</SelectItem>
-                      <SelectItem value="POR">POR</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </TableCell>
-                <TableCell>
-                  <Input
-                    value={row.tableName}
-                    onChange={(e) => handleCellChange(row.id, 'tableName', e.target.value)}
-                    disabled={isRunning}
-                  />
-                </TableCell>
-                <TableCell className="p-0">
-                  <textarea
-                    value={row.productionSqlExpression}
-                    onChange={(e) => handleCellChange(row.id, 'productionSqlExpression', e.target.value)}
-                    disabled={isRunning}
-                    className="w-full p-2 text-xs font-mono border rounded-md min-h-[2.5rem] focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    style={{ 
-                      height: 'auto',
-                      resize: 'vertical',
-                      whiteSpace: 'pre-wrap',
-                      wordBreak: 'break-word',
-                      overflowWrap: 'break-word'
-                    }}
-                  />
-                </TableCell>
-                <TableCell className="font-medium text-center">
-                  {/* Ensure the value is displayed properly */}
-                  <div className="px-2 py-1 bg-gray-100 rounded-md">
-                    {row.value !== undefined && row.value !== null && row.value !== '' 
-                      ? (isNaN(parseFloat(row.value)) ? row.value : parseFloat(row.value) === 0 ? '0' : row.value)
-                      : '0'}
-                  </div>
-                </TableCell>
-                <TableCell>
-                  {row.lastUpdated ? new Date(row.lastUpdated).toLocaleString() : 'Never'}
-                </TableCell>
-                <TableCell>
-                  {row.error ? (
-                    <div className="text-xs">
-                      <span className={`font-semibold px-2 py-1 rounded-md ${
-                        row.errorType === 'connection' ? 'bg-red-100 text-red-800' :
-                        row.errorType === 'execution' ? 'bg-orange-100 text-orange-800' :
-                        row.errorType === 'syntax' ? 'bg-yellow-100 text-yellow-800' :
-                        'bg-gray-100 text-gray-800'
-                      }`}>
-                        {row.errorType === 'connection' ? 'Connection Error' :
-                         row.errorType === 'execution' ? 'Execution Error' :
-                         row.errorType === 'syntax' ? 'Syntax Error' :
-                         'Error'}
-                      </span>
-                      <div className="mt-1 text-red-600 truncate max-w-[120px]" title={row.error}>
-                        {row.error}
-                      </div>
-                    </div>
-                  ) : (
-                    <span className="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-md">OK</span>
-                  )}
-                </TableCell>
+    <>
+      {/* Add detailed logging before rendering */}
+      {console.log('AdminSpreadsheet: Rendering sortedData IDs:', sortedData.map(row => row.id))}
+      <div className="w-full overflow-x-auto">
+        <div className="min-w-full" style={{ fontSize: '0.85rem' }}>
+          <Table>
+            <TableHeader>
+              <TableRow>
+                {columns.map((column) => (
+                  <TableHead key={column.header} className={column.cellClassName}>
+                    {column.header}
+                  </TableHead>
+                ))}
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+            </TableHeader>
+            <TableBody>
+              {sortedData.map((row) => {
+                // Determine if this row is active (currently executing)
+                const isActive = activeRowId === row.id;
+                // Determine if the row has an error based on live state (passed via columns render)
+                // This logic might be redundant if the render function handles it, but keep for row styling
+                const hasError = !!liveQueryState?.[row.id]?.error;
+                
+                return (
+                  <TableRow 
+                    key={row.id}
+                    className={`${isActive ? 'bg-yellow-100' : hasError ? 'bg-red-50' : ''}`}
+                  >
+                    {columns.map((column) => {
+                      const cellValue = row[column.accessor as keyof ChartDataRow];
+                      const isEditable = column.editable && !isRunning;
+                      
+                      return (
+                        <TableCell key={`${row.id}-${column.header}`} className={column.cellClassName}>
+                          {column.render ? (
+                            // Use render function if provided
+                            column.render(row)
+                          ) : isEditable ? (
+                            // Handle specific editable fields if needed (example for 'serverName')
+                            column.accessor === 'serverName' ? (
+                              <Select
+                                value={cellValue as string}
+                                onValueChange={(value) => handleCellChange(row.id, column.accessor as keyof ChartDataRow, value)}
+                                disabled={!isEditable}
+                              >
+                                <SelectTrigger className="h-8">
+                                  <SelectValue placeholder="Select server" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                  <SelectItem value="P21">P21</SelectItem>
+                                  <SelectItem value="POR">POR</SelectItem>
+                                </SelectContent>
+                              </Select>
+                            ) : column.accessor === 'productionSqlExpression' ? (
+                              <textarea
+                                value={String(cellValue ?? '')}
+                                onChange={(e) => handleCellChange(row.id, column.accessor as keyof ChartDataRow, e.target.value)}
+                                disabled={!isEditable}
+                                className="w-full p-2 text-xs font-mono border rounded-md min-h-[2.5rem] focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                style={{
+                                  height: 'auto',
+                                  resize: 'vertical',
+                                  whiteSpace: 'pre-wrap',
+                                  wordBreak: 'break-word',
+                                  overflowWrap: 'break-word'
+                                }}
+                              />
+                            ) : (
+                              // Default Input for other editable fields
+                              <Input
+                                className="h-8"
+                                value={String(cellValue ?? '')}
+                                onChange={(e) => handleCellChange(row.id, column.accessor as keyof ChartDataRow, e.target.value)}
+                                disabled={!isEditable}
+                              />
+                            )
+                          ) : (
+                            // Default rendering for non-editable, non-render fields
+                            column.accessor === 'lastUpdated' && cellValue ? new Date(cellValue as string).toLocaleString() : String(cellValue ?? '')
+                          )}
+                        </TableCell>
+                      );
+                    })}
+                  </TableRow>
+                );
+              })}
+            </TableBody>
+          </Table>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

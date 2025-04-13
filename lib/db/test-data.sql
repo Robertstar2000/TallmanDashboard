@@ -79,6 +79,12 @@ CREATE TABLE IF NOT EXISTS por_invoices (
     status VARCHAR(20)
 );
 
+-- Table to store pre-generated test values for specific row IDs
+CREATE TABLE IF NOT EXISTS test_data_mapping (
+    id TEXT PRIMARY KEY,
+    test_value TEXT -- Store as TEXT to accommodate various types initially
+);
+
 -- Clear existing data
 DELETE FROM pub_oe_hdr;
 DELETE FROM pub_customers;
@@ -124,7 +130,8 @@ SELECT
         WHEN 1 THEN 'inactive'
         ELSE 'pending'
     END,
-    date('now', '-' || (rowid % 60) || ' days')
+    -- Calculate a past date using julianday for simplicity
+    date(julianday('now') - (rowid % 60))
 FROM (SELECT 1 UNION SELECT 2 UNION SELECT 3 UNION SELECT 4 UNION SELECT 5) t1,
      (SELECT 1 UNION SELECT 2 UNION SELECT 3 UNION SELECT 4 UNION SELECT 5) t2
 LIMIT 100;
@@ -163,6 +170,7 @@ SELECT
 FROM dates, (SELECT 1 UNION SELECT 2 UNION SELECT 3 UNION SELECT 4 UNION SELECT 5) t
 ORDER BY date;
 
+/* -- Temporarily commented out due to syntax error near 0
 -- AR aging data with specific buckets
 INSERT INTO pub_ar_open_items (invoice_id, due_date, amount_open, days_past_due, customer_id)
 VALUES
@@ -190,6 +198,7 @@ VALUES
     (2013, date('now', '-95 days'), 2500.00, 95, 13),
     (2014, date('now', '-120 days'), 3200.00, 120, 14),
     (2015, date('now', '-150 days'), 4800.00, 150, 15);
+*/
 
 -- AP data with monthly distribution
 INSERT INTO pub_ap_open_items (invoice_id, due_date, amount_open, vendor_id)

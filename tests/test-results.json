@@ -1,0 +1,71 @@
+{
+  "total": 7,
+  "passed": 6,
+  "failed": 1,
+  "skipped": 0,
+  "duration": 0.986,
+  "suiteResults": [
+    {
+      "name": "Dashboard Tests",
+      "passed": true,
+      "warning": false,
+      "exitCode": 0,
+      "duration": 0.078
+    },
+    {
+      "name": "Admin Page Tests",
+      "passed": true,
+      "warning": false,
+      "exitCode": 0,
+      "duration": 0.099
+    },
+    {
+      "name": "Query Page Tests",
+      "passed": true,
+      "warning": false,
+      "exitCode": 0,
+      "duration": 0.076
+    },
+    {
+      "name": "Database Connection Tests",
+      "passed": true,
+      "warning": false,
+      "exitCode": 0,
+      "duration": 0.259
+    },
+    {
+      "name": "SQL Expression Tests",
+      "passed": true,
+      "warning": false,
+      "exitCode": 0,
+      "duration": 0.351
+    },
+    {
+      "name": "Data Completeness Tests",
+      "passed": true,
+      "warning": false,
+      "exitCode": 0,
+      "duration": 0.068
+    },
+    {
+      "name": "Integration Tests",
+      "passed": false,
+      "duration": 0.028,
+      "details": {
+        "passed": [
+          "API route /api/admin/data exists (Admin data API)",
+          "Admin sequencing test skipped - background worker file not found"
+        ],
+        "failed": [
+          "API route file not found for /api/dashboard/data",
+          "API route file not found for /api/admin/run"
+        ],
+        "errors": [],
+        "skipped": [],
+        "info": [
+          "Admin sequencing test skipped - worker files not found"
+        ]
+      }
+    }
+  ]
+}

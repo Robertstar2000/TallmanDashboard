@@ -13,7 +13,7 @@ import {
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { DatabaseConnection } from '@/lib/types/dashboard';
+import { DatabaseConnection } from '@/lib/db/types';
 
 interface ServerConnectionDialogProps {
   serverType: 'P21' | 'POR';

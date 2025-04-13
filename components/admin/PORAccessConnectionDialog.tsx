@@ -74,7 +74,7 @@ export default function PORAccessConnectionDialog() {
       setTesting(true);
       setResult(null);
 
-      const response = await fetch('/api/testAccessConnection', {
+      const response = await fetch('/api/admin/test-por', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

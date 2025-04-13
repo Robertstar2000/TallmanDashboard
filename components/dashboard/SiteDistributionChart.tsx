@@ -1,11 +1,11 @@
 'use client';
 
 import { PieChart } from '@/components/charts/PieChart';
-import { SiteDistributionPoint } from '@/lib/types/dashboard';
+import { ChartDataRow } from '@/lib/db/types';
 import { useEffect } from 'react';
 
 interface SiteDistributionChartProps {
-  data: SiteDistributionPoint[];
+  data: ChartDataRow[];
 }
 
 export function SiteDistributionChart({ data }: SiteDistributionChartProps) {
@@ -25,22 +25,27 @@ export function SiteDistributionChart({ data }: SiteDistributionChartProps) {
     );
   }
 
-  // Transform data for pie chart to show only Columbus, Addison, and Lake City
-  const pieData = [
-    { name: 'Columbus', value: data.reduce((sum, item) => sum + (item.columbus || 0), 0) },
-    { name: 'Addison', value: data.reduce((sum, item) => sum + (item.addison || 0), 0) },
-    { name: 'Lake City', value: data.reduce((sum, item) => sum + (item.lakeCity || 0), 0) }
-  ].filter(item => item.value > 0); // Only include non-zero values
+  // Define the expected locations and their order
+  const locationOrder = ['Columbus', 'Addison', 'Lake City'];
+
+  // Transform data correctly using axisStep and value
+  const pieData = locationOrder.map(location => {
+    const locationData = data.find(item => item.axisStep === location);
+    return {
+      name: location, // Use 'name' as expected by PieChart
+      value: locationData ? (locationData.value ?? 0) : 0 // Use 'value', default null/undefined to 0
+    };
+  }).filter(item => item.value > 0); // Keep filtering non-zero values
 
   console.log('Transformed pie data:', pieData);
 
   if (!pieData.length) {
-    console.log('No non-zero values in site distribution data');
+    console.log('No non-zero values in site distribution data after transformation');
     return (
       <div className="bg-white p-4 rounded-lg shadow">
         <h3 className="text-sm font-medium mb-2">Site Distribution</h3>
         <div className="h-[200px] w-full flex items-center justify-center">
-          <p className="text-gray-500">No data values available</p>
+          <p className="text-gray-500">No data values available</p> // Message can remain the same
         </div>
       </div>
     );
@@ -50,6 +55,7 @@ export function SiteDistributionChart({ data }: SiteDistributionChartProps) {
     <div className="bg-white p-4 rounded-lg shadow">
       <h3 className="text-sm font-medium mb-2">Site Distribution</h3>
       <div className="h-[200px] w-full">
+        {/* Ensure PieChart component expects 'name' and 'value' keys in its data prop */}
         <PieChart data={pieData} />
       </div>
     </div>

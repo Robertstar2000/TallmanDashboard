@@ -3,7 +3,8 @@
 import { useState, useEffect } from 'react';
 import { Box, Button, Typography, Paper, CircularProgress, Divider, Tabs, Tab, List, ListItem, ListItemText, Chip, TextField, Alert } from '@mui/material';
 import Link from 'next/link';
-import { dashboardData as initialSpreadsheetData } from '../../../lib/db/single-source-data';
+import { singleSourceData, SourceDataDefinition } from '@/lib/db/single-source-data';
+import { ChartDataRow } from '@/lib/db/types';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -335,12 +336,12 @@ export default function TestAllPORSQLPage() {
   // Get all POR SQL expressions
   const getAllPORSqlExpressions = () => {
     // Filter for POR SQL expressions (IDs 127-174)
-    const porExpressions = initialSpreadsheetData
-      .filter(item => {
+    const porExpressions = (singleSourceData as ChartDataRow[])
+      .filter((item) => {
         const id = parseInt(item.id);
         return id >= 127 && id <= 174;
       })
-      .map(item => ({
+      .map((item) => ({
         id: item.id,
         dataPoint: item.DataPoint,
         sql: item.productionSqlExpression,
@@ -427,10 +428,8 @@ export default function TestAllPORSQLPage() {
     
     // Extract column references from SQL
     const columnRegexes = [
-      /SELECT\s+(.*?)\s+FROM/i,  // SELECT clause
-      /WHERE\s+(.*?)(?:GROUP BY|ORDER BY|$)/i,  // WHERE clause
-      /GROUP BY\s+(.*?)(?:ORDER BY|$)/i,  // GROUP BY clause
-      /ORDER BY\s+(.*?)(?:$)/i,  // ORDER BY clause
+      /SELECT\s+.*?FROM/i,  // SELECT clause
+      /WHERE\s+([^\s]+)\s*=|GROUP\s+BY\s+([^\s,]+)|ORDER\s+BY\s+([^\s,]+)/gi,  // WHERE, GROUP BY, ORDER BY clauses
     ];
     
     // Process each regex match
@@ -439,7 +438,6 @@ export default function TestAllPORSQLPage() {
       if (!match || !match[1]) return;
       
       const clauseContent = match[1];
-      let adjustedClauseContent = clauseContent;
       
       // Skip if it's just * or COUNT(*)
       if (clauseContent.trim() === '*' || clauseContent.toUpperCase().includes('COUNT(*)')) {
@@ -462,16 +460,11 @@ export default function TestAllPORSQLPage() {
         
         if (closestMatch && closestMatch !== originalColumn) {
           // Replace the column name in the clause content
-          adjustedClauseContent = adjustedClauseContent.replace(
+          adjustedSql = adjustedSql.replace(
             new RegExp(`\\b${originalColumn}\\b`, 'g'), 
             closestMatch
           );
         }
-      }
-      
-      // Replace the original clause content with the adjusted one
-      if (adjustedClauseContent !== clauseContent) {
-        adjustedSql = adjustedSql.replace(clauseContent, adjustedClauseContent);
       }
     });
     
@@ -551,10 +544,8 @@ export default function TestAllPORSQLPage() {
     
     // Extract column references from SQL
     const columnRegexes = [
-      /SELECT\s+(.*?)\s+FROM/i,  // SELECT clause
-      /WHERE\s+(.*?)(?:GROUP BY|ORDER BY|$)/i,  // WHERE clause
-      /GROUP BY\s+(.*?)(?:ORDER BY|$)/i,  // GROUP BY clause
-      /ORDER BY\s+(.*?)(?:$)/i,  // ORDER BY clause
+      /SELECT\s+.*?FROM/i,  // SELECT clause
+      /WHERE\s+([^\s]+)\s*=|GROUP\s+BY\s+([^\s,]+)|ORDER\s+BY\s+([^\s,]+)/gi,  // WHERE, GROUP BY, ORDER BY clauses
     ];
     
     // Process each regex match

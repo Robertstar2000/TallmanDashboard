@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { DashboardData, MetricItem, HistoricalDataPoint, AccountsDataPoint, DailyOrderData, WebOrderData, SiteDistribution, SpreadsheetDataWithPopupSupport, POROverviewData, ARAgingDataPoint, CustomerMetricPoint, InventoryDataPoint, POROverviewPoint, SiteDistributionPoint, ARAgingPoint, DailyOrderPoint, WebOrderPoint } from '@/lib/types/dashboard';
-import { dashboardStateMachine } from '@/lib/state/stateMachine';
+import { DashboardData, MetricItem, HistoricalDataPoint, AccountsDataPoint, DailyOrderData, WebOrderData, SiteDistribution, SpreadsheetDataWithPopupSupport, POROverviewData, ARAgingDataPoint, CustomerMetricPoint, InventoryDataPoint, POROverviewPoint, SiteDistributionPoint, ARAgingPoint, DailyOrderPoint, WebOrderPoint } from '@/lib/db/types';
+// import { dashboardStateMachine } from '@/lib/state/stateMachine'; // Commented out - file doesn't exist
 import { MetricsSection } from './MetricsSection';
 import { ChartsSection } from './ChartsSection';
 import { Button } from '@/components/ui/button';

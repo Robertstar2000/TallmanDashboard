@@ -1,1 +1,0 @@
-# Core Database Connection Tests\n\nThis folder contains the following test scripts:\n\n1. test-p21-connection.js - Tests basic P21 database connectivity\n2. test-p21-auth.js - Tests authentication with P21\n3. test-db-connections.js - Tests database connections more broadly\n4. test-execute-query.js - Tests the query execution functionality

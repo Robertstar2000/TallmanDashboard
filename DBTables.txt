@@ -124,7 +124,7 @@ chart_data - Dashboard chart data
   - server_name (TEXT) - Data source server ("P21" or "POR")
   - table_name (TEXT) - Database table containing the data
   - sql_expression (TEXT) - SQL query for test environment
-  - production_sql_expression (TEXT) - SQL query for production environment
+  - sql_expression (TEXT) - SQL query for production environment
   - value (TEXT) - Current value of the metric
   - db_table_name (TEXT) - Specific database table name
   - transformer (TEXT) - Data transformer function name

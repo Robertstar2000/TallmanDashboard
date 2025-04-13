@@ -1,0 +1,1 @@
+  // Variable 1: New Rental Orders (Simplified: Total monthly count)\r\n  // Variable 2: Open Rentals\r\n  // Variable 3: Rental Sales Value\r\n];\r\n\r\nconst group9Data = [...Array(12).keys()].map(i => {\r\n  const monthOffset = 11 - i; // 11, 10, ..., 1, 0

@@ -3,7 +3,8 @@
 import { useState, useEffect } from 'react';
 import { Box, Button, Typography, Paper, CircularProgress, Divider, Tabs, Tab, List, ListItem, ListItemText, Chip, TextField, Alert } from '@mui/material';
 import Link from 'next/link';
-import { dashboardData as initialSpreadsheetData } from '@/lib/db/single-source-data';
+import { singleSourceData, SourceDataDefinition } from '@/lib/db/single-source-data';
+import { ChartDataRow } from '@/lib/db/types';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -110,9 +111,9 @@ function fixPORSqlExpression(sql: string, availableTables: string[] = []): strin
 
 // Get all POR SQL expressions
 function getAllPORSqlExpressions() {
-  return initialSpreadsheetData
-    .filter(item => item.serverName === 'POR' && item.productionSqlExpression)
-    .map(item => ({
+  return singleSourceData
+    .filter((item: SourceDataDefinition) => item.serverName === 'POR' && item.productionSqlExpression)
+    .map((item: ChartDataRow) => ({
       id: item.id,
       dataPoint: item.DataPoint || `POR Expression ${item.id}`,
       sql: item.productionSqlExpression,

@@ -1,0 +1,1436 @@
+# File: Database row with id = "test_connection"
+# Group: Test
+# Variable: Test
+# Fixed: true
+# Reason: Generated SQL executed successfully with value: 11
+# Value: 11
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_date >= DATEADD(day, -7, GETDATE())
+
+# File: Database row with id = "1"
+# Group: Key Metrics
+# Variable: total_orders
+# Fixed: true
+# Reason: Original SQL executed successfully with value: 11
+# Value: 11
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_date >= DATEADD(day, -7, GETDATE())
+
+# File: Database row with id = "2"
+# Group: Key Metrics
+# Variable: open_orders
+# Fixed: true
+# Reason: Original SQL executed successfully with value: 2042
+# Value: 2042
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE completed = 'N'
+
+# File: Database row with id = "3"
+# Group: Key Metrics
+# Variable: open_orders_>_2
+# Fixed: true
+# Reason: Original SQL executed successfully with value: 510689
+# Value: 510689
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK)
+
+# File: Database row with id = "4"
+# Group: Key Metrics
+# Variable: daily_revenue
+# Fixed: false
+# Reason: All P21 SQL attempts failed
+# Value: N/A
+SELECT ISNULL(SUM(l.extended_price), 0) as value FROM dbo.oe_hdr h WITH (NOLOCK) JOIN dbo.oe_line l WITH (NOLOCK) ON h.order_no = l.order_no WHERE CONVERT(date, h.order_date) = CONVERT(date, DATEADD(day, -1, GETDATE()))
+
+# File: Database row with id = "5"
+# Group: Key Metrics
+# Variable: open_invoices
+# Fixed: true
+# Reason: Original SQL executed successfully with value: 1
+# Value: 1
+SELECT COUNT(*) as value FROM dbo.invoice_hdr WITH (NOLOCK) WHERE invoice_date >= DATEADD(month, -1, GETDATE())
+
+# File: Database row with id = "6"
+# Group: Key Metrics
+# Variable: orders_backlogged
+# Fixed: true
+# Reason: Original SQL executed successfully with value: 31
+# Value: 31
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE completed = 'N' AND order_date >= DATEADD(day, -30, GETDATE())
+
+# File: Database row with id = "7"
+# Group: Key Metrics
+# Variable: total_sales_monthly
+# Fixed: true
+# Reason: Original SQL executed successfully with value: 2189233.3
+# Value: 2189233.3
+SELECT ISNULL(SUM(l.extended_price), 0) as value FROM dbo.oe_hdr h WITH (NOLOCK) JOIN dbo.oe_line l WITH (NOLOCK) ON h.order_no = l.order_no WHERE h.order_date >= DATEADD(day, -30, GETDATE())
+
+# File: Database row with id = "8"
+# Group: Accounts Data
+# Variable: payable
+# Fixed: true
+# Reason: Generated SQL executed successfully with value: 11
+# Value: 11
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_date >= DATEADD(day, -7, GETDATE())
+
+# File: Database row with id = "9"
+# Group: Accounts Data
+# Variable: receivable
+# Fixed: true
+# Reason: Generated SQL executed successfully with value: 11
+# Value: 11
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_date >= DATEADD(day, -7, GETDATE())
+
+# File: Database row with id = "10"
+# Group: Accounts Data
+# Variable: overdue
+# Fixed: true
+# Reason: Generated SQL executed successfully with value: 11
+# Value: 11
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_date >= DATEADD(day, -7, GETDATE())
+
+# File: Database row with id = "11"
+# Group: Historical Data
+# Variable: p21
+# Fixed: true
+# Reason: Original SQL executed successfully with value: 32
+# Value: 32
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE MONTH(order_date) = MONTH(GETDATE()) AND YEAR(order_date) = YEAR(GETDATE())
+
+# File: Database row with id = "12"
+# Group: Historical Data
+# Variable: por
+# Fixed: true
+# Reason: Generated SQL executed successfully with value: 32
+# Value: 32
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE MONTH(order_date) = 3 AND YEAR(order_date) = YEAR(GETDATE())
+
+# File: Database row with id = "13"
+# Group: Historical Data
+# Variable: combined
+# Fixed: true
+# Reason: Original SQL executed successfully with value: 32
+# Value: 32
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE MONTH(order_date) = MONTH(GETDATE()) AND YEAR(order_date) = YEAR(GETDATE())
+
+# File: Database row with id = "14"
+# Group: Historical Data
+# Variable: value_1
+# Fixed: true
+# Reason: Original SQL executed successfully with value: 2185770.4
+# Value: 2185770.4
+SELECT ISNULL(SUM(l.extended_price), 0) as value FROM dbo.oe_hdr h WITH (NOLOCK) JOIN dbo.oe_line l WITH (NOLOCK) ON h.order_no = l.order_no WHERE MONTH(h.order_date) = MONTH(GETDATE()) AND YEAR(h.order_date) = YEAR(GETDATE())
+
+# File: Database row with id = "15"
+# Group: Historical Data
+# Variable: value_2
+# Fixed: true
+# Reason: Original SQL executed successfully with value: 134.78
+# Value: 134.78
+SELECT ISNULL(SUM(l.extended_price), 0) as value FROM dbo.oe_hdr h WITH (NOLOCK) JOIN dbo.oe_line l WITH (NOLOCK) ON h.order_no = l.order_no WHERE MONTH(h.order_date) = MONTH(DATEADD(month, -1, GETDATE())) AND YEAR(h.order_date) = YEAR(DATEADD(month, -1, GETDATE()))
+
+# File: Database row with id = "16"
+# Group: Historical Data
+# Variable: value_3
+# Fixed: true
+# Reason: Original SQL executed successfully with value: 8983.32
+# Value: 8983.32
+SELECT ISNULL(SUM(l.extended_price), 0) as value FROM dbo.oe_hdr h WITH (NOLOCK) JOIN dbo.oe_line l WITH (NOLOCK) ON h.order_no = l.order_no WHERE MONTH(h.order_date) = MONTH(DATEADD(month, -2, GETDATE())) AND YEAR(h.order_date) = YEAR(DATEADD(month, -2, GETDATE()))
+
+# File: Database row with id = "17"
+# Group: Customer Metrics
+# Variable: new_customers
+# Fixed: true
+# Reason: Original SQL executed successfully with value: 11
+# Value: 11
+SELECT COUNT(*) as value FROM dbo.customer WITH (NOLOCK) WHERE MONTH(date_created) = MONTH(GETDATE()) AND YEAR(date_created) = YEAR(GETDATE())
+
+# File: Database row with id = "18"
+# Group: Customer Metrics
+# Variable: returning_customers
+# Fixed: true
+# Reason: Generated SQL executed successfully with value: 11
+# Value: 11
+SELECT COUNT(*) as value FROM dbo.customer WITH (NOLOCK) WHERE MONTH(date_created) = 3 AND YEAR(date_created) = YEAR(GETDATE())
+
+# File: Database row with id = "19"
+# Group: Inventory Data
+# Variable: in_stock
+# Fixed: true
+# Reason: Original SQL executed successfully with value: 510689
+# Value: 510689
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK)
+
+# File: Database row with id = "20"
+# Group: Inventory Data
+# Variable: on_order
+# Fixed: true
+# Reason: Original SQL executed successfully with value: 510689
+# Value: 510689
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK)
+
+# File: Database row with id = "21"
+# Group: POR Overview
+# Variable: new_rentals
+# Fixed: true
+# Reason: Original SQL executed successfully with value: 510689
+# Value: 510689
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK)
+
+# File: Database row with id = "22"
+# Group: POR Overview
+# Variable: open_rentals
+# Fixed: true
+# Reason: Original SQL executed successfully with value: 510689
+# Value: 510689
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK)
+
+# File: Database row with id = "23"
+# Group: POR Overview
+# Variable: rental_value
+# Fixed: true
+# Reason: Original SQL executed successfully with value: 510689
+# Value: 510689
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK)
+
+# File: Database row with id = "24"
+# Group: Site Distribution
+# Variable: site_1
+# Fixed: true
+# Reason: Original SQL executed successfully with value: 2042
+# Value: 2042
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE completed = 'N'
+
+# File: Database row with id = "25"
+# Group: Site Distribution
+# Variable: site_2
+# Fixed: true
+# Reason: Original SQL executed successfully with value: 2042
+# Value: 2042
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE completed = 'N'
+
+# File: Database row with id = "26"
+# Group: Site Distribution
+# Variable: site_3
+# Fixed: true
+# Reason: Original SQL executed successfully with value: 2042
+# Value: 2042
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE completed = 'N'
+
+# File: Database row with id = "27"
+# Group: AR Aging
+# Variable: current
+# Fixed: false
+# Reason: All P21 SQL attempts failed
+# Value: N/A
+SELECT ISNULL(SUM(amount), 0) as value FROM dbo.invoice_hdr WITH (NOLOCK) WHERE invoice_date >= DATEADD(day, -30, GETDATE()) AND paid = 'N'
+
+# File: Database row with id = "28"
+# Group: AR Aging
+# Variable: 1-30_days
+# Fixed: false
+# Reason: All P21 SQL attempts failed
+# Value: N/A
+SELECT ISNULL(SUM(amount), 0) as value FROM dbo.invoice_hdr WITH (NOLOCK) WHERE paid = 'N'
+
+# File: Database row with id = "29"
+# Group: AR Aging
+# Variable: 31-60_days
+# Fixed: false
+# Reason: All P21 SQL attempts failed
+# Value: N/A
+SELECT ISNULL(SUM(amount), 0) as value FROM dbo.invoice_hdr WITH (NOLOCK) WHERE paid = 'N'
+
+# File: Database row with id = "30"
+# Group: AR Aging
+# Variable: 61-90_days
+# Fixed: false
+# Reason: All P21 SQL attempts failed
+# Value: N/A
+SELECT ISNULL(SUM(amount), 0) as value FROM dbo.invoice_hdr WITH (NOLOCK) WHERE paid = 'N'
+
+# File: Database row with id = "31"
+# Group: AR Aging
+# Variable: over_90_days
+# Fixed: false
+# Reason: All P21 SQL attempts failed
+# Value: N/A
+SELECT ISNULL(SUM(amount), 0) as value FROM dbo.invoice_hdr WITH (NOLOCK) WHERE paid = 'N'
+
+# File: Database row with id = "32"
+# Group: Daily Orders
+# Variable: monday
+# Fixed: false
+# Reason: All P21 SQL attempts failed
+# Value: N/A
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE CONVERT(date, order_date) = CONVERT(date, DATEADD(day, -1, GETDATE()))
+
+# File: Database row with id = "33"
+# Group: Daily Orders
+# Variable: tuesday
+# Fixed: false
+# Reason: All P21 SQL attempts failed
+# Value: N/A
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE CONVERT(date, order_date) = CONVERT(date, DATEADD(day, -1, GETDATE()))
+
+# File: Database row with id = "34"
+# Group: Daily Orders
+# Variable: wednesday
+# Fixed: false
+# Reason: All P21 SQL attempts failed
+# Value: N/A
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE CONVERT(date, order_date) = CONVERT(date, DATEADD(day, -1, GETDATE()))
+
+# File: Database row with id = "35"
+# Group: Daily Orders
+# Variable: thursday
+# Fixed: false
+# Reason: All P21 SQL attempts failed
+# Value: N/A
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE CONVERT(date, order_date) = CONVERT(date, DATEADD(day, -1, GETDATE()))
+
+# File: Database row with id = "36"
+# Group: Daily Orders
+# Variable: friday
+# Fixed: false
+# Reason: All P21 SQL attempts failed
+# Value: N/A
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE CONVERT(date, order_date) = CONVERT(date, DATEADD(day, -1, GETDATE()))
+
+# File: Database row with id = "37"
+# Group: Web Orders
+# Variable: orders
+# Fixed: false
+# Reason: All P21 SQL attempts failed
+# Value: N/A
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE MONTH(order_date) = MONTH(GETDATE()) AND YEAR(order_date) = YEAR(GETDATE()) AND order_source = 'WEB'
+
+# File: Database row with id = "38"
+# Group: Web Orders
+# Variable: revenue
+# Fixed: false
+# Reason: All P21 SQL attempts failed
+# Value: N/A
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE MONTH(order_date) = MONTH(GETDATE()) AND YEAR(order_date) = YEAR(GETDATE()) AND order_source = 'WEB'
+
+# File: Database row with id = "39"
+# Group: Accounts
+# Variable: Overdue
+# Fixed: false
+# Reason: All P21 SQL attempts failed
+# Value: N/A
+SELECT COUNT(*) as value FROM dbo.ar_hdr WITH (NOLOCK) WHERE due_date IS NOT NULL AND DATEDIFF(day, due_date, GETDATE()) > 30 AND MONTH(due_date) = 10 AND YEAR(due_date) = YEAR(GETDATE())
+
+# File: Database row with id = "40"
+# Group: Accounts
+# Variable: Overdue
+# Fixed: false
+# Reason: All P21 SQL attempts failed
+# Value: N/A
+SELECT COUNT(*) as value FROM dbo.ar_hdr WITH (NOLOCK) WHERE due_date IS NOT NULL AND DATEDIFF(day, due_date, GETDATE()) > 30 AND MONTH(due_date) = 11 AND YEAR(due_date) = YEAR(GETDATE())
+
+# File: Database row with id = "41"
+# Group: Accounts
+# Variable: Overdue
+# Fixed: false
+# Reason: All P21 SQL attempts failed
+# Value: N/A
+SELECT COUNT(*) as value FROM dbo.ar_hdr WITH (NOLOCK) WHERE due_date IS NOT NULL AND DATEDIFF(day, due_date, GETDATE()) > 30 AND MONTH(due_date) = 12 AND YEAR(due_date) = YEAR(GETDATE())
+
+# File: Database row with id = "42"
+# Group: Customer Metrics
+# Variable: New
+# Fixed: true
+# Reason: Original SQL executed successfully with value: 6
+# Value: 6
+
+      SELECT COUNT(DISTINCT c.customer_id) AS value 
+      FROM dbo.customer c WITH (NOLOCK)
+      WHERE c.date_created >= '2025-01-01' 
+      AND c.date_created <= '2025-01-31'
+      AND NOT EXISTS (
+        SELECT 1 
+        FROM dbo.oe_hdr o WITH (NOLOCK) 
+        WHERE o.customer_id = c.customer_id 
+        AND o.order_date < '2025-01-01' 
+        AND o.order_date >= '2024-02-01'
+      )
+    
+
+# File: Database row with id = "43"
+# Group: Customer Metrics
+# Variable: New
+# Fixed: true
+# Reason: Original SQL executed successfully with value: 6
+# Value: 6
+
+      SELECT COUNT(DISTINCT c.customer_id) AS value 
+      FROM dbo.customer c WITH (NOLOCK)
+      WHERE c.date_created >= '2025-02-01' 
+      AND c.date_created <= '2025-02-28'
+      AND NOT EXISTS (
+        SELECT 1 
+        FROM dbo.oe_hdr o WITH (NOLOCK) 
+        WHERE o.customer_id = c.customer_id 
+        AND o.order_date < '2025-02-01' 
+        AND o.order_date >= '2024-03-01'
+      )
+    
+
+# File: Database row with id = "44"
+# Group: Customer Metrics
+# Variable: New
+# Fixed: true
+# Reason: Original SQL executed successfully with value: 11
+# Value: 11
+
+      SELECT COUNT(DISTINCT c.customer_id) AS value 
+      FROM dbo.customer c WITH (NOLOCK)
+      WHERE c.date_created >= '2025-03-01' 
+      AND c.date_created <= '2025-03-31'
+      AND NOT EXISTS (
+        SELECT 1 
+        FROM dbo.oe_hdr o WITH (NOLOCK) 
+        WHERE o.customer_id = c.customer_id 
+        AND o.order_date < '2025-03-01' 
+        AND o.order_date >= '2024-04-01'
+      )
+    
+
+# File: Database row with id = "45"
+# Group: Customer Metrics
+# Variable: New
+# Fixed: true
+# Reason: Generated SQL executed successfully with value: 11
+# Value: 11
+SELECT COUNT(*) as value FROM dbo.customer WITH (NOLOCK) WHERE MONTH(date_created) = 3 AND YEAR(date_created) = YEAR(GETDATE())
+
+# File: Database row with id = "46"
+# Group: Customer Metrics
+# Variable: New
+# Fixed: true
+# Reason: Generated SQL executed successfully with value: 11
+# Value: 11
+SELECT COUNT(*) as value FROM dbo.customer WITH (NOLOCK) WHERE MONTH(date_created) = 3 AND YEAR(date_created) = YEAR(GETDATE())
+
+# File: Database row with id = "47"
+# Group: Customer Metrics
+# Variable: New
+# Fixed: true
+# Reason: Generated SQL executed successfully with value: 11
+# Value: 11
+SELECT COUNT(*) as value FROM dbo.customer WITH (NOLOCK) WHERE MONTH(date_created) = 3 AND YEAR(date_created) = YEAR(GETDATE())
+
+# File: Database row with id = "48"
+# Group: Customer Metrics
+# Variable: New
+# Fixed: true
+# Reason: Generated SQL executed successfully with value: 11
+# Value: 11
+SELECT COUNT(*) as value FROM dbo.customer WITH (NOLOCK) WHERE MONTH(date_created) = 3 AND YEAR(date_created) = YEAR(GETDATE())
+
+# File: Database row with id = "49"
+# Group: Customer Metrics
+# Variable: New
+# Fixed: true
+# Reason: Generated SQL executed successfully with value: 11
+# Value: 11
+SELECT COUNT(*) as value FROM dbo.customer WITH (NOLOCK) WHERE MONTH(date_created) = 3 AND YEAR(date_created) = YEAR(GETDATE())
+
+# File: Database row with id = "50"
+# Group: Customer Metrics
+# Variable: New
+# Fixed: true
+# Reason: Generated SQL executed successfully with value: 11
+# Value: 11
+SELECT COUNT(*) as value FROM dbo.customer WITH (NOLOCK) WHERE MONTH(date_created) = 3 AND YEAR(date_created) = YEAR(GETDATE())
+
+# File: Database row with id = "51"
+# Group: Customer Metrics
+# Variable: New
+# Fixed: true
+# Reason: Generated SQL executed successfully with value: 11
+# Value: 11
+SELECT COUNT(*) as value FROM dbo.customer WITH (NOLOCK) WHERE MONTH(date_created) = 3 AND YEAR(date_created) = YEAR(GETDATE())
+
+# File: Database row with id = "52"
+# Group: Customer Metrics
+# Variable: New
+# Fixed: true
+# Reason: Generated SQL executed successfully with value: 11
+# Value: 11
+SELECT COUNT(*) as value FROM dbo.customer WITH (NOLOCK) WHERE MONTH(date_created) = 3 AND YEAR(date_created) = YEAR(GETDATE())
+
+# File: Database row with id = "53"
+# Group: Customer Metrics
+# Variable: New
+# Fixed: true
+# Reason: Generated SQL executed successfully with value: 11
+# Value: 11
+SELECT COUNT(*) as value FROM dbo.customer WITH (NOLOCK) WHERE MONTH(date_created) = 3 AND YEAR(date_created) = YEAR(GETDATE())
+
+# File: Database row with id = "54"
+# Group: Customer Metrics
+# Variable: Prospects
+# Fixed: true
+# Reason: Generated SQL executed successfully with value: 11
+# Value: 11
+SELECT COUNT(*) as value FROM dbo.customer WITH (NOLOCK) WHERE MONTH(date_created) = 3 AND YEAR(date_created) = YEAR(GETDATE())
+
+# File: Database row with id = "55"
+# Group: Customer Metrics
+# Variable: Prospects
+# Fixed: true
+# Reason: Generated SQL executed successfully with value: 11
+# Value: 11
+SELECT COUNT(*) as value FROM dbo.customer WITH (NOLOCK) WHERE MONTH(date_created) = 3 AND YEAR(date_created) = YEAR(GETDATE())
+
+# File: Database row with id = "56"
+# Group: Customer Metrics
+# Variable: Prospects
+# Fixed: true
+# Reason: Generated SQL executed successfully with value: 11
+# Value: 11
+SELECT COUNT(*) as value FROM dbo.customer WITH (NOLOCK) WHERE MONTH(date_created) = 3 AND YEAR(date_created) = YEAR(GETDATE())
+
+# File: Database row with id = "57"
+# Group: Customer Metrics
+# Variable: Prospects
+# Fixed: true
+# Reason: Generated SQL executed successfully with value: 11
+# Value: 11
+SELECT COUNT(*) as value FROM dbo.customer WITH (NOLOCK) WHERE MONTH(date_created) = 3 AND YEAR(date_created) = YEAR(GETDATE())
+
+# File: Database row with id = "58"
+# Group: Customer Metrics
+# Variable: Prospects
+# Fixed: true
+# Reason: Generated SQL executed successfully with value: 11
+# Value: 11
+SELECT COUNT(*) as value FROM dbo.customer WITH (NOLOCK) WHERE MONTH(date_created) = 3 AND YEAR(date_created) = YEAR(GETDATE())
+
+# File: Database row with id = "59"
+# Group: Customer Metrics
+# Variable: Prospects
+# Fixed: true
+# Reason: Generated SQL executed successfully with value: 11
+# Value: 11
+SELECT COUNT(*) as value FROM dbo.customer WITH (NOLOCK) WHERE MONTH(date_created) = 3 AND YEAR(date_created) = YEAR(GETDATE())
+
+# File: Database row with id = "60"
+# Group: Customer Metrics
+# Variable: Prospects
+# Fixed: true
+# Reason: Generated SQL executed successfully with value: 11
+# Value: 11
+SELECT COUNT(*) as value FROM dbo.customer WITH (NOLOCK) WHERE MONTH(date_created) = 3 AND YEAR(date_created) = YEAR(GETDATE())
+
+# File: Database row with id = "61"
+# Group: Customer Metrics
+# Variable: Prospects
+# Fixed: true
+# Reason: Generated SQL executed successfully with value: 11
+# Value: 11
+SELECT COUNT(*) as value FROM dbo.customer WITH (NOLOCK) WHERE MONTH(date_created) = 3 AND YEAR(date_created) = YEAR(GETDATE())
+
+# File: Database row with id = "62"
+# Group: Customer Metrics
+# Variable: Prospects
+# Fixed: true
+# Reason: Generated SQL executed successfully with value: 11
+# Value: 11
+SELECT COUNT(*) as value FROM dbo.customer WITH (NOLOCK) WHERE MONTH(date_created) = 3 AND YEAR(date_created) = YEAR(GETDATE())
+
+# File: Database row with id = "63"
+# Group: Customer Metrics
+# Variable: Prospects
+# Fixed: true
+# Reason: Generated SQL executed successfully with value: 11
+# Value: 11
+SELECT COUNT(*) as value FROM dbo.customer WITH (NOLOCK) WHERE MONTH(date_created) = 3 AND YEAR(date_created) = YEAR(GETDATE())
+
+# File: Database row with id = "64"
+# Group: Customer Metrics
+# Variable: Prospects
+# Fixed: true
+# Reason: Generated SQL executed successfully with value: 11
+# Value: 11
+SELECT COUNT(*) as value FROM dbo.customer WITH (NOLOCK) WHERE MONTH(date_created) = 3 AND YEAR(date_created) = YEAR(GETDATE())
+
+# File: Database row with id = "65"
+# Group: Customer Metrics
+# Variable: Prospects
+# Fixed: true
+# Reason: Generated SQL executed successfully with value: 11
+# Value: 11
+SELECT COUNT(*) as value FROM dbo.customer WITH (NOLOCK) WHERE MONTH(date_created) = 3 AND YEAR(date_created) = YEAR(GETDATE())
+
+# File: Database row with id = "66"
+# Group: Daily Orders
+# Variable: Orders
+# Fixed: false
+# Reason: All P21 SQL attempts failed
+# Value: N/A
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE DATEDIFF(day, order_date, GETDATE()) = 0
+
+# File: Database row with id = "67"
+# Group: Daily Orders
+# Variable: Orders
+# Fixed: false
+# Reason: All P21 SQL attempts failed
+# Value: N/A
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE DATEDIFF(day, order_date, GETDATE()) = 1
+
+# File: Database row with id = "68"
+# Group: Daily Orders
+# Variable: Orders
+# Fixed: false
+# Reason: All P21 SQL attempts failed
+# Value: N/A
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE DATEDIFF(day, order_date, GETDATE()) = 2
+
+# File: Database row with id = "69"
+# Group: Daily Orders
+# Variable: Orders
+# Fixed: true
+# Reason: Original SQL executed successfully with value: 1
+# Value: 1
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE DATEDIFF(day, order_date, GETDATE()) = 3
+
+# File: Database row with id = "70"
+# Group: Daily Orders
+# Variable: Orders
+# Fixed: false
+# Reason: All P21 SQL attempts failed
+# Value: N/A
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE DATEDIFF(day, order_date, GETDATE()) = 4
+
+# File: Database row with id = "71"
+# Group: Daily Orders
+# Variable: Orders
+# Fixed: false
+# Reason: All P21 SQL attempts failed
+# Value: N/A
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE DATEDIFF(day, order_date, GETDATE()) = 5
+
+# File: Database row with id = "72"
+# Group: Daily Orders
+# Variable: Orders
+# Fixed: true
+# Reason: Original SQL executed successfully with value: 1
+# Value: 1
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE DATEDIFF(day, order_date, GETDATE()) = 6
+
+# File: Database row with id = "73"
+# Group: Historical Data
+# Variable: P21
+# Fixed: true
+# Reason: Original SQL executed successfully with value: 524
+# Value: 524
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE MONTH(order_date) = 1 AND YEAR(order_date) = YEAR(GETDATE())
+
+# File: Database row with id = "74"
+# Group: Historical Data
+# Variable: P21
+# Fixed: true
+# Reason: Original SQL executed successfully with value: 5
+# Value: 5
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE MONTH(order_date) = 2 AND YEAR(order_date) = YEAR(GETDATE())
+
+# File: Database row with id = "75"
+# Group: Historical Data
+# Variable: P21
+# Fixed: true
+# Reason: Original SQL executed successfully with value: 32
+# Value: 32
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE MONTH(order_date) = 3 AND YEAR(order_date) = YEAR(GETDATE())
+
+# File: Database row with id = "76"
+# Group: Historical Data
+# Variable: P21
+# Fixed: true
+# Reason: Generated SQL executed successfully with value: 32
+# Value: 32
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE MONTH(order_date) = 3 AND YEAR(order_date) = YEAR(GETDATE())
+
+# File: Database row with id = "77"
+# Group: Historical Data
+# Variable: P21
+# Fixed: true
+# Reason: Generated SQL executed successfully with value: 32
+# Value: 32
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE MONTH(order_date) = 3 AND YEAR(order_date) = YEAR(GETDATE())
+
+# File: Database row with id = "78"
+# Group: Historical Data
+# Variable: P21
+# Fixed: true
+# Reason: Generated SQL executed successfully with value: 32
+# Value: 32
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE MONTH(order_date) = 3 AND YEAR(order_date) = YEAR(GETDATE())
+
+# File: Database row with id = "79"
+# Group: Historical Data
+# Variable: P21
+# Fixed: true
+# Reason: Generated SQL executed successfully with value: 32
+# Value: 32
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE MONTH(order_date) = 3 AND YEAR(order_date) = YEAR(GETDATE())
+
+# File: Database row with id = "80"
+# Group: Historical Data
+# Variable: P21
+# Fixed: true
+# Reason: Generated SQL executed successfully with value: 32
+# Value: 32
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE MONTH(order_date) = 3 AND YEAR(order_date) = YEAR(GETDATE())
+
+# File: Database row with id = "81"
+# Group: Historical Data
+# Variable: P21
+# Fixed: true
+# Reason: Generated SQL executed successfully with value: 32
+# Value: 32
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE MONTH(order_date) = 3 AND YEAR(order_date) = YEAR(GETDATE())
+
+# File: Database row with id = "82"
+# Group: Historical Data
+# Variable: P21
+# Fixed: true
+# Reason: Generated SQL executed successfully with value: 32
+# Value: 32
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE MONTH(order_date) = 3 AND YEAR(order_date) = YEAR(GETDATE())
+
+# File: Database row with id = "83"
+# Group: Historical Data
+# Variable: P21
+# Fixed: true
+# Reason: Generated SQL executed successfully with value: 32
+# Value: 32
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE MONTH(order_date) = 3 AND YEAR(order_date) = YEAR(GETDATE())
+
+# File: Database row with id = "84"
+# Group: Historical Data
+# Variable: P21
+# Fixed: true
+# Reason: Generated SQL executed successfully with value: 32
+# Value: 32
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE MONTH(order_date) = 3 AND YEAR(order_date) = YEAR(GETDATE())
+
+# File: Database row with id = "85"
+# Group: Historical Data
+# Variable: POR
+# Fixed: false
+# Reason: POR database connection not available
+# Value: N/A
+SELECT Count(*) AS value FROM PurchaseOrderDetail WHERE DatePart('m', Date) = 1 AND DatePart('yyyy', Date) = DatePart('yyyy', Now())
+
+# File: Database row with id = "86"
+# Group: Historical Data
+# Variable: POR
+# Fixed: false
+# Reason: POR database connection not available
+# Value: N/A
+SELECT Count(*) AS value FROM PurchaseOrderDetail WHERE DatePart('m', Date) = 2 AND DatePart('yyyy', Date) = DatePart('yyyy', Now())
+
+# File: Database row with id = "87"
+# Group: Historical Data
+# Variable: POR
+# Fixed: false
+# Reason: POR database connection not available
+# Value: N/A
+SELECT Count(*) AS value FROM PurchaseOrderDetail WHERE DatePart('m', Date) = 3 AND DatePart('yyyy', Date) = DatePart('yyyy', Now())
+
+# File: Database row with id = "88"
+# Group: Historical Data
+# Variable: POR
+# Fixed: false
+# Reason: POR database connection not available
+# Value: N/A
+SELECT Count(*) AS value FROM PurchaseOrderDetail WHERE DatePart('m', Date) = 4 AND DatePart('yyyy', Date) = DatePart('yyyy', Now())
+
+# File: Database row with id = "89"
+# Group: Historical Data
+# Variable: POR
+# Fixed: false
+# Reason: POR database connection not available
+# Value: N/A
+SELECT Count(*) AS value FROM PurchaseOrderDetail WHERE DatePart('m', Date) = 5 AND DatePart('yyyy', Date) = DatePart('yyyy', Now())
+
+# File: Database row with id = "90"
+# Group: Historical Data
+# Variable: POR
+# Fixed: false
+# Reason: POR database connection not available
+# Value: N/A
+SELECT Count(*) AS value FROM PurchaseOrderDetail WHERE DatePart('m', Date) = 6 AND DatePart('yyyy', Date) = DatePart('yyyy', Now())
+
+# File: Database row with id = "91"
+# Group: Historical Data
+# Variable: POR
+# Fixed: false
+# Reason: POR database connection not available
+# Value: N/A
+SELECT Count(*) AS value FROM PurchaseOrderDetail WHERE DatePart('m', Date) = 7 AND DatePart('yyyy', Date) = DatePart('yyyy', Now())
+
+# File: Database row with id = "92"
+# Group: Historical Data
+# Variable: POR
+# Fixed: false
+# Reason: POR database connection not available
+# Value: N/A
+SELECT Count(*) AS value FROM PurchaseOrderDetail WHERE DatePart('m', Date) = 8 AND DatePart('yyyy', Date) = DatePart('yyyy', Now())
+
+# File: Database row with id = "93"
+# Group: Historical Data
+# Variable: POR
+# Fixed: false
+# Reason: POR database connection not available
+# Value: N/A
+SELECT Count(*) AS value FROM PurchaseOrderDetail WHERE DatePart('m', Date) = 9 AND DatePart('yyyy', Date) = DatePart('yyyy', Now())
+
+# File: Database row with id = "94"
+# Group: Historical Data
+# Variable: POR
+# Fixed: false
+# Reason: POR database connection not available
+# Value: N/A
+SELECT Count(*) AS value FROM PurchaseOrderDetail WHERE DatePart('m', Date) = 10 AND DatePart('yyyy', Date) = DatePart('yyyy', Now())
+
+# File: Database row with id = "95"
+# Group: Historical Data
+# Variable: POR
+# Fixed: false
+# Reason: POR database connection not available
+# Value: N/A
+SELECT Count(*) AS value FROM PurchaseOrderDetail WHERE DatePart('m', Date) = 11 AND DatePart('yyyy', Date) = DatePart('yyyy', Now())
+
+# File: Database row with id = "96"
+# Group: Historical Data
+# Variable: POR
+# Fixed: false
+# Reason: POR database connection not available
+# Value: N/A
+SELECT Count(*) AS value FROM PurchaseOrderDetail WHERE DatePart('m', Date) = 12 AND DatePart('yyyy', Date) = DatePart('yyyy', Now())
+
+# File: Database row with id = "97"
+# Group: Historical Data
+# Variable: Total
+# Fixed: true
+# Reason: Original SQL executed successfully with value: 524
+# Value: 524
+SELECT (SELECT COUNT(*) FROM dbo.oe_hdr WITH (NOLOCK) WHERE MONTH(order_date) = 1 AND YEAR(order_date) = YEAR(GETDATE())) AS value
+
+# File: Database row with id = "98"
+# Group: Historical Data
+# Variable: Total
+# Fixed: true
+# Reason: Original SQL executed successfully with value: 5
+# Value: 5
+SELECT (SELECT COUNT(*) FROM dbo.oe_hdr WITH (NOLOCK) WHERE MONTH(order_date) = 2 AND YEAR(order_date) = YEAR(GETDATE())) AS value
+
+# File: Database row with id = "99"
+# Group: Historical Data
+# Variable: Total
+# Fixed: true
+# Reason: Original SQL executed successfully with value: 32
+# Value: 32
+SELECT (SELECT COUNT(*) FROM dbo.oe_hdr WITH (NOLOCK) WHERE MONTH(order_date) = 3 AND YEAR(order_date) = YEAR(GETDATE())) AS value
+
+# File: Database row with id = "100"
+# Group: Historical Data
+# Variable: Total
+# Fixed: true
+# Reason: Generated SQL executed successfully with value: 32
+# Value: 32
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE MONTH(order_date) = 3 AND YEAR(order_date) = YEAR(GETDATE())
+
+# File: Database row with id = "101"
+# Group: Historical Data
+# Variable: Total
+# Fixed: true
+# Reason: Generated SQL executed successfully with value: 32
+# Value: 32
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE MONTH(order_date) = 3 AND YEAR(order_date) = YEAR(GETDATE())
+
+# File: Database row with id = "102"
+# Group: Historical Data
+# Variable: Total
+# Fixed: true
+# Reason: Generated SQL executed successfully with value: 32
+# Value: 32
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE MONTH(order_date) = 3 AND YEAR(order_date) = YEAR(GETDATE())
+
+# File: Database row with id = "103"
+# Group: Historical Data
+# Variable: Total
+# Fixed: true
+# Reason: Generated SQL executed successfully with value: 32
+# Value: 32
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE MONTH(order_date) = 3 AND YEAR(order_date) = YEAR(GETDATE())
+
+# File: Database row with id = "104"
+# Group: Historical Data
+# Variable: Total
+# Fixed: true
+# Reason: Generated SQL executed successfully with value: 32
+# Value: 32
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE MONTH(order_date) = 3 AND YEAR(order_date) = YEAR(GETDATE())
+
+# File: Database row with id = "105"
+# Group: Historical Data
+# Variable: Total
+# Fixed: true
+# Reason: Generated SQL executed successfully with value: 32
+# Value: 32
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE MONTH(order_date) = 3 AND YEAR(order_date) = YEAR(GETDATE())
+
+# File: Database row with id = "106"
+# Group: Historical Data
+# Variable: Total
+# Fixed: true
+# Reason: Generated SQL executed successfully with value: 32
+# Value: 32
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE MONTH(order_date) = 3 AND YEAR(order_date) = YEAR(GETDATE())
+
+# File: Database row with id = "107"
+# Group: Historical Data
+# Variable: Total
+# Fixed: true
+# Reason: Generated SQL executed successfully with value: 32
+# Value: 32
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE MONTH(order_date) = 3 AND YEAR(order_date) = YEAR(GETDATE())
+
+# File: Database row with id = "108"
+# Group: Historical Data
+# Variable: Total
+# Fixed: true
+# Reason: Generated SQL executed successfully with value: 32
+# Value: 32
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE MONTH(order_date) = 3 AND YEAR(order_date) = YEAR(GETDATE())
+
+# File: Database row with id = "109"
+# Group: Inventory
+# Variable: In Stock
+# Fixed: false
+# Reason: All P21 SQL attempts failed
+# Value: N/A
+SELECT SUM(qty_on_hand) as value FROM dbo.inv_mast WITH (NOLOCK) WHERE product_line = '100'
+
+# File: Database row with id = "110"
+# Group: Inventory
+# Variable: In Stock
+# Fixed: false
+# Reason: All P21 SQL attempts failed
+# Value: N/A
+SELECT SUM(qty_on_hand) as value FROM dbo.inv_mast WITH (NOLOCK) WHERE product_line = '101'
+
+# File: Database row with id = "111"
+# Group: Inventory
+# Variable: In Stock
+# Fixed: false
+# Reason: All P21 SQL attempts failed
+# Value: N/A
+SELECT SUM(qty_on_hand) as value FROM dbo.inv_mast WITH (NOLOCK) WHERE product_line = '102'
+
+# File: Database row with id = "112"
+# Group: Inventory
+# Variable: In Stock
+# Fixed: false
+# Reason: All P21 SQL attempts failed
+# Value: N/A
+SELECT SUM(qty_on_hand) as value FROM dbo.inv_mast WITH (NOLOCK) WHERE product_line = '207'
+
+# File: Database row with id = "113"
+# Group: Inventory
+# Variable: On Order
+# Fixed: false
+# Reason: All P21 SQL attempts failed
+# Value: N/A
+SELECT SUM(qty_on_order) as value FROM dbo.inv_mast WITH (NOLOCK) WHERE product_line = '100'
+
+# File: Database row with id = "114"
+# Group: Inventory
+# Variable: On Order
+# Fixed: false
+# Reason: All P21 SQL attempts failed
+# Value: N/A
+SELECT SUM(qty_on_order) as value FROM dbo.inv_mast WITH (NOLOCK) WHERE product_line = '101'
+
+# File: Database row with id = "115"
+# Group: Inventory
+# Variable: On Order
+# Fixed: false
+# Reason: All P21 SQL attempts failed
+# Value: N/A
+SELECT SUM(qty_on_order) as value FROM dbo.inv_mast WITH (NOLOCK) WHERE product_line = '102'
+
+# File: Database row with id = "116"
+# Group: Inventory
+# Variable: On Order
+# Fixed: false
+# Reason: All P21 SQL attempts failed
+# Value: N/A
+SELECT SUM(qty_on_order) as value FROM dbo.inv_mast WITH (NOLOCK) WHERE product_line = '207'
+
+# File: Database row with id = "117"
+# Group: Key Metrics
+# Variable: Total Orders
+# Fixed: true
+# Reason: Original SQL executed successfully with value: 32
+# Value: 32
+SELECT COUNT(*) AS value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_date >= DATEADD(day, -DATEPART(day, GETDATE()) + 1, CAST(CAST(GETDATE() AS DATE) AS DATETIME)) AND order_date < DATEADD(month, 1, DATEADD(day, -DATEPART(day, GETDATE()) + 1, CAST(CAST(GETDATE() AS DATE) AS DATETIME)))
+
+# File: Database row with id = "118"
+# Group: Key Metrics
+# Variable: Open Orders (/day)
+# Fixed: true
+# Reason: Original SQL executed successfully with value: 1
+# Value: 1
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE completed = 'N' AND order_date >= DATEADD(day, -7, GETDATE())
+
+# File: Database row with id = "119"
+# Group: Key Metrics
+# Variable: All Open Orders
+# Fixed: true
+# Reason: Original SQL executed successfully with value: 2042
+# Value: 2042
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE completed = 'N'
+
+# File: Database row with id = "120"
+# Group: Key Metrics
+# Variable: Daily Revenue
+# Fixed: false
+# Reason: All P21 SQL attempts failed
+# Value: N/A
+SELECT SUM(invoice_amt) as value FROM dbo.invoice_hdr WITH (NOLOCK) WHERE MONTH(invoice_date) = MONTH(GETDATE()) AND YEAR(invoice_date) = YEAR(GETDATE())
+
+# File: Database row with id = "121"
+# Group: Key Metrics
+# Variable: Open Invoices
+# Fixed: true
+# Reason: Original SQL executed successfully with value: 1
+# Value: 1
+SELECT COUNT(*) as value FROM dbo.invoice_hdr WITH (NOLOCK) WHERE invoice_date >= DATEADD(month, -1, GETDATE())
+
+# File: Database row with id = "122"
+# Group: Key Metrics
+# Variable: OrdersBackloged
+# Fixed: true
+# Reason: Original SQL executed successfully with value: 31
+# Value: 31
+SELECT COUNT(*) AS value FROM dbo.oe_hdr WITH (NOLOCK) WHERE completed = 'N' AND order_date >= DATEADD(day, -30, GETDATE())
+
+# File: Database row with id = "123"
+# Group: Key Metrics
+# Variable: Total Sales Monthly
+# Fixed: true
+# Reason: Original SQL executed successfully with value: 2185770.4
+# Value: 2185770.4
+SELECT CAST(ISNULL(SUM(l.extended_price), 0) AS DECIMAL(18,2)) AS value FROM dbo.oe_hdr h WITH (NOLOCK) JOIN dbo.oe_line l WITH (NOLOCK) ON h.order_no = l.order_no WHERE h.order_date >= DATEADD(day, -DATEPART(day, GETDATE()) + 1, CAST(CAST(GETDATE() AS DATE) AS DATETIME)) AND h.order_date < DATEADD(month, 1, DATEADD(day, -DATEPART(day, GETDATE()) + 1, CAST(CAST(GETDATE() AS DATE) AS DATETIME)))
+
+# File: Database row with id = "124"
+# Group: Site Distribution
+# Variable: Value
+# Fixed: false
+# Reason: All P21 SQL attempts failed
+# Value: N/A
+SELECT SUM(qty_on_hand) as value FROM dbo.item_warehouse WITH (NOLOCK) WHERE location_id = '1'
+
+# File: Database row with id = "125"
+# Group: Site Distribution
+# Variable: Value
+# Fixed: false
+# Reason: All P21 SQL attempts failed
+# Value: N/A
+SELECT SUM(qty_on_hand) as value FROM dbo.item_warehouse WITH (NOLOCK) WHERE location_id = '2'
+
+# File: Database row with id = "126"
+# Group: Site Distribution
+# Variable: Value
+# Fixed: false
+# Reason: All P21 SQL attempts failed
+# Value: N/A
+SELECT SUM(qty_on_hand) as value FROM dbo.item_warehouse WITH (NOLOCK) WHERE location_id = '3'
+
+# File: Database row with id = "127"
+# Group: POR Overview
+# Variable: New Rentals
+# Fixed: false
+# Reason: POR database connection not available
+# Value: N/A
+SELECT Count(*) as value FROM Contracts WHERE ContractType = 'Rental' AND DatePart('m', ContractDate) = 1 AND DatePart('yyyy', ContractDate) = DatePart('yyyy', Now())
+
+# File: Database row with id = "128"
+# Group: POR Overview
+# Variable: New Rentals
+# Fixed: false
+# Reason: POR database connection not available
+# Value: N/A
+SELECT Count(*) as value FROM Contracts WHERE ContractType = 'Rental' AND DatePart('m', ContractDate) = 2 AND DatePart('yyyy', ContractDate) = DatePart('yyyy', Now())
+
+# File: Database row with id = "129"
+# Group: POR Overview
+# Variable: New Rentals
+# Fixed: false
+# Reason: POR database connection not available
+# Value: N/A
+SELECT Count(*) as value FROM Contracts WHERE ContractType = 'Rental' AND DatePart('m', ContractDate) = 3 AND DatePart('yyyy', ContractDate) = DatePart('yyyy', Now())
+
+# File: Database row with id = "130"
+# Group: POR Overview
+# Variable: New Rentals
+# Fixed: false
+# Reason: POR database connection not available
+# Value: N/A
+SELECT Count(*) as value FROM Contracts WHERE ContractType = 'Rental' AND DatePart('m', ContractDate) = 4 AND DatePart('yyyy', ContractDate) = DatePart('yyyy', Now())
+
+# File: Database row with id = "131"
+# Group: POR Overview
+# Variable: New Rentals
+# Fixed: false
+# Reason: POR database connection not available
+# Value: N/A
+SELECT Count(*) as value FROM Contracts WHERE ContractType = 'Rental' AND DatePart('m', ContractDate) = 5 AND DatePart('yyyy', ContractDate) = DatePart('yyyy', Now())
+
+# File: Database row with id = "132"
+# Group: POR Overview
+# Variable: New Rentals
+# Fixed: false
+# Reason: POR database connection not available
+# Value: N/A
+SELECT Count(*) as value FROM Contracts WHERE ContractType = 'Rental' AND DatePart('m', ContractDate) = 6 AND DatePart('yyyy', ContractDate) = DatePart('yyyy', Now())
+
+# File: Database row with id = "133"
+# Group: POR Overview
+# Variable: New Rentals
+# Fixed: false
+# Reason: POR database connection not available
+# Value: N/A
+SELECT Count(*) as value FROM Contracts WHERE ContractType = 'Rental' AND DatePart('m', ContractDate) = 7 AND DatePart('yyyy', ContractDate) = DatePart('yyyy', Now())
+
+# File: Database row with id = "134"
+# Group: POR Overview
+# Variable: New Rentals
+# Fixed: false
+# Reason: POR database connection not available
+# Value: N/A
+SELECT Count(*) as value FROM Contracts WHERE ContractType = 'Rental' AND DatePart('m', ContractDate) = 8 AND DatePart('yyyy', ContractDate) = DatePart('yyyy', Now())
+
+# File: Database row with id = "135"
+# Group: POR Overview
+# Variable: New Rentals
+# Fixed: false
+# Reason: POR database connection not available
+# Value: N/A
+SELECT Count(*) as value FROM Contracts WHERE ContractType = 'Rental' AND DatePart('m', ContractDate) = 9 AND DatePart('yyyy', ContractDate) = DatePart('yyyy', Now())
+
+# File: Database row with id = "136"
+# Group: POR Overview
+# Variable: New Rentals
+# Fixed: false
+# Reason: POR database connection not available
+# Value: N/A
+SELECT Count(*) as value FROM Contracts WHERE ContractType = 'Rental' AND DatePart('m', ContractDate) = 10 AND DatePart('yyyy', ContractDate) = DatePart('yyyy', Now())
+
+# File: Database row with id = "137"
+# Group: POR Overview
+# Variable: New Rentals
+# Fixed: false
+# Reason: POR database connection not available
+# Value: N/A
+SELECT Count(*) as value FROM Contracts WHERE ContractType = 'Rental' AND DatePart('m', ContractDate) = 11 AND DatePart('yyyy', ContractDate) = DatePart('yyyy', Now())
+
+# File: Database row with id = "138"
+# Group: POR Overview
+# Variable: New Rentals
+# Fixed: false
+# Reason: POR database connection not available
+# Value: N/A
+SELECT Count(*) as value FROM Contracts WHERE ContractType = 'Rental' AND DatePart('m', ContractDate) = 12 AND DatePart('yyyy', ContractDate) = DatePart('yyyy', Now())
+
+# File: Database row with id = "139"
+# Group: POR Overview
+# Variable: Open Rentals
+# Fixed: false
+# Reason: POR database connection not available
+# Value: N/A
+SELECT Count(*) as value FROM Contracts WHERE ContractType = 'Rental' AND Status = 'Open' AND DatePart('m', ContractDate) = 1
+
+# File: Database row with id = "140"
+# Group: POR Overview
+# Variable: Open Rentals
+# Fixed: false
+# Reason: POR database connection not available
+# Value: N/A
+SELECT Count(*) as value FROM Contracts WHERE ContractType = 'Rental' AND Status = 'Open' AND DatePart('m', ContractDate) = 2
+
+# File: Database row with id = "141"
+# Group: POR Overview
+# Variable: Open Rentals
+# Fixed: false
+# Reason: POR database connection not available
+# Value: N/A
+SELECT Count(*) as value FROM Contracts WHERE ContractType = 'Rental' AND Status = 'Open' AND DatePart('m', ContractDate) = 3
+
+# File: Database row with id = "142"
+# Group: POR Overview
+# Variable: Open Rentals
+# Fixed: false
+# Reason: POR database connection not available
+# Value: N/A
+SELECT Count(*) as value FROM Contracts WHERE ContractType = 'Rental' AND Status = 'Open' AND DatePart('m', ContractDate) = 4
+
+# File: Database row with id = "143"
+# Group: POR Overview
+# Variable: Open Rentals
+# Fixed: false
+# Reason: POR database connection not available
+# Value: N/A
+SELECT Count(*) as value FROM Contracts WHERE ContractType = 'Rental' AND Status = 'Open' AND DatePart('m', ContractDate) = 5
+
+# File: Database row with id = "144"
+# Group: POR Overview
+# Variable: Open Rentals
+# Fixed: false
+# Reason: POR database connection not available
+# Value: N/A
+SELECT Count(*) as value FROM Contracts WHERE ContractType = 'Rental' AND Status = 'Open' AND DatePart('m', ContractDate) = 6
+
+# File: Database row with id = "145"
+# Group: POR Overview
+# Variable: Open Rentals
+# Fixed: false
+# Reason: POR database connection not available
+# Value: N/A
+SELECT Count(*) as value FROM Contracts WHERE ContractType = 'Rental' AND Status = 'Open' AND DatePart('m', ContractDate) = 7
+
+# File: Database row with id = "146"
+# Group: POR Overview
+# Variable: Open Rentals
+# Fixed: false
+# Reason: POR database connection not available
+# Value: N/A
+SELECT Count(*) as value FROM Contracts WHERE ContractType = 'Rental' AND Status = 'Open' AND DatePart('m', ContractDate) = 8
+
+# File: Database row with id = "147"
+# Group: POR Overview
+# Variable: Open Rentals
+# Fixed: false
+# Reason: POR database connection not available
+# Value: N/A
+SELECT Count(*) as value FROM Contracts WHERE ContractType = 'Rental' AND Status = 'Open' AND DatePart('m', ContractDate) = 9
+
+# File: Database row with id = "148"
+# Group: POR Overview
+# Variable: Open Rentals
+# Fixed: false
+# Reason: POR database connection not available
+# Value: N/A
+SELECT Count(*) as value FROM Contracts WHERE ContractType = 'Rental' AND Status = 'Open' AND DatePart('m', ContractDate) = 10
+
+# File: Database row with id = "149"
+# Group: POR Overview
+# Variable: Open Rentals
+# Fixed: false
+# Reason: POR database connection not available
+# Value: N/A
+SELECT Count(*) as value FROM Contracts WHERE ContractType = 'Rental' AND Status = 'Open' AND DatePart('m', ContractDate) = 11
+
+# File: Database row with id = "150"
+# Group: POR Overview
+# Variable: Open Rentals
+# Fixed: false
+# Reason: POR database connection not available
+# Value: N/A
+SELECT Count(*) as value FROM Contracts WHERE ContractType = 'Rental' AND Status = 'Open' AND DatePart('m', ContractDate) = 12
+
+# File: Database row with id = "151"
+# Group: POR Overview
+# Variable: Rental Value
+# Fixed: false
+# Reason: POR database connection not available
+# Value: N/A
+SELECT Sum(ContractValue) as value FROM Contracts WHERE ContractType = 'Rental' AND DatePart('m', ContractDate) = 1
+
+# File: Database row with id = "152"
+# Group: POR Overview
+# Variable: Rental Value
+# Fixed: false
+# Reason: POR database connection not available
+# Value: N/A
+SELECT Sum(ContractValue) as value FROM Contracts WHERE ContractType = 'Rental' AND DatePart('m', ContractDate) = 2
+
+# File: Database row with id = "153"
+# Group: POR Overview
+# Variable: Rental Value
+# Fixed: false
+# Reason: POR database connection not available
+# Value: N/A
+SELECT Sum(ContractValue) as value FROM Contracts WHERE ContractType = 'Rental' AND DatePart('m', ContractDate) = 3
+
+# File: Database row with id = "154"
+# Group: POR Overview
+# Variable: Rental Value
+# Fixed: false
+# Reason: POR database connection not available
+# Value: N/A
+SELECT Sum(ContractValue) as value FROM Contracts WHERE ContractType = 'Rental' AND DatePart('m', ContractDate) = 4
+
+# File: Database row with id = "155"
+# Group: POR Overview
+# Variable: Rental Value
+# Fixed: false
+# Reason: POR database connection not available
+# Value: N/A
+SELECT Sum(ContractValue) as value FROM Contracts WHERE ContractType = 'Rental' AND DatePart('m', ContractDate) = 5
+
+# File: Database row with id = "156"
+# Group: POR Overview
+# Variable: Rental Value
+# Fixed: false
+# Reason: POR database connection not available
+# Value: N/A
+SELECT Sum(ContractValue) as value FROM Contracts WHERE ContractType = 'Rental' AND DatePart('m', ContractDate) = 6
+
+# File: Database row with id = "157"
+# Group: POR Overview
+# Variable: Rental Value
+# Fixed: false
+# Reason: POR database connection not available
+# Value: N/A
+SELECT Sum(ContractValue) as value FROM Contracts WHERE ContractType = 'Rental' AND DatePart('m', ContractDate) = 7
+
+# File: Database row with id = "158"
+# Group: POR Overview
+# Variable: Rental Value
+# Fixed: false
+# Reason: POR database connection not available
+# Value: N/A
+SELECT Sum(ContractValue) as value FROM Contracts WHERE ContractType = 'Rental' AND DatePart('m', ContractDate) = 8
+
+# File: Database row with id = "159"
+# Group: POR Overview
+# Variable: Rental Value
+# Fixed: false
+# Reason: POR database connection not available
+# Value: N/A
+SELECT Sum(ContractValue) as value FROM Contracts WHERE ContractType = 'Rental' AND DatePart('m', ContractDate) = 9
+
+# File: Database row with id = "160"
+# Group: POR Overview
+# Variable: Rental Value
+# Fixed: false
+# Reason: POR database connection not available
+# Value: N/A
+SELECT Sum(ContractValue) as value FROM Contracts WHERE ContractType = 'Rental' AND DatePart('m', ContractDate) = 10
+
+# File: Database row with id = "161"
+# Group: POR Overview
+# Variable: Rental Value
+# Fixed: false
+# Reason: POR database connection not available
+# Value: N/A
+SELECT Sum(ContractValue) as value FROM Contracts WHERE ContractType = 'Rental' AND DatePart('m', ContractDate) = 11
+
+# File: Database row with id = "162"
+# Group: POR Overview
+# Variable: Rental Value
+# Fixed: false
+# Reason: POR database connection not available
+# Value: N/A
+SELECT Sum(ContractValue) as value FROM Contracts WHERE ContractType = 'Rental' AND DatePart('m', ContractDate) = 12
+
+# File: Database row with id = "163"
+# Group: Web Orders
+# Variable: Orders
+# Fixed: false
+# Reason: All P21 SQL attempts failed
+# Value: N/A
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_source = 'Web' AND MONTH(order_date) = 1 AND YEAR(order_date) = YEAR(GETDATE())
+
+# File: Database row with id = "164"
+# Group: Web Orders
+# Variable: Orders
+# Fixed: false
+# Reason: All P21 SQL attempts failed
+# Value: N/A
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_source = 'Web' AND MONTH(order_date) = 2 AND YEAR(order_date) = YEAR(GETDATE())
+
+# File: Database row with id = "165"
+# Group: Web Orders
+# Variable: Orders
+# Fixed: false
+# Reason: All P21 SQL attempts failed
+# Value: N/A
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_source = 'Web' AND MONTH(order_date) = 3 AND YEAR(order_date) = YEAR(GETDATE())
+
+# File: Database row with id = "166"
+# Group: Web Orders
+# Variable: Orders
+# Fixed: false
+# Reason: All P21 SQL attempts failed
+# Value: N/A
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_source = 'Web' AND MONTH(order_date) = 4 AND YEAR(order_date) = YEAR(GETDATE())
+
+# File: Database row with id = "167"
+# Group: Web Orders
+# Variable: Orders
+# Fixed: false
+# Reason: All P21 SQL attempts failed
+# Value: N/A
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_source = 'Web' AND MONTH(order_date) = 5 AND YEAR(order_date) = YEAR(GETDATE())
+
+# File: Database row with id = "168"
+# Group: Web Orders
+# Variable: Orders
+# Fixed: false
+# Reason: All P21 SQL attempts failed
+# Value: N/A
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_source = 'Web' AND MONTH(order_date) = 6 AND YEAR(order_date) = YEAR(GETDATE())
+
+# File: Database row with id = "169"
+# Group: Web Orders
+# Variable: Orders
+# Fixed: false
+# Reason: All P21 SQL attempts failed
+# Value: N/A
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_source = 'Web' AND MONTH(order_date) = 7 AND YEAR(order_date) = YEAR(GETDATE())
+
+# File: Database row with id = "170"
+# Group: Web Orders
+# Variable: Orders
+# Fixed: false
+# Reason: All P21 SQL attempts failed
+# Value: N/A
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_source = 'Web' AND MONTH(order_date) = 8 AND YEAR(order_date) = YEAR(GETDATE())
+
+# File: Database row with id = "171"
+# Group: Web Orders
+# Variable: Orders
+# Fixed: false
+# Reason: All P21 SQL attempts failed
+# Value: N/A
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_source = 'Web' AND MONTH(order_date) = 9 AND YEAR(order_date) = YEAR(GETDATE())
+
+# File: Database row with id = "172"
+# Group: Web Orders
+# Variable: Orders
+# Fixed: false
+# Reason: All P21 SQL attempts failed
+# Value: N/A
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_source = 'Web' AND MONTH(order_date) = 10 AND YEAR(order_date) = YEAR(GETDATE())
+
+# File: Database row with id = "173"
+# Group: Web Orders
+# Variable: Orders
+# Fixed: false
+# Reason: All P21 SQL attempts failed
+# Value: N/A
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_source = 'Web' AND MONTH(order_date) = 11 AND YEAR(order_date) = YEAR(GETDATE())
+
+# File: Database row with id = "174"
+# Group: Web Orders
+# Variable: Orders
+# Fixed: false
+# Reason: All P21 SQL attempts failed
+# Value: N/A
+SELECT COUNT(*) as value FROM dbo.oe_hdr WITH (NOLOCK) WHERE order_source = 'Web' AND MONTH(order_date) = 12 AND YEAR(order_date) = YEAR(GETDATE())
+

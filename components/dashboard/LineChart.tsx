@@ -10,7 +10,7 @@ import {
   Tooltip,
   Legend
 } from 'chart.js';
-import { SpreadsheetRow } from '@/lib/types/dashboard';
+import { SpreadsheetRow } from '@/lib/db/types';
 
 ChartJS.register(
   CategoryScale,

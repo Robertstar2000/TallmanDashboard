@@ -1,89 +1,158 @@
 'use client';
 
-import { Suspense } from 'react';
-import React from 'react';
-import dynamic from 'next/dynamic';
-import { Button } from '@/components/ui/button';
-import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { MetricCard } from '@/components/dashboard/MetricCard';
+import AccountsChart from '@/components/charts/AccountsChart';
+import { HistoricalDataChart } from '@/components/dashboard/HistoricalDataChart';
+import { CustomerMetricsChart } from '@/components/dashboard/CustomerMetricsChart';
+import { InventoryChart } from '@/components/dashboard/InventoryChart';
+import { POROverviewChart } from '@/components/dashboard/POROverviewChart';
+import { SiteDistributionChart } from '@/components/dashboard/SiteDistributionChart';
+import { ARAgingChart } from '@/components/dashboard/ARAgingChart';
+import { DailyOrdersChart } from '@/components/dashboard/DailyOrdersChart';
+import { WebOrdersChart } from '@/components/dashboard/WebOrdersChart';
+import Link from 'next/link';
+import { ChartDataRow } from '@/lib/db/types';
 
-// Import the client component dynamically to prevent server-side bundling
-const DashboardClient = dynamic(
-  () => import('@/components/DashboardClient'),
-  {
-    ssr: false,
-    loading: () => <div>Loading dashboard...</div>
-  }
-);
+// Placeholder type - will be replaced once API is implemented
+type DashboardDataPlaceholder = {
+  metrics: any[];
+  accounts: any[]; // Assuming ChartDataRow structure for now
+  historicalData: any[]; // Assuming ChartDataRow structure for now
+  customerMetrics: any[]; // Assuming ChartDataRow structure for now
+  inventory: any[]; // Assuming ChartDataRow structure for now
+  porOverview: any[]; // Assuming ChartDataRow structure for now
+  siteDistribution: any[]; // Assuming ChartDataRow structure for now
+  arAging: any[]; // Assuming ChartDataRow structure for now
+  dailyOrders: any[]; // Assuming ChartDataRow structure for now
+  webOrders: any[]; // Assuming ChartDataRow structure for now
+};
 
-// Define types for ErrorBoundary props
-interface ErrorBoundaryProps {
-  fallback: React.ReactNode;
-  children: React.ReactNode;
-}
+export default function Home() {
+  const [dashboardData, setDashboardData] = useState<DashboardDataPlaceholder | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-// Define type for ErrorBoundary state
-interface ErrorBoundaryState {
-  hasError: boolean;
-}
-
-// Simple error boundary component
-class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundaryState> {
-  constructor(props: ErrorBoundaryProps) {
-    super(props);
-    this.state = { hasError: false };
-  }
-
-  static getDerivedStateFromError(error: Error): ErrorBoundaryState {
-    return { hasError: true };
-  }
-
-  componentDidCatch(error: Error, errorInfo: React.ErrorInfo): void {
-    console.error("Dashboard error:", error, errorInfo);
-  }
-
-  render(): React.ReactNode {
-    if (this.state.hasError) {
-      return this.props.fallback;
+  useEffect(() => {
+    async function fetchDashboardData() {
+      try {
+        setLoading(true);
+        
+        // Fetch data from the API
+        const response = await fetch('/api/dashboard/data');
+        
+        if (!response.ok) {
+          throw new Error(`API request failed with status ${response.status}`);
+        }
+        
+        const data = await response.json();
+        
+        // Check if we received valid data
+        if (!data || Object.keys(data).length === 0) {
+          throw new Error('API returned empty data');
+        }
+        
+        // Update the dashboard data state
+        setDashboardData(data);
+        setError(null);
+      } catch (err) {
+        // Log more detailed error information
+        if (err instanceof Error) {
+          console.error('Error fetching dashboard data:', err.message);
+          console.error('Stack trace:', err.stack);
+        } else {
+          console.error('Error fetching dashboard data (unknown type):', err);
+        }
+        setError('Failed to fetch dashboard data. Please try again later.');
+      } finally {
+        setLoading(false);
+      }
     }
-    return this.props.children;
-  }
-}
+    
+    fetchDashboardData();
+    
+    // Set up a refresh interval (every 30 seconds)
+    const intervalId = setInterval(fetchDashboardData, 30000);
+    
+    // Clean up the interval when the component unmounts
+    return () => clearInterval(intervalId);
+  }, []);
 
-export default function HomePage() {
-  const router = useRouter();
-  
-  const handleNavigateToAdmin = () => {
-    // Navigate to admin page without stopping the background worker
-    router.push('/admin');
-  };
+  if (loading) {
+    return <div className="flex items-center justify-center min-h-screen">Loading dashboard data...</div>;
+  }
+
+  if (error) {
+    return <div className="flex items-center justify-center min-h-screen text-red-500">Error: {error}</div>;
+  }
 
   return (
-    <div className="min-h-screen bg-background">
-      <header className="border-b">
-        <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-          <h1 className="text-2xl font-bold">Tallman Dashboard</h1>
-          <Button 
-            variant="outline" 
-            onClick={handleNavigateToAdmin}
-            className="z-50 relative"  // Ensure button is always on top
-          >
-            Admin
-          </Button>
+    <main className="min-h-screen p-4">
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-2xl font-bold">Tallman Dashboard</h1>
+        <Link href="/admin" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+          Admin
+        </Link>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-7 gap-4 mb-8">
+        {dashboardData && dashboardData.metrics.map((metric: any) => (
+          // Ensure metric.value is a number; provide a default if null/undefined
+          <MetricCard 
+            key={metric.id ?? metric.rowId} // Use rowId as fallback key if id is missing
+            title={metric.DataPoint ?? 'Untitled'} // Use DataPoint as title
+            value={typeof metric.value === 'number' ? metric.value : 0} // Pass value, default to 0 if not a number
+          />
+        ))}
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="border rounded-lg p-4 shadow-sm">
+          <h2 className="text-lg font-semibold mb-4">Accounts</h2>
+          {dashboardData && <AccountsChart data={dashboardData.accounts as ChartDataRow[]} />}
         </div>
-      </header>
-      <main className="container mx-auto px-4 py-8">
-        <Suspense fallback={<div>Loading dashboard...</div>}>
-          <ErrorBoundary fallback={
-            <div className="p-4">
-              <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
-                <p>Error loading dashboard. Please use the Admin button to configure the dashboard.</p>
-              </div>
-            </div>
-          }>
-            <DashboardClient />
-          </ErrorBoundary>
-        </Suspense>
-      </main>
-    </div>
+
+        <div className="border rounded-lg p-4 shadow-sm">
+          <h2 className="text-lg font-semibold mb-4">Historical Data</h2>
+          {/* Pass the actual data now, the component will handle transformation */}
+          {dashboardData && <HistoricalDataChart data={dashboardData.historicalData as ChartDataRow[]} />}
+        </div>
+
+        <div className="border rounded-lg p-4 shadow-sm">
+          <h2 className="text-lg font-semibold mb-4">Customer Metrics</h2>
+          {dashboardData && <CustomerMetricsChart data={dashboardData.customerMetrics as ChartDataRow[]} />}
+        </div>
+
+        <div className="border rounded-lg p-4 shadow-sm">
+          <h2 className="text-lg font-semibold mb-4">Inventory</h2>
+          {dashboardData && <InventoryChart data={dashboardData.inventory as ChartDataRow[]} />}
+        </div>
+
+        <div className="border rounded-lg p-4 shadow-sm">
+          <h2 className="text-lg font-semibold mb-4">POR Overview</h2>
+          {dashboardData && <POROverviewChart data={dashboardData.porOverview as ChartDataRow[]} />}
+        </div>
+
+        <div className="border rounded-lg p-4 shadow-sm">
+          <h2 className="text-lg font-semibold mb-4">Site Distribution</h2>
+          {dashboardData && <SiteDistributionChart data={dashboardData.siteDistribution as ChartDataRow[]} />}
+        </div>
+
+        <div className="border rounded-lg p-4 shadow-sm">
+          <h2 className="text-lg font-semibold mb-4">AR Aging</h2>
+          {dashboardData && <ARAgingChart data={dashboardData.arAging as ChartDataRow[]} />}
+        </div>
+
+        <div className="border rounded-lg p-4 shadow-sm">
+          <h2 className="text-lg font-semibold mb-4">Daily Orders</h2>
+          {dashboardData && <DailyOrdersChart data={dashboardData.dailyOrders as ChartDataRow[]} />}
+        </div>
+
+        <div className="border rounded-lg p-4 shadow-sm">
+          <h2 className="text-lg font-semibold mb-4">Web Orders</h2>
+          {dashboardData && <WebOrdersChart data={dashboardData.webOrders as ChartDataRow[]} />}
+        </div>
+      </div>
+    </main>
   );
 }

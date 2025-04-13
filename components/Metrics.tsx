@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
-import { AdminVariable } from '@/lib/types/dashboard';
+import { AdminVariable } from '@/lib/db/types';
 
 interface MetricsProps {
   variables: AdminVariable[];

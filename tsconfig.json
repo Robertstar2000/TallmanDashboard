@@ -1,14 +1,15 @@
 {
   "compilerOptions": {
+    "baseUrl": ".",
     "target": "es2015",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
-    "noEmit": true,
+    "noEmit": true, // Use Next.js build process
     "esModuleInterop": true,
     "module": "esnext",
-    "moduleResolution": "bundler",
+    "moduleResolution": "node", // Changed from 'bundler'
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
@@ -26,6 +27,7 @@
   "exclude": [
     "node_modules",
     "app/api/connection-settings/[type]",
-    "app/api/connection-settings/_[type]"
+    "app/api/connection-settings/_[type]",
+    "scripts/Untitled-1.ts" // Exclude this problematic file
   ]
 }

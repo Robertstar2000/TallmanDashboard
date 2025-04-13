@@ -9,10 +9,10 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { DEFAULT_P21_CONFIG, DEFAULT_POR_CONFIG } from '@/lib/db/server';
+// Removed direct import of server-side constants: DEFAULT_P21_CONFIG, DEFAULT_POR_CONFIG
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { AlertCircle, CheckCircle2 } from "lucide-react";
-import { ServerConfig } from '@/lib/db/connections';
+import { ConnectionDetails } from '@/lib/db/types'; // Use ConnectionDetails type
 
 interface ConnectionDialogProps {
   serverType: 'P21' | 'POR';
@@ -22,10 +22,10 @@ interface ConnectionDialogProps {
 }
 
 export function ConnectionDialog({ serverType, open, onOpenChange, onSuccess }: ConnectionDialogProps) {
-  const defaultConfig = serverType === 'P21' ? DEFAULT_P21_CONFIG : DEFAULT_POR_CONFIG;
-  const [config, setConfig] = useState<ServerConfig>(() => ({
-    ...defaultConfig,
+  // State now uses ConnectionDetails type
+  const [config, setConfig] = useState<ConnectionDetails>(() => ({
     type: serverType
+    // Initialize other fields as needed, e.g., dsn: '', database: '' etc. or fetch defaults later
   }));
   const [filePath, setFilePath] = useState<string>('C:\\Users\\BobM\\Desktop\\POR.MDB');
   const [isConnecting, setIsConnecting] = useState(false);
@@ -36,47 +36,67 @@ export function ConnectionDialog({ serverType, open, onOpenChange, onSuccess }: 
 
   // Reset to defaults when dialog opens or server type changes
   useEffect(() => {
-    const currentConfig = serverType === 'P21' ? DEFAULT_P21_CONFIG : DEFAULT_POR_CONFIG;
-    setConfig({
-      ...currentConfig,
-      type: serverType
-    });
-    
-    // Load saved file path from localStorage for POR
-    if (serverType === 'POR') {
-      const savedFilePath = localStorage.getItem('porAccessFilePath');
-      if (savedFilePath) {
-        setFilePath(savedFilePath);
+    const fetchDefaults = async () => {
+      console.log(`Fetching default config for: ${serverType}`);
+      try {
+        const response = await fetch(`/api/admin/default-config?serverType=${serverType}`);
+        if (!response.ok) {
+          throw new Error(`Failed to fetch defaults: ${response.statusText}`);
+        }
+        const defaults: Partial<ConnectionDetails> = await response.json();
+        console.log('Received defaults:', defaults);
+        // Set state, ensuring type compatibility and preserving the core type
+        setConfig({
+          type: serverType, // Explicitly keep the correct type
+          ...defaults, // Spread fetched defaults (dsn, database, user, filePath etc.)
+        });
+
+        // Special handling for POR filePath from localStorage overrides fetched default
+        if (serverType === 'POR') {
+          const savedFilePath = localStorage.getItem('porAccessFilePath');
+          if (savedFilePath) {
+            console.log('Using saved POR path from localStorage:', savedFilePath);
+            setFilePath(savedFilePath);
+            // Update the main config state as well if needed, or rely on the separate filePath state
+            // setConfig(prev => ({ ...prev, filePath: savedFilePath }));
+          } else if (defaults.filePath) {
+            console.log('Using default POR path from API:', defaults.filePath);
+            setFilePath(defaults.filePath);
+          }
+        }
+
+      } catch (error) {
+        console.error("Error fetching default config:", error);
+        // Fallback to basic reset if fetch fails
+        setConfig({ type: serverType });
+        if (serverType === 'POR') {
+          setFilePath(''); // Clear path on error
+        }
       }
+    };
+
+    if (open) { // Only fetch if the dialog is open
+      fetchDefaults();
     }
-    
-    // Reset status
-    setStatus({ type: 'idle' });
+
+    setStatus({ type: 'idle' }); // Reset status
   }, [serverType, open]);
 
   const handleConnect = async () => {
     setIsConnecting(true);
     setStatus({ type: 'connecting' });
 
+    // Use the current state directly, which is ConnectionDetails
+    const connectionConfig: ConnectionDetails = { ...config };
+    if (serverType === 'POR') {
+      connectionConfig.filePath = filePath; // Add filePath for POR
+    }
+
     try {
-      let connectionConfig: ServerConfig;
-      
       if (serverType === 'P21') {
-        // For P21, we're using ODBC DSN connection
-        connectionConfig = {
-          type: 'P21',
-          dsn: config.dsn,
-          database: config.database,
-          user: config.user,
-          password: config.password,
-        };
+        // Ensure properties exist on connectionConfig, which is now ConnectionDetails
       } else {
-        // For POR, use the file path
-        connectionConfig = {
-          ...config,
-          filePath,
-          type: 'POR'
-        };
+        // Ensure properties exist on connectionConfig
       }
 
       const response = await fetch('/api/testConnection', {
@@ -175,7 +195,7 @@ export function ConnectionDialog({ serverType, open, onOpenChange, onSuccess }: 
                 <Input
                   id="dsn"
                   name="dsn"
-                  value={config.dsn || 'P21Play'}
+                  value={config.dsn ?? ''} // Use nullish coalescing for optional prop
                   onChange={(e) => setConfig({...config, dsn: e.target.value})}
                   className="col-span-3"
                   placeholder="P21Play"
@@ -186,7 +206,7 @@ export function ConnectionDialog({ serverType, open, onOpenChange, onSuccess }: 
                 <Input
                   id="database"
                   name="database"
-                  value={config.database || 'P21Play'}
+                  value={config.database ?? ''} // Use nullish coalescing
                   onChange={(e) => setConfig({...config, database: e.target.value})}
                   className="col-span-3"
                   placeholder="P21Play"
@@ -197,7 +217,7 @@ export function ConnectionDialog({ serverType, open, onOpenChange, onSuccess }: 
                 <Input
                   id="username"
                   name="username"
-                  value={config.user || ''}
+                  value={config.user ?? ''} // Use nullish coalescing
                   onChange={(e) => setConfig({...config, user: e.target.value})}
                   className="col-span-3"
                   placeholder="SA"
@@ -209,7 +229,7 @@ export function ConnectionDialog({ serverType, open, onOpenChange, onSuccess }: 
                   id="password"
                   name="password"
                   type="password"
-                  value={config.password || ''}
+                  value={config.password ?? ''} // Use nullish coalescing
                   onChange={(e) => setConfig({...config, password: e.target.value})}
                   className="col-span-3"
                 />
@@ -227,9 +247,13 @@ export function ConnectionDialog({ serverType, open, onOpenChange, onSuccess }: 
               <Input
                 id="filePath"
                 name="filePath"
-                value={filePath}
-                onChange={(e) => setFilePath(e.target.value)}
+                value={filePath} // Keep using separate state for POR filePath
+                onChange={(e) => {
+                  setFilePath(e.target.value);
+                  localStorage.setItem('porAccessFilePath', e.target.value); // Save path
+                }}
                 className="col-span-3"
+                placeholder="C:\path\to\your\database.mdb"
               />
             </div>
           )}

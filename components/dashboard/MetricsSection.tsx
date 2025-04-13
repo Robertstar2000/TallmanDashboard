@@ -4,7 +4,7 @@ import * as React from 'react';
 import { Card } from "@/components/ui/card";
 import { Package, PackageOpen, ShoppingCart, DollarSign, FileText, Truck, AlertTriangle, BarChart2 } from "lucide-react";
 import { formatCurrency } from "@/lib/utils";
-import { MetricItem } from "@/lib/types/dashboard";
+import { MetricItem } from "@/lib/db/types";
 
 interface MetricCardProps {
   title: string;

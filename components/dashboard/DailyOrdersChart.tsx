@@ -1,18 +1,15 @@
 'use client';
 
 import { LineChart } from '@/components/charts/LineChart';
-import { DailyOrderPoint } from '@/lib/types/dashboard';
+import { ChartDataRow } from '@/lib/db/types';
 
 interface DailyOrdersChartProps {
-  data: DailyOrderPoint[];
+  data: ChartDataRow[];
 }
 
 export function DailyOrdersChart({ data }: DailyOrdersChartProps) {
-  console.log('DailyOrdersChart received data:', JSON.stringify(data));
-  
   // Ensure we have valid data to display
   if (!data || data.length === 0) {
-    console.log('No data available for Daily Orders chart');
     return (
       <div className="rounded-lg border bg-card p-4">
         <h3 className="font-semibold mb-4">Daily Orders</h3>
@@ -23,33 +20,32 @@ export function DailyOrdersChart({ data }: DailyOrdersChartProps) {
     );
   }
 
-  // Sort data by date (assuming date is a string that can be parsed as a number)
-  const sortedData = [...data].sort((a, b) => {
-    // Check if date is undefined
-    if (!a.date || !b.date) {
-      return 0;
-    }
-    
-    // Try to parse as numbers first
-    const aNum = parseInt(a.date);
-    const bNum = parseInt(b.date);
-    
-    if (!isNaN(aNum) && !isNaN(bNum)) {
-      return aNum - bNum;
-    }
-    
-    // Fallback to string comparison
+  // Transform data: Map axisStep to date and value to orders
+  const transformedData = data
+    .map(item => {
+      // Skip items with null axisStep (date)
+      if (item.axisStep === null) {
+        return null; // Will be filtered out later
+      }
+      return {
+        date: item.axisStep, // Use axisStep as date
+        orders: item.value ?? 0 // Use value as orders, default null to 0
+      };
+    })
+    .filter(item => item !== null) as { date: string; orders: number }[]; // Filter out nulls and assert type
+
+  // Sort transformed data by date (assuming axisStep represents sortable dates/periods)
+  const sortedData = [...transformedData].sort((a, b) => {
+    // Basic string sort, adjust if axisStep needs numeric or Date parsing
     return a.date.localeCompare(b.date);
   });
-  
-  console.log('Sorted data for chart:', JSON.stringify(sortedData));
-  
+
   return (
     <div className="rounded-lg border bg-card p-4">
       <h3 className="font-semibold mb-4">Daily Orders</h3>
       <div className="h-[200px]">
         <LineChart
-          data={sortedData}
+          data={sortedData} // Use sorted, transformed data
           xKey="date"
           lines={[
             { key: 'orders', name: 'Orders', color: '#4C51BF' }

@@ -1,1 +1,0 @@
-# Initialization and Setup Tests\n\nThis folder contains the following test scripts:\n\n1. test-init-data.js - Tests initialization data\n2. test-db-init.js - Tests database initialization\n3. test-background-sequencing.js - Tests background worker sequencing

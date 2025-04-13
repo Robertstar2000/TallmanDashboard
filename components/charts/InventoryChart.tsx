@@ -1,74 +1,99 @@
-'use client';
+import { InventoryDataPoint } from '@/lib/db/types';
+import { Bar } from 'react-chartjs-2';
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+} from 'chart.js';
 
-import React from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Cell } from 'recharts';
-import { DataDetailsDialog } from '@/components/DataDetailsDialog';
-import { InventoryData } from '@/lib/types/admin';
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
 interface InventoryChartProps {
-  data: InventoryData[];
+  data: InventoryDataPoint[];
 }
 
-const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
+export default function InventoryChart({ data }: InventoryChartProps) {
+  // Handle case where data is undefined or empty
+  if (!data || data.length === 0) {
+    return <div className="flex items-center justify-center h-64">No inventory data available</div>;
+  }
+  
+  // Define the expected department order
+  const departmentOrder = ['dept. 100', 'dept. 101', 'dept. 102', 'dept. 103', 'dept. 107'];
+  
+  // Filter and sort data by department order
+  const sortedData = departmentOrder.map(dept => {
+    const deptData = data.find(item => item.department === dept);
+    return deptData || {
+      id: `${dept}-missing`,
+      department: dept,
+      inStock: 0,
+      onOrder: 0
+    };
+  });
+  
+  // Extract labels and data series
+  const labels = sortedData.map(item => item.department || '');
+  const inStockData = sortedData.map(item => item.inStock);
+  const onOrderData = sortedData.map(item => item.onOrder);
 
-export function InventoryChart({ data }: InventoryChartProps) {
-  const safeData = Array.isArray(data) ? data : [];
+  const chartData = {
+    labels: labels,
+    datasets: [
+      {
+        label: 'In Stock',
+        data: inStockData,
+        backgroundColor: 'rgba(54, 162, 235, 0.6)',
+        borderColor: 'rgba(54, 162, 235, 1)',
+        borderWidth: 1,
+      },
+      {
+        label: 'On Order',
+        data: onOrderData,
+        backgroundColor: 'rgba(255, 159, 64, 0.6)',
+        borderColor: 'rgba(255, 159, 64, 1)',
+        borderWidth: 1,
+      },
+    ],
+  };
 
-  const chartData = React.useMemo(() => {
-    return safeData.map((item) => ({
-      name: item.category || '',
-      inStock: typeof item.inStock === 'number' ? item.inStock : 0,
-      onOrder: typeof item.onOrder === 'number' ? item.onOrder : 0,
-    }));
-  }, [safeData]);
+  const options = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top' as const,
+      },
+      title: {
+        display: true,
+        text: 'Inventory',
+      },
+    },
+    scales: {
+      y: {
+        beginAtZero: true,
+        ticks: {
+          callback: function(value: any) {
+            return value.toLocaleString();
+          }
+        }
+      }
+    }
+  };
 
   return (
-    <DataDetailsDialog 
-      title="Inventory Details" 
-      data={safeData}
-      formatValue={(value: string | number) => {
-        if (typeof value === 'number') {
-          return value.toString();
-        }
-        return value;
-      }}
-    >
-      <Card className="h-full cursor-pointer hover:bg-accent/10 transition-colors">
-        <CardHeader className="p-0.5 h-[14px]">
-          <CardTitle className="text-[clamp(0.45rem,0.7vw,0.6rem)]">Inventory</CardTitle>
-        </CardHeader>
-        <CardContent className="p-0.5 h-[calc(100%-14px)]">
-          <ResponsiveContainer width="100%" height="100%">
-            <BarChart
-              data={chartData}
-              margin={{ top: 2, right: 4, left: 0, bottom: 2 }}
-            >
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis
-                dataKey="name"
-                tick={{ fontSize: 10 }}
-                interval={0}
-                height={12}
-              />
-              <YAxis
-                tick={{ fontSize: 10 }}
-                width={25}
-              />
-              <Tooltip
-                contentStyle={{ fontSize: 12 }}
-                labelStyle={{ fontSize: 12 }}
-              />
-              <Legend
-                wrapperStyle={{ fontSize: 10 }}
-                height={10}
-              />
-              <Bar dataKey="inStock" fill="#0088FE" name="In Stock" />
-              <Bar dataKey="onOrder" fill="#00C49F" name="On Order" />
-            </BarChart>
-          </ResponsiveContainer>
-        </CardContent>
-      </Card>
-    </DataDetailsDialog>
+    <div className="h-64">
+      <Bar data={chartData} options={options} />
+    </div>
   );
 }

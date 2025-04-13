@@ -1,10 +1,13 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useToast } from "@/components/ui/use-toast";
-import { DashboardData } from '@/lib/types/dashboard';
+import { useMediaQuery } from 'react-responsive';
+import { Toaster } from '@/components/ui/toaster';
+import { useToast, toast } from '@/components/ui/use-toast';
+import { DashboardData } from '@/lib/db/types';
+import useQueryStatusStore from '@/lib/stores/queryStatusStore';
+import { QueryStatusState } from '@/lib/stores/queryStatusStore';
 import { Dashboard } from '@/components/dashboard/Dashboard';
-import { useQueryStatusStore } from '@/lib/stores/queryStatusStore';
 
 export default function DashboardClient() {
   const [data, setData] = useState<DashboardData | null>(null);
@@ -12,8 +15,8 @@ export default function DashboardClient() {
   const { toast } = useToast();
 
   // Get query running status from the global store
-  const isRunning = useQueryStatusStore(state => state.isRunning);
-  const isPolling = useQueryStatusStore(state => state.isPolling);
+  const isRunning = useQueryStatusStore((state: QueryStatusState) => state.isRunning);
+  const isPolling = useQueryStatusStore((state: QueryStatusState) => state.isPolling);
 
   // Check if we need to restart polling when dashboard loads
   useEffect(() => {
@@ -44,7 +47,16 @@ export default function DashboardClient() {
         // Add timestamp to prevent caching issues
         const response = await fetch('/api/dashboard/data?t=' + new Date().getTime());
         if (!response.ok) {
-          throw new Error('Failed to fetch dashboard data');
+          // Try to get detailed error information from the response
+          let errorMessage = 'Failed to fetch dashboard data';
+          try {
+            const errorData = await response.json();
+            console.error('Server error details:', errorData);
+            errorMessage = errorData.message || errorData.error || errorMessage;
+          } catch (parseError) {
+            console.error('Could not parse error response:', parseError);
+          }
+          throw new Error(errorMessage);
         }
         
         // Parse the response

@@ -18,7 +18,17 @@ import {
 } from 'recharts';
 import { useEffect } from 'react';
 import { DailyOrdersChart } from './DailyOrdersChart';
-import { HistoricalDataPoint, AccountsDataPoint, CustomerMetricPoint, InventoryDataPoint, POROverviewPoint, SiteDistributionPoint, ARAgingPoint, DailyOrderPoint, WebOrderPoint } from '@/lib/types/dashboard';
+import { 
+  HistoricalDataPoint, 
+  AccountsDataPoint, 
+  CustomerMetricPoint, 
+  InventoryDataPoint, 
+  POROverviewPoint, 
+  SiteDistributionPoint, 
+  ARAgingPoint, 
+  DailyOrderPoint, 
+  WebOrderPoint 
+} from '@/lib/db/types';
 
 interface ChartsSectionProps {
   data: {
@@ -85,6 +95,10 @@ export function ChartsSection({ data }: ChartsSectionProps) {
               angle={-45}
               textAnchor="end"
               height={60}
+              tick={{ fontSize: 12 }}
+              padding={{ left: 10, right: 10 }}
+              tickFormatter={(value, index) => value}
+              reversed={false}
             />
             <YAxis 
               yAxisId="left" 
@@ -99,36 +113,52 @@ export function ChartsSection({ data }: ChartsSectionProps) {
             />
             <Tooltip formatter={(value) => `$${Number(value).toLocaleString()}`} />
             <Legend />
-            <Line 
-              yAxisId="left" 
-              type="monotone" 
-              dataKey="payable" 
-              name="Payable" 
-              stroke="#FF0000"
-              strokeWidth={3}
-              dot={{ r: 6, strokeWidth: 3, fill: "#FFFFFF" }}
+            <Line
+              yAxisId="left"
+              type="monotone"
+              dataKey="payable"
+              name="Payable"
+              stroke="#8884d8"
               activeDot={{ r: 8 }}
             />
-            <Line 
-              yAxisId="left" 
-              type="monotone" 
-              dataKey="receivable" 
-              name="Receivable" 
-              stroke="#0088FE"
-              strokeWidth={3}
-              dot={{ r: 6, strokeWidth: 3, fill: "#FFFFFF" }}
+            <Line
+              yAxisId="left"
+              type="monotone"
+              dataKey="receivable"
+              name="Receivable"
+              stroke="#82ca9d"
               activeDot={{ r: 8 }}
             />
-            <Line 
-              yAxisId="right" 
-              type="monotone" 
-              dataKey="overdue" 
-              name="Overdue" 
-              stroke="#00C49F"
-              strokeWidth={3}
-              dot={{ r: 6, strokeWidth: 3, fill: "#FFFFFF" }}
+            <Line
+              yAxisId="right"
+              type="monotone"
+              dataKey="overdue"
+              name="Overdue"
+              stroke="#ffc658"
               activeDot={{ r: 8 }}
             />
+            {/* Add the Amount Due line if available */}
+            {data.accounts.some(item => item.amountDue !== undefined) && (
+              <Line
+                yAxisId="left"
+                type="monotone"
+                dataKey="amountDue"
+                name="Amount Due"
+                stroke="#ff7300"
+                activeDot={{ r: 8 }}
+              />
+            )}
+            {/* Add the Current line if available */}
+            {data.accounts.some(item => item.current !== undefined) && (
+              <Line
+                yAxisId="left"
+                type="monotone"
+                dataKey="current"
+                name="Current"
+                stroke="#0088FE"
+                activeDot={{ r: 8 }}
+              />
+            )}
           </LineChart>
         </ResponsiveContainer>
       </Card>
@@ -145,6 +175,8 @@ export function ChartsSection({ data }: ChartsSectionProps) {
               angle={-45}
               textAnchor="end"
               height={60}
+              tickFormatter={(value, index) => value}
+              reversed={false}
             />
             <YAxis 
               tickFormatter={(value) => `$${(value / 1000).toFixed(0)}k`}
@@ -173,6 +205,8 @@ export function ChartsSection({ data }: ChartsSectionProps) {
               angle={-45}
               textAnchor="end"
               height={60}
+              tickFormatter={(value, index) => value}
+              reversed={false}
             />
             <YAxis />
             <Tooltip />
