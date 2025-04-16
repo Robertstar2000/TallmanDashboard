@@ -101,64 +101,21 @@ export function ChartsSection({ data }: ChartsSectionProps) {
               reversed={false}
             />
             <YAxis 
-              yAxisId="left" 
-              domain={[0, 'dataMax']} 
-              tickFormatter={(value) => `$${(value / 1000).toFixed(0)}k`}
-            />
-            <YAxis 
-              yAxisId="right" 
-              orientation="right" 
               domain={[0, 'dataMax']} 
               tickFormatter={(value) => `$${(value / 1000).toFixed(0)}k`}
             />
             <Tooltip formatter={(value) => `$${Number(value).toLocaleString()}`} />
             <Legend />
-            <Line
-              yAxisId="left"
-              type="monotone"
-              dataKey="payable"
-              name="Payable"
-              stroke="#8884d8"
-              activeDot={{ r: 8 }}
-            />
-            <Line
-              yAxisId="left"
-              type="monotone"
-              dataKey="receivable"
-              name="Receivable"
-              stroke="#82ca9d"
-              activeDot={{ r: 8 }}
-            />
-            <Line
-              yAxisId="right"
-              type="monotone"
-              dataKey="overdue"
-              name="Overdue"
-              stroke="#ffc658"
-              activeDot={{ r: 8 }}
-            />
-            {/* Add the Amount Due line if available */}
-            {data.accounts.some(item => item.amountDue !== undefined) && (
+            {Object.keys(data.accounts[0] || {}).filter(key => key !== 'id' && key !== 'date').map((key, idx) => (
               <Line
-                yAxisId="left"
+                key={key}
                 type="monotone"
-                dataKey="amountDue"
-                name="Amount Due"
-                stroke="#ff7300"
+                dataKey={key}
+                name={key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}
+                stroke={COLORS[idx % COLORS.length]}
                 activeDot={{ r: 8 }}
               />
-            )}
-            {/* Add the Current line if available */}
-            {data.accounts.some(item => item.current !== undefined) && (
-              <Line
-                yAxisId="left"
-                type="monotone"
-                dataKey="current"
-                name="Current"
-                stroke="#0088FE"
-                activeDot={{ r: 8 }}
-              />
-            )}
+            ))}
           </LineChart>
         </ResponsiveContainer>
       </Card>
@@ -183,12 +140,16 @@ export function ChartsSection({ data }: ChartsSectionProps) {
             />
             <Tooltip formatter={(value) => `$${Number(value).toLocaleString()}`} />
             <Legend />
-            <Line type="monotone" dataKey="sales" name="P21" stroke="#8884d8" />
-            <Line type="monotone" dataKey="orders" name="POR" stroke="#82ca9d" />
-            <Line type="monotone" dataKey="combined" name="Combined" stroke="#ffc658" />
-            <Line type="monotone" dataKey="value1" name="Value 1" stroke="#FF0000" />
-            <Line type="monotone" dataKey="value2" name="Value 2" stroke="#0088FE" />
-            <Line type="monotone" dataKey="value3" name="Value 3" stroke="#00C49F" />
+            {Object.keys(data.historicalData[0] || {}).filter(key => key !== 'id' && key !== 'date').map((key, idx) => (
+              <Line
+                key={key}
+                type="monotone"
+                dataKey={key}
+                name={key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}
+                stroke={COLORS[idx % COLORS.length]}
+                activeDot={{ r: 8 }}
+              />
+            ))}
           </LineChart>
         </ResponsiveContainer>
       </Card>
@@ -211,8 +172,14 @@ export function ChartsSection({ data }: ChartsSectionProps) {
             <YAxis />
             <Tooltip />
             <Legend />
-            <Bar dataKey="newCustomers" name="New Customers" fill="#8884d8" />
-            <Bar dataKey="returning" name="Returning Customers" fill="#82ca9d" />
+            {Object.keys(data.customerMetrics[0] || {}).filter(key => key !== 'id' && key !== 'date').map((key, idx) => (
+              <Bar
+                key={key}
+                dataKey={key}
+                name={key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}
+                fill={COLORS[idx % COLORS.length]}
+              />
+            ))}
           </BarChart>
         </ResponsiveContainer>
       </Card>
@@ -233,8 +200,14 @@ export function ChartsSection({ data }: ChartsSectionProps) {
             <YAxis />
             <Tooltip />
             <Legend />
-            <Bar dataKey="inStock" name="In Stock" fill="#8884d8" />
-            <Bar dataKey="onOrder" name="On Order" fill="#82ca9d" />
+            {Object.keys(data.inventory[0] || {}).filter(key => key !== 'id' && key !== 'department').map((key, idx) => (
+              <Bar
+                key={key}
+                dataKey={key}
+                name={key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}
+                fill={COLORS[idx % COLORS.length]}
+              />
+            ))}
           </BarChart>
         </ResponsiveContainer>
       </Card>
@@ -252,13 +225,19 @@ export function ChartsSection({ data }: ChartsSectionProps) {
               textAnchor="end"
               height={60}
             />
-            <YAxis yAxisId="left" />
-            <YAxis yAxisId="right" orientation="right" />
+            <YAxis />
             <Tooltip />
             <Legend />
-            <Line yAxisId="left" type="monotone" dataKey="newRentals" name="New Rentals" stroke="#8884d8" />
-            <Line yAxisId="left" type="monotone" dataKey="openRentals" name="Open Rentals" stroke="#82ca9d" />
-            <Line yAxisId="right" type="monotone" dataKey="rentalValue" name="Rental Value" stroke="#ffc658" />
+            {Object.keys(data.porOverview[0] || {}).filter(key => key !== 'id' && key !== 'date').map((key, idx) => (
+              <Line
+                key={key}
+                type="monotone"
+                dataKey={key}
+                name={key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}
+                stroke={COLORS[idx % COLORS.length]}
+                activeDot={{ r: 8 }}
+              />
+            ))}
           </LineChart>
         </ResponsiveContainer>
       </Card>
@@ -298,11 +277,15 @@ export function ChartsSection({ data }: ChartsSectionProps) {
             <XAxis dataKey="range" />
             <YAxis tickFormatter={(value) => `$${(value / 1000).toFixed(0)}k`} />
             <Tooltip formatter={(value) => `$${Number(value).toLocaleString()}`} />
-            <Bar dataKey="amount" fill="#8884d8">
-              {data.arAging.map((entry, index) => (
-                <Cell key={entry.id || entry.range || `cell-${index}`} fill={COLORS[index % COLORS.length]} />
-              ))}
-            </Bar>
+            <Legend />
+            {Object.keys(data.arAging[0] || {}).filter(key => key !== 'id' && key !== 'range').map((key, idx) => (
+              <Bar
+                key={key}
+                dataKey={key}
+                name={key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}
+                fill={COLORS[idx % COLORS.length]}
+              />
+            ))}
           </BarChart>
         </ResponsiveContainer>
       </Card>
@@ -334,8 +317,16 @@ export function ChartsSection({ data }: ChartsSectionProps) {
             />
             <Tooltip formatter={(value, name) => name === 'revenue' ? `$${Number(value).toLocaleString()}` : value} />
             <Legend />
-            <Line yAxisId="left" type="monotone" dataKey="orders" name="Orders" stroke="#8884d8" />
-            <Line yAxisId="right" type="monotone" dataKey="revenue" name="Revenue" stroke="#82ca9d" />
+            {Object.keys(data.webOrders[0] || {}).filter(key => key !== 'id' && key !== 'date').map((key, idx) => (
+              <Line
+                key={key}
+                type="monotone"
+                dataKey={key}
+                name={key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}
+                stroke={COLORS[idx % COLORS.length]}
+                activeDot={{ r: 8 }}
+              />
+            ))}
           </LineChart>
         </ResponsiveContainer>
       </Card>
