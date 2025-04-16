@@ -17,12 +17,20 @@ CREATE TABLE IF NOT EXISTS admin_variables (
 
 -- Table to store the results of dashboard queries
 CREATE TABLE IF NOT EXISTS chart_data (
-    id TEXT PRIMARY KEY, -- Corresponds to the row ID from dashboardState
-    value REAL,          -- The numeric result of the query
-    timestamp DATETIME DEFAULT CURRENT_TIMESTAMP, -- When the data was fetched
-    error TEXT,          -- Any error message during fetch
-    chart_group TEXT,    -- Group the data belongs to (e.g., AR Aging, Daily Orders)
-    label TEXT           -- Specific label for the data point (e.g., '1-30 Days', 'Mon')
+    id TEXT PRIMARY KEY,                 -- Auto-generated UUID
+    rowId TEXT UNIQUE NOT NULL,          -- From single-source-data.ts
+    chartGroup TEXT NOT NULL,            -- Group the data belongs to (e.g., AR Aging)
+    variableName TEXT NOT NULL,          -- Name of the variable being tracked
+    DataPoint TEXT NOT NULL,             -- Full description of the data point
+    chartName TEXT,                      -- Name of the chart this data belongs to
+    serverName TEXT NOT NULL,            -- P21 or POR
+    tableName TEXT,                      -- Source table name
+    productionSqlExpression TEXT,        -- SQL query to get the value
+    value REAL,                          -- The numeric result of the query
+    lastUpdated DATETIME,                -- When the data was last updated
+    calculationType TEXT,                -- SUM, AVG, COUNT, or LATEST
+    axisStep TEXT,                       -- Position on chart axis
+    error TEXT                           -- Any error message during fetch
 );
 
 -- Optional: Add other table schemas if needed (e.g., for storing historical trends, user settings, etc.)
@@ -37,5 +45,5 @@ CREATE TABLE IF NOT EXISTS chart_data (
 -- );
 
 -- Indexes for performance
-CREATE INDEX IF NOT EXISTS idx_chart_data_timestamp ON chart_data(timestamp);
-CREATE INDEX IF NOT EXISTS idx_chart_data_group_label ON chart_data(chart_group, label);
+CREATE INDEX IF NOT EXISTS idx_chart_data_timestamp ON chart_data(lastUpdated);
+CREATE INDEX IF NOT EXISTS idx_chart_data_group_label ON chart_data(chartGroup, DataPoint);

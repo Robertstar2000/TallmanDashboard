@@ -34,6 +34,7 @@ export function HelpDialog({ open, onOpenChange }: HelpDialogProps) {
     { name: 'README', path: '/README.md', type: 'md' },
     { name: 'Dashboard Data Flow', path: '/dashboard-data-flow.md', type: 'md' },
     { name: 'SQL Execution Fix', path: '/SQL-EXECUTION-FIX.md', type: 'md' },
+    { name: 'Schema Query Reference', path: '/README-schema-queries.md', type: 'md' },
     { name: 'SQLite Schema', path: '/SQLiteSchema.md', type: 'md' },
     { name: 'P21 Tables', path: '/P21Tables.md', type: 'md' },
     { name: 'POR Tables', path: '/PORTables.md', type: 'md' },

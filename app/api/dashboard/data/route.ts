@@ -82,6 +82,11 @@ export async function GET(request: Request) {
       }
     });
 
+    // Log the grouped data before sending the response
+    console.log('API Response Data:', JSON.stringify(groupedData, null, 2)); 
+    console.log('API - AR Aging Data Count:', groupedData.arAging?.length ?? 0);
+    console.log('API - Accounts Data Count:', groupedData.accounts?.length ?? 0);
+
     return NextResponse.json(groupedData);
 
   } catch (error) {

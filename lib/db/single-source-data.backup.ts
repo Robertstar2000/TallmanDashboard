@@ -1,4 +1,4 @@
-import type { ChartDataRow } from './types';
+﻿import type { ChartDataRow } from './types';
 
 // This type represents the static definition needed for each row.
 // 'id' (db primary key), 'value', 'lastUpdated' are excluded as they are dynamic.
@@ -13,7 +13,7 @@ export const singleSourceData: SourceDataDefinition[] = [
     "DataPoint": "AR Aging - Open AR Amount - Current",
     "serverName": "P21",
     "tableName": "dbo.p21_view_GetOpenAR_dtl",
-    "productionSqlExpression": "SELECT ISNULL(SUM(ArAmountOpen), 0) AS value FROM p21_view_GetOpenAR_dtl WHERE DATEDIFF(day, net_net_due_date, GETDATE()) <= 0;",
+    "productionSqlExpression": "SELECT ISNULL(SUM(ArAmountOpen), 0) AS value FROM p21_view_GetOpenAR_dtl WHERE DATEDIFF(day, net_due_date, GETDATE()) <= 0;",
     "calculationType": "SUM",
     "chartName": "AR Aging",
     "axisStep": "Current"
@@ -25,7 +25,7 @@ export const singleSourceData: SourceDataDefinition[] = [
     "DataPoint": "AR Aging - Open AR Amount - 1-30 days past due", 
     "serverName": "P21",
     "tableName": "dbo.p21_view_GetOpenAR_dtl", 
-    "productionSqlExpression": "SELECT ISNULL(SUM(ArAmountOpen), 0) AS value FROM p21_view_GetOpenAR_dtl WHERE DATEDIFF(day, net_net_due_date, GETDATE()) BETWEEN 1 AND 30;",
+    "productionSqlExpression": "SELECT ISNULL(SUM(ArAmountOpen), 0) AS value FROM p21_view_GetOpenAR_dtl WHERE DATEDIFF(day, net_due_date, GETDATE()) BETWEEN 1 AND 30;",
     "calculationType": "SUM", 
     "chartName": "AR Aging",
     "axisStep": "1-30 days"
@@ -37,7 +37,7 @@ export const singleSourceData: SourceDataDefinition[] = [
     "DataPoint": "AR Aging - Open AR Amount - 31-60 days past due", 
     "serverName": "P21",
     "tableName": "dbo.p21_view_GetOpenAR_dtl", 
-    "productionSqlExpression": "SELECT ISNULL(SUM(ArAmountOpen), 0) AS value FROM p21_view_GetOpenAR_dtl WHERE DATEDIFF(day, net_net_due_date, GETDATE()) BETWEEN 31 AND 60;", 
+    "productionSqlExpression": "SELECT ISNULL(SUM(ArAmountOpen), 0) AS value FROM p21_view_GetOpenAR_dtl WHERE DATEDIFF(day, net_due_date, GETDATE()) BETWEEN 31 AND 60;", 
     "calculationType": "SUM",
     "chartName": "AR Aging",
     "axisStep": "31-60 days"
@@ -49,7 +49,7 @@ export const singleSourceData: SourceDataDefinition[] = [
     "DataPoint": "AR Aging - Open AR Amount - 61-90 days past due", 
     "serverName": "P21",
     "tableName": "dbo.p21_view_GetOpenAR_dtl", 
-    "productionSqlExpression": "SELECT ISNULL(SUM(ArAmountOpen), 0) AS value FROM p21_view_GetOpenAR_dtl WHERE DATEDIFF(day, net_net_due_date, GETDATE()) BETWEEN 61 AND 90;", 
+    "productionSqlExpression": "SELECT ISNULL(SUM(ArAmountOpen), 0) AS value FROM p21_view_GetOpenAR_dtl WHERE DATEDIFF(day, net_due_date, GETDATE()) BETWEEN 61 AND 90;", 
     "calculationType": "SUM", 
     "chartName": "AR Aging",
     "axisStep": "61-90 days"
@@ -61,7 +61,7 @@ export const singleSourceData: SourceDataDefinition[] = [
     "DataPoint": "AR Aging - Open AR Amount - 91+ days past due",
     "serverName": "P21",
     "tableName": "dbo.p21_view_GetOpenAR_dtl", 
-    "productionSqlExpression": "SELECT ISNULL(SUM(ArAmountOpen), 0) AS value FROM dbo.p21_view_GetOpenAR_dtl WHERE DATEDIFF(day, net_net_due_date, GETDATE()) > 90;", 
+    "productionSqlExpression": "SELECT ISNULL(SUM(ArAmountOpen), 0) AS value FROM dbo.p21_view_GetOpenAR_dtl WHERE DATEDIFF(day, net_due_date, GETDATE()) > 90;", 
     "calculationType": "SUM", 
     "chartName": "AR Aging",
     "axisStep": "91+ days"
@@ -102,18 +102,18 @@ export const singleSourceData: SourceDataDefinition[] = [
     "chartName": "Accounts",
     "axisStep": "Month 3"
   },
-{
-  "rowId": "9",
-  "chartGroup": "Accounts",
-  "variableName": "Receivables",
-  "DataPoint": "Accounts - Receivables - Month 4",
-  "serverName": "P21",
-  "tableName": "dbo.invoice_hdr",
-  "productionSqlExpression": "SELECT ISNULL(SUM(total_amount), 0) AS value FROM dbo.invoice_hdr WITH (NOLOCK) WHERE invoice_date >= DATEADD(month, -9, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND invoice_date < DATEADD(month, -8, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0));",
-  "calculationType": "SUM",
-  "chartName": "Accounts",
-  "axisStep": "Month 4"
-},
+  {
+    "rowId": "9",
+    "chartGroup": "Accounts",
+    "variableName": "Receivables",
+    "DataPoint": "Accounts - Receivables - Month 4",
+    "serverName": "P21",
+    "tableName": "dbo.invoice_hdr",
+    "productionSqlExpression": "SELECT ISNULL(SUM(total_amount), 0) AS value FROM dbo.invoice_hdr WHERE invoice_date >= DATEADD(month, -9, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND invoice_date < DATEADD(month, -8, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0));",
+    "calculationType": "SUM",
+    "chartName": "Accounts",
+    "axisStep": "Month 4"
+  },
   {
     "rowId": "10",
     "chartGroup": "Accounts",
@@ -346,8 +346,8 @@ export const singleSourceData: SourceDataDefinition[] = [
     "variableName": "Overdue",
     "DataPoint": "Accounts - Overdue - Month 1", // Corresponds to Apr 2024
     "serverName": "P21",
-    "tableName": "dbo.invoice_hdr",
-    "productionSqlExpression": "SELECT ISNULL(SUM(total_amount - amount_paid), 0) AS value FROM dbo.invoice_hdr WITH (NOLOCK) WHERE invoice_date >= DATEADD(month, -12, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND invoice_date < DATEADD(month, -11, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND paid_in_full_flag <> 'Y' AND net_due_date < GETDATE();",
+    "tableName": "dbo.invoice_hdr", // Table source for AP
+    "productionSqlExpression": "SELECT ISNULL(SUM(total_amount - amount_paid), 0) AS value FROM dbo.invoice_hdr WITH (NOLOCK) WHERE invoice_date >= DATEADD(month, -12, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND invoice_date < DATEADD(month, -11, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND paid_in_full_flag <> 'Y' AND due_date < GETDATE();",
     "calculationType": "SUM",
     "chartName": "Accounts",
     "axisStep": "Month 1"
@@ -358,7 +358,7 @@ export const singleSourceData: SourceDataDefinition[] = [
     "DataPoint": "Accounts - Overdue - Month 2", // Corresponds to May 2024
     "serverName": "P21",
     "tableName": "dbo.invoice_hdr",
-    "productionSqlExpression": "SELECT ISNULL(SUM(total_amount - amount_paid), 0) AS value FROM dbo.invoice_hdr WITH (NOLOCK) WHERE invoice_date >= DATEADD(month, -11, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND invoice_date < DATEADD(month, -10, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND paid_in_full_flag <> 'Y' AND net_due_date < GETDATE();",
+    "productionSqlExpression": "SELECT ISNULL(SUM(total_amount - amount_paid), 0) AS value FROM dbo.invoice_hdr WITH (NOLOCK) WHERE invoice_date >= DATEADD(month, -11, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND invoice_date < DATEADD(month, -10, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND paid_in_full_flag <> 'Y' AND due_date < GETDATE();",
     "calculationType": "SUM",
     "chartName": "Accounts",
     "axisStep": "Month 2"
@@ -369,7 +369,7 @@ export const singleSourceData: SourceDataDefinition[] = [
     "DataPoint": "Accounts - Overdue - Month 3", // Corresponds to Jun 2024
     "serverName": "P21",
     "tableName": "dbo.invoice_hdr",
-    "productionSqlExpression": "SELECT ISNULL(SUM(total_amount - amount_paid), 0) AS value FROM dbo.invoice_hdr WITH (NOLOCK) WHERE invoice_date >= DATEADD(month, -10, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND invoice_date < DATEADD(month, -9, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND paid_in_full_flag <> 'Y' AND net_due_date < GETDATE();",
+    "productionSqlExpression": "SELECT ISNULL(SUM(total_amount - amount_paid), 0) AS value FROM dbo.invoice_hdr WITH (NOLOCK) WHERE invoice_date >= DATEADD(month, -10, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND invoice_date < DATEADD(month, -9, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND paid_in_full_flag <> 'Y' AND due_date < GETDATE();",
     "calculationType": "SUM",
     "chartName": "Accounts",
     "axisStep": "Month 3"
@@ -380,7 +380,7 @@ export const singleSourceData: SourceDataDefinition[] = [
     "DataPoint": "Accounts - Overdue - Month 4", // Corresponds to Jul 2024
     "serverName": "P21",
     "tableName": "dbo.invoice_hdr",
-    "productionSqlExpression": "SELECT ISNULL(SUM(total_amount - amount_paid), 0) AS value FROM dbo.invoice_hdr WITH (NOLOCK) WHERE invoice_date >= DATEADD(month, -9, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND invoice_date < DATEADD(month, -8, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND paid_in_full_flag <> 'Y' AND net_due_date < GETDATE();",
+    "productionSqlExpression": "SELECT ISNULL(SUM(total_amount - amount_paid), 0) AS value FROM dbo.invoice_hdr WITH (NOLOCK) WHERE invoice_date >= DATEADD(month, -9, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND invoice_date < DATEADD(month, -8, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND paid_in_full_flag <> 'Y' AND due_date < GETDATE();",
     "calculationType": "SUM",
     "chartName": "Accounts",
     "axisStep": "Month 4"
@@ -391,7 +391,7 @@ export const singleSourceData: SourceDataDefinition[] = [
     "DataPoint": "Accounts - Overdue - Month 5", // Corresponds to Aug 2024
     "serverName": "P21",
     "tableName": "dbo.invoice_hdr",
-    "productionSqlExpression": "SELECT ISNULL(SUM(total_amount - amount_paid), 0) AS value FROM dbo.invoice_hdr WITH (NOLOCK) WHERE invoice_date >= DATEADD(month, -8, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND invoice_date < DATEADD(month, -7, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND paid_in_full_flag <> 'Y' AND net_due_date < GETDATE();",
+    "productionSqlExpression": "SELECT ISNULL(SUM(total_amount - amount_paid), 0) AS value FROM dbo.invoice_hdr WITH (NOLOCK) WHERE invoice_date >= DATEADD(month, -8, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND invoice_date < DATEADD(month, -7, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND paid_in_full_flag <> 'Y' AND due_date < GETDATE();",
     "calculationType": "SUM",
     "chartName": "Accounts",
     "axisStep": "Month 5"
@@ -402,7 +402,7 @@ export const singleSourceData: SourceDataDefinition[] = [
     "DataPoint": "Accounts - Overdue - Month 6", // Corresponds to Sep 2024
     "serverName": "P21",
     "tableName": "dbo.invoice_hdr",
-    "productionSqlExpression": "SELECT ISNULL(SUM(total_amount - amount_paid), 0) AS value FROM dbo.invoice_hdr WITH (NOLOCK) WHERE invoice_date >= DATEADD(month, -7, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND invoice_date < DATEADD(month, -6, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND paid_in_full_flag <> 'Y' AND net_due_date < GETDATE();",
+    "productionSqlExpression": "SELECT ISNULL(SUM(total_amount - amount_paid), 0) AS value FROM dbo.invoice_hdr WITH (NOLOCK) WHERE invoice_date >= DATEADD(month, -7, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND invoice_date < DATEADD(month, -6, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND paid_in_full_flag <> 'Y' AND due_date < GETDATE();",
     "calculationType": "SUM",
     "chartName": "Accounts",
     "axisStep": "Month 6"
@@ -413,7 +413,7 @@ export const singleSourceData: SourceDataDefinition[] = [
     "DataPoint": "Accounts - Overdue - Month 7", // Corresponds to Oct 2024
     "serverName": "P21",
     "tableName": "dbo.invoice_hdr",
-    "productionSqlExpression": "SELECT ISNULL(SUM(total_amount - amount_paid), 0) AS value FROM dbo.invoice_hdr WITH (NOLOCK) WHERE invoice_date >= DATEADD(month, -6, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND invoice_date < DATEADD(month, -5, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND paid_in_full_flag <> 'Y' AND net_due_date < GETDATE();",
+    "productionSqlExpression": "SELECT ISNULL(SUM(total_amount - amount_paid), 0) AS value FROM dbo.invoice_hdr WITH (NOLOCK) WHERE invoice_date >= DATEADD(month, -6, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND invoice_date < DATEADD(month, -5, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND paid_in_full_flag <> 'Y' AND due_date < GETDATE();",
     "calculationType": "SUM",
     "chartName": "Accounts",
     "axisStep": "Month 7"
@@ -424,7 +424,7 @@ export const singleSourceData: SourceDataDefinition[] = [
     "DataPoint": "Accounts - Overdue - Month 8", // Corresponds to Nov 2024
     "serverName": "P21",
     "tableName": "dbo.invoice_hdr",
-    "productionSqlExpression": "SELECT ISNULL(SUM(total_amount - amount_paid), 0) AS value FROM dbo.invoice_hdr WITH (NOLOCK) WHERE invoice_date >= DATEADD(month, -5, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND invoice_date < DATEADD(month, -4, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND paid_in_full_flag <> 'Y' AND net_due_date < GETDATE();",
+    "productionSqlExpression": "SELECT ISNULL(SUM(total_amount - amount_paid), 0) AS value FROM dbo.invoice_hdr WITH (NOLOCK) WHERE invoice_date >= DATEADD(month, -5, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND invoice_date < DATEADD(month, -4, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND paid_in_full_flag <> 'Y' AND due_date < GETDATE();",
     "calculationType": "SUM",
     "chartName": "Accounts",
     "axisStep": "Month 8"
@@ -435,7 +435,7 @@ export const singleSourceData: SourceDataDefinition[] = [
     "DataPoint": "Accounts - Overdue - Month 9", // Corresponds to Dec 2024
     "serverName": "P21",
     "tableName": "dbo.invoice_hdr",
-    "productionSqlExpression": "SELECT ISNULL(SUM(total_amount - amount_paid), 0) AS value FROM dbo.invoice_hdr WITH (NOLOCK) WHERE invoice_date >= DATEADD(month, -4, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND invoice_date < DATEADD(month, -3, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND paid_in_full_flag <> 'Y' AND net_due_date < GETDATE();",
+    "productionSqlExpression": "SELECT ISNULL(SUM(total_amount - amount_paid), 0) AS value FROM dbo.invoice_hdr WITH (NOLOCK) WHERE invoice_date >= DATEADD(month, -4, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND invoice_date < DATEADD(month, -3, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND paid_in_full_flag <> 'Y' AND due_date < GETDATE();",
     "calculationType": "SUM",
     "chartName": "Accounts",
     "axisStep": "Month 9"
@@ -446,7 +446,7 @@ export const singleSourceData: SourceDataDefinition[] = [
     "DataPoint": "Accounts - Overdue - Month 10", // Corresponds to Jan 2025
     "serverName": "P21",
     "tableName": "dbo.invoice_hdr",
-    "productionSqlExpression": "SELECT ISNULL(SUM(total_amount - amount_paid), 0) AS value FROM dbo.invoice_hdr WITH (NOLOCK) WHERE invoice_date >= DATEADD(month, -3, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND invoice_date < DATEADD(month, -2, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND paid_in_full_flag <> 'Y' AND net_due_date < GETDATE();",
+    "productionSqlExpression": "SELECT ISNULL(SUM(total_amount - amount_paid), 0) AS value FROM dbo.invoice_hdr WITH (NOLOCK) WHERE invoice_date >= DATEADD(month, -3, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND invoice_date < DATEADD(month, -2, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND paid_in_full_flag <> 'Y' AND due_date < GETDATE();",
     "calculationType": "SUM",
     "chartName": "Accounts",
     "axisStep": "Month 10"
@@ -457,7 +457,7 @@ export const singleSourceData: SourceDataDefinition[] = [
     "DataPoint": "Accounts - Overdue - Month 11", // Corresponds to Feb 2025
     "serverName": "P21",
     "tableName": "dbo.invoice_hdr",
-    "productionSqlExpression": "SELECT ISNULL(SUM(total_amount - amount_paid), 0) AS value FROM dbo.invoice_hdr WITH (NOLOCK) WHERE invoice_date >= DATEADD(month, -2, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND invoice_date < DATEADD(month, -1, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND paid_in_full_flag <> 'Y' AND net_due_date < GETDATE();",
+    "productionSqlExpression": "SELECT ISNULL(SUM(total_amount - amount_paid), 0) AS value FROM dbo.invoice_hdr WITH (NOLOCK) WHERE invoice_date >= DATEADD(month, -2, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND invoice_date < DATEADD(month, -1, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND paid_in_full_flag <> 'Y' AND due_date < GETDATE();",
     "calculationType": "SUM",
     "chartName": "Accounts",
     "axisStep": "Month 11"
@@ -468,7 +468,7 @@ export const singleSourceData: SourceDataDefinition[] = [
     "DataPoint": "Accounts - Overdue - Month 12", // Corresponds to Mar 2025
     "serverName": "P21",
     "tableName": "dbo.invoice_hdr",
-    "productionSqlExpression": "SELECT ISNULL(SUM(total_amount - amount_paid), 0) AS value FROM dbo.invoice_hdr WITH (NOLOCK) WHERE invoice_date >= DATEADD(month, -1, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND invoice_date < DATEADD(month, -0, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND paid_in_full_flag <> 'Y' AND net_due_date < GETDATE();",
+    "productionSqlExpression": "SELECT ISNULL(SUM(total_amount - amount_paid), 0) AS value FROM dbo.invoice_hdr WITH (NOLOCK) WHERE invoice_date >= DATEADD(month, -1, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND invoice_date < DATEADD(month, -0, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND paid_in_full_flag <> 'Y' AND due_date < GETDATE();",
     "calculationType": "SUM",
     "chartName": "Accounts",
     "axisStep": "Month 12"
@@ -479,7 +479,7 @@ export const singleSourceData: SourceDataDefinition[] = [
     "DataPoint": "Customer Metrics - Prospects - Month 1",
     "serverName": "P21",
     "tableName": "dbo.customer",
-    "productionSqlExpression": "SELECT COUNT(customer_id) AS value FROM dbo.customer WITH (NOLOCK) WHERE customer_type_cd = 1203 AND date_created >= DATEADD(month, -12, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND date_created < DATEADD(month, -11, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0));",
+    "productionSqlExpression": "SELECT COUNT(customer_id) AS value FROM dbo.customer WITH (NOLOCK) WHERE status = 'Prospect' AND create_date >= DATEADD(month, -12, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND create_date < DATEADD(month, -11, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0));",
     "calculationType": "COUNT",
     "chartName": "Customer Metrics",
     "axisStep": "Month 1"
@@ -490,7 +490,7 @@ export const singleSourceData: SourceDataDefinition[] = [
     "DataPoint": "Customer Metrics - Prospects - Month 2",
     "serverName": "P21",
     "tableName": "dbo.customer",
-    "productionSqlExpression": "SELECT COUNT(customer_id) AS value FROM dbo.customer WITH (NOLOCK) WHERE customer_type_cd = 1203 AND date_created >= DATEADD(month, -11, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND date_created < DATEADD(month, -10, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0));",
+    "productionSqlExpression": "SELECT COUNT(customer_id) AS value FROM dbo.customer WITH (NOLOCK) WHERE status = 'Prospect' AND create_date >= DATEADD(month, -11, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND create_date < DATEADD(month, -10, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0));",
     "calculationType": "COUNT",
     "chartName": "Customer Metrics",
     "axisStep": "Month 2"
@@ -501,7 +501,7 @@ export const singleSourceData: SourceDataDefinition[] = [
     "DataPoint": "Customer Metrics - Prospects - Month 3",
     "serverName": "P21",
     "tableName": "dbo.customer",
-    "productionSqlExpression": "SELECT COUNT(customer_id) AS value FROM dbo.customer WITH (NOLOCK) WHERE customer_type_cd = 1203 AND date_created >= DATEADD(month, -10, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND date_created < DATEADD(month, -9, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0));",
+    "productionSqlExpression": "SELECT COUNT(customer_id) AS value FROM dbo.customer WITH (NOLOCK) WHERE status = 'Prospect' AND create_date >= DATEADD(month, -10, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND create_date < DATEADD(month, -9, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0));",
     "calculationType": "COUNT",
     "chartName": "Customer Metrics",
     "axisStep": "Month 3"
@@ -512,7 +512,7 @@ export const singleSourceData: SourceDataDefinition[] = [
     "DataPoint": "Customer Metrics - Prospects - Month 4",
     "serverName": "P21",
     "tableName": "dbo.customer",
-    "productionSqlExpression": "SELECT COUNT(customer_id) AS value FROM dbo.customer WITH (NOLOCK) WHERE customer_type_cd = 1203 AND date_created >= DATEADD(month, -9, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND date_created < DATEADD(month, -8, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0));",
+    "productionSqlExpression": "SELECT COUNT(customer_id) AS value FROM dbo.customer WITH (NOLOCK) WHERE status = 'Prospect' AND create_date >= DATEADD(month, -9, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND create_date < DATEADD(month, -8, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0));",
     "calculationType": "COUNT",
     "chartName": "Customer Metrics",
     "axisStep": "Month 4"
@@ -523,7 +523,7 @@ export const singleSourceData: SourceDataDefinition[] = [
     "DataPoint": "Customer Metrics - Prospects - Month 5",
     "serverName": "P21",
     "tableName": "dbo.customer",
-    "productionSqlExpression": "SELECT COUNT(customer_id) AS value FROM dbo.customer WITH (NOLOCK) WHERE customer_type_cd = 1203 AND date_created >= DATEADD(month, -8, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND date_created < DATEADD(month, -7, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0));",
+    "productionSqlExpression": "SELECT COUNT(customer_id) AS value FROM dbo.customer WITH (NOLOCK) WHERE status = 'Prospect' AND create_date >= DATEADD(month, -8, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND create_date < DATEADD(month, -7, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0));",
     "calculationType": "COUNT",
     "chartName": "Customer Metrics",
     "axisStep": "Month 5"
@@ -534,7 +534,7 @@ export const singleSourceData: SourceDataDefinition[] = [
     "DataPoint": "Customer Metrics - Prospects - Month 6",
     "serverName": "P21",
     "tableName": "dbo.customer",
-    "productionSqlExpression": "SELECT COUNT(customer_id) AS value FROM dbo.customer WITH (NOLOCK) WHERE customer_type_cd = 1203 AND date_created >= DATEADD(month, -7, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND date_created < DATEADD(month, -6, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0));",
+    "productionSqlExpression": "SELECT COUNT(customer_id) AS value FROM dbo.customer WITH (NOLOCK) WHERE status = 'Prospect' AND create_date >= DATEADD(month, -7, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND create_date < DATEADD(month, -6, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0));",
     "calculationType": "COUNT",
     "chartName": "Customer Metrics",
     "axisStep": "Month 6"
@@ -545,7 +545,7 @@ export const singleSourceData: SourceDataDefinition[] = [
     "DataPoint": "Customer Metrics - Prospects - Month 7",
     "serverName": "P21",
     "tableName": "dbo.customer",
-    "productionSqlExpression": "SELECT COUNT(customer_id) AS value FROM dbo.customer WITH (NOLOCK) WHERE customer_type_cd = 1203 AND date_created >= DATEADD(month, -6, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND date_created < DATEADD(month, -5, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0));",
+    "productionSqlExpression": "SELECT COUNT(customer_id) AS value FROM dbo.customer WITH (NOLOCK) WHERE status = 'Prospect' AND create_date >= DATEADD(month, -6, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND create_date < DATEADD(month, -5, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0));",
     "calculationType": "COUNT",
     "chartName": "Customer Metrics",
     "axisStep": "Month 7"
@@ -556,7 +556,7 @@ export const singleSourceData: SourceDataDefinition[] = [
     "DataPoint": "Customer Metrics - Prospects - Month 8",
     "serverName": "P21",
     "tableName": "dbo.customer",
-    "productionSqlExpression": "SELECT COUNT(customer_id) AS value FROM dbo.customer WITH (NOLOCK) WHERE customer_type_cd = 1203 AND date_created >= DATEADD(month, -5, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND date_created < DATEADD(month, -4, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0));",
+    "productionSqlExpression": "SELECT COUNT(customer_id) AS value FROM dbo.customer WITH (NOLOCK) WHERE status = 'Prospect' AND create_date >= DATEADD(month, -5, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND create_date < DATEADD(month, -4, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0));",
     "calculationType": "COUNT",
     "chartName": "Customer Metrics",
     "axisStep": "Month 8"
@@ -567,7 +567,7 @@ export const singleSourceData: SourceDataDefinition[] = [
     "DataPoint": "Customer Metrics - Prospects - Month 9",
     "serverName": "P21",
     "tableName": "dbo.customer",
-    "productionSqlExpression": "SELECT COUNT(customer_id) AS value FROM dbo.customer WITH (NOLOCK) WHERE customer_type_cd = 1203 AND date_created >= DATEADD(month, -4, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND date_created < DATEADD(month, -3, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0));",
+    "productionSqlExpression": "SELECT COUNT(customer_id) AS value FROM dbo.customer WITH (NOLOCK) WHERE status = 'Prospect' AND create_date >= DATEADD(month, -4, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND create_date < DATEADD(month, -3, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0));",
     "calculationType": "COUNT",
     "chartName": "Customer Metrics",
     "axisStep": "Month 9"
@@ -578,7 +578,7 @@ export const singleSourceData: SourceDataDefinition[] = [
     "DataPoint": "Customer Metrics - Prospects - Month 10",
     "serverName": "P21",
     "tableName": "dbo.customer",
-    "productionSqlExpression": "SELECT COUNT(customer_id) AS value FROM dbo.customer WITH (NOLOCK) WHERE customer_type_cd = 1203 AND date_created >= DATEADD(month, -3, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND date_created < DATEADD(month, -2, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0));",
+    "productionSqlExpression": "SELECT COUNT(customer_id) AS value FROM dbo.customer WITH (NOLOCK) WHERE status = 'Prospect' AND create_date >= DATEADD(month, -3, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND create_date < DATEADD(month, -2, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0));",
     "calculationType": "COUNT",
     "chartName": "Customer Metrics",
     "axisStep": "Month 10"
@@ -589,7 +589,7 @@ export const singleSourceData: SourceDataDefinition[] = [
     "DataPoint": "Customer Metrics - Prospects - Month 11",
     "serverName": "P21",
     "tableName": "dbo.customer",
-    "productionSqlExpression": "SELECT COUNT(customer_id) AS value FROM dbo.customer WITH (NOLOCK) WHERE customer_type_cd = 1203 AND date_created >= DATEADD(month, -2, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND date_created < DATEADD(month, -1, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0));",
+    "productionSqlExpression": "SELECT COUNT(customer_id) AS value FROM dbo.customer WITH (NOLOCK) WHERE status = 'Prospect' AND create_date >= DATEADD(month, -2, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND create_date < DATEADD(month, -1, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0));",
     "calculationType": "COUNT",
     "chartName": "Customer Metrics",
     "axisStep": "Month 11"
@@ -600,7 +600,7 @@ export const singleSourceData: SourceDataDefinition[] = [
     "DataPoint": "Customer Metrics - Prospects - Month 12",
     "serverName": "P21",
     "tableName": "dbo.customer",
-    "productionSqlExpression": "SELECT COUNT(customer_id) AS value FROM dbo.customer WITH (NOLOCK) WHERE customer_type_cd = 1203 AND date_created >= DATEADD(month, -1, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND date_created < DATEADD(month, 0, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0));",
+    "productionSqlExpression": "SELECT COUNT(customer_id) AS value FROM dbo.customer WITH (NOLOCK) WHERE status = 'Prospect' AND create_date >= DATEADD(month, -1, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND create_date < DATEADD(month, 0, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0));",
     "calculationType": "COUNT",
     "chartName": "Customer Metrics",
     "axisStep": "Month 12"
@@ -611,7 +611,7 @@ export const singleSourceData: SourceDataDefinition[] = [
     "DataPoint": "Customer Metrics - New Customers - Month 1",
     "serverName": "P21",
     "tableName": "dbo.Customers",
-    "productionSqlExpression": "SELECT COUNT(customer_id) AS value FROM dbo.customer WHERE date_created >= DATEADD(month, -12, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND date_created < DATEADD(month, -11, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0));",
+    "productionSqlExpression": "SELECT COUNT(customer_id) AS value FROM dbo.customer WHERE create_date >= DATEADD(month, -12, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND create_date < DATEADD(month, -11, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0));",
     "calculationType": "COUNT",
     "chartName": "Customer Metrics",
     "axisStep": "Month 1"
@@ -622,7 +622,7 @@ export const singleSourceData: SourceDataDefinition[] = [
     "DataPoint": "Customer Metrics - New Customers - Month 2",
     "serverName": "P21",
     "tableName": "dbo.Customers",
-    "productionSqlExpression": "SELECT COUNT(customer_id) AS value FROM dbo.customer WITH (NOLOCK) WHERE date_created >= DATEADD(month, -11, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND date_created < DATEADD(month, -10, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0));",
+    "productionSqlExpression": "SELECT COUNT(customer_id) AS value FROM dbo.customer WHERE create_date >= DATEADD(month, -11, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND create_date < DATEADD(month, -10, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0));",
     "calculationType": "COUNT",
     "chartName": "Customer Metrics",
     "axisStep": "Month 2"
@@ -633,7 +633,7 @@ export const singleSourceData: SourceDataDefinition[] = [
     "DataPoint": "Customer Metrics - New Customers - Month 3",
     "serverName": "P21",
     "tableName": "dbo.Customers",
-    "productionSqlExpression": "SELECT COUNT(customer_id) AS value FROM dbo.customer WHERE date_created >= DATEADD(month, -10, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND date_created < DATEADD(month, -9, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0));",
+    "productionSqlExpression": "SELECT COUNT(customer_id) AS value FROM dbo.customer WHERE create_date >= DATEADD(month, -10, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND create_date < DATEADD(month, -9, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0));",
     "calculationType": "COUNT",
     "chartName": "Customer Metrics",
     "axisStep": "Month 3"
@@ -644,7 +644,7 @@ export const singleSourceData: SourceDataDefinition[] = [
     "DataPoint": "Customer Metrics - New Customers - Month 4",
     "serverName": "P21",
     "tableName": "dbo.Customers",
-    "productionSqlExpression": "SELECT COUNT(customer_id) AS value FROM dbo.customer WITH (NOLOCK) WHERE date_created >= DATEADD(month, -13, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND date_created < DATEADD(month, -12, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0));",
+    "productionSqlExpression": "SELECT COUNT(customer_id) AS value FROM dbo.customer WHERE create_date >= DATEADD(month, -9, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND create_date < DATEADD(month, -8, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0));",
     "calculationType": "COUNT",
     "chartName": "Customer Metrics",
     "axisStep": "Month 4"
@@ -655,7 +655,7 @@ export const singleSourceData: SourceDataDefinition[] = [
     "DataPoint": "Customer Metrics - New Customers - Month 5",
     "serverName": "P21",
     "tableName": "dbo.Customers",
-    "productionSqlExpression": "SELECT COUNT(customer_id) AS value FROM dbo.customer WHERE date_created >= DATEADD(month, -8, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND date_created < DATEADD(month, -7, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0));",
+    "productionSqlExpression": "SELECT COUNT(customer_id) AS value FROM dbo.customer WHERE create_date >= DATEADD(month, -8, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND create_date < DATEADD(month, -7, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0));",
     "calculationType": "COUNT",
     "chartName": "Customer Metrics",
     "axisStep": "Month 5"
@@ -666,7 +666,7 @@ export const singleSourceData: SourceDataDefinition[] = [
     "DataPoint": "Customer Metrics - New Customers - Month 6",
     "serverName": "P21",
     "tableName": "dbo.Customers",
-    "productionSqlExpression": "SELECT COUNT(customer_id) AS value FROM dbo.customer WITH (NOLOCK) WHERE date_created >= DATEADD(month, -15, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND date_created < DATEADD(month, -14, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0));",
+    "productionSqlExpression": "SELECT COUNT(customer_id) AS value FROM dbo.customer WHERE create_date >= DATEADD(month, -7, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND create_date < DATEADD(month, -6, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0));",
     "calculationType": "COUNT",
     "chartName": "Customer Metrics",
     "axisStep": "Month 6"
@@ -677,7 +677,7 @@ export const singleSourceData: SourceDataDefinition[] = [
     "DataPoint": "Customer Metrics - New Customers - Month 7",
     "serverName": "P21",
     "tableName": "dbo.Customers",
-    "productionSqlExpression": "SELECT COUNT(customer_id) AS value FROM dbo.customer WHERE date_created >= DATEADD(month, -6, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND date_created < DATEADD(month, -5, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0));",
+    "productionSqlExpression": "SELECT COUNT(customer_id) AS value FROM dbo.customer WHERE create_date >= DATEADD(month, -6, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND create_date < DATEADD(month, -5, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0));",
     "calculationType": "COUNT",
     "chartName": "Customer Metrics",
     "axisStep": "Month 7"
@@ -688,7 +688,7 @@ export const singleSourceData: SourceDataDefinition[] = [
     "DataPoint": "Customer Metrics - New Customers - Month 8",
     "serverName": "P21",
     "tableName": "dbo.Customers",
-    "productionSqlExpression": "SELECT COUNT(customer_id) AS value FROM dbo.customer WITH (NOLOCK) WHERE date_created >= DATEADD(month, -17, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND date_created < DATEADD(month, -16, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0));",
+    "productionSqlExpression": "SELECT COUNT(customer_id) AS value FROM dbo.customer WHERE create_date >= DATEADD(month, -5, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND create_date < DATEADD(month, -4, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0));",
     "calculationType": "COUNT",
     "chartName": "Customer Metrics",
     "axisStep": "Month 8"
@@ -699,7 +699,7 @@ export const singleSourceData: SourceDataDefinition[] = [
     "DataPoint": "Customer Metrics - New Customers - Month 9",
     "serverName": "P21",
     "tableName": "dbo.Customers",
-    "productionSqlExpression": "SELECT COUNT(customer_id) AS value FROM dbo.customer WHERE date_created >= DATEADD(month, -4, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND date_created < DATEADD(month, -3, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0));",
+    "productionSqlExpression": "SELECT COUNT(customer_id) AS value FROM dbo.customer WHERE create_date >= DATEADD(month, -4, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND create_date < DATEADD(month, -3, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0));",
     "calculationType": "COUNT",
     "chartName": "Customer Metrics",
     "axisStep": "Month 9"
@@ -710,7 +710,7 @@ export const singleSourceData: SourceDataDefinition[] = [
     "DataPoint": "Customer Metrics - New Customers - Month 10",
     "serverName": "P21",
     "tableName": "dbo.Customers",
-    "productionSqlExpression": "SELECT COUNT(customer_id) AS value FROM dbo.customer WITH (NOLOCK) WHERE date_created >= DATEADD(month, -19, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND date_created < DATEADD(month, -18, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0));",
+    "productionSqlExpression": "SELECT COUNT(customer_id) AS value FROM dbo.customer WHERE create_date >= DATEADD(month, -3, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND create_date < DATEADD(month, -2, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0));",
     "calculationType": "COUNT",
     "chartName": "Customer Metrics",
     "axisStep": "Month 10"
@@ -721,7 +721,7 @@ export const singleSourceData: SourceDataDefinition[] = [
     "DataPoint": "Customer Metrics - New Customers - Month 11",
     "serverName": "P21",
     "tableName": "dbo.Customers",
-    "productionSqlExpression": "SELECT COUNT(customer_id) AS value FROM dbo.customer WHERE date_created >= DATEADD(month, -2, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND date_created < DATEADD(month, -1, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0));",
+    "productionSqlExpression": "SELECT COUNT(customer_id) AS value FROM dbo.customer WHERE create_date >= DATEADD(month, -2, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND create_date < DATEADD(month, -1, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0));",
     "calculationType": "COUNT",
     "chartName": "Customer Metrics",
     "axisStep": "Month 11"
@@ -732,37 +732,37 @@ export const singleSourceData: SourceDataDefinition[] = [
     "DataPoint": "Customer Metrics - New Customers - Month 12",
     "serverName": "P21",
     "tableName": "dbo.Customers",
-    "productionSqlExpression": "SELECT COUNT(customer_id) AS value FROM dbo.customer WITH (NOLOCK) WHERE date_created >= DATEADD(month, -21, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND date_created < DATEADD(month, -20, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0));",
+    "productionSqlExpression": "SELECT COUNT(customer_id) AS value FROM dbo.customer WHERE create_date >= DATEADD(month, -1, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND create_date < DATEADD(month, 0, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0));",
     "calculationType": "COUNT",
     "chartName": "Customer Metrics",
     "axisStep": "Month 12"
   },
   {"rowId": "90",
-    "chartGroup": "Total Orders",
-    "variableName": "total_orders",
-    "DataPoint": "total_orders - All orders last 30 days",
+    "chartGroup": "Daily Orders",
+    "variableName": "Order count",
+    "DataPoint": "Daily Orders - Order count - Today-6",
     "serverName": "P21",
     "tableName": "dbo.SOMAST",
-    "productionSqlExpression": "SELECT COUNT(order_no) AS value FROM dbo.oe_hdr WITH (NOLOCK) WHERE CAST(order_date AS DATE) = CAST(DATEADD(day, -5, GETDATE()) AS DATE);",
+    "productionSqlExpression": "SELECT COUNT(order_no) AS value FROM dbo.oe_hdr WHERE CAST(order_date AS DATE) = CAST(DATEADD(day, -6, GETDATE()) AS DATE);",
     "calculationType": "COUNT",
-    "chartName": "Total Orders",
-    "axisStep": "Value"
+    "chartName": "Daily Orders",
+    "axisStep": "Today-6"
   },
   {"rowId": "91",
-    "chartGroup": "Open Orders",
-    "variableName": "open_orders",
-    "DataPoint": "Open Orders - Open orders in last 30 days",
+    "chartGroup": "Daily Orders",
+    "variableName": "Order count",
+    "DataPoint": "Daily Orders - Order count - Today-5",
     "serverName": "P21",
     "tableName": "dbo.SOMAST",
-    "productionSqlExpression": "SELECT COUNT(order_no) AS value FROM dbo.oe_hdr WITH (NOLOCK)WHERE order_date >= DATEADD(day, -30, CAST(GETDATE() AS DATE)) AND order_date < CAST(GETDATE() AS DATE) AND (completed IS NULL OR completed <> 'Y') AND (cancel_flag IS NULL OR cancel_flag <> 'Y');",
+    "productionSqlExpression": "SELECT COUNT(order_no) AS value FROM dbo.oe_hdr WHERE CAST(order_date AS DATE) = CAST(DATEADD(day, -5, GETDATE()) AS DATE);",
     "calculationType": "COUNT",
-    "chartName": "Open Orders",
-    "axisStep": "value"
+    "chartName": "Daily Orders",
+    "axisStep": "Today-5"
   },
   {"rowId": "92",
-    "chartGroup": "Open Orders",
-    "variableName": "Open_orders_count",
-    "DataPoint": "Open Orders - Open_orders_count - Today-4",
+    "chartGroup": "Daily Orders",
+    "variableName": "Order count",
+    "DataPoint": "Daily Orders - Order count - Today-4",
     "serverName": "P21",
     "tableName": "dbo.SOMAST",
     "productionSqlExpression": "SELECT COUNT(order_no) AS value FROM dbo.oe_hdr WHERE CAST(order_date AS DATE) = CAST(DATEADD(day, -4, GETDATE()) AS DATE);",
@@ -819,8 +819,8 @@ export const singleSourceData: SourceDataDefinition[] = [
     "variableName": "Sales P21",
     "DataPoint": "Historical Data - Sales P21 - Month 1",
     "serverName": "P21",
-    "tableName": "dbo.invoice_hdr",
-    "productionSqlExpression": "SELECT ISNULL(SUM(total_amount), 0) AS value FROM dbo.invoice_hdr WITH (NOLOCK) WHERE invoice_date >= DATEADD(month, -12, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND invoice_date < DATEADD(month, -11, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0));",
+    "tableName": "dbo.SOMAST",
+    "productionSqlExpression": "SELECT ISNULL(SUM(invoice_total), 0) AS value FROM dbo.somast WHERE invoice_date >= DATEADD(month, -12, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND invoice_date < DATEADD(month, -11, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0));",
     "calculationType": "SUM",
     "chartName": "Historical Data",
     "axisStep": "Month 1"
@@ -830,8 +830,8 @@ export const singleSourceData: SourceDataDefinition[] = [
     "variableName": "Sales P21",
     "DataPoint": "Historical Data - Sales P21 - Month 2",
     "serverName": "P21",
-    "tableName": "dbo.invoice_hdr",
-    "productionSqlExpression": "SELECT ISNULL(SUM(total_amount), 0) AS value FROM dbo.invoice_hdr WITH (NOLOCK) WHERE invoice_date >= DATEADD(month, -11, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND invoice_date < DATEADD(month, -10, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0));",
+    "tableName": "dbo.SOMAST",
+    "productionSqlExpression": "SELECT ISNULL(SUM(invoice_total), 0) AS value FROM dbo.somast WHERE invoice_date >= DATEADD(month, -11, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND invoice_date < DATEADD(month, -10, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0));",
     "calculationType": "SUM",
     "chartName": "Historical Data",
     "axisStep": "Month 2"
@@ -841,8 +841,8 @@ export const singleSourceData: SourceDataDefinition[] = [
     "variableName": "Sales P21",
     "DataPoint": "Historical Data - Sales P21 - Month 3",
     "serverName": "P21",
-    "tableName": "dbo.invoice_hdr",
-    "productionSqlExpression": "SELECT ISNULL(SUM(total_amount), 0) AS value FROM dbo.invoice_hdr WITH (NOLOCK) WHERE invoice_date >= DATEADD(month, -10, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND invoice_date < DATEADD(month, -9, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0));",
+    "tableName": "dbo.SOMAST",
+    "productionSqlExpression": "SELECT ISNULL(SUM(invoice_total), 0) AS value FROM dbo.somast WHERE invoice_date >= DATEADD(month, -10, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND invoice_date < DATEADD(month, -9, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0));",
     "calculationType": "SUM",
     "chartName": "Historical Data",
     "axisStep": "Month 3"
@@ -852,8 +852,8 @@ export const singleSourceData: SourceDataDefinition[] = [
     "variableName": "Sales P21",
     "DataPoint": "Historical Data - Sales P21 - Month 4",
     "serverName": "P21",
-    "tableName": "dbo.invoice_hdr",
-    "productionSqlExpression": "SELECT ISNULL(SUM(total_amount), 0) AS value FROM dbo.invoice_hdr WITH (NOLOCK) WHERE invoice_date >= DATEADD(month, -9, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND invoice_date < DATEADD(month, -8, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0));",
+    "tableName": "dbo.SOMAST",
+    "productionSqlExpression": "SELECT ISNULL(SUM(invoice_total), 0) AS value FROM dbo.somast WHERE invoice_date >= DATEADD(month, -9, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND invoice_date < DATEADD(month, -8, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0));",
     "calculationType": "SUM",
     "chartName": "Historical Data",
     "axisStep": "Month 4"
@@ -863,8 +863,8 @@ export const singleSourceData: SourceDataDefinition[] = [
     "variableName": "Sales P21",
     "DataPoint": "Historical Data - Sales P21 - Month 5",
     "serverName": "P21",
-    "tableName": "dbo.invoice_hdr",
-    "productionSqlExpression": "SELECT ISNULL(SUM(total_amount), 0) AS value FROM dbo.invoice_hdr WITH (NOLOCK) WHERE invoice_date >= DATEADD(month, -8, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND invoice_date < DATEADD(month, -7, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0));",
+    "tableName": "dbo.SOMAST",
+    "productionSqlExpression": "SELECT ISNULL(SUM(invoice_total), 0) AS value FROM dbo.somast WHERE invoice_date >= DATEADD(month, -8, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND invoice_date < DATEADD(month, -7, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0));",
     "calculationType": "SUM",
     "chartName": "Historical Data",
     "axisStep": "Month 5"
@@ -874,8 +874,8 @@ export const singleSourceData: SourceDataDefinition[] = [
     "variableName": "Sales P21",
     "DataPoint": "Historical Data - Sales P21 - Month 6",
     "serverName": "P21",
-    "tableName": "dbo.invoice_hdr",
-    "productionSqlExpression": "SELECT ISNULL(SUM(total_amount), 0) AS value FROM dbo.invoice_hdr WITH (NOLOCK) WHERE invoice_date >= DATEADD(month, -7, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND invoice_date < DATEADD(month, -6, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0));",
+    "tableName": "dbo.SOMAST",
+    "productionSqlExpression": "SELECT ISNULL(SUM(invoice_total), 0) AS value FROM dbo.somast WHERE invoice_date >= DATEADD(month, -7, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND invoice_date < DATEADD(month, -6, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0));",
     "calculationType": "SUM",
     "chartName": "Historical Data",
     "axisStep": "Month 6"
@@ -885,8 +885,8 @@ export const singleSourceData: SourceDataDefinition[] = [
     "variableName": "Sales P21",
     "DataPoint": "Historical Data - Sales P21 - Month 7",
     "serverName": "P21",
-    "tableName": "dbo.invoice_hdr",
-    "productionSqlExpression": "SELECT ISNULL(SUM(total_amount), 0) AS value FROM dbo.invoice_hdr WITH (NOLOCK) WHERE invoice_date >= DATEADD(month, -6, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND invoice_date < DATEADD(month, -5, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0));",
+    "tableName": "dbo.SOMAST",
+    "productionSqlExpression": "SELECT ISNULL(SUM(invoice_total), 0) AS value FROM dbo.somast WHERE invoice_date >= DATEADD(month, -6, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND invoice_date < DATEADD(month, -5, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0));",
     "calculationType": "SUM",
     "chartName": "Historical Data",
     "axisStep": "Month 7"
@@ -896,8 +896,8 @@ export const singleSourceData: SourceDataDefinition[] = [
     "variableName": "Sales P21",
     "DataPoint": "Historical Data - Sales P21 - Month 8",
     "serverName": "P21",
-    "tableName": "dbo.invoice_hdr",
-    "productionSqlExpression": "SELECT ISNULL(SUM(total_amount), 0) AS value FROM dbo.invoice_hdr WITH (NOLOCK) WHERE invoice_date >= DATEADD(month, -5, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND invoice_date < DATEADD(month, -4, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0));",
+    "tableName": "dbo.SOMAST",
+    "productionSqlExpression": "SELECT ISNULL(SUM(invoice_total), 0) AS value FROM dbo.somast WHERE invoice_date >= DATEADD(month, -5, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND invoice_date < DATEADD(month, -4, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0));",
     "calculationType": "SUM",
     "chartName": "Historical Data",
     "axisStep": "Month 8"
@@ -907,8 +907,8 @@ export const singleSourceData: SourceDataDefinition[] = [
     "variableName": "Sales P21",
     "DataPoint": "Historical Data - Sales P21 - Month 9",
     "serverName": "P21",
-    "tableName": "dbo.invoice_hdr",
-    "productionSqlExpression": "SELECT ISNULL(SUM(total_amount), 0) AS value FROM dbo.invoice_hdr WITH (NOLOCK) WHERE invoice_date >= DATEADD(month, -4, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND invoice_date < DATEADD(month, -3, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0));",
+    "tableName": "dbo.SOMAST",
+    "productionSqlExpression": "SELECT ISNULL(SUM(invoice_total), 0) AS value FROM dbo.somast WHERE invoice_date >= DATEADD(month, -4, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND invoice_date < DATEADD(month, -3, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0));",
     "calculationType": "SUM",
     "chartName": "Historical Data",
     "axisStep": "Month 9"
@@ -918,8 +918,8 @@ export const singleSourceData: SourceDataDefinition[] = [
     "variableName": "Sales P21",
     "DataPoint": "Historical Data - Sales P21 - Month 10",
     "serverName": "P21",
-    "tableName": "dbo.invoice_hdr",
-    "productionSqlExpression": "SELECT ISNULL(SUM(total_amount), 0) AS value FROM dbo.invoice_hdr WITH (NOLOCK) WHERE invoice_date >= DATEADD(month, -3, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND invoice_date < DATEADD(month, -2, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0));",
+    "tableName": "dbo.SOMAST",
+    "productionSqlExpression": "SELECT ISNULL(SUM(invoice_total), 0) AS value FROM dbo.somast WHERE invoice_date >= DATEADD(month, -3, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND invoice_date < DATEADD(month, -2, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0));",
     "calculationType": "SUM",
     "chartName": "Historical Data",
     "axisStep": "Month 10"
@@ -929,8 +929,8 @@ export const singleSourceData: SourceDataDefinition[] = [
     "variableName": "Sales P21",
     "DataPoint": "Historical Data - Sales P21 - Month 11",
     "serverName": "P21",
-    "tableName": "dbo.invoice_hdr",
-    "productionSqlExpression": "SELECT ISNULL(SUM(total_amount), 0) AS value FROM dbo.invoice_hdr WITH (NOLOCK) WHERE invoice_date >= DATEADD(month, -2, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND invoice_date < DATEADD(month, -1, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0));",
+    "tableName": "dbo.SOMAST",
+    "productionSqlExpression": "SELECT ISNULL(SUM(invoice_total), 0) AS value FROM dbo.somast WHERE invoice_date >= DATEADD(month, -2, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND invoice_date < DATEADD(month, -1, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0));",
     "calculationType": "SUM",
     "chartName": "Historical Data",
     "axisStep": "Month 11"
@@ -940,8 +940,8 @@ export const singleSourceData: SourceDataDefinition[] = [
     "variableName": "Sales P21",
     "DataPoint": "Historical Data - Sales P21 - Month 12",
     "serverName": "P21",
-    "tableName": "dbo.invoice_hdr",
-    "productionSqlExpression": "SELECT ISNULL(SUM(total_amount), 0) AS value FROM dbo.invoice_hdr WITH (NOLOCK) WHERE invoice_date >= DATEADD(month, -1, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND invoice_date < DATEADD(month, 0, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0));",
+    "tableName": "dbo.SOMAST",
+    "productionSqlExpression": "SELECT ISNULL(SUM(invoice_total), 0) AS value FROM dbo.somast WHERE invoice_date >= DATEADD(month, -1, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0)) AND invoice_date < DATEADD(month, 0, DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0));",
     "calculationType": "SUM",
     "chartName": "Historical Data",
     "axisStep": "Month 12"
@@ -1084,7 +1084,7 @@ export const singleSourceData: SourceDataDefinition[] = [
     "DataPoint": "Inventory - in_stock - Dept 100",
     "serverName": "P21",
     "tableName": "dbo.ICINV",
-    "productionSqlExpression": "SELECT ISNULL(SUM(qty_on_hand), 0) AS value FROM dbo.icinv WITH (NOLOCK) WHERE major_prod_class = '100';",
+    "productionSqlExpression": "SELECT ISNULL(SUM(qty_on_hand), 0) AS value FROM dbo.icinv WHERE major_prod_class = '100';",
     "calculationType": "SUM",
     "chartName": "Inventory",
     "axisStep": "Dept 100"

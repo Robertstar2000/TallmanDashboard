@@ -412,7 +412,6 @@ export default function AdminClient() {
   };
 
   const columns = [
-    { Header: 'ID', accessor: 'id', editable: false },
     { Header: 'Row ID', accessor: 'rowId', editable: false },
     { Header: 'Chart Group', accessor: 'chartGroup', editable: false },
     { Header: 'Variable Name', accessor: 'variableName', editable: true },
@@ -496,6 +495,8 @@ export default function AdminClient() {
           columns={columns} // Pass the defined columns
           data={data} 
           onDataChange={handleSaveChanges} // Changed prop name from onSave
+          isRunning={isSaving} // Pass isSaving state as isRunning
+          isProduction={false} // Default isProduction to false in admin
         />
       </Card>
 

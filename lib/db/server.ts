@@ -14,91 +14,76 @@ if (!fs.existsSync(DATA_DIR)) {
   fs.mkdirSync(DATA_DIR, { recursive: true });
 }
 
-let db: Database.Database;
-
-export const getDb = (): Database.Database => {
-  if (!db) {
-    try {
-      db = new Database(DB_PATH, { /* verbose: console.log */ });
-      console.log('Database connection established successfully.');
-      // Ensure table exists
-      db.exec(`
-        CREATE TABLE IF NOT EXISTS chart_data (
-          id INTEGER PRIMARY KEY AUTOINCREMENT,
-          rowId TEXT UNIQUE NOT NULL,
-          chartGroup TEXT,
-          chartName TEXT,
-          variableName TEXT,
-          DataPoint TEXT, -- Renamed from 'name' based on memory
-          serverName TEXT,
-          tableName TEXT,
-          productionSqlExpression TEXT,
-          value REAL DEFAULT 0,
-          lastUpdated TEXT,
-          calculationType TEXT,
-          axisStep TEXT
-        );
-      `);
-      // Add other necessary initializations if needed
-    } catch (error) {
-      console.error('Failed to connect to or initialize the database:', error);
-      throw new Error('Database initialization failed');
+// Function to ensure the chart_data table exists with the correct schema
+function ensureTableExists(db: Database.Database) {
+  const schemaPath = path.join(process.cwd(), 'lib', 'db', 'schema.sql');
+  const schema = fs.readFileSync(schemaPath, 'utf8');
+  
+  // Execute each statement in the schema file
+  const statements = schema.split(';').filter(stmt => stmt.trim());
+  for (const stmt of statements) {
+    if (stmt.trim()) {
+      try {
+        db.exec(stmt);
+      } catch (error) {
+        console.error('Error executing schema statement:', error);
+        console.error('Statement:', stmt);
+        throw error;
+      }
     }
   }
-  return db;
-};
-
-export const closeDb = (): void => {
-  if (db) {
-    db.close();
-    console.log('Database connection closed.');
-  }
-};
+}
 
 // Function to get all chart data (consider pagination for large datasets)
 export const getAllChartData = (): ChartDataRow[] => {
-  const dbInstance = getDb();
+  let dbInstance: Database.Database | null = null;
   try {
+    dbInstance = new Database(DB_PATH);
+    if (!dbInstance) throw new Error("Failed to create DB instance"); // Added null check
+    ensureTableExists(dbInstance);
+    console.log('[getAllChartData] Preparing to execute SELECT * FROM chart_data'); // Added log
     const stmt = dbInstance.prepare('SELECT * FROM chart_data ORDER BY id ASC');
     const data = stmt.all() as ChartDataRow[];
     return data;
   } catch (error) {
     console.error('Error fetching all chart data:', error);
     throw error; // Re-throw the error
+  } finally {
+    if (dbInstance) {
+      dbInstance.close();
+    }
   }
 };
 
 // Alias for getAllChartData, assuming admin spreadsheet views the same data
 export const getAllSpreadsheetData = (): ChartDataRow[] => {
-  const dbInstance = getDb();
-  try {
-    // TODO: Verify if SpreadsheetRow structure differs significantly from ChartDataRow
-    // If they differ, add necessary transformations or query specific columns.
-    const stmt = dbInstance.prepare('SELECT * FROM chart_data ORDER BY id ASC');
-    const data = stmt.all() as ChartDataRow[];
-    return data;
-  } catch (error) {
-    console.error('Error fetching data for admin spreadsheet:', error);
-    throw error; // Re-throw the error
-  }
-}
+  // This simply calls the modified getAllChartData
+  return getAllChartData();
+};
 
 // Function to update a single row's value
 export const updateChartDataValue = (rowId: string, value: number): boolean => {
-  const dbInstance = getDb();
+  let dbInstance: Database.Database | null = null;
   try {
+    dbInstance = new Database(DB_PATH);
+    if (!dbInstance) throw new Error("Failed to create DB instance"); // Added null check
+    ensureTableExists(dbInstance);
     const stmt = dbInstance.prepare('UPDATE chart_data SET value = ?, lastUpdated = CURRENT_TIMESTAMP WHERE rowId = ?');
     const info = stmt.run(value, rowId);
     return info.changes > 0;
   } catch (error) {
     console.error(`Error updating value for rowId ${rowId}:`, error);
     return false;
+  } finally {
+    if (dbInstance) {
+      dbInstance.close();
+    }
   }
 };
 
 // Function to update multiple fields of a row (e.g., for admin edits)
 export const updateChartDataRow = (rowId: string, data: Partial<Omit<ChartDataRow, 'id' | 'rowId' | 'lastUpdated'>>): boolean => {
-  const dbInstance = getDb();
+  let dbInstance: Database.Database | null = null;
   const fields = Object.keys(data).filter(key => key !== 'id' && key !== 'rowId' && key !== 'lastUpdated');
   if (fields.length === 0) {
     console.warn('No fields provided to update for rowId:', rowId);
@@ -110,6 +95,9 @@ export const updateChartDataRow = (rowId: string, data: Partial<Omit<ChartDataRo
   values.push(rowId); // Add rowId for the WHERE clause
 
   try {
+    dbInstance = new Database(DB_PATH);
+    if (!dbInstance) throw new Error("Failed to create DB instance"); // Added null check
+    ensureTableExists(dbInstance);
     const stmt = dbInstance.prepare(`UPDATE chart_data SET ${setClause}, lastUpdated = CURRENT_TIMESTAMP WHERE rowId = ?`);
     const info = stmt.run(...values);
     console.log(`Updated row ${rowId}. Changes: ${info.changes}`);
@@ -117,101 +105,123 @@ export const updateChartDataRow = (rowId: string, data: Partial<Omit<ChartDataRo
   } catch (error) {
     console.error(`Error updating row ${rowId}:`, error);
     return false;
+  } finally {
+    if (dbInstance) {
+      dbInstance.close();
+    }
   }
 };
 
 // Function to replace all chart data (used for loading from init file)
 export const replaceAllChartData = (data: Omit<ChartDataRow, 'id' | 'lastUpdated'>[]): boolean => {
-  const dbInstance = getDb();
-  const insertStmt = dbInstance.prepare(`
-    INSERT INTO chart_data (rowId, chartGroup, chartName, variableName, DataPoint, serverName, tableName, productionSqlExpression, value, calculationType, axisStep)
-    VALUES (@rowId, @chartGroup, @chartName, @variableName, @DataPoint, @serverName, @tableName, @productionSqlExpression, @value, @calculationType, @axisStep)
-  `);
-
-  const transaction = dbInstance.transaction((rows: Omit<ChartDataRow, 'id' | 'lastUpdated'>[]) => {
-    dbInstance.exec('DELETE FROM chart_data'); // Clear existing data
-    dbInstance.exec('DELETE FROM sqlite_sequence WHERE name=\'chart_data\''); // Reset auto-increment
-    for (const row of rows) {
-      insertStmt.run(row);
-    }
-  });
-
+  let dbInstance: Database.Database | null = null;
   try {
+    dbInstance = new Database(DB_PATH);
+    if (!dbInstance) throw new Error("Failed to create DB instance"); // Added null check
+    ensureTableExists(dbInstance);
+    const insertStmt = dbInstance.prepare(`
+      INSERT INTO chart_data (rowId, chartGroup, chartName, variableName, DataPoint, serverName, tableName, productionSqlExpression, value, calculationType, axisStep)
+      VALUES (@rowId, @chartGroup, @chartName, @variableName, @DataPoint, @serverName, @tableName, @productionSqlExpression, @value, @calculationType, @axisStep)
+    `);
+
+    const transaction = dbInstance.transaction((rows: Omit<ChartDataRow, 'id' | 'lastUpdated'>[]) => {
+      if (!dbInstance) throw new Error("DB instance not available in transaction"); // Added null check
+      dbInstance.exec('DELETE FROM chart_data'); // Clear existing data
+      dbInstance.exec('DELETE FROM sqlite_sequence WHERE name=\'chart_data\''); // Reset auto-increment
+      for (const row of rows) {
+        insertStmt.run(row);
+      }
+    });
+
+    console.log('[replaceAllChartData] Executing transaction...'); // Added log
     transaction(data);
-    console.log(`Successfully replaced all chart data with ${data.length} rows.`);
+    console.log(`[replaceAllChartData] Transaction completed. Successfully replaced all chart data with ${data.length} rows.`); // Modified log
     return true;
   } catch (error) {
     console.error('Error replacing chart data:', error);
     return false;
+  } finally {
+    if (dbInstance) {
+      dbInstance.close();
+    }
   }
 };
 
 // Function to update spreadsheet data in the chart_data table
 export function updateSpreadsheetData(data: ChartDataRow[]) {
-  if (!db) {
-    throw new Error("Database connection not initialized.");
-  }
-
-  // Prepare the UPDATE statement
-  // Make sure to include all columns that can be edited from the spreadsheet
-  const updateStmt = db.prepare(`
-    UPDATE chart_data
-    SET
-      chartGroup = ?,
-      variableName = ?,
-      DataPoint = ?,
-      serverName = ?,
-      tableName = ?,
-      productionSqlExpression = ?,
-      calculationType = ?,
-      chartName = ?,  -- Added chartName
-      axisStep = ?,   -- Added axisStep
-      lastUpdated = ? -- Update lastUpdated timestamp
-    WHERE id = ?
-  `);
-
-  // Use a transaction for atomicity
-  const updateMany = db.transaction((rows: ChartDataRow[]) => {
-    for (const row of rows) {
-      // Ensure row.id is treated as a number for the WHERE clause if needed,
-      // though better-sqlite3 often handles type coercion.
-      // Ensure types match the prepare statement placeholders.
-      const params = [
-        row.chartGroup,
-        row.variableName,
-        row.DataPoint,
-        row.serverName,
-        row.tableName,
-        row.productionSqlExpression,
-        row.calculationType,
-        row.chartName, // Pass chartName
-        row.axisStep,  // Pass axisStep
-        new Date().toISOString(), // Update lastUpdated time
-        row.id // For the WHERE clause
-      ];
-      // Log parameters being sent for a specific row for debugging
-      // if (row.id === 'some_specific_id_to_debug') {
-      //   console.log(`Updating row ${row.id} with params:`, params);
-      // }
-      try {
-          updateStmt.run(params);
-      } catch(err) {
-        console.error(`Failed to update row with id ${row.id}:`, err);
-        console.error('Row data:', row);
-        // Re-throw the error to rollback the transaction
-        throw err;
-      }
-    }
-  });
-
+  let dbInstance: Database.Database | null = null;
   try {
-    console.log(`Starting transaction to update ${data.length} rows...`);
-    updateMany(data);
-    console.log(`Successfully updated ${data.length} rows.`);
-  } catch (error) {
-    console.error('Transaction failed during spreadsheet data update:', error);
-    // Re-throw the error so the API route can catch it and respond appropriately
-    throw error;
+    dbInstance = new Database(DB_PATH);
+    if (!dbInstance) throw new Error("Failed to create DB instance"); // Added null check
+    ensureTableExists(dbInstance);
+
+    // Prepare the UPDATE statement
+    // Make sure to include all columns that can be edited from the spreadsheet
+    const updateStmt = dbInstance.prepare(`
+      UPDATE chart_data
+      SET
+        chartGroup = ?,
+        variableName = ?,
+        DataPoint = ?,
+        serverName = ?,
+        tableName = ?,
+        productionSqlExpression = ?,
+        calculationType = ?,
+        chartName = ?,  -- Added chartName
+        axisStep = ?,   -- Added axisStep
+        lastUpdated = ? -- Update lastUpdated timestamp
+      WHERE rowId = ?
+    `);
+
+    // Use a transaction for atomicity
+    const updateMany = dbInstance.transaction((rows: ChartDataRow[]) => {
+      if (!dbInstance) throw new Error("DB instance not available in transaction"); // Added null check
+      for (const row of rows) {
+        // Ensure row.id is treated as a number for the WHERE clause if needed,
+        // though better-sqlite3 often handles type coercion.
+        // Ensure types match the prepare statement placeholders.
+        const params = [
+          row.chartGroup,
+          row.variableName,
+          row.DataPoint,
+          row.serverName,
+          row.tableName,
+          row.productionSqlExpression,
+          row.calculationType,
+          row.chartName, // Pass chartName
+          row.axisStep,  // Pass axisStep
+          new Date().toISOString(), // Update lastUpdated time
+          row.rowId // For the WHERE clause, use rowId instead of id
+        ];
+        // Log parameters being sent for a specific row for debugging
+        // if (row.id === 'some_specific_id_to_debug') {
+        //   console.log(`Updating row ${row.id} with params:`, params);
+        // }
+        try {
+          updateStmt.run(params);
+        } catch(err) {
+          console.error(`Failed to update row with id ${row.id}:`, err);
+          console.error('Row data:', row);
+          // Re-throw the error to rollback the transaction
+          throw err;
+        }
+      }
+    });
+
+    try {
+      console.log(`Starting transaction to update ${data.length} rows...`);
+      updateMany(data);
+      console.log(`Successfully updated ${data.length} rows.`);
+    } catch (error) {
+      console.error('Transaction failed during spreadsheet data update:', error);
+      // Re-throw the error so the API route can catch it and respond appropriately
+      throw error;
+    }
+  } finally {
+    // Ensure the database connection is closed
+    if (dbInstance) {
+      dbInstance.close();
+    }
   }
 }
 
@@ -243,10 +253,7 @@ export const testP21ConnectionServer = async (
   let connection: odbc.Connection | null = null;
 
   try {
-    // Dynamically import odbc only when needed
-    const odbc = await import('odbc');
-    console.log('ODBC module imported successfully for P21.');
-
+    console.log('Using ODBC module for P21.');
     connection = await odbc.connect(connectionString);
     console.log(`Successfully connected to P21 using DSN: ${dsnName}`);
 
@@ -298,8 +305,6 @@ export const testPORConnectionServer = async (
   let connection: odbc.Connection | null = null;
 
   try {
-    // Dynamically import the odbc library only when needed
-    const odbc = await import('odbc');
     console.log('odbc library loaded dynamically.');
 
     // Construct the connection string
@@ -376,11 +381,11 @@ export const testPORConnectionServer = async (
  * Retrieves all rows from the admin_variables table, mapped to ServerConfig type.
  */
 export const getAdminVariables = (): ServerConfig[] => {
-  const dbInstance = getDb();
-  console.log('Server: Fetching data from admin_variables...');
+  let dbInstance: Database.Database | null = null;
   try {
-    // Ensure the admin_variables table exists (adjust schema as needed)
-    // This CREATE TABLE is illustrative; ideally, it's managed by migrations or initial setup
+    dbInstance = new Database(DB_PATH);
+    if (!dbInstance) throw new Error("Failed to create DB instance"); // Added null check
+    // Ensure the admin_variables table exists (consider moving schema setup elsewhere)
     dbInstance.exec(`
       CREATE TABLE IF NOT EXISTS admin_variables (
         id TEXT PRIMARY KEY,
@@ -414,16 +419,24 @@ export const getAdminVariables = (): ServerConfig[] => {
 
   } catch (error) {
     console.error('Server: Failed to get admin variables:', error);
-    throw error; // Re-throw
+    return []; // Return empty array on error
+  } finally {
+    if (dbInstance) {
+      dbInstance.close();
+    }
   }
-}
+};
 
 /**
  * Updates a specific row in the admin_variables table.
  */
 export const updateAdminVariable = (id: string, data: Partial<Omit<ServerConfig, 'id' | 'lastUpdated'>>): boolean => {
-  const dbInstance = getDb();
-  console.log(`Server: Updating admin_variable with id: ${id}`);
+  let dbInstance: Database.Database | null = null;
+  const fields = Object.keys(data).filter(key => key !== 'id' && key !== 'lastUpdated');
+  if (fields.length === 0) {
+    console.warn('No fields provided to update for admin variable ID:', id);
+    return false;
+  }
 
   // Build the SET part of the SQL query dynamically
   const setClauses: string[] = [];
@@ -467,6 +480,10 @@ export const updateAdminVariable = (id: string, data: Partial<Omit<ServerConfig,
   const sql = `UPDATE admin_variables SET ${setClauses.join(', ')} WHERE id = ?`;
 
   try {
+    dbInstance = new Database(DB_PATH);
+    if (!dbInstance) throw new Error("Failed to create DB instance"); // Added null check
+    ensureTableExists(dbInstance);
+    // No need to ensureTableExists here if it's guaranteed elsewhere
     const stmt = dbInstance.prepare(sql);
     const info = stmt.run(params);
     console.log(`Server: Admin variable ${id} update result: ${info.changes} changes.`);
@@ -475,8 +492,12 @@ export const updateAdminVariable = (id: string, data: Partial<Omit<ServerConfig,
     console.error(`Server: Failed to update admin variable ${id}:`, error);
     return false; // Indicate failure
     // Consider throwing the error depending on how the API route should handle it
+  } finally {
+    if (dbInstance) {
+      dbInstance.close();
+    }
   }
-}
+};
 
 // Basic setup requires a types file. Let's create a placeholder.
 export const ensureTypesFile = () => {
@@ -535,12 +556,13 @@ export const executeP21QueryServer = async (
   sqlQuery: string
 ): Promise<QueryExecResult> => {
   const startTime = Date.now();
-  const dsnName = "P21Play"; // Hardcoded DSN from test function
+  const dsnName = "P21Play"; // Reverted to hardcoded DSN as per user feedback
   let connection: odbc.Connection | null = null;
+
   console.log(`Attempting to execute P21 query using DSN: ${dsnName}`);
 
   try {
-    // Note: Security check (isQuerySafe) should happen in the API route BEFORE calling this
+    console.log('Using ODBC module for P21.');
     connection = await odbc.connect(`DSN=${dsnName};`);
     console.log(`Connected to P21 using DSN: ${dsnName} for query execution.`);
 
@@ -564,12 +586,16 @@ export const executeP21QueryServer = async (
 
   } catch (error) {
     console.error(`Error executing P21 query using DSN ${dsnName}:`, error);
-    const errorMessage = error instanceof Error ? error.message : `Unknown P21 query execution error with DSN ${dsnName}.`;
-    return {
+    console.error('[Server] P21 Query Error Details:', JSON.stringify(error, null, 2)); // Pretty print for readability
+
+    const errorMessageString = error instanceof Error ? error.message : `Unknown P21 query execution error with DSN ${dsnName}.`;
+
+    const errorResult: QueryExecResult = {
         success: false,
-        error: `P21 query execution failed using DSN ${dsnName}: ${errorMessage}`,
+        error: `P21 query execution failed using DSN ${dsnName}: ${errorMessageString}`,
         executionTime: Date.now() - startTime
     };
+    return errorResult;
 
   } finally {
     if (connection) {
@@ -600,49 +626,79 @@ export const executePORQueryServer = async (
   let connection: odbc.Connection | null = null;
 
   try {
-    // Note: Security check (isQuerySafe) should happen in the API route BEFORE calling this
+    console.log('Using ODBC module for POR.');
 
-    // Construct connection string (similar to test function)
+    // Construct the connection string
+    // Note: The exact format might vary based on the specific ODBC driver and Access version.
+    // UID and PWD might not be needed if the database isn't password protected.
+    // Simplifying driver based on user request - might need adjustment if file is .accdb
+    // let connectionString = `Driver={Microsoft Access Driver (*.mdb)};DBQ=${filePath};` // Corrected: Use filePath
+    // Original: let connectionString = `Driver={Microsoft Access Driver (*.mdb, *.accdb)};DBQ=${filePath};`;
+    // Updated based on MS documentation for 2016 Redistributable
     let connectionString = `Driver={Microsoft Access Driver (*.mdb, *.accdb)};DBQ=${filePath};`;
     if (password) {
+      // WARNING: Including password directly in the string is insecure.
+      // Consider secure methods if applicable (e.g., Windows authentication if possible).
       connectionString += `Pwd=${password};`;
     }
-    console.log('POR ODBC Connection String for Query (Password Omitted):', connectionString.replace(/Pwd=.*?;/, 'Pwd=****;'));
 
-    const connectionParams = {
+    console.log('ODBC Connection String (Password Omitted):', connectionString.replace(/Pwd=.*?;/, 'Pwd=****;'));
+
+    try {
+      // Connection parameters object including timeout
+      const connectionParams = {
         connectionString: connectionString,
         connectionTimeout: 10 // Slightly longer timeout for queries?
-    };
+      };
+      console.log(`Attempting ODBC connection with timeout: ${connectionParams.connectionTimeout} seconds.`);
 
-    connection = await odbc.connect(connectionParams);
-    console.log(`Connected to POR DB ${filePath} for query execution.`);
+      connection = await odbc.connect(connectionParams);
+      console.log('POR (ODBC) Connection successful.');
 
-    const result = await connection.query(sqlQuery);
-    const executionTime = Date.now() - startTime;
-    console.log(`POR query executed on ${filePath} in ${executionTime}ms.`);
+      // Optional: Run a simple query to further verify
+      // For Access SQL, table/column names with spaces need brackets []
+      // Using a known system table (MSysObjects) if available, otherwise a simple SELECT 1
+      try {
+        const result = await connection.query('SELECT Count(*) AS test FROM MSysObjects');
+        console.log('POR (ODBC) Test query successful:', result);
+      } catch (queryError) {
+        console.warn('POR (ODBC) Test query failed (this might be expected if MSysObjects is restricted):', queryError);
+        // If the above fails, try a simpler query
+        // await connection.query('SELECT 1');
+      }
 
-    const data = result as any[]; // Assuming result is an array of objects
-    let columns: string[] = [];
-    if (data.length > 0) {
-      columns = Object.keys(data[0]);
-    }
+      const result = await connection.query(sqlQuery);
+      const executionTime = Date.now() - startTime;
+      console.log(`POR query executed on ${filePath} in ${executionTime}ms.`);
 
-     return {
+      const data = result as any[]; // Assuming result is an array of objects
+      let columns: string[] = [];
+      if (data.length > 0) {
+        columns = Object.keys(data[0]);
+      }
+
+      return {
         success: true,
         data: data,
         columns: columns,
         message: `Query executed successfully on POR. Found ${data.length} rows.`,
         executionTime: executionTime,
-    };
+      };
 
-  } catch (error) {
-    console.error(`Error executing POR query on ${filePath}:`, error);
-    const errorMessage = error instanceof Error ? error.message : 'Unknown POR query execution error.';
-     return {
+    } catch (connectionError) {
+      console.error(`Error executing POR query on ${filePath}:`, connectionError);
+      const errMsg = connectionError instanceof Error ? connectionError.message : 'Unknown POR query execution error.';
+      return {
         success: false,
-        error: `POR query execution failed on ${filePath}: ${errorMessage}`,
+        error: `POR query execution failed on ${filePath}: ${errMsg}`,
         executionTime: Date.now() - startTime
-    };
+      };
+    }
+
+  } catch (importError) {
+    console.error('Failed to dynamically import odbc library:', importError);
+    return { success: false, message: 'Internal server error: Failed to load ODBC driver.' };
+
   } finally {
     if (connection) {
       try {

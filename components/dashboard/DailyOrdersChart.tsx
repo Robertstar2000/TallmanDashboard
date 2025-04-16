@@ -8,6 +8,8 @@ interface DailyOrdersChartProps {
 }
 
 export function DailyOrdersChart({ data }: DailyOrdersChartProps) {
+  console.log('[DailyOrdersChart] Received data prop:', data); // DEBUG LOG
+
   // Ensure we have valid data to display
   if (!data || data.length === 0) {
     return (
@@ -20,25 +22,37 @@ export function DailyOrdersChart({ data }: DailyOrdersChartProps) {
     );
   }
 
-  // Transform data: Map axisStep to date and value to orders
+  // Helper function to parse 'Today-X' into a numerical offset
+  const parseDayOffset = (axisStep: string): number => {
+    if (axisStep === 'Today') return 0;
+    const match = axisStep.match(/^Today-(\d+)$/);
+    return match ? -parseInt(match[1], 10) : NaN; // Return NaN for unparseable formats
+  };
+
+  // Transform data: Map axisStep to date, parse offset, and include value
   const transformedData = data
     .map(item => {
-      // Skip items with null axisStep (date)
+      // Skip items with null or unparseable axisStep
       if (item.axisStep === null) {
-        return null; // Will be filtered out later
+        return null;
+      }
+      const offset = parseDayOffset(item.axisStep);
+      if (isNaN(offset)) {
+        console.warn(`Could not parse axisStep for Daily Orders: ${item.axisStep}`);
+        return null; // Filter out items with unparseable axisStep
       }
       return {
-        date: item.axisStep, // Use axisStep as date
+        dateLabel: item.axisStep, // Keep original label for display
+        dayOffset: offset,      // Numerical offset for sorting
         orders: item.value ?? 0 // Use value as orders, default null to 0
       };
     })
-    .filter(item => item !== null) as { date: string; orders: number }[]; // Filter out nulls and assert type
+    .filter(item => item !== null) as { dateLabel: string; dayOffset: number; orders: number }[]; // Filter out nulls and assert type
 
-  // Sort transformed data by date (assuming axisStep represents sortable dates/periods)
-  const sortedData = [...transformedData].sort((a, b) => {
-    // Basic string sort, adjust if axisStep needs numeric or Date parsing
-    return a.date.localeCompare(b.date);
-  });
+  // Sort transformed data by the numerical dayOffset
+  const sortedData = [...transformedData].sort((a, b) => a.dayOffset - b.dayOffset);
+
+  console.log('[DailyOrdersChart] Processed sortedData:', sortedData); // DEBUG LOG
 
   return (
     <div className="rounded-lg border bg-card p-4">
@@ -46,7 +60,7 @@ export function DailyOrdersChart({ data }: DailyOrdersChartProps) {
       <div className="h-[200px]">
         <LineChart
           data={sortedData} // Use sorted, transformed data
-          xKey="date"
+          xKey="dateLabel"   // Use the original string label for the X-axis
           lines={[
             { key: 'orders', name: 'Orders', color: '#4C51BF' }
           ]}

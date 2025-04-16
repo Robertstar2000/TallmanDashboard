@@ -24,11 +24,20 @@ interface QueryResult {
   executionTime?: number; 
 }
 
+interface SchemaTestResult {
+  name: string; // Table or Column name
+  status: 'success' | 'failure' | 'pending';
+  error?: string;
+}
+
 export default function SQLQueryTester({ initialPorPath = '' }: SQLQueryTesterProps) {
   const [sqlQuery, setSqlQuery] = useState<string>('');
   const [targetDatabase, setTargetDatabase] = useState<'P21' | 'POR'>('P21');
   const [queryResult, setQueryResult] = useState<QueryResult | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const [isSchemaTesting, setIsSchemaTesting] = useState<boolean>(false);
+  const [schemaTestResults, setSchemaTestResults] = useState<SchemaTestResult[] | null>(null);
 
   const [porFilePath, setPorFilePath] = useState<string>(initialPorPath);
   const [porPassword, setPorPassword] = useState<string>('');
@@ -89,6 +98,124 @@ export default function SQLQueryTester({ initialPorPath = '' }: SQLQueryTesterPr
     } finally {
        setIsLoading(false);
     }
+  };
+
+  const handleSchemaTest = async () => {
+    if (!sqlQuery.trim()) {
+      console.log("Cannot test schema: SQL query is empty.");
+      return;
+    }
+    setIsSchemaTesting(true);
+    setSchemaTestResults(null); // Clear previous results
+    console.log(`Starting schema test for ${targetDatabase}: ${sqlQuery.substring(0, 100)}...`);
+
+    const queryToParse = sqlQuery.replace(/(--.*)|(\/\*[\s\S]*?\*\/)/g, ''); // Remove comments
+    let primaryTable = '';
+    const tables = new Set<string>();
+    const columns = new Set<string>();
+
+    const tableRegex = /(?:FROM|JOIN)\s+([a-zA-Z0-9_\.]+)/gi;
+    let tableMatch;
+    while ((tableMatch = tableRegex.exec(queryToParse)) !== null) {
+      const tableName = tableMatch[1];
+      tables.add(tableName);
+      if (!primaryTable && tableRegex.lastIndex > queryToParse.toUpperCase().indexOf('FROM')) { 
+         primaryTable = tableName;
+      }
+    }
+    
+    // Extract columns (SELECT ... FROM)
+    // Remove 's' flag to avoid ES2018+ requirement - less robust for multiline selects
+    const selectClauseMatch = queryToParse.match(/SELECT\s+(.*?)\s+FROM/i); 
+    if (selectClauseMatch && selectClauseMatch[1]) {
+        const columnList = selectClauseMatch[1].split(',');
+        columnList.forEach(col => {
+            const cleanCol = col.trim().split(/\s+as\s+/i)[0]; 
+            if (cleanCol && cleanCol !== '*') { 
+                 columns.add(cleanCol.split('.').pop() || cleanCol); 
+            }
+        });
+    }
+
+    const extractedElements = [
+        ...Array.from(tables).map(t => ({ name: t, type: 'table' as const })),
+        ...Array.from(columns).map(c => ({ name: c, type: 'column' as const }))
+    ];
+
+    if (extractedElements.length === 0) {
+        console.log("No tables or columns found to test.");
+        setSchemaTestResults([{ name: 'N/A', status: 'failure', error: 'Could not parse tables/columns from query.' }]);
+        setIsSchemaTesting(false);
+        return;
+    }
+
+    const initialResults: SchemaTestResult[] = extractedElements.map(el => ({ name: el.name, status: 'pending' }));
+    setSchemaTestResults(initialResults);
+
+    for (let i = 0; i < extractedElements.length; i++) {
+      const element = extractedElements[i];
+      const updateResult = (status: 'success' | 'failure', error?: string) => {
+        setSchemaTestResults(prevResults => 
+          prevResults!.map((r, index) => index === i ? { ...r, status, error } : r)
+        );
+      }
+
+      let testQuery = '';
+      const elementName = element.name;
+      const isP21 = targetDatabase === 'P21';
+
+      if (element.type === 'table') {
+          testQuery = isP21 
+              ? `SELECT TOP 1 1 FROM ${elementName} WITH (NOLOCK)`
+              : `SELECT TOP 1 1 FROM [${elementName}]`;
+      } else if (element.type === 'column' && primaryTable) { 
+          testQuery = isP21
+              ? `SELECT TOP 1 ${elementName} FROM ${primaryTable} WITH (NOLOCK)`
+              : `SELECT TOP 1 [${elementName}] FROM [${primaryTable}]`;
+      } else {
+          console.log(`Skipping test for column ${elementName} - primary table unclear.`);
+          updateResult('failure', 'Primary table unclear');
+          continue; 
+      }
+
+      console.log(`Testing ${element.type}: ${elementName} with query: ${testQuery}`);
+
+      const requestBody: any = {
+          sqlQuery: testQuery,
+          targetDatabase: targetDatabase,
+      };
+      if (targetDatabase === 'POR') {
+          if (!porFilePath.trim()) {
+              updateResult('failure', 'POR File Path missing');
+              continue;
+          }
+          requestBody.porFilePath = porFilePath;
+          if (porPassword) { 
+              requestBody.porPassword = porPassword;
+          }
+      }
+
+      try {
+          const response = await fetch('/api/admin/run-query', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(requestBody), 
+          });
+          const resultData: QueryResult = await response.json();
+
+          if (resultData.success) {
+              updateResult('success');
+          } else {
+              updateResult('failure', resultData.error || 'API Error');
+          }
+      } catch (error) {
+          console.error(`Error testing ${elementName}:`, error);
+          updateResult('failure', error instanceof Error ? error.message : 'Fetch Error');
+      }
+    }
+
+    console.log("Schema test finished.");
+    setIsSchemaTesting(false);
   };
 
   const renderCellData = (data: any) => {
@@ -160,10 +287,39 @@ export default function SQLQueryTester({ initialPorPath = '' }: SQLQueryTesterPr
          <p className="text-xs text-muted-foreground mt-1">Only SELECT statements are permitted.</p>
       </div>
 
-      <Button onClick={handleExecuteQuery} disabled={isLoading || (targetDatabase === 'POR' && !porFilePath.trim())}>
-        {isLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
-        Execute Query
-      </Button>
+      <div className="flex space-x-2">
+          <Button onClick={handleExecuteQuery} disabled={isLoading || isSchemaTesting || (targetDatabase === 'POR' && !porFilePath.trim())}>
+            {isLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
+            Execute Query
+          </Button>
+          <Button 
+            onClick={handleSchemaTest}
+            disabled={isLoading || isSchemaTesting || !sqlQuery.trim()} 
+            variant="outline"
+          >
+            {isSchemaTesting ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
+            Test Schema Elements
+          </Button>
+      </div>
+
+      {schemaTestResults && (
+        <div className="mt-6 border-t pt-4">
+          <h3 className="text-lg font-semibold mb-2">Schema Test Results</h3>
+          <ul className="space-y-1 text-sm">
+            {schemaTestResults.map((result, index) => (
+              <li key={index} className="flex items-center space-x-2">
+                {result.status === 'pending' && <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />}
+                {result.status === 'success' && <span className="text-green-600">✔️</span>}
+                {result.status === 'failure' && <span className="text-red-600">❌</span>}
+                <span>{result.name}</span>
+                {result.status === 'failure' && result.error && (
+                  <span className="text-red-500 text-xs">({result.error})</span>
+                )}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
 
       {queryResult && (
         <div className="mt-6 border-t pt-4">

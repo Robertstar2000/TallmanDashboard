@@ -52,10 +52,29 @@ TransactionTaxDetail, TransactionType, TransactionType_Tr, TransferToRent, WorkO
 Contract_Tr, CustomerFile_Tr_Bak, CustomerJobSiteType, CustomerRestriction_Tr, CustomerType, 
 LedgerKeyContractLine, PurchaseOrderDetail, PurchaseOrderPaymentMethods, SFSync_CustomerFileAccounts, 
 TransactionItemsSubStatus_Tr, TransactionSecondaryStatus_Tr, TransactionStatus_Tr
-```
 
-#### POR Metrics and SQL Queries
-For the POR Overview chart group, the following metrics and SQL queries are used:
+# Dashboard Overview
+
+This dashboard provides key performance indicators (KPIs) derived from the P21 (SQL Server) and POR (MS Access) databases.
+
+## Chart Groups
+
+The dashboard visualizes data organized into the following primary chart groups:
+
+*   Key Metrics
+*   Accounts
+*   Customer Metrics
+*   Historical Data
+*   Inventory
+*   POR Overview
+*   Site Distribution
+*   Daily Orders
+*   Web Orders
+*   AR Aging
+
+(Detailed descriptions of each group and its metrics can be found in `chart_descriptions.md`)
+
+## Key Metric Examples (POR Database - `Transactions` table)
 
 1. **Open Rentals** - Number of open rental contracts
    ```sql
@@ -589,9 +608,3 @@ The TallmanDashboard implements a robust database connection management system d
 3. **ServerConfig Interface**
    - Located in `lib/db/connections.ts`
    -
-
-```
-
-```
-
-```

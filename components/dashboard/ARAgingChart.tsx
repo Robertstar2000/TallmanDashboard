@@ -29,7 +29,7 @@ export function ARAgingChart({ data }: ARAgingChartProps) {
   }
 
   // Define the expected time buckets and their order
-  const bucketOrder = ['Current (0-30 days)', '31-60 days', '61-90 days', 'Over 90 days'];
+  const bucketOrder = ['Current', '1-30 days', '31-60 days', '61-90 days', '91+ days'];
 
   // Transform data correctly using axisStep and value
   const chartInputData = bucketOrder.map(bucket => {

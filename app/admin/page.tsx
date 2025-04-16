@@ -8,6 +8,7 @@ import { Badge } from '@/components/ui/badge';
 import { useRouter } from 'next/navigation';
 import { HelpDialog } from '@/components/admin/HelpDialog';
 import DatabaseConnectionTester from '@/components/admin/DatabaseConnectionTester';
+import SQLQueryTester from '@/components/admin/SQLQueryTester';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogClose } from '@/components/ui/dialog';
 
 export default function AdminPage() {
@@ -219,7 +220,7 @@ export default function AdminPage() {
              <DialogHeader>
                <DialogTitle>SQL Query Tester</DialogTitle> 
              </DialogHeader>
-             <p>Query Tester Component Placeholder</p>  // Placeholder
+             <SQLQueryTester /> 
              <DialogFooter>
                 <DialogClose asChild>
                    <Button type="button" variant="secondary">

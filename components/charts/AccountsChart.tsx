@@ -56,7 +56,13 @@ export default function AccountsChart({ data }: AccountsChartProps) {
     if (!acc[monthIndex]) {
       acc[monthIndex] = {};
     }
-    acc[monthIndex][item.variableName] = item.value ?? 0;
+    // Use the actual variable names from single-source-data.ts
+    if (item.variableName === 'Payables' || item.variableName === 'Receivables') {
+      acc[monthIndex][item.variableName] = item.value ?? 0;
+    } else {
+      // Optionally log if other variable names appear unexpectedly
+      console.warn(`Unexpected variableName found in Accounts data: ${item.variableName}`);
+    }
     return acc;
   }, {} as { [monthIndex: number]: { [variableName: string]: number } });
 
@@ -65,9 +71,9 @@ export default function AccountsChart({ data }: AccountsChartProps) {
     'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
   ];
 
-  const payableData = monthLabels.map((_, index) => groupedData[index]?.['accounts_payable'] ?? 0);
-  const receivableData = monthLabels.map((_, index) => groupedData[index]?.['accounts_receivable'] ?? 0);
-  const overdueData = monthLabels.map((_, index) => groupedData[index]?.['accounts_overdue'] ?? 0); 
+  // Use the correct variable names
+  const payableData = monthLabels.map((_, index) => groupedData[index]?.['Payables'] ?? 0);
+  const receivableData = monthLabels.map((_, index) => groupedData[index]?.['Receivables'] ?? 0);
 
   const chartData = {
     labels: monthLabels, 
@@ -84,13 +90,6 @@ export default function AccountsChart({ data }: AccountsChartProps) {
         data: receivableData,
         backgroundColor: 'rgba(75, 192, 192, 0.6)',
         borderColor: 'rgba(75, 192, 192, 1)',
-        borderWidth: 1,
-      },
-      {
-        label: 'Overdue',
-        data: overdueData,
-        backgroundColor: 'rgba(255, 159, 64, 0.6)',
-        borderColor: 'rgba(255, 159, 64, 1)',
         borderWidth: 1,
       },
     ],

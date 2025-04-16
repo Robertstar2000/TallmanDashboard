@@ -55,6 +55,7 @@ const EXECUTION_DELAY_MS = 2000; // 2 seconds
  * Expects a single row with a single column named 'value'.
  */
 async function executeP21QueryWithValue(sql: string): Promise<number | null> {
+  console.log('[Worker] >>> ENTERING executeP21QueryWithValue');
   console.log(`[Worker] P21 Query Init: ${sql.substring(0, 100)}...`);
   const dsnName = process.env.P21_DSN;
 
@@ -93,6 +94,7 @@ async function executeP21QueryWithValue(sql: string): Promise<number | null> {
     }
   } catch (error) {
     console.error(`[Worker] P21 Query FAILED for SQL [${sql.substring(0,100)}...]:`, error instanceof Error ? error.message : error);
+    console.error('[Worker] P21 Query Error Details:', JSON.stringify(error, Object.getOwnPropertyNames(error)));
     return null;
   } finally {
     if (connection) {
@@ -194,13 +196,21 @@ async function runSqlExecutionLoop(): Promise<void> {
 
       console.log(`[Worker] Processing Item ID: ${item.rowId}, Server: ${item.serverName}, Expression: ${item.productionSqlExpression}`);
 
+      // Check for missing/invalid SQL or serverName
       if (!item.productionSqlExpression || !item.serverName || (item.serverName !== 'P21' && item.serverName !== 'POR')) {
+        // Log and ensure zero-value update for skipped row
+        console.warn(`[Worker] Skipped rowId ${item.rowId} (${item.DataPoint}): Missing or invalid SQL/serverName. Setting value to 0.`);
+        const success = updateChartDataValue(item.rowId, 0);
+        if (!success) {
+          console.warn(`[Worker] Failed to update SQLite with zero for skipped item ${item.rowId}`);
+        }
         continue; 
       }
 
       let newValue: number | null = null;
       try {
         if (item.serverName === 'P21') {
+          console.log(`[Worker] --- Calling executeP21QueryWithValue for item ${item.rowId}`);
           newValue = await executeP21QueryWithValue(item.productionSqlExpression);
         } else if (item.serverName === 'POR') {
           newValue = await executePORQueryWithValue(item.productionSqlExpression);
@@ -213,10 +223,20 @@ async function runSqlExecutionLoop(): Promise<void> {
             console.warn(`[Worker] Failed to update SQLite for item ${item.rowId}`);
           }
         } else {
-          console.log(`[Worker] Execution failed or returned no value for item ${item.rowId}, skipping update.`);
+          // Ensure zero-value update and log for failed execution
+          console.warn(`[Worker] Execution failed or returned no value for item ${item.rowId} (${item.DataPoint}). Setting value to 0.`);
+          const success = updateChartDataValue(item.rowId, 0);
+          if (!success) {
+            console.warn(`[Worker] Failed to update SQLite with zero for failed item ${item.rowId}`);
+          }
         }
       } catch (execError) {
-        console.error(`[Worker] Unhandled error executing SQL for item ${item.rowId}:`, execError);
+        // Ensure zero-value update and log for unhandled errors
+        console.error(`[Worker] Unhandled error executing SQL for item ${item.rowId} (${item.DataPoint}):`, execError);
+        const success = updateChartDataValue(item.rowId, 0);
+        if (!success) {
+          console.warn(`[Worker] Failed to update SQLite with zero for error item ${item.rowId}`);
+        }
       }
 
       console.log(`[Worker] Waiting ${EXECUTION_DELAY_MS}ms...`);

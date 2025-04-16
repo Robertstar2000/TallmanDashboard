@@ -112,34 +112,45 @@ const AdminSpreadsheet = ({
       <div className="w-full overflow-x-auto">
         <div className="min-w-full" style={{ fontSize: '0.85rem' }}>
           <Table>
-            <TableHeader>
+            <TableHeader className="bg-gray-100 sticky top-0 z-10">
               <TableRow>
-                {columns.map((column) => (
-                  <TableHead key={column.header} className={column.cellClassName}>
+                {columns.map((column, index) => (
+                  // Reduce horizontal padding (px-1), keep vertical padding (py-2)
+                  <TableHead key={column.header} className={`px-1 py-2 text-left text-xs font-medium text-gray-600 uppercase tracking-wider ${column.accessor === 'productionSqlExpression' ? 'min-w-[600px]' : ''} ${column.accessor === 'axisStep' ? 'break-words' : ''}`}>
                     {column.header}
                   </TableHead>
                 ))}
               </TableRow>
             </TableHeader>
-            <TableBody>
-              {sortedData.map((row) => {
+            <TableBody className="bg-white divide-y divide-gray-200">
+              {sortedData.map((row, index) => {
                 // Determine if this row is active (currently executing)
                 const isActive = activeRowId === row.id;
                 // Determine if the row has an error based on live state (passed via columns render)
                 // This logic might be redundant if the render function handles it, but keep for row styling
                 const hasError = !!liveQueryState?.[row.id]?.error;
                 
+                // Define a simple key for debugging
+                const rowKey = row.id; 
+                
                 return (
                   <TableRow 
-                    key={row.id}
-                    className={`${isActive ? 'bg-yellow-100' : hasError ? 'bg-red-50' : ''}`}
+                    key={rowKey} // Simplified key
+                    className={`hover:bg-gray-50 ${isActive ? 'bg-blue-100 animate-pulse' : ''}`}
                   >
                     {columns.map((column) => {
                       const cellValue = row[column.accessor as keyof ChartDataRow];
                       const isEditable = column.editable && !isRunning;
                       
                       return (
-                        <TableCell key={`${row.id}-${column.header}`} className={column.cellClassName}>
+                        // Increase vertical padding (py-2), decrease horizontal padding (px-1)
+                        // Apply wrapping logic for specific columns
+                        <TableCell key={`${rowKey}-${column.header}`} 
+                          className={`px-1 py-2 text-xs text-gray-700 
+                          ${column.accessor === 'productionSqlExpression' ? 'font-mono break-words min-w-[600px]' : 
+                          column.accessor === 'axisStep' ? 'break-words' : 
+                          column.accessor === 'DataPoint' ? 'break-words' : // Keep DataPoint wrapped
+                          'whitespace-nowrap'}`}>
                           {column.render ? (
                             // Use render function if provided
                             column.render(row)

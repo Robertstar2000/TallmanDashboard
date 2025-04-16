@@ -277,10 +277,10 @@ export function ChartsSection({ data }: ChartsSectionProps) {
               fill="#8884d8"
               dataKey="value"
               nameKey="name"
-              label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
+              label={({ name, percent, ...entry }) => `${name}: ${(percent * 100).toFixed(0)}%`}
             >
               {data.siteDistribution.map((entry, index) => (
-                <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                <Cell key={entry.id || entry.name || `cell-${index}`} fill={COLORS[index % COLORS.length]} />
               ))}
             </Pie>
             <Tooltip formatter={(value) => Number(value).toLocaleString()} />
@@ -300,7 +300,7 @@ export function ChartsSection({ data }: ChartsSectionProps) {
             <Tooltip formatter={(value) => `$${Number(value).toLocaleString()}`} />
             <Bar dataKey="amount" fill="#8884d8">
               {data.arAging.map((entry, index) => (
-                <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                <Cell key={entry.id || entry.range || `cell-${index}`} fill={COLORS[index % COLORS.length]} />
               ))}
             </Bar>
           </BarChart>
