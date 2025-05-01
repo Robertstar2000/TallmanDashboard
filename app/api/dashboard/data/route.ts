@@ -14,7 +14,11 @@ interface DashboardApiResponse {
   siteDistribution: ChartDataRow[];
   arAging: ChartDataRow[];
   dailyOrders: ChartDataRow[];
-  webOrders: ChartDataRow[];
+  webOrders: {
+    date: string;
+    orders: number;
+    revenue: number;
+  }[];
 }
 
 export async function GET(request: Request) {
@@ -34,6 +38,9 @@ export async function GET(request: Request) {
       dailyOrders: [],
       webOrders: [],
     };
+
+    // Temporary collection for raw Web Orders rows
+    let rawWebOrders: ChartDataRow[] = [];
 
     // Group data based on chartGroup
     // Note: These group names are assumed based on the frontend structure.
@@ -73,7 +80,8 @@ export async function GET(request: Request) {
           groupedData.dailyOrders.push(row);
           break;
         case 'Web Orders':
-          groupedData.webOrders.push(row);
+        case 'Web Revenue':
+          rawWebOrders.push(row);
           break;
         default:
           // Optionally log or handle rows with unexpected chartGroup
@@ -82,10 +90,37 @@ export async function GET(request: Request) {
       }
     });
 
+    // Pivot raw Web Orders rows into date-series with orders & revenue
+    if (rawWebOrders.length > 0) {
+      const steps = Array.from(new Set(rawWebOrders.map(r => r.axisStep))).filter(Boolean);
+      const now = new Date();
+      const pivoted = steps.map(step => {
+        let offset = 0;
+        if (String(step).toLowerCase() !== 'current') {
+          const m = /-?\\d+/.exec(String(step));
+          offset = m ? parseInt(m[0], 10) : 0;
+        }
+        const dateObj = new Date(now.getFullYear(), now.getMonth() + offset, 1);
+        const date = dateObj.toISOString().split('T')[0];
+        const ordersItem = rawWebOrders.find(r => r.axisStep === step && String(r.variableName).toLowerCase() === 'web_order_count');
+        const revenueItem = rawWebOrders.find(r => r.axisStep === step && String(r.variableName).toLowerCase() === 'web_order_value');
+        return { date, orders: ordersItem?.value ?? 0, revenue: revenueItem?.value ?? 0 };
+      }).sort((a, b) => a.date.localeCompare(b.date));
+      groupedData.webOrders = pivoted;
+    }
+
     // Log the grouped data before sending the response
     console.log('API Response Data:', JSON.stringify(groupedData, null, 2)); 
     console.log('API - AR Aging Data Count:', groupedData.arAging?.length ?? 0);
     console.log('API - Accounts Data Count:', groupedData.accounts?.length ?? 0);
+    console.log('API - Metrics Data Count:', groupedData.metrics?.length ?? 0);
+    console.log('API - Historical Data Count:', groupedData.historicalData?.length ?? 0);
+    console.log('API - Customer Metrics Data Count:', groupedData.customerMetrics?.length ?? 0);
+    console.log('API - Inventory Data Count:', groupedData.inventory?.length ?? 0);
+    console.log('API - POR Overview Data Count:', groupedData.porOverview?.length ?? 0);
+    console.log('API - Site Distribution Data Count:', groupedData.siteDistribution?.length ?? 0);
+    console.log('API - Daily Orders Data Count:', groupedData.dailyOrders?.length ?? 0);
+    console.log('API - Web Orders Data Count:', groupedData.webOrders?.length ?? 0);
 
     return NextResponse.json(groupedData);
 

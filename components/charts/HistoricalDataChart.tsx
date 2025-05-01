@@ -31,20 +31,20 @@ export default function HistoricalDataChart({ data }: HistoricalDataChartProps) 
     return <div className="flex items-center justify-center h-64">No historical data available</div>;
   }
   
-  // Sort data by month in chronological order
-  const monthOrder = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-  const sortedData = [...data].sort((a, b) => {
-    return monthOrder.indexOf(a.date) - monthOrder.indexOf(b.date);
-  });
-  
-  // Reverse the array to have current month on the right
-  const reversedData = [...sortedData].reverse();
-  
-  // Extract labels and data series
-  const labels = reversedData.map(item => item.date);
-  const p21Data = reversedData.map(item => item.p21 !== undefined ? item.p21 : 0);
-  const porData = reversedData.map(item => item.por !== undefined ? item.por : 0);
-  const combinedData = reversedData.map(item => item.combined !== undefined ? item.combined : 0);
+  // Build previous 11 months through current month as labels (ascending)
+  const now = new Date();
+  const offsets = Array.from({ length: 12 }, (_, i) => i - 11);
+  const labels = offsets.map(off =>
+    new Date(now.getFullYear(), now.getMonth() + off, 1)
+      .toLocaleString('default', { month: 'short' })
+  );
+  const dataMap = data.reduce((acc, item) => {
+    acc[item.date] = item;
+    return acc;
+  }, {} as Record<string, HistoricalDataPoint>);
+  const p21Data = labels.map(label => dataMap[label]?.p21 ?? 0);
+  const porData = labels.map(label => dataMap[label]?.por ?? 0);
+  const combinedData = labels.map(label => dataMap[label]?.combined ?? 0);
 
   const chartData = {
     labels: labels,

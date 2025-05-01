@@ -20,32 +20,17 @@ export function HistoricalDataChart({ data }: HistoricalDataProps) {
     );
   }
 
-  const transformedData = data.reduce((acc, item) => {
-    const date = item.axisStep;
-    
-    // Skip items with null axisStep (date)
-    if (date === null) {
-      console.warn('Skipping historical data item with null axisStep:', item);
-      return acc;
-    }
-
-    const server = item.serverName.toLowerCase();
-    const value = item.value ?? 0;
-
-    if (!acc[date]) {
-      acc[date] = { date: date, p21: 0, por: 0 };
-    }
-
-    if (server === 'p21') {
-      acc[date].p21 = value;
-    } else if (server === 'por') {
-      acc[date].por = value;
-    }
-
-    return acc;
-  }, {} as { [date: string]: { date: string; p21: number; por: number } });
-
-  const chartData = Object.values(transformedData);
+  // Group by rowId to mirror admin ordering and extract P21/POR values
+  const now = new Date();
+  const p21Rows = data.filter(item => item.serverName === 'P21').sort((a, b) => parseInt(a.rowId) - parseInt(b.rowId));
+  const porRows = data.filter(item => item.serverName === 'POR').sort((a, b) => parseInt(a.rowId) - parseInt(b.rowId));
+  const monthsCount = p21Rows.length;
+  const chartData = p21Rows.map((r, i) => {
+    const offset = i - (monthsCount - 1);
+    const date = new Date(now.getFullYear(), now.getMonth() + offset, 1)
+      .toLocaleString('default', { month: 'short' });
+    return { date, p21: r.value ?? 0, por: porRows[i]?.value ?? 0 };
+  });
 
   return (
     <Card className="p-4">

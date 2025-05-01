@@ -146,10 +146,10 @@ const AdminSpreadsheet = ({
                         // Increase vertical padding (py-2), decrease horizontal padding (px-1)
                         // Apply wrapping logic for specific columns
                         <TableCell key={`${rowKey}-${column.header}`} 
-                          className={`px-1 py-2 text-xs text-gray-700 
-                          ${column.accessor === 'productionSqlExpression' ? 'font-mono break-words min-w-[600px]' : 
-                          column.accessor === 'axisStep' ? 'break-words' : 
-                          column.accessor === 'DataPoint' ? 'break-words' : // Keep DataPoint wrapped
+                          className={`px-1 py-2 text-[11px] text-gray-700 
+                          ${column.accessor === 'productionSqlExpression' ? 'font-mono break-words max-w-[230px]' : 
+                          column.accessor === 'axisStep' ? 'break-words max-w-[150px]' : 
+                          column.accessor === 'DataPoint' ? 'break-words max-w-[150px]' : // Keep DataPoint wrapped
                           'whitespace-nowrap'}`}>
                           {column.render ? (
                             // Use render function if provided
@@ -175,7 +175,7 @@ const AdminSpreadsheet = ({
                                 value={String(cellValue ?? '')}
                                 onChange={(e) => handleCellChange(row.id, column.accessor as keyof ChartDataRow, e.target.value)}
                                 disabled={!isEditable}
-                                className="w-full p-2 text-xs font-mono border rounded-md min-h-[2.5rem] focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                className="w-full p-2 text-[11px] font-mono border rounded-md min-h-[2.5rem] focus:outline-none focus:ring-2 focus:ring-blue-500"
                                 style={{
                                   height: 'auto',
                                   resize: 'vertical',

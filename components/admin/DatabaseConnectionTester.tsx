@@ -43,9 +43,8 @@ export default function DatabaseConnectionTester() {
 
   // POR Connection Config - Updated for MS Access File Path
   // Using Partial<ServerConfig> because we don't need most fields, plus adding filePath
-  const [porConfig, setPORConfig] = useState<Partial<ServerConfig> & { filePath?: string }>({
-    filePath: 'C:\\Users\\BobM\\Desktop\\POR.mdb', // Initialize with default file path
-    type: 'POR'
+  const [porConfig] = useState<{ filePath: string }>({
+    filePath: process.env.NEXT_PUBLIC_POR_DB_PATH || '',
   });
 
   // Testing states
@@ -74,14 +73,6 @@ export default function DatabaseConnectionTester() {
         setP21Config(prev => ({ ...prev, [name]: value }));
       }
     }
-  };
-
-  // Handle POR config changes - Updated for filePath
-  const handlePORChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPORConfig({
-      ...porConfig,
-      filePath: e.target.value // Directly update filePath
-    });
   };
 
   // Updated testP21Connection to send the correct P21 form data
@@ -316,22 +307,7 @@ export default function DatabaseConnectionTester() {
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
-            {/* MS Access File Path Input */}
-            <div className="space-y-2">
-              <Label htmlFor="por-filePath">MS Access File Path</Label>
-              <Input
-                id="por-filePath"
-                name="filePath" // Matches key in porConfig state extension
-                value={porConfig.filePath || ''}
-                onChange={handlePORChange}
-              />
-              <p className="text-xs text-muted-foreground">
-                Enter the full local or network path to the .mdb file.
-              </p>
-            </div>
-
-            {/* Removed old inputs for Server, Port, Database, Auth */}
-
+            <p className="text-sm text-muted-foreground">POR DB Path: {porConfig.filePath}</p>
             <Button onClick={testPORConnection} disabled={testingPOR || !porConfig.filePath}>
               {testingPOR ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
               Test POR Connection

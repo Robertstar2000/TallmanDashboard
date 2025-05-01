@@ -113,9 +113,9 @@ function fixPORSqlExpression(sql: string, availableTables: string[] = []): strin
 function getAllPORSqlExpressions() {
   return singleSourceData
     .filter((item: SourceDataDefinition) => item.serverName === 'POR' && item.productionSqlExpression)
-    .map((item: ChartDataRow) => ({
-      id: item.id,
-      dataPoint: item.DataPoint || `POR Expression ${item.id}`,
+    .map((item: SourceDataDefinition) => ({
+      id: item.rowId,
+      dataPoint: item.DataPoint || `POR Expression ${item.rowId}`,
       sql: item.productionSqlExpression,
       fixedSql: ''
     }));

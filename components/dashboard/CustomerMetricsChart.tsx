@@ -3,7 +3,7 @@
 import { LineChart } from '@/components/charts/LineChart';
 import { ChartDataRow } from '@/lib/db/types';
 
-const NEW_CUSTOMERS_VAR = 'customer_metrics_new';
+const NEW_CUSTOMERS_VAR = 'New Customers';
 const PROSPECTS_VAR = 'customer_metrics_prospects';
 
 interface CustomerMetricsChartProps {
@@ -22,31 +22,30 @@ export function CustomerMetricsChart({ data }: CustomerMetricsChartProps) {
     );
   }
 
-  const transformedData = data.reduce((acc, item) => {
-    const date = item.axisStep;
-    
-    if (date === null) {
-      console.warn('Skipping customer metrics item with null axisStep:', item);
-      return acc;
-    }
-
-    const variableName = item.variableName;
-    const value = item.value ?? 0; 
-
-    if (!acc[date]) {
-      acc[date] = { date: date, newCustomers: 0, prospects: 0 }; 
-    }
-
-    if (variableName === NEW_CUSTOMERS_VAR) {
-      acc[date].newCustomers = value;
-    } else if (variableName === PROSPECTS_VAR) {
-      acc[date].prospects = value;
-    }
-
+  // Map axisStep to aggregated New Customers and Prospects counts
+  const dataMap: { [key: string]: { newCustomers: number; prospects: number } } = data.reduce((acc, item) => {
+    const key = item.axisStep;
+    if (!key) return acc;
+    const v = item.value ?? 0;
+    acc[key] = acc[key] || { newCustomers: 0, prospects: 0 };
+    if (item.variableName === NEW_CUSTOMERS_VAR) acc[key].newCustomers = v;
+    else if (item.variableName === PROSPECTS_VAR) acc[key].prospects = v;
     return acc;
-  }, {} as { [date: string]: { date: string; newCustomers: number; prospects: number } });
+  }, {} as { [key: string]: { newCustomers: number; prospects: number } });
 
-  const chartData = Object.values(transformedData);
+  // Build chartData: from current month -11 months to current month
+  const now = new Date();
+  const offsets = Array.from({ length: 12 }, (_, i) => -11 + i);
+  const chartData = offsets.map(off => {
+    const dt = new Date(now.getFullYear(), now.getMonth() + off, 1);
+    const label = dt.toLocaleString('default', { month: 'short' });
+    const axisKey = off === 0 ? 'Month -0' : `Month ${off}`;
+    return {
+      date: label,
+      newCustomers: dataMap[axisKey]?.newCustomers ?? 0,
+      prospects: dataMap[axisKey]?.prospects ?? 0,
+    };
+  });
 
   return (
     <div className="bg-white p-4 rounded-lg shadow">

@@ -48,7 +48,8 @@ export function BarChart<T>({
   onDataUpdate 
 }: BarChartProps<T>) {
   const formatLabel = (value: string) => {
-    if (!value.includes('-')) return value;
+    // Only parse ISO date strings (YYYY-MM-DD)
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) return value;
     
     const date = new Date(value);
     switch (interval) {

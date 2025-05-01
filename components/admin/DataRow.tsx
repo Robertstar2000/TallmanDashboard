@@ -4,16 +4,16 @@ import React from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import type { ChartData } from '@/lib/types/client';
+import type { ChartDataRow } from '@/lib/db/types';
 
 interface DataRowProps {
-  row: ChartData;
-  onValueChange: (row: ChartData, value: string | number) => void;
-  onSqlChange: (row: ChartData, sql: string) => void;
-  onTableNameChange: (row: ChartData, tableName: string) => void;
-  onServerNameChange: (row: ChartData, serverName: string) => void;
+  row: ChartDataRow;
+  onValueChange: (row: ChartDataRow, value: string | number) => void;
+  onSqlChange: (row: ChartDataRow, sql: string) => void;
+  onTableNameChange: (row: ChartDataRow, tableName: string) => void;
+  onServerNameChange: (row: ChartDataRow, serverName: string) => void;
   isProcessing: boolean;
-  currentRowId: number | null;
+  currentRowId: string | null;
 }
 
 export function DataRow({
@@ -36,7 +36,7 @@ export function DataRow({
         <Input
           id={`value-${row.id}`}
           type="number"
-          value={row.value}
+          value={row.value ?? ''}
           onChange={(e) => onValueChange(row, e.target.value)}
           disabled={isProcessing}
         />

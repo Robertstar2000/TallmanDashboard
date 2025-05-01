@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { ServerConnectionDialog } from "@/components/ServerConnectionDialog";
 import { Badge } from "@/components/ui/badge";
-import { checkAllConnections, ConnectionStatus } from '@/lib/db/connections';
+import { checkAllConnections, ConnectionStatus } from '../../lib/db/connections';
 import { DatabaseIcon, ServerIcon, DownloadIcon, UploadIcon } from 'lucide-react';
 import { toast } from '@/components/ui/use-toast';
 

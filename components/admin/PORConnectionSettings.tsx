@@ -1,3 +1,4 @@
+'use client';
 import React, { useState, useEffect } from 'react';
 import { Button, TextField, Box, Typography, Paper, CircularProgress } from '@mui/material';
 import { apiGetAdminVariables, apiUpdateAdminVariable, apiTestPORConnection } from '@/lib/db/sqlite';
@@ -25,7 +26,7 @@ export default function PORConnectionSettings({ onConnectionChange }: PORConnect
         const porConfig = allConfigs.find(config => config.name === 'POR_FILE_PATH');
         if (porConfig && porConfig.value) {
           setFilePath(porConfig.value);
-          setPorConfigId(porConfig.id);
+          setPorConfigId(porConfig.id ?? null);
         } else {
           console.warn("POR file path configuration not found or has no value.");
         }

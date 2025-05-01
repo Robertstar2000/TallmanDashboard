@@ -26,6 +26,7 @@
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
   "exclude": [
     "node_modules",
+    "dist",
     "app/api/connection-settings/[type]",
     "app/api/connection-settings/_[type]",
     "scripts/Untitled-1.ts" // Exclude this problematic file

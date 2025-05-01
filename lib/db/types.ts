@@ -1,12 +1,30 @@
 // Configuration for a connection to P21 or POR
+/** Configuration for P21 or POR connections in the admin UI */
 export type ServerConfig = {
-    id: string; // Corresponds to the admin_variables id
-    name: string; // User-friendly name for the server config (e.g., 'P21 Production')
-    type: 'P21' | 'POR' | 'LOCAL' | 'Other'; // Type of server
-    value: string | null; // Connection string, DSN, or relevant config value
-    description: string | null; // Optional description
-    isActive: boolean; // Is this connection configuration active?
-    lastUpdated: string | null;
+  /** Connection type */
+  type: 'P21' | 'POR' | 'LOCAL' | 'Other';
+  /** P21-specific fields */
+  server?: string;
+  database?: string;
+  username?: string;
+  password?: string;
+  useWindowsAuth?: boolean;
+  port?: number;
+  /** Connection options for P21/Access */
+  options?: {
+    trustServerCertificate?: boolean;
+    encrypt?: boolean;
+    [key: string]: any;
+  };
+  /** POR-specific file path */
+  filePath?: string;
+  /** Optional metadata (persisted via admin_variables) */
+  id?: string;
+  name?: string;
+  value?: string | null;
+  description?: string | null;
+  isActive?: boolean;
+  lastUpdated?: string | null;
 };
 
 // Settings and metadata for a group of charts
@@ -87,15 +105,15 @@ export interface SiteDistributionPoint {
 }
 
 export interface WebOrderPoint {
-  // Example properties - adjust based on WebOrdersChart.tsx needs
-  date: string | Date;
-  count: number;
+  date: string;
+  orders: number;
+  revenue?: number;
   [key: string]: any;
 }
 
-// Additional Placeholder Types based on Lint Errors - TODO: Refine
 export interface DailyOrderPoint {
-  [key: string]: any;
+  date: string;
+  orders: number;
 }
 
 export interface RawAccountsPayableData {
@@ -123,7 +141,10 @@ export interface ARAgingPoint {
 }
 
 export interface HistoricalDataPoint {
-  [key: string]: any;
+  date: string;
+  p21: number;
+  por: number;
+  combined: number;
 }
 
 export interface CustomerMetricPoint {

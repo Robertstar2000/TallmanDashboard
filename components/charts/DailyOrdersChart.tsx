@@ -1,4 +1,4 @@
-import { DailyOrderPoint } from '@/lib/db/types';
+import { ChartDataRow } from '@/lib/db/types';
 import { Line } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
@@ -22,7 +22,7 @@ ChartJS.register(
 );
 
 interface DailyOrdersChartProps {
-  data: DailyOrderPoint[];
+  data: ChartDataRow[];
 }
 
 export default function DailyOrdersChart({ data }: DailyOrdersChartProps) {
@@ -31,22 +31,18 @@ export default function DailyOrdersChart({ data }: DailyOrdersChartProps) {
     return <div className="flex items-center justify-center h-64">No daily orders data available</div>;
   }
   
-  // Define the expected day order (from oldest to newest)
+  // Define the expected day order (oldest to newest)
   const dayOrder = ['6 Days Ago', '5 Days Ago', '4 Days Ago', '3 Days Ago', '2 Days Ago', 'Yesterday', 'Today'];
   
-  // Filter and sort data by day order
-  const sortedData = dayOrder.map(day => {
-    const dayData = data.find(item => item.date === day);
-    return dayData || {
-      id: `${day}-missing`,
-      date: day,
-      orders: 0
-    };
+  // Map ChartDataRow entries to date/orders points
+  const sorted = dayOrder.map(day => {
+    const row = data.find(d => d.axisStep === day);
+    return { date: day, orders: row?.value ?? 0 };
   });
   
   // Extract labels and data series
-  const labels = sortedData.map(item => item.date);
-  const ordersData = sortedData.map(item => item.orders);
+  const labels = sorted.map(pt => pt.date);
+  const ordersData = sorted.map(pt => pt.orders);
 
   const chartData = {
     labels: labels,

@@ -1,3 +1,4 @@
+export const config = { runtime: 'nodejs' };
 import { NextResponse } from 'next/server';
 import { executeP21QueryServer, executePORQueryServer } from '@/lib/db/server';
 
@@ -18,17 +19,15 @@ interface QueryResult {
 }
 
 const isQuerySafe = (query: string): boolean => {
-  const trimmedQuery = query.trim().toUpperCase();
+  const upper = query.toUpperCase();
   const blockKeywords = ['INSERT', 'UPDATE', 'DELETE', 'DROP', 'CREATE', 'ALTER', 'TRUNCATE', 'EXEC', 'EXECUTE', 'GRANT', 'REVOKE', 'SET'];
-  // Corrected Regex using word boundaries to avoid matching keywords within identifiers
-  const keywordRegex = new RegExp(`\b(${blockKeywords.join('|')})\b`, 'i'); 
-  
-  // Additionally, check if the query starts with SELECT (basic check)
-  if (!trimmedQuery.startsWith('SELECT')) {
-    return false; // Disallow queries not starting with SELECT
+  const keywordRegex = new RegExp(`\\b(${blockKeywords.join('|')})\\b`, 'i');
+
+  if (!upper.includes('SELECT')) {
+    return false; // Must contain SELECT
   }
 
-  return !keywordRegex.test(query);
+  return !keywordRegex.test(upper);
 }; 
 
 export async function POST(request: Request) {
@@ -37,16 +36,17 @@ export async function POST(request: Request) {
   try {
     console.log('[API run-query] Parsing request body...'); // Log before parsing
     const body: RunQueryRequest = await request.json();
-    const { sqlQuery, targetDatabase, porFilePath, porPassword } = body;
+    const { sqlQuery, targetDatabase, porFilePath: reqPorPath, porPassword } = body;
+    const porPath = reqPorPath || process.env.POR_DB_PATH;
     console.log(`[API run-query] Parsed request body. Target Database: ${targetDatabase}`); // Log after parsing
 
     if (!sqlQuery || !targetDatabase) {
       console.log('[API run-query] Missing sqlQuery or targetDatabase in request body.'); // Log error
       return NextResponse.json<QueryResult>({ success: false, error: 'Missing sqlQuery or targetDatabase in request body.' }, { status: 400 });
     }
-    if (targetDatabase === 'POR' && !porFilePath) {
-        console.log('[API run-query] Missing porFilePath for POR query.'); // Log error
-        return NextResponse.json<QueryResult>({ success: false, error: 'Missing porFilePath for POR query.' }, { status: 400 });
+    if (targetDatabase === 'POR' && !porPath) {
+        console.log('[API run-query] POR file path not provided and POR_DB_PATH env var is missing.');
+        return NextResponse.json<QueryResult>({ success: false, error: 'POR database path is not specified.' }, { status: 400 });
     }
 
     console.log(`[API run-query] Checking if query is safe: ${sqlQuery.substring(0, 100)}...`); // Log before safety check
@@ -65,8 +65,8 @@ export async function POST(request: Request) {
         result = await executeP21QueryServer(sqlQuery);
         console.log('[API run-query] Received result from executeP21QueryServer:', JSON.stringify(result, null, 2)); // Log after call
     } else if (targetDatabase === 'POR') {
-        console.log(`[API run-query] Calling executePORQueryServer for query on path: ${porFilePath}...`); // Log before call
-        result = await executePORQueryServer(porFilePath!, porPassword, sqlQuery);
+        console.log(`[API run-query] Calling executePORQueryServer for query on path: ${porPath}...`);
+        result = await executePORQueryServer(porPath!, porPassword, sqlQuery);
         console.log('[API run-query] Received result from executePORQueryServer:', JSON.stringify(result, null, 2)); // Log after call
     } else {
          console.log(`[API run-query] Invalid target database: ${targetDatabase}`); // Log error

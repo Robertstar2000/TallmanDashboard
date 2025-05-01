@@ -15,26 +15,21 @@ import Spinner from '../ui/spinner';
  * Allows users to configure and test connections to P21 and POR databases
  */
 export function DatabaseConnectionManager() {
-  // Default configurations
+  // Default P21 connection settings
   const defaultP21Config: ServerConfig = {
+    type: 'P21',
     server: 'SQL01',
     database: 'P21play',
     username: 'sa',
     password: '',
     useWindowsAuth: true,
     port: 1433,
-    type: 'P21'
   };
 
+  // Default POR (MS Access) connection settings
   const defaultPORConfig: ServerConfig = {
-    server: 'TS03', // Not used for Access, but keep for type consistency
-    database: 'POR', // Not used for Access
-    username: '',
-    password: '',
-    useWindowsAuth: false,
-    port: 0, // Not used for Access
     type: 'POR',
-    filePath: 'C:\\Users\\BobM\\Desktop\\POR.MDB' // Updated default path
+    filePath: 'C:\\Users\\BobM\\Desktop\\POR.MDB',
   };
 
   // Local storage hooks for persisting connection configurations - Temporarily disabled
@@ -91,13 +86,11 @@ export function DatabaseConnectionManager() {
     try {
       const response = await fetch('/api/connection/test', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ config: p21Config }),
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(p21Config),
       });
       
-      const result = await response.json();
+      const result = (await response.json()) as { success: boolean; message: string };
       setP21TestResult(result);
       setP21Connected(result.success);
       
@@ -134,15 +127,11 @@ export function DatabaseConnectionManager() {
 
       const response = await fetch('/api/admin/test-por', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ 
-          filePath: porConfig.filePath
-        }),
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(porConfig),
       });
       
-      const result = await response.json();
+      const result = (await response.json()) as { success: boolean; message: string };
       setPORTestResult(result);
       setPORConnected(result.success);
       
@@ -205,7 +194,7 @@ export function DatabaseConnectionManager() {
                 <Label htmlFor="p21-server">Server</Label>
                 <Input
                   id="p21-server"
-                  value={p21Config.server}
+                  value={p21Config.server ?? ''}
                   onChange={(e) => handleP21Change('server', e.target.value)}
                   placeholder="SQL01"
                 />
@@ -215,7 +204,7 @@ export function DatabaseConnectionManager() {
                 <Label htmlFor="p21-database">Database</Label>
                 <Input
                   id="p21-database"
-                  value={p21Config.database}
+                  value={p21Config.database ?? ''}
                   onChange={(e) => handleP21Change('database', e.target.value)}
                   placeholder="P21play"
                 />
@@ -226,7 +215,7 @@ export function DatabaseConnectionManager() {
               <div className="flex items-center space-x-2">
                 <Checkbox
                   id="p21-windows-auth"
-                  checked={p21Config.useWindowsAuth}
+                  checked={Boolean(p21Config.useWindowsAuth)}
                   onCheckedChange={(checked) => handleP21Change('useWindowsAuth', Boolean(checked))}
                 />
                 <Label htmlFor="p21-windows-auth">Use Windows Authentication</Label>
@@ -239,7 +228,7 @@ export function DatabaseConnectionManager() {
                   <Label htmlFor="p21-username">Username</Label>
                   <Input
                     id="p21-username"
-                    value={p21Config.username}
+                    value={p21Config.username ?? ''}
                     onChange={(e) => handleP21Change('username', e.target.value)}
                     placeholder="sa"
                   />
@@ -250,7 +239,7 @@ export function DatabaseConnectionManager() {
                   <Input
                     id="p21-password"
                     type="password"
-                    value={p21Config.password}
+                    value={p21Config.password ?? ''}
                     onChange={(e) => handleP21Change('password', e.target.value)}
                     placeholder="Password"
                   />
@@ -262,7 +251,7 @@ export function DatabaseConnectionManager() {
               <Label htmlFor="p21-port">Port (Optional)</Label>
               <Input
                 id="p21-port"
-                value={p21Config.port}
+                value={p21Config.port?.toString() ?? ''}
                 onChange={(e) => handleP21Change('port', e.target.value)}
                 placeholder="1433"
               />
@@ -298,8 +287,8 @@ export function DatabaseConnectionManager() {
               <p className="text-xs text-muted-foreground">Full path to the MS Access database file (e.g., .mdb or .accdb)</p>
             </div>
             
-            <Button 
-              onClick={testPORConnection} 
+            <Button
+              onClick={testPORConnection}
               disabled={porTesting}
               className="w-full"
             >

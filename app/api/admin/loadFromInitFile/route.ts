@@ -30,7 +30,7 @@ export async function POST(request: Request) {
         productionSqlExpression: row.productionSqlExpression, // Use correct property name
         value: 0, // Provide default value as it's not in source
         calculationType: row.calculationType as ChartDataRow['calculationType'], // Use correct property name and assume correct type
-        axisStep: typeof row.axisStep === 'number' ? row.axisStep : null, // Provide null default if missing/wrong type
+        axisStep: typeof row.axisStep === 'string' ? row.axisStep : null, // Preserve string axisStep values
       };
     }).filter(row => row !== null) as Omit<ChartDataRow, 'id' | 'lastUpdated'>[]; // Filter out invalid rows and assert type
 

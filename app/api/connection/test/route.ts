@@ -17,7 +17,7 @@ export async function POST(request: NextRequest) {
     if (body.type === 'P21') {
         // No longer need body validation as P21 uses DSN from environment variable
         console.log('Calling testP21ConnectionServer (uses P21_DSN env var)...');
-        result = await testP21ConnectionServer(); 
+        result = await testP21ConnectionServer(body); 
     } else if (body.type === 'POR') {
         // Validate required POR fields
         if (!body.filePath) {

@@ -193,16 +193,13 @@ export default function TestAdminQueryPage() {
       }
 
       // Execute the query
-      const response = await fetch('/api/executeQuery', {
+      const response = await fetch('/api/admin/run-query', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          server: serverType,
-          config,
-          query: formattedQueryText,
-          tableName: tableName || ''
+          sqlQuery: formattedQueryText,
+          targetDatabase: serverType,
+          porFilePath,
         })
       });
 
@@ -277,14 +274,13 @@ export default function TestAdminQueryPage() {
       }
 
       // Execute the query using our new API endpoint
-      const response = await fetch('/api/por-mdb-query', {
+      const response = await fetch('/api/admin/run-query', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          query: porMdbQuery,
-          filePath: porFilePath
+          sqlQuery: porMdbQuery,
+          targetDatabase: 'POR',
+          porFilePath,
         })
       });
 

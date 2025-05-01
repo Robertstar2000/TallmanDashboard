@@ -39,7 +39,7 @@ export default function SQLQueryTester({ initialPorPath = '' }: SQLQueryTesterPr
   const [isSchemaTesting, setIsSchemaTesting] = useState<boolean>(false);
   const [schemaTestResults, setSchemaTestResults] = useState<SchemaTestResult[] | null>(null);
 
-  const [porFilePath, setPorFilePath] = useState<string>(initialPorPath);
+  const [porFilePath] = useState<string>(process.env.NEXT_PUBLIC_POR_DB_PATH || initialPorPath);
   const [porPassword, setPorPassword] = useState<string>('');
 
   const handleExecuteQuery = async () => {
@@ -243,28 +243,18 @@ export default function SQLQueryTester({ initialPorPath = '' }: SQLQueryTesterPr
 
         {targetDatabase === 'POR' && (
           <>
-             <div className='space-y-1'>
-               <Label htmlFor="por-filePath">POR File Path</Label>
-               <Input
-                 id="por-filePath"
-                 name="porFilePath"
-                 value={porFilePath}
-                 onChange={(e) => setPorFilePath(e.target.value)}
-                 placeholder="e.g., C:\\Data\\database.mdb"
-               />
-                <Badge variant="outline" className="text-xs font-normal">Temporary Input</Badge>
-             </div>
-             <div className='space-y-1'>
-               <Label htmlFor="por-password">POR Password (Optional)</Label>
-               <Input
-                 id="por-password"
-                 name="porPassword"
-                 type="password"
-                 value={porPassword}
-                 onChange={(e) => setPorPassword(e.target.value)}
-                 placeholder="Leave blank if none"
-               />
-             </div>
+            <p className="text-sm text-muted-foreground">POR DB Path: {porFilePath}</p>
+            <div className='space-y-1'>
+              <Label htmlFor="por-password">POR Password (Optional)</Label>
+              <Input
+                id="por-password"
+                name="porPassword"
+                type="password"
+                value={porPassword}
+                onChange={(e) => setPorPassword(e.target.value)}
+                placeholder="Leave blank if none"
+              />
+            </div>
           </>
         )}
         {targetDatabase === 'P21' && <div className="md:col-span-2"></div>}
@@ -288,7 +278,7 @@ export default function SQLQueryTester({ initialPorPath = '' }: SQLQueryTesterPr
       </div>
 
       <div className="flex space-x-2">
-          <Button onClick={handleExecuteQuery} disabled={isLoading || isSchemaTesting || (targetDatabase === 'POR' && !porFilePath.trim())}>
+          <Button onClick={handleExecuteQuery} disabled={isLoading || isSchemaTesting}>
             {isLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
             Execute Query
           </Button>

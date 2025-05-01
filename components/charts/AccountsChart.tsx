@@ -23,9 +23,14 @@ interface AccountsChartProps {
   data: ChartDataRow[]; 
 }
 
-const getMonthIndex = (axisStep: string): number => {
-  const match = axisStep.match(/Month (\d+)/);
-  return match ? parseInt(match[1], 10) - 1 : -1;
+// Parse axisStep offset robustly, allowing optional spaces like "Month - 11"
+const getOffset = (axisStep: string): number => {
+  const lower = axisStep.toLowerCase().trim();
+  if (lower === 'current') return 0;
+  // Remove the word "month" and any non-digit/non-minus chars, then parse
+  const cleaned = lower.replace(/month/i, '').replace(/[^-\d]/g, '');
+  const num = parseInt(cleaned, 10);
+  return isNaN(num) ? NaN : num;
 };
 
 export default function AccountsChart({ data }: AccountsChartProps) {
@@ -33,67 +38,63 @@ export default function AccountsChart({ data }: AccountsChartProps) {
     return <div className="flex items-center justify-center h-64">No accounts data available</div>;
   }
 
-  // Filter out items with null axisStep before processing
-  const filteredData = data.filter(item => {
-    if (item.axisStep === null) {
-      console.warn('Filtering out accounts data item with null axisStep:', item);
-      return false;
-    }
-    return true;
-  });
+  // Keep only rows with defined axisStep
+  const filteredData = data.filter(item => item.axisStep != null);
 
+  // Group data by parsed offset
   const groupedData = filteredData.reduce((acc, item) => {
-    // Add null check again here to satisfy TypeScript
-    if (item.axisStep === null) {
-      // This case should logically not be hit due to the filter above, but satisfies TS
-      return acc; 
-    }
-    const monthIndex = getMonthIndex(item.axisStep); // Now definitely safe
-    if (monthIndex === -1) {
-      console.warn('Skipping item with invalid month format in axisStep:', item);
-      return acc; // Skip if month format is wrong
-    }
-    if (!acc[monthIndex]) {
-      acc[monthIndex] = {};
-    }
-    // Use the actual variable names from single-source-data.ts
-    if (item.variableName === 'Payables' || item.variableName === 'Receivables') {
-      acc[monthIndex][item.variableName] = item.value ?? 0;
-    } else {
-      // Optionally log if other variable names appear unexpectedly
-      console.warn(`Unexpected variableName found in Accounts data: ${item.variableName}`);
-    }
+    const off = getOffset(item.axisStep!);
+    if (isNaN(off)) return acc;
+    const varKey = item.variableName.toLowerCase(); // normalize to lowercase to match dataset keys
+    acc[off] = acc[off] || {};
+    acc[off][varKey] = item.value ?? 0;
     return acc;
-  }, {} as { [monthIndex: number]: { [variableName: string]: number } });
+  }, {} as Record<number, Record<string, number>>);
 
-  const monthLabels = [
-    'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 
-    'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+  // Build sorted offsets and dynamic month labels
+  const offsets = Object.keys(groupedData)
+    .map(k => parseInt(k, 10))
+    .filter(o => !isNaN(o))
+    .sort((a, b) => a - b);
+
+  const monthLabels = offsets.map(off =>
+    new Date(new Date().getFullYear(), new Date().getMonth() + off, 1)
+      .toLocaleString('default', { month: 'short' })
+  );
+
+  // Determine variables present in the dataset dynamically (e.g., payable, receivable, overdue)
+  const variables = Array.from(
+    new Set(
+      Object.values(groupedData).flatMap(obj => Object.keys(obj))
+    )
+  );
+
+  // Provide a default color palette and fall back to gray if not defined
+  const colors: Record<string, string> = {
+    payable: 'rgba(54, 162, 235, 0.6)',   // blue
+    receivable: 'rgba(75, 192, 192, 0.6)', // teal
+    overdue: 'rgba(255, 99, 132, 0.6)',    // red
+  };
+
+  // Fallback palette for any additional variables
+  const fallbackPalette = [
+    'rgba(153, 102, 255, 0.6)',  // purple
+    'rgba(255, 159, 64, 0.6)',   // orange
+    'rgba(201, 203, 207, 0.6)',  // gray
   ];
 
-  // Use the correct variable names
-  const payableData = monthLabels.map((_, index) => groupedData[index]?.['Payables'] ?? 0);
-  const receivableData = monthLabels.map((_, index) => groupedData[index]?.['Receivables'] ?? 0);
+  const datasets = variables.map((variable, idx) => {
+    const color = colors[variable] || fallbackPalette[idx % fallbackPalette.length];
+    return {
+      label: variable.charAt(0).toUpperCase() + variable.slice(1),
+      data: offsets.map(off => groupedData[off]?.[variable] ?? 0),
+      backgroundColor: color,
+      borderColor: color.replace('0.6', '1'),
+      borderWidth: 1,
+    };
+  });
 
-  const chartData = {
-    labels: monthLabels, 
-    datasets: [
-      {
-        label: 'Payable',
-        data: payableData,
-        backgroundColor: 'rgba(54, 162, 235, 0.6)',
-        borderColor: 'rgba(54, 162, 235, 1)',
-        borderWidth: 1,
-      },
-      {
-        label: 'Receivable',
-        data: receivableData,
-        backgroundColor: 'rgba(75, 192, 192, 0.6)',
-        borderColor: 'rgba(75, 192, 192, 1)',
-        borderWidth: 1,
-      },
-    ],
-  };
+  const chartData = { labels: monthLabels, datasets };
 
   const options = {
     responsive: true,

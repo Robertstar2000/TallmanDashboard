@@ -94,13 +94,27 @@ export function Dashboard({ data, loading = false }: DashboardProps) {
       orders: typeof item.orders === 'number' ? item.orders : 0,
       combined: typeof item.combined === 'number' ? item.combined : 0
     })) || [],
-    accounts: data.accounts?.map(item => ({
-      id: item.id || `acc-${Math.random().toString(36).substr(2, 9)}`,
-      date: item.date || '',
-      payable: typeof item.payable === 'number' ? item.payable : 0,
-      receivable: typeof item.receivable === 'number' ? item.receivable : 0,
-      overdue: typeof item.overdue === 'number' ? item.overdue : 0
-    })) || [],
+    accounts: (() => {
+      const raw = data.accounts || [];
+      const steps = Array.from(new Set(raw.map(r => r.axisStep))).filter(Boolean) as string[];
+      const now = new Date();
+      return steps.map(step => {
+        let offset = 0;
+        if (String(step).toLowerCase() !== 'current') {
+          const m = /-?\d+/.exec(String(step));
+          offset = m ? parseInt(m[0], 10) : 0;
+        }
+        const date = new Date(now.getFullYear(), now.getMonth() + offset, 1)
+          .toISOString().split('T')[0];
+        const receivablesItem = raw.find(r => r.axisStep === step && r.variableName.toLowerCase() === 'receivables');
+        const payablesItem = raw.find(r => r.axisStep === step && r.variableName.toLowerCase() === 'payables');
+        return {
+          date,
+          receivables: receivablesItem?.value ?? 0,
+          payables: payablesItem?.value ?? 0
+        };
+      }).sort((a, b) => a.date.localeCompare(b.date));
+    })(),
     customerMetrics: data.customerMetrics?.map(item => ({
       id: item.id || `cust-${Math.random().toString(36).substr(2, 9)}`,
       date: item.date || '',

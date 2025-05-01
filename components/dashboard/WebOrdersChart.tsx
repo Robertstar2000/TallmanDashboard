@@ -1,10 +1,10 @@
 'use client';
 
 import { LineChart } from '@/components/charts/LineChart';
-import { WebOrderData } from '@/lib/db/types';
+import { WebOrderPoint } from '@/lib/db/types';
 
 interface WebOrdersChartProps {
-  data: WebOrderData[];
+  data: WebOrderPoint[];
 }
 
 export function WebOrdersChart({ data }: WebOrdersChartProps) {
@@ -16,8 +16,10 @@ export function WebOrdersChart({ data }: WebOrdersChartProps) {
           data={data}
           xKey="date"
           lines={[
-            { key: 'value', name: 'Orders', color: '#48BB78' }
+            { key: 'orders', name: 'Orders', color: '#48BB78' },
+            { key: 'revenue', name: 'Revenue', color: '#3182CE' }
           ]}
+          yAxisLabel="Orders / Revenue"
         />
       </div>
     </div>

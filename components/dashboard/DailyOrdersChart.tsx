@@ -41,13 +41,17 @@ export function DailyOrdersChart({ data }: DailyOrdersChartProps) {
         console.warn(`Could not parse axisStep for Daily Orders: ${item.axisStep}`);
         return null; // Filter out items with unparseable axisStep
       }
+      const dateObj = new Date();
+      dateObj.setDate(dateObj.getDate() + offset);
+      const date = dateObj.toISOString().split('T')[0];
       return {
+        date,
         dateLabel: item.axisStep, // Keep original label for display
         dayOffset: offset,      // Numerical offset for sorting
         orders: item.value ?? 0 // Use value as orders, default null to 0
       };
     })
-    .filter(item => item !== null) as { dateLabel: string; dayOffset: number; orders: number }[]; // Filter out nulls and assert type
+    .filter(item => item !== null) as { date: string; dateLabel: string; dayOffset: number; orders: number }[]; // Filter out nulls and assert type
 
   // Sort transformed data by the numerical dayOffset
   const sortedData = [...transformedData].sort((a, b) => a.dayOffset - b.dayOffset);
@@ -60,10 +64,13 @@ export function DailyOrdersChart({ data }: DailyOrdersChartProps) {
       <div className="h-[200px]">
         <LineChart
           data={sortedData} // Use sorted, transformed data
-          xKey="dateLabel"   // Use the original string label for the X-axis
+          xKey="date"   // Use the actual date for the X-axis
           lines={[
             { key: 'orders', name: 'Orders', color: '#4C51BF' }
           ]}
+          interval="day"
+          xAxisLabel="Date"
+          yAxisLabel="Orders"
         />
       </div>
     </div>

@@ -1,6 +1,6 @@
-import { getAllChartData, updateChartDataValue } from '@/lib/db/server';
-import { ChartDataRow } from '@/lib/db/types';
+import { getAllChartData, updateChartDataValue, executePORQueryServer } from '@/lib/db/server';
 import odbc from 'odbc';
+import type { ChartDataRow } from '@/lib/db/types';
 
 // --- State Management ---
 
@@ -52,7 +52,7 @@ const EXECUTION_DELAY_MS = 2000; // 2 seconds
 
 /**
  * Executes a SQL query against the P21 database using the DSN.
- * Expects a single row with a single column named 'value'.
+ * Expects a single row with a single column.
  */
 async function executeP21QueryWithValue(sql: string): Promise<number | null> {
   console.log('[Worker] >>> ENTERING executeP21QueryWithValue');
@@ -77,20 +77,21 @@ async function executeP21QueryWithValue(sql: string): Promise<number | null> {
     const result = await connection.query<any[]>(sql);
     console.log('[Worker] P21 Query executed.');
 
-    // Check if result is an array and has at least one element with a 'value' property
-    if (Array.isArray(result) && result.length > 0 && result[0] && typeof result[0] === 'object' && 'value' in result[0] && result[0].value !== null) {
-      const firstResult = result[0] as { value: any }; // Type assertion after checks
-      const numericValue = Number(firstResult.value);
+    if (Array.isArray(result) && result.length > 0) {
+      const row = result[0] as Record<string, any>;
+      const key = Object.keys(row)[0];
+      const rawVal = row[key];
+      const numericValue = Number(rawVal);
       if (!isNaN(numericValue)) {
         console.log(`[Worker] P21 Query Success. Value: ${numericValue}`);
         return numericValue;
       } else {
-        console.warn(`[Worker] P21 Query result 'value' is not a valid number:`, firstResult.value, `SQL: ${sql}`);
+        console.warn(`[Worker] P21 Query returned non-numeric value: ${rawVal} (SQL: ${sql})`);
         return null;
       }
     } else {
-      console.warn(`[Worker] P21 Query did not return expected 'value' structure or value was null. SQL: ${sql}`, result);
-      return null; // Or potentially 0 depending on desired handling
+      console.warn(`[Worker] P21 Query returned no rows (SQL: ${sql})`);
+      return null;
     }
   } catch (error) {
     console.error(`[Worker] P21 Query FAILED for SQL [${sql.substring(0,100)}...]:`, error instanceof Error ? error.message : error);
@@ -110,67 +111,42 @@ async function executeP21QueryWithValue(sql: string): Promise<number | null> {
 
 /**
  * Executes a SQL query against the POR database using the file path.
- * Expects a single row with a single column named 'value'.
+ * Expects a single row with a single column.
  */
 async function executePORQueryWithValue(sql: string): Promise<number | null> {
+  console.log('[Worker] >>> ENTERING executePORQueryWithValue');
   console.log(`[Worker] POR Query Init: ${sql.substring(0, 100)}...`);
   const dbPath = process.env.POR_DB_PATH;
-
   if (!dbPath) {
     console.error('[Worker] POR_DB_PATH environment variable is not set. Cannot execute POR query.');
     return null;
   }
-
-  // Construct the connection string for MS Access
-  // Note: Ensure the Microsoft Access Database Engine Redistributable is installed
-  // on the machine running this code if it's not a standard Windows install with Office.
-  const connectionString = `Driver={Microsoft Access Driver (*.mdb, *.accdb)};Dbq=${dbPath};`;
-  let connection: odbc.Connection | null = null;
-
   try {
-    console.log(`[Worker] POR Connecting using Path: ${dbPath}...`);
-    console.log('[Worker] POR Attempting odbc.connect...'); 
-    connection = await odbc.connect(connectionString);
-    console.log('[Worker] POR odbc.connect successful.'); 
-    console.log('[Worker] POR Connected. Executing query...');
-    const result = await connection.query<any[]>(sql);
-    console.log('[Worker] POR Query executed.');
-
-    if (Array.isArray(result) && result.length > 0 && result[0] && typeof result[0] === 'object' && 'value' in result[0] && result[0].value !== null) {
-      const firstResult = result[0] as { value: any };
-      const numericValue = Number(firstResult.value);
+    const result = await executePORQueryServer(dbPath, process.env.POR_DB_PASSWORD, sql);
+    if (!result.success) {
+      console.error(`[Worker] POR Query failed: ${result.error || result.message}`);
+      return null;
+    }
+    const rows = result.data;
+    const columns = result.columns;
+    if (Array.isArray(rows) && rows.length > 0) {
+      const row = rows[0] as Record<string, any>;
+      const key = columns && columns.length > 0 ? columns[0] : Object.keys(row)[0];
+      const rawVal = row[key];
+      const numericValue = Number(rawVal);
       if (!isNaN(numericValue)) {
         console.log(`[Worker] POR Query Success. Value: ${numericValue}`);
         return numericValue;
       } else {
-        console.warn(`[Worker] POR Query result 'value' is not a valid number:`, firstResult.value, `SQL: ${sql}`);
-        return null;
+        console.warn(`[Worker] POR Query returned non-numeric value: ${rawVal} (SQL: ${sql})`);
       }
     } else {
-      console.warn(`[Worker] POR Query did not return expected 'value' structure or value was null. SQL: ${sql}`, result);
-      return null;
+      console.warn(`[Worker] POR Query returned no rows (SQL: ${sql})`);
     }
   } catch (error) {
-    console.error(`[Worker] POR Query FAILED during execution or connection for SQL [${sql.substring(0,100)}...]. Error:`, error instanceof Error ? error.message : error);
-    if (error instanceof Error && error.stack) {
-      console.error('[Worker] POR Error Stack:', error.stack);
-    }
-    return null;
-  } finally {
-    console.log('[Worker] POR Entering finally block.'); 
-    if (connection) {
-      try {
-        console.log('[Worker] POR Attempting connection.close()...'); 
-        await connection.close();
-        console.log('[Worker] POR Connection closed successfully.');
-      } catch (closeError) {
-        console.error('[Worker] POR Error closing connection:', closeError instanceof Error ? closeError.message : closeError);
-      }
-    } else {
-      console.log('[Worker] POR Connection was null in finally block.'); 
-    }
-    console.log('[Worker] POR Exiting finally block.'); 
+    console.error(`[Worker] executePORQueryWithValue error:`, error);
   }
+  return null;
 }
 
 // --- Worker Loop Logic ---
@@ -204,7 +180,10 @@ async function runSqlExecutionLoop(): Promise<void> {
         if (!success) {
           console.warn(`[Worker] Failed to update SQLite with zero for skipped item ${item.rowId}`);
         }
-        continue; 
+        // Delay to enforce EXECUTION_DELAY_MS between each execution
+        console.log(`[Worker] Waiting ${EXECUTION_DELAY_MS}ms for skipped item...`);
+        await new Promise(resolve => setTimeout(resolve, EXECUTION_DELAY_MS));
+        continue;
       }
 
       let newValue: number | null = null;

@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { HelpDialog } from '@/components/admin/HelpDialog';
 import DatabaseConnectionTester from '@/components/admin/DatabaseConnectionTester';
 import SQLQueryTester from '@/components/admin/SQLQueryTester';
@@ -112,12 +113,6 @@ export default function AdminPage() {
     return () => clearInterval(intervalId);
   }, [fetchWorkerStatus, workerIsRunning, isLoadingStatus]); // Re-run effect if dependencies change
 
-  const handleNavigateToDashboard = () => {
-    // Don't stop the worker when navigating to dashboard
-    // Just navigate directly
-    router.push('/');
-  };
-
   return (
     <div className="min-h-screen bg-gray-100">
       <div className="container mx-auto py-8">
@@ -141,8 +136,8 @@ export default function AdminPage() {
             <Button variant="outline" onClick={() => setShowConnectionTester(true)}>
               Test Connections
             </Button>
-            <Button variant="outline" onClick={handleNavigateToDashboard}>
-              Return to Dashboard
+            <Button asChild variant="outline">
+              <Link href="/">Return to Dashboard</Link>
             </Button>
           </div>
         </div>

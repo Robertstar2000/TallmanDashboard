@@ -46,6 +46,7 @@ export default function Home() {
         }
         
         const data = await response.json();
+        console.log('Home - Fetched dashboardData:', data);
         
         // Check if we received valid data
         if (!data || Object.keys(data).length === 0) {
