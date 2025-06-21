@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import { getAllChartData } from '@/lib/db/server';
 import { ChartDataRow } from '@/lib/db/types';
+import { getPORDailySales } from '@/lib/db/porDailySales';
+import { getAdminVariables } from '@/lib/db/server';
 
 // Define the expected structure of the response
 // TODO: Define this properly in lib/db/types.ts and import it
@@ -19,7 +21,15 @@ interface DashboardApiResponse {
     orders: number;
     revenue: number;
   }[];
+  porDailySales: { date: string; value: number }[];
 }
+
+// Determine POR path: prefer admin config, fallback to env var
+const envPorPath = process.env.POR_Path;
+const adminVars = getAdminVariables();
+const porVar = adminVars.find(v => v.type === 'POR' && v.value);
+const porPath = porVar?.value as string || envPorPath;
+console.log('API: Using POR path:', porPath);
 
 export async function GET(request: Request) {
   try {
@@ -37,6 +47,7 @@ export async function GET(request: Request) {
       arAging: [],
       dailyOrders: [],
       webOrders: [],
+      porDailySales: [],
     };
 
     // Temporary collection for raw Web Orders rows
@@ -66,9 +77,6 @@ export async function GET(request: Request) {
           break;
         case 'Inventory':
           groupedData.inventory.push(row);
-          break;
-        case 'POR Overview':
-          groupedData.porOverview.push(row);
           break;
         case 'Site Distribution':
           groupedData.siteDistribution.push(row);
@@ -109,6 +117,36 @@ export async function GET(request: Request) {
       groupedData.webOrders = pivoted;
     }
 
+    // Fetch daily POR sales from MDB (file-based extraction) instead of DB rows
+    if (porPath) {
+      try {
+        const values = await getPORDailySales(porPath);
+        groupedData.porOverview = values.map((v, i) => {
+          // date labels based on file order; using ISO date increment from today backwards
+          const d = new Date();
+          d.setDate(d.getDate() - (values.length - 1 - i));
+          return { date: d.toISOString().split('T')[0], value: v };
+        });
+      } catch (e) {
+        console.error('Failed to load POR daily sales:', e);
+      }
+    }
+
+    // Fetch daily POR sales for last 30 days
+    let porDaily: { date: string; value: number }[] = [];
+    if (porPath) {
+      try {
+        const values = await getPORDailySales(porPath);
+        // map to last 30 days labels
+        const now = new Date();
+        porDaily = values.slice(-30).map((v, i) => {
+          const d = new Date(now.getFullYear(), now.getMonth(), now.getDate() - (29 - i));
+          return { date: d.toISOString().split('T')[0], value: v };});
+      } catch (e) {
+        console.error('Failed to load POR daily sales:', e);
+      }
+    }
+
     // Log the grouped data before sending the response
     console.log('API Response Data:', JSON.stringify(groupedData, null, 2)); 
     console.log('API - AR Aging Data Count:', groupedData.arAging?.length ?? 0);
@@ -121,8 +159,10 @@ export async function GET(request: Request) {
     console.log('API - Site Distribution Data Count:', groupedData.siteDistribution?.length ?? 0);
     console.log('API - Daily Orders Data Count:', groupedData.dailyOrders?.length ?? 0);
     console.log('API - Web Orders Data Count:', groupedData.webOrders?.length ?? 0);
+    console.log('API - POR Daily Sales Data Count:', porDaily?.length ?? 0);
 
-    return NextResponse.json(groupedData);
+    // Append porDailySales (deprecated; kept for compatibility)
+    return NextResponse.json({ ...groupedData });
 
   } catch (error) {
     console.error('API Error fetching dashboard data:', error instanceof Error ? error.stack : error);

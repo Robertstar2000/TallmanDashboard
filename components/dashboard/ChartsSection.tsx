@@ -23,12 +23,13 @@ import {
   AccountsDataPoint, 
   CustomerMetricPoint, 
   InventoryDataPoint, 
-  POROverviewPoint, 
+  PORDailySalesPoint, 
   SiteDistributionPoint, 
   ARAgingPoint, 
   DailyOrderPoint, 
   WebOrderPoint 
 } from '@/lib/db/types';
+import CustomerMetricsChart from '@/components/charts/CustomerMetricsChart';
 
 interface ChartsSectionProps {
   data: {
@@ -36,7 +37,7 @@ interface ChartsSectionProps {
     accounts: AccountsDataPoint[];
     customerMetrics: CustomerMetricPoint[];
     inventory: InventoryDataPoint[];
-    porOverview: POROverviewPoint[];
+    porOverview: PORDailySalesPoint[];
     siteDistribution: SiteDistributionPoint[];
     arAging: ARAgingPoint[];
     dailyOrders: DailyOrderPoint[];
@@ -157,31 +158,7 @@ export function ChartsSection({ data }: ChartsSectionProps) {
       {/* Customer Metrics */}
       <Card className="p-4">
         <h3 className="text-lg font-medium mb-4">Customer Metrics</h3>
-        <ResponsiveContainer width="100%" height={300}>
-          <BarChart data={data.customerMetrics}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis 
-              dataKey="date"
-              interval={0}
-              angle={-45}
-              textAnchor="end"
-              height={60}
-              tickFormatter={(value, index) => value}
-              reversed={false}
-            />
-            <YAxis />
-            <Tooltip />
-            <Legend />
-            {Object.keys(data.customerMetrics[0] || {}).filter(key => key !== 'id' && key !== 'date').map((key, idx) => (
-              <Bar
-                key={key}
-                dataKey={key}
-                name={key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}
-                fill={COLORS[idx % COLORS.length]}
-              />
-            ))}
-          </BarChart>
-        </ResponsiveContainer>
+        <CustomerMetricsChart data={data.customerMetrics as CustomerMetricPoint[]} />
       </Card>
 
       {/* Inventory Chart */}
@@ -228,16 +205,13 @@ export function ChartsSection({ data }: ChartsSectionProps) {
             <YAxis />
             <Tooltip />
             <Legend />
-            {Object.keys(data.porOverview[0] || {}).filter(key => key !== 'id' && key !== 'date').map((key, idx) => (
-              <Line
-                key={key}
-                type="monotone"
-                dataKey={key}
-                name={key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}
-                stroke={COLORS[idx % COLORS.length]}
-                activeDot={{ r: 8 }}
-              />
-            ))}
+            <Line
+              type="monotone"
+              dataKey="value"
+              name="Daily Sales"
+              stroke={COLORS[1]}
+              activeDot={{ r: 8 }}
+            />
           </LineChart>
         </ResponsiveContainer>
       </Card>
@@ -291,7 +265,7 @@ export function ChartsSection({ data }: ChartsSectionProps) {
       </Card>
 
       <div className="col-span-1">
-        <DailyOrdersChart data={data.dailyOrders} />
+        <DailyOrdersChart data={data.dailyOrders as DailyOrderPoint[]} />
       </div>
 
       {/* Web Orders */}

@@ -1000,143 +1000,7 @@ export const singleSourceData: SourceDataDefinition[] = [
     "chartName": "Historical Data",
     "axisStep": "Month -0"
   },
-  { 
-    "rowId": "85",
-    "chartGroup": "Historical Data",
-    "variableName": "Sales POR",
-    "DataPoint": "Historical Data - Sales POR - Month -11",
-    "serverName": "POR",
-    "tableName": "SOMAST",
-    "productionSqlExpression": "SELECT ISNULL(SUM(total_amount), 0) AS value FROM dbo.invoice_hdr WITH (NOLOCK) WHERE invoice_date >= DATEADD(DAY,  1, EOMONTH(GETDATE(), -12)) AND invoice_date   <  DATEADD(DAY,  1, EOMONTH(GETDATE(), -11));",    
-    "calculationType": "SUM",
-    "chartName": "Historical Data",
-    "axisStep": "Month -11"
-  },
-  { 
-    "rowId": "86",
-    "chartGroup": "Historical Data",
-    "variableName": "Sales POR",
-    "DataPoint": "Historical Data - Sales POR - Month -10",
-    "serverName": "POR",
-    "tableName": "SOMAST",
-    "productionSqlExpression": "SELECT Nz(SUM(total_amount),0) AS value FROM invoice_hdr WHERE invoice_date >= DateSerial(Year(DateAdd('m', -10, Date())), Month(DateAdd('m', -10, Date())), 1) AND invoice_date < DateSerial(Year(DateAdd('m', -9, Date())), Month(DateAdd('m', -9, Date())), 1);",        
-    "calculationType": "SUM",
-    "chartName": "Historical Data",
-    "axisStep": "Month -10"
-  },
-  { 
-    "rowId": "87",
-    "chartGroup": "Historical Data",
-    "variableName": "Sales POR",
-    "DataPoint": "Historical Data - Sales POR - Month -9",
-    "serverName": "POR",
-    "tableName": "SOMAST",
-    "productionSqlExpression": "SELECT Nz(SUM(total_amount),0) AS value FROM invoice_hdr WHERE invoice_date >= DateSerial(Year(DateAdd('m', -9, Date())), Month(DateAdd('m', -9, Date())), 1) AND invoice_date < DateSerial(Year(DateAdd('m', -8, Date())), Month(DateAdd('m', -8, Date())), 1);",    
-    "calculationType": "SUM",
-    "chartName": "Historical Data",
-    "axisStep": "Month -9"
-  },
-  { 
-    "rowId": "88",
-    "chartGroup": "Historical Data",
-    "variableName": "Sales POR",
-    "DataPoint": "Historical Data - Sales POR - Month -8",
-    "serverName": "POR",
-    "tableName": "SOMAST",
-    "productionSqlExpression": "SELECT Nz(SUM(total_amount),0) AS value FROM invoice_hdr WHERE invoice_date >= DateSerial(Year(DateAdd('m', -8, Date())), Month(DateAdd('m', -8, Date())), 1) AND invoice_date < DateSerial(Year(DateAdd('m', -7, Date())), Month(DateAdd('m', -7, Date())), 1);",      
-    "calculationType": "SUM",
-    "chartName": "Historical Data",
-    "axisStep": "Month -8"
-  },
-  { "rowId": "89",
-    "chartGroup": "Historical Data",
-    "variableName": "Sales POR",
-    "DataPoint": "Historical Data - Sales POR - Month 7",
-    "serverName": "POR",
-    "tableName": "SOMAST",
-    "productionSqlExpression": "SELECT Nz(SUM(total_amount),0) AS value FROM invoice_hdr WHERE invoice_date >= DateSerial(Year(DateAdd('m', -7, Date())), Month(DateAdd('m', -7, Date())), 1) AND invoice_date < DateSerial(Year(DateAdd('m', -6, Date())), Month(DateAdd('m', -6, Date())), 1);",    
-    "calculationType": "SUM",
-    "chartName": "Historical Data",
-    "axisStep": "Month 7"
-  },
-  { "rowId": "90",
-    "chartGroup": "Historical Data",
-    "variableName": "Sales POR",
-    "DataPoint": "Historical Data - Sales POR - Month -6",
-    "serverName": "POR",
-    "tableName": "SOMAST",
-    "productionSqlExpression": "SELECT Nz(SUM(total_amount),0) AS value FROM invoice_hdr WHERE invoice_date >= DateSerial(Year(DateAdd('m', -6, Date())), Month(DateAdd('m', -6, Date())), 1) AND invoice_date < DateSerial(Year(DateAdd('m', -5, Date())), Month(DateAdd('m', -5, Date())), 1);",  
-    "calculationType": "SUM",
-    "chartName": "Historical Data",
-    "axisStep": "Month -6"
-  },
-  { "rowId": "91",
-    "chartGroup": "Historical Data",
-    "variableName": "Sales POR",
-    "DataPoint": "Historical Data - Sales POR - Month -5",
-    "serverName": "POR",
-    "tableName": "SOMAST",
-    "productionSqlExpression": "SELECT Nz(SUM(total_amount),0) AS value FROM invoice_hdr WHERE invoice_date >= DateSerial(Year(DateAdd('m', -5, Date())), Month(DateAdd('m', -5, Date())), 1) AND invoice_date < DateSerial(Year(DateAdd('m', -4, Date())), Month(DateAdd('m', -4, Date())), 1);",     
-    "calculationType": "SUM",
-    "chartName": "Historical Data",
-    "axisStep": "Month-5"
-  },
-  { "rowId": "92",
-    "chartGroup": "Historical Data",
-    "variableName": "Sales POR",
-    "DataPoint": "Historical Data - Sales POR - Month -4",
-    "serverName": "POR",
-    "tableName": "SOMAST",
-    "productionSqlExpression": "SELECT Nz(SUM(total_amount),0) AS value FROM invoice_hdr WHERE invoice_date >= DateSerial(Year(DateAdd('m', -4, Date())), Month(DateAdd('m', -4, Date())), 1) AND invoice_date < DateSerial(Year(DateAdd('m', -3, Date())), Month(DateAdd('m', -3, Date())), 1);",    
-    "calculationType": "SUM",
-    "chartName": "Historical Data",
-    "axisStep": "Month 4"
-  },
-  { "rowId": "93",
-    "chartGroup": "Historical Data",
-    "variableName": "Sales POR",
-    "DataPoint": "Historical Data - Sales POR - Month -3",
-    "serverName": "POR",
-    "tableName": "SOMAST",
-    "productionSqlExpression": "SELECT Nz(SUM(total_amount),0) AS value FROM invoice_hdr WHERE invoice_date >= DateSerial(Year(DateAdd('m', -3, Date())), Month(DateAdd('m', -3, Date())), 1) AND invoice_date < DateSerial(Year(DateAdd('m', -2, Date())), Month(DateAdd('m', -2, Date())), 1);",      
-    "calculationType": "SUM",
-    "chartName": "Historical Data",
-    "axisStep": "Month -3"
-  },
-  { "rowId": "94",
-    "chartGroup": "Historical Data",
-    "variableName": "Sales POR",
-    "DataPoint": "Historical Data - Sales POR - Month -2",
-    "serverName": "POR",
-    "tableName": "SOMAST",
-    "productionSqlExpression": "SELECT Nz(SUM(total_amount),0) AS value FROM invoice_hdr WHERE invoice_date >= DateSerial(Year(DateAdd('m', -2, Date())), Month(DateAdd('m', -2, Date())), 1) AND invoice_date < DateSerial(Year(DateAdd('m', -1, Date())), Month(DateAdd('m', -1, Date())), 1);",      
-    "calculationType": "SUM",
-    "chartName": "Historical Data",
-    "axisStep": "Month -2"
-  },
-  { "rowId": "95",
-    "chartGroup": "Historical Data",
-    "variableName": "Sales POR",
-    "DataPoint": "Historical Data - Sales POR - Month -1",
-    "serverName": "POR",
-    "tableName": "SOMAST",
-    "productionSqlExpression": "SELECT Nz(SUM(total_amount),0) AS value FROM invoice_hdr WHERE invoice_date >= DateSerial(Year(DateAdd('m', -1, Date())), Month(DateAdd('m', -1, Date())), 1) AND invoice_date < DateSerial(Year(DateAdd('m', 0, Date())), Month(DateAdd('m', 0, Date())), 1);",   
-    "calculationType": "SUM",
-    "chartName": "Historical Data",
-    "axisStep": "Month -1"
-  },
-  { "rowId": "96",
-    "chartGroup": "Historical Data",
-    "variableName": "Sales POR",
-    "DataPoint": "Historical Data - Sales POR - Current",
-    "serverName": "POR",
-    "tableName": "SOMAST",
-    "productionSqlExpression": "SELECT Nz(SUM(total_amount),0) AS value FROM invoice_hdr WHERE invoice_date >= DateSerial(Year(Date()), Month(Date()), 1) AND invoice_date < DateSerial(Year(DateAdd('m', 1, Date())), Month(DateAdd('m', 1, Date())), 1);",     
-    "calculationType": "SUM",
-    "chartName": "Historical Data",
-    "axisStep": "Month -0"
-  },
-  { "rowId": "97",
+  { "rowId": "85",
     "chartGroup": "Inventory",
     "variableName": "in_stock",
     "DataPoint": "Inventory - in_stock - Addison 100",
@@ -1147,7 +1011,7 @@ export const singleSourceData: SourceDataDefinition[] = [
     "chartName": "Inventory",
     "axisStep": "Dept 100"
   },
-  { "rowId": "98",
+  { "rowId": "86",
     "chartGroup": "Inventory",
     "variableName": "in_stock",
     "DataPoint": "Inventory - in_stock - Columbus 101",
@@ -1158,7 +1022,7 @@ export const singleSourceData: SourceDataDefinition[] = [
     "chartName": "Inventory",
     "axisStep": "Dept 101"
   },
-  { "rowId": "99",
+  { "rowId": "87",
     "chartGroup": "Inventory",
     "variableName": "in_stock",
     "DataPoint": "Inventory - in_stock - sBlocks 102",
@@ -1169,7 +1033,7 @@ export const singleSourceData: SourceDataDefinition[] = [
     "chartName": "Inventory",
     "axisStep": "Dept 102"
   },
-  { "rowId": "100",
+  { "rowId": "88",
     "chartGroup": "Inventory",
     "variableName": "in_stock",
     "DataPoint": "Inventory - in_stock - LakeCity 107",
@@ -1180,7 +1044,7 @@ export const singleSourceData: SourceDataDefinition[] = [
     "chartName": "Inventory",
     "axisStep": "Dept 107"
   },
-  { "rowId": "101",
+  { "rowId": "89",
     "chartGroup": "Inventory",
     "variableName": "0n_order",
     "DataPoint": "Inventory - 0n_order - Dept 100",
@@ -1191,7 +1055,7 @@ export const singleSourceData: SourceDataDefinition[] = [
     "chartName": "Inventory",
     "axisStep": "Dept 100"
   },
-  { "rowId": "102",
+  { "rowId": "90",
     "chartGroup": "Inventory",
     "variableName": "0n_order",
     "DataPoint": "Inventory - 0n_order - Dept 101",
@@ -1202,7 +1066,7 @@ export const singleSourceData: SourceDataDefinition[] = [
     "chartName": "Inventory",
     "axisStep": "Dept 101"
   },
-  { "rowId": "103",
+  { "rowId": "91",
     "chartGroup": "Inventory",
     "variableName": "0n_order",
     "DataPoint": "Inventory - 0n_order - Dept 102",
@@ -1213,7 +1077,7 @@ export const singleSourceData: SourceDataDefinition[] = [
     "chartName": "Inventory",
     "axisStep": "Dept 102"
   },
-  { "rowId": "104",
+  { "rowId": "92",
     "chartGroup": "Inventory",
     "variableName": "0n_order",
     "DataPoint": "Inventory - 0n_order - Dept 107",
@@ -1224,7 +1088,7 @@ export const singleSourceData: SourceDataDefinition[] = [
     "chartName": "Inventory",
     "axisStep": "Dept 107"
   },
-  { "rowId": "105",
+  { "rowId": "93",
     "chartGroup": "Key Metrics",
     "variableName": "Total_Orders",
     "DataPoint": "Key Metrics - Order_count - Current Week",
@@ -1235,7 +1099,7 @@ export const singleSourceData: SourceDataDefinition[] = [
     "chartName": "Key Metrics",
     "axisStep": "Current Week"
   },
-  { "rowId": "106",
+  { "rowId": "94",
     "chartGroup": "Key Metrics",
     "variableName": "Open_Orders",
     "DataPoint": "Key Metrics - Open Orders - All",
@@ -1246,7 +1110,7 @@ export const singleSourceData: SourceDataDefinition[] = [
     "chartName": "Key Metrics",
     "axisStep": "Current"
   },
-  { "rowId": "107",
+  { "rowId": "95",
     "chartGroup": "Key Metrics",
     "variableName": "Daily_Orders",
     "DataPoint": "Key Metrics - Daily Orders - today",
@@ -1257,7 +1121,7 @@ export const singleSourceData: SourceDataDefinition[] = [
     "chartName": "Key Metrics",
     "axisStep": "Today"
   },
-  { "rowId": "108",
+  { "rowId": "96",
     "chartGroup": "Key Metrics",
     "variableName": "Open_Invoices",
     "DataPoint": "Key Metrics - Order_count - All",
@@ -1268,7 +1132,7 @@ export const singleSourceData: SourceDataDefinition[] = [
     "chartName": "Key Metrics",
     "axisStep": "Current"
   },
-  { "rowId": "109",
+  { "rowId": "97",
     "chartGroup": "Key Metrics",
     "variableName": "Orders_Backloged",
     "DataPoint": "Key Metrics - Orders Backloged - All",
@@ -1279,7 +1143,7 @@ export const singleSourceData: SourceDataDefinition[] = [
     "chartName": "Key Metrics",
     "axisStep": "Current"
   },
-  { "rowId": "110",
+  { "rowId": "98",
     "chartGroup": "Key Metrics",
     "variableName": "Order_count",
     "DataPoint": "Key Metrics - Order_count - Current Day",
@@ -1290,7 +1154,7 @@ export const singleSourceData: SourceDataDefinition[] = [
     "chartName": "Key Metrics",
     "axisStep": "Current Day"
   },
-  { "rowId": "111",
+  { "rowId": "99",
     "chartGroup": "Key Metrics",
     "variableName": "Total_Sales",
     "DataPoint": "Key Metrics - Total Sales - Current Month",
@@ -1301,7 +1165,7 @@ export const singleSourceData: SourceDataDefinition[] = [
     "chartName": "Key Metrics",
     "axisStep": "Last 12 Months"
   },
-  { "rowId": "112",
+  { "rowId": "100",
     "chartGroup": "Site Distribution",
     "variableName": "Sales_Total_Columbus",
     "DataPoint": "Site Distribution - Sales Total - Columbus",
@@ -1312,7 +1176,7 @@ export const singleSourceData: SourceDataDefinition[] = [
     "chartName": "Site Distribution",
     "axisStep": "Columbus"
   },
-  { "rowId": "113",
+  { "rowId": "101",
     "chartGroup": "Site Distribution",
     "variableName": "Sales_Total_Addison",
     "DataPoint": "Site Distribution - Sales Total - Addison",
@@ -1323,7 +1187,7 @@ export const singleSourceData: SourceDataDefinition[] = [
     "chartName": "Site Distribution", 
     "axisStep": "Addison"
   },
-  { "rowId": "114",
+  { "rowId": "102",
     "chartGroup": "Site Distribution",
     "variableName": "Sales_Total_Lake_City",
     "DataPoint": "Site Distribution - Sales Total - Lake City",
@@ -1335,7 +1199,7 @@ export const singleSourceData: SourceDataDefinition[] = [
     "axisStep": "Lake City"
   },
   {
-    "rowId": "115",
+    "rowId": "103",
     "chartGroup": "Web Orders",
     "variableName": "Web_Order_count",
     "DataPoint": "Web Orders - Web_Order_count - Month -11",
@@ -1347,7 +1211,7 @@ export const singleSourceData: SourceDataDefinition[] = [
     "axisStep": "Month -11"
   },
   {
-    "rowId": "116",
+    "rowId": "104",
     "chartGroup": "Web Orders",
     "variableName": "Web_Order_count",
     "DataPoint": "Web Orders - Web_Order_count - Month -10",
@@ -1359,7 +1223,7 @@ export const singleSourceData: SourceDataDefinition[] = [
     "axisStep": "Month -10"
   },
   {
-    "rowId": "117",
+    "rowId": "105",
     "chartGroup": "Web Orders",
     "variableName": "Web_Order_count",
     "DataPoint": "Web Orders - Web_Order_count - Month -9",
@@ -1371,7 +1235,7 @@ export const singleSourceData: SourceDataDefinition[] = [
     "axisStep": "Month -9"
   },
   {
-    "rowId": "118",
+    "rowId": "106",
     "chartGroup": "Web Orders",
     "variableName": "Web_Order_count",
     "DataPoint": "Web Orders - Web_Order_count - Month -8",
@@ -1383,7 +1247,7 @@ export const singleSourceData: SourceDataDefinition[] = [
     "axisStep": "Month -8"
   },
   {
-    "rowId": "119",
+    "rowId": "107",
     "chartGroup": "Web Orders",
     "variableName": "Web_Order_count",
     "DataPoint": "Web Orders - Web_Order_count - Month -7",
@@ -1395,7 +1259,7 @@ export const singleSourceData: SourceDataDefinition[] = [
     "axisStep": "Month -7"
   },
   {
-    "rowId": "120",
+    "rowId": "108",
     "chartGroup": "Web Orders",
     "variableName": "Web_Order_count",
     "DataPoint": "Web Orders - Web_Order_count - Month -6",
@@ -1407,7 +1271,7 @@ export const singleSourceData: SourceDataDefinition[] = [
     "axisStep": "Month -6"
   },
   {
-    "rowId": "121",
+    "rowId": "109",
     "chartGroup": "Web Orders",
     "variableName": "Web_Order_count",
     "DataPoint": "Web Orders - Web_Order_count - Month -5",
@@ -1419,7 +1283,7 @@ export const singleSourceData: SourceDataDefinition[] = [
     "axisStep": "Month -5"
   },
   {
-    "rowId": "122",
+    "rowId": "110",
     "chartGroup": "Web Orders",
     "variableName": "Web_Order_count",
     "DataPoint": "Web Orders - Web_Order_count - Month -4",
@@ -1431,7 +1295,7 @@ export const singleSourceData: SourceDataDefinition[] = [
     "axisStep": "Month -4"
   },
   {
-    "rowId": "123",
+    "rowId": "111",
     "chartGroup": "Web Orders",
     "variableName": "Web_Order_count",
     "DataPoint": "Web Orders - Web_Order_count - Month -3",
@@ -1443,7 +1307,7 @@ export const singleSourceData: SourceDataDefinition[] = [
     "axisStep": "Month -3"
   },
   {
-    "rowId": "124",
+    "rowId": "112",
     "chartGroup": "Web Orders",
     "variableName": "Web_Order_count",
     "DataPoint": "Web Orders - Web_Order_count - Month -2",
@@ -1455,7 +1319,7 @@ export const singleSourceData: SourceDataDefinition[] = [
     "axisStep": "Month -2"
   },
   {
-    "rowId": "125",
+    "rowId": "113",
     "chartGroup": "Web Orders",
     "variableName": "Web_Order_count",
     "DataPoint": "Web Orders - Web_Order_count - Month -1",
@@ -1467,7 +1331,7 @@ export const singleSourceData: SourceDataDefinition[] = [
     "axisStep": "Month -1"
   },
   {
-    "rowId": "126",
+    "rowId": "114",
     "chartGroup": "Web Orders",
     "variableName": "Web_Order_count",
     "DataPoint": "Web Orders - Web_Order_count - Month -0",
@@ -1479,7 +1343,7 @@ export const singleSourceData: SourceDataDefinition[] = [
     "axisStep": "Month -0"
   },
   {
-    "rowId": "127",
+    "rowId": "115",
     "chartGroup": "Web Revenue",
     "variableName": "Web_Order_value",
     "DataPoint": "Web Revenue - Web_Order_value - Month -11",
@@ -1491,7 +1355,7 @@ export const singleSourceData: SourceDataDefinition[] = [
     "axisStep": "Month -11"
   },
   {
-    "rowId": "128",
+    "rowId": "116",
     "chartGroup": "Web Revenue",
     "variableName": "Web_Order_value",
     "DataPoint": "Web Revenue - Web_Order_value - Month -10",
@@ -1503,7 +1367,7 @@ export const singleSourceData: SourceDataDefinition[] = [
     "axisStep": "Month -10"
   },
   {
-    "rowId": "129",
+    "rowId": "117",
     "chartGroup": "Web Revenue",
     "variableName": "Web_Order_value",
     "DataPoint": "Web Revenue - Web_Order_value - Month -9",
@@ -1515,7 +1379,7 @@ export const singleSourceData: SourceDataDefinition[] = [
     "axisStep": "Month -9"
   },
   {
-    "rowId": "130",
+    "rowId": "118",
     "chartGroup": "Web Revenue",
     "variableName": "Web_Order_value",
     "DataPoint": "Web Revenue - Web_Order_value - Month -8",
@@ -1527,7 +1391,7 @@ export const singleSourceData: SourceDataDefinition[] = [
     "axisStep": "Month -8"
   },
   {
-    "rowId": "131",
+    "rowId": "119",
     "chartGroup": "Web Revenue",
     "variableName": "Web_Order_value",
     "DataPoint": "Web Revenue - Web_Order_value - Month -7",
@@ -1539,7 +1403,7 @@ export const singleSourceData: SourceDataDefinition[] = [
     "axisStep": "Month -7"
   },
   {
-    "rowId": "132",
+    "rowId": "120",
     "chartGroup": "Web Revenue",
     "variableName": "Web_Order_value",
     "DataPoint": "Web Revenue - Web_Order_value - Month -6",
@@ -1551,7 +1415,7 @@ export const singleSourceData: SourceDataDefinition[] = [
     "axisStep": "Month -6"
   },
   {
-    "rowId": "133",
+    "rowId": "121",
     "chartGroup": "Web Revenue",
     "variableName": "Web_Order_value",
     "DataPoint": "Web Revenue - Web_Order_value - Month -5",
@@ -1563,7 +1427,7 @@ export const singleSourceData: SourceDataDefinition[] = [
     "axisStep": "Month -5"
   },
   {
-    "rowId": "134",
+    "rowId": "122",
     "chartGroup": "Web Revenue",
     "variableName": "Web_Order_value",
     "DataPoint": "Web Revenue - Web_Order_value - Month -4",
@@ -1575,7 +1439,7 @@ export const singleSourceData: SourceDataDefinition[] = [
     "axisStep": "Month -4"
   },
   {
-    "rowId": "135",
+    "rowId": "123",
     "chartGroup": "Web Revenue",
     "variableName": "Web_Order_value",
     "DataPoint": "Web Revenue - Web_Order_value - Month -3",
@@ -1587,7 +1451,7 @@ export const singleSourceData: SourceDataDefinition[] = [
     "axisStep": "Month -3"
   },
   {
-    "rowId": "136",
+    "rowId": "124",
     "chartGroup": "Web Revenue",
     "variableName": "Web_Order_value",
     "DataPoint": "Web Revenue - Web_Order_value - Month -2",
@@ -1599,7 +1463,7 @@ export const singleSourceData: SourceDataDefinition[] = [
     "axisStep": "Month -2"
   },
   {
-    "rowId": "137",
+    "rowId": "125",
     "chartGroup": "Web Revenue",
     "variableName": "Web_Order_value",
     "DataPoint": "Web Revenue - Web_Order_value - Month -1",
@@ -1611,7 +1475,7 @@ export const singleSourceData: SourceDataDefinition[] = [
     "axisStep": "Month -1"
   },
   {
-    "rowId": "138",
+    "rowId": "126",
     "chartGroup": "Web Revenue",
     "variableName": "Web_Order_value",
     "DataPoint": "Web Revenue - Web_Order_value - Current",
@@ -1621,56 +1485,6 @@ export const singleSourceData: SourceDataDefinition[] = [
     "calculationType": "SUM",
     "chartName": "Web Revenue",
     "axisStep": "Month -0"
-  },
-  // POR Overview – simple table counts confirmed via introspection
-  // RowIds continue sequentially after the previous entries (139-174 used above)
-  {
-    rowId: '175',
-    chartGroup: 'POR Overview',
-    variableName: 'PurchaseOrder_count',
-    DataPoint: 'POR Overview - PurchaseOrder_count - Current',
-    serverName: 'POR',
-    tableName: 'PurchaseOrder',
-    productionSqlExpression: 'SELECT Count(*) AS value FROM [PurchaseOrder];',
-    calculationType: 'SUM',
-    chartName: 'POR Overview',
-    axisStep: 'Current',
-  },
-  {
-    rowId: '176',
-    chartGroup: 'POR Overview',
-    variableName: 'PurchaseOrderDetail_count',
-    DataPoint: 'POR Overview - PurchaseOrderDetail_count - Current',
-    serverName: 'POR',
-    tableName: 'PurchaseOrderDetail',
-    productionSqlExpression: 'SELECT Count(*) AS value FROM [PurchaseOrderDetail];',
-    calculationType: 'SUM',
-    chartName: 'POR Overview',
-    axisStep: 'Current',
-  },
-  {
-    rowId: '177',
-    chartGroup: 'POR Overview',
-    variableName: 'CustomerFile_count',
-    DataPoint: 'POR Overview - CustomerFile_count - Current',
-    serverName: 'POR',
-    tableName: 'CustomerFile',
-    productionSqlExpression: 'SELECT Count(*) AS value FROM [CustomerFile];',
-    calculationType: 'SUM',
-    chartName: 'POR Overview',
-    axisStep: 'Current',
-  },
-  {
-    rowId: '178',
-    chartGroup: 'POR Overview',
-    variableName: 'MapGPSWorkOrders_count',
-    DataPoint: 'POR Overview - MapGPSWorkOrders_count - Current',
-    serverName: 'POR',
-    tableName: 'MapGPSWorkOrders',
-    productionSqlExpression: 'SELECT Count(*) AS value FROM [MapGPSWorkOrders];',
-    calculationType: 'SUM',
-    chartName: 'POR Overview',
-    axisStep: 'Current',
   },
 ];
 

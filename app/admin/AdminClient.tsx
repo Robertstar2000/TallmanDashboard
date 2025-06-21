@@ -12,6 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label"; 
 import { Save } from "lucide-react"; 
 import DatabaseConnectionDialog from '@/components/DatabaseConnectionDialog';
+import LdapSettingsDialog from '@/components/admin/LdapSettingsDialog';
 
 interface QueryExecutionState {
   [key: string]: {
@@ -51,7 +52,12 @@ export default function AdminClient() {
   // UI state for dialogs
   const [loading, setLoading] = useState(true);
   const [initializing, setInitializing] = useState(false);
-  const [isConnectionDialogOpen, setIsConnectionDialogOpen] = useState(false); // State for dialog visibility
+
+  // env-config values for display
+  const [p21Dsn, setP21Dsn] = useState<string | null>(null);
+  const [porPath, setPorPath] = useState<string | null>(null);
+  const [isConnectionDialogOpen, setIsConnectionDialogOpen] = useState(false);
+  const [isLdapDialogOpen, setIsLdapDialogOpen] = useState(false);
 
   // Function to execute a single SQL expression
   // Ensure row is explicitly typed
@@ -83,9 +89,17 @@ export default function AdminClient() {
         );
         
         // Remove checkConnections from initial load
+        // fetch env-config for status panel
+        const cfgResp = await fetch('/api/admin/connection-config');
+        if (cfgResp.ok) {
+          const cfg = await cfgResp.json();
+          setP21Dsn(cfg.p21Dsn);
+          setPorPath(cfg.porPath);
+        }
+
         await Promise.race([
-          Promise.all([fetchData()]), // <-- Removed checkConnections()
-          timeoutPromise
+          Promise.all([fetchData()]),
+          timeoutPromise,
         ]);
       } catch (error) {
         // Improved error logging with more details
@@ -515,42 +529,16 @@ export default function AdminClient() {
           <div className="p-4 border rounded-lg">
             <h4 className="font-medium mb-2">P21 Database</h4>
             <div className="space-y-3 mb-4">
-              <div className="flex items-center justify-between">
-                <Label htmlFor="p21-server">Server</Label>
-                <Input 
-                  id="p21-server" 
-                  value="P21"
-                  className="w-48"
-                  readOnly
-                />
-              </div>
-              <div className="flex items-center justify-between">
-                <Label htmlFor="p21-port">Port</Label>
-                <Input 
-                  id="p21-port" 
-                  value="5432"
-                  className="w-48"
-                  readOnly
-                />
-              </div>
-              <div className="flex items-center justify-between">
-                <Label htmlFor="p21-database">Database</Label>
-                <Input 
-                  id="p21-database" 
-                  value="P21Play"
-                  className="w-48"
-                  readOnly
-                />
-              </div>
-              <div className="flex items-center justify-between">
-                <Label htmlFor="p21-user">User</Label>
-                <Input 
-                  id="p21-user" 
-                  value="postgres"
-                  className="w-48"
-                  readOnly
-                />
-              </div>
+                {/* P21 connection details sourced from .env */}
+                <div className="flex items-center justify-between">
+                  <Label htmlFor="p21-dsn">DSN</Label>
+                  <Input
+                    id="p21-dsn"
+                    value={p21Dsn ?? 'Not Set'}
+                    className="w-48"
+                    readOnly
+                  />
+                </div>
             </div>
             <div className="flex items-center justify-between">
               {/* Make status indicator clickable */}
@@ -582,7 +570,7 @@ export default function AdminClient() {
                 <Label htmlFor="por-path">File Path</Label>
                 <Input 
                   id="por-path" 
-                  value={localStorage.getItem('porAccessFilePath') || 'C:\\Users\\BobM\\Desktop\\POR.MDB'}
+                  value={porPath ?? 'Not Set'}
                   className="w-48"
                   readOnly
                 />

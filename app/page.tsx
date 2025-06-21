@@ -1,18 +1,26 @@
 'use client';
 
+// Ensure this page is rendered dynamically on every request so middleware auth executes
+export const dynamic = 'force-dynamic';
+
 import { useEffect, useState } from 'react';
 import { MetricCard } from '@/components/dashboard/MetricCard';
 import AccountsChart from '@/components/charts/AccountsChart';
 import { HistoricalDataChart } from '@/components/dashboard/HistoricalDataChart';
-import { CustomerMetricsChart } from '@/components/dashboard/CustomerMetricsChart';
+import CustomerMetricsChart from '@/components/charts/CustomerMetricsChart';
 import { InventoryChart } from '@/components/dashboard/InventoryChart';
-import { POROverviewChart } from '@/components/dashboard/POROverviewChart';
+import POROverviewChart from '@/components/charts/POROverviewChart';
+import { PORDailySalesPoint } from '@/lib/db/types';
 import { SiteDistributionChart } from '@/components/dashboard/SiteDistributionChart';
 import { ARAgingChart } from '@/components/dashboard/ARAgingChart';
-import { DailyOrdersChart } from '@/components/dashboard/DailyOrdersChart';
-import { WebOrdersChart } from '@/components/dashboard/WebOrdersChart';
+import DailyOrdersChart from '@/components/charts/DailyOrdersChart';
+import { DailyOrderPoint } from '@/lib/db/types';
+import WebOrdersChart from '@/components/charts/WebOrdersChart';
+import { WebOrderPoint } from '@/lib/db/types';
 import Link from 'next/link';
+import { LogoutButton } from '@/components/LogoutButton';
 import { ChartDataRow } from '@/lib/db/types';
+import { CustomerMetricPoint } from '@/lib/db/types';
 
 // Placeholder type - will be replaced once API is implemented
 type DashboardDataPlaceholder = {
@@ -79,6 +87,25 @@ export default function Home() {
     return () => clearInterval(intervalId);
   }, []);
 
+  // Transform raw ChartDataRow for Customer Metrics into points usable by CustomerMetricsChart
+  const processedCustomerMetrics = dashboardData?.customerMetrics?.length
+    ? (() => {
+        const raw = dashboardData.customerMetrics as any[];
+        const steps = Array.from(new Set(raw.map(r => r.axisStep))).filter(Boolean) as string[];
+        const now = new Date();
+        const monthNames = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+        return steps.map(step => {
+          const idx = monthNames.findIndex(m => m.toLowerCase() === step.substring(0,3).toLowerCase());
+          const date = idx >= 0
+            ? new Date(now.getFullYear(), idx, 1).toISOString().split('T')[0]
+            : step;
+          const newItem = raw.find(r => r.axisStep === step && /new/i.test(r.variableName));
+          const prospectItem = raw.find(r => r.axisStep === step && /prospect|returning/i.test(r.variableName));
+          return { date, newCustomers: newItem?.value ?? 0, returningCustomers: prospectItem?.value ?? 0 };
+        }).sort((a,b) => a.date.localeCompare(b.date));
+      })()
+    : [];
+
   if (loading) {
     return <div className="flex items-center justify-center min-h-screen">Loading dashboard data...</div>;
   }
@@ -91,9 +118,12 @@ export default function Home() {
     <main className="min-h-screen p-4">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold">Tallman Dashboard</h1>
-        <Link href="/admin" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-          Admin
-        </Link>
+        <div className="flex items-center gap-2">
+          <Link href="/admin" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-xs">
+            Admin
+          </Link>
+          <LogoutButton />
+        </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-7 gap-4 mb-8">
@@ -121,7 +151,7 @@ export default function Home() {
 
         <div className="border rounded-lg p-4 shadow-sm">
           <h2 className="text-lg font-semibold mb-4">Customer Metrics</h2>
-          {dashboardData && <CustomerMetricsChart data={dashboardData.customerMetrics as ChartDataRow[]} />}
+          {dashboardData && <CustomerMetricsChart data={processedCustomerMetrics as CustomerMetricPoint[]} />}
         </div>
 
         <div className="border rounded-lg p-4 shadow-sm">
@@ -131,7 +161,7 @@ export default function Home() {
 
         <div className="border rounded-lg p-4 shadow-sm">
           <h2 className="text-lg font-semibold mb-4">POR Overview</h2>
-          {dashboardData && <POROverviewChart data={dashboardData.porOverview as ChartDataRow[]} />}
+          {dashboardData && <POROverviewChart data={dashboardData.porOverview as unknown as PORDailySalesPoint[]} />}
         </div>
 
         <div className="border rounded-lg p-4 shadow-sm">
@@ -151,7 +181,7 @@ export default function Home() {
 
         <div className="border rounded-lg p-4 shadow-sm">
           <h2 className="text-lg font-semibold mb-4">Web Orders</h2>
-          {dashboardData && <WebOrdersChart data={dashboardData.webOrders as ChartDataRow[]} />}
+          {dashboardData && <WebOrdersChart data={dashboardData.webOrders as unknown as WebOrderPoint[]} />}
         </div>
       </div>
     </main>

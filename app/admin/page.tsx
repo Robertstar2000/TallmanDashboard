@@ -10,6 +10,8 @@ import Link from 'next/link';
 import { HelpDialog } from '@/components/admin/HelpDialog';
 import DatabaseConnectionTester from '@/components/admin/DatabaseConnectionTester';
 import SQLQueryTester from '@/components/admin/SQLQueryTester';
+import ManualUserDialog from '@/components/admin/ManualUserDialog';
+import LdapSettingsDialog from '@/components/admin/LdapSettingsDialog';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogClose } from '@/components/ui/dialog';
 
 export default function AdminPage() {
@@ -17,6 +19,8 @@ export default function AdminPage() {
   const [showHelpDialog, setShowHelpDialog] = useState(false);
   const [showQueryTester, setShowQueryTester] = useState(false);
   const [showConnectionTester, setShowConnectionTester] = useState(false);
+  const [showUserDialog, setShowUserDialog] = useState(false);
+  const [showLdapDialog, setShowLdapDialog] = useState(false);
 
   // Worker State
   const [workerIsRunning, setWorkerIsRunning] = useState<boolean | null>(null); // null initially
@@ -134,8 +138,14 @@ export default function AdminPage() {
               Test Queries
             </Button>
             <Button variant="outline" onClick={() => setShowConnectionTester(true)}>
-              Test Connections
-            </Button>
+               Test Connections
+             </Button>
+             <Button variant="outline" onClick={() => setShowUserDialog(true)}>
+               Manage Users
+             </Button>
+             <Button variant="outline" onClick={() => setShowLdapDialog(true)}>
+               LDAP Settings
+             </Button>
             <Button asChild variant="outline">
               <Link href="/">Return to Dashboard</Link>
             </Button>
@@ -208,6 +218,12 @@ export default function AdminPage() {
              </DialogFooter>
            </DialogContent>
          </Dialog>
+
+         {/* Manual Users Dialog */}
+          <ManualUserDialog open={showUserDialog} onOpenChange={setShowUserDialog} />
+
+          {/* LDAP Settings Dialog */}
+          <LdapSettingsDialog open={showLdapDialog} onOpenChange={setShowLdapDialog} />
 
          {/* Query Tester Dialog */}
          <Dialog open={showQueryTester} onOpenChange={setShowQueryTester}>

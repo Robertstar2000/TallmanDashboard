@@ -35,7 +35,7 @@ export function HistoricalDataChart({ data }: HistoricalDataProps) {
   return (
     <Card className="p-4">
       <h3 className="text-lg font-semibold mb-4">Historical Data</h3>
-      <div className="h-[300px]">
+      <div className="h-[200px]">
         <ResponsiveContainer width="100%" height="100%">
           <LineChart data={chartData}>
             <CartesianGrid strokeDasharray="3 3" />

@@ -44,6 +44,36 @@ CREATE TABLE IF NOT EXISTS chart_data (
 --     FOREIGN KEY (admin_variable_id) REFERENCES admin_variables(id)
 -- );
 
+-- User authentication table
+CREATE TABLE IF NOT EXISTS users (
+    id TEXT PRIMARY KEY, -- Using TEXT for UUIDs is common, or INTEGER for auto-increment
+    email TEXT UNIQUE NOT NULL,
+    password TEXT, -- Can be NULL for LDAP users not using local fallback, or if password is not yet set
+    name TEXT NOT NULL,
+    status TEXT NOT NULL DEFAULT 'active' CHECK(status IN ('active', 'inactive', 'pending_verification', 'locked')),
+    role TEXT NOT NULL DEFAULT 'user' CHECK(role IN ('admin', 'user')),
+    is_ldap_user BOOLEAN NOT NULL DEFAULT FALSE,
+    failed_login_attempts INTEGER DEFAULT 0,
+    lock_until TEXT, -- ISO8601 date string (YYYY-MM-DD HH:MM:SS.SSS) or NULL
+    last_login TEXT, -- ISO8601 date string or NULL
+    created_at TEXT DEFAULT CURRENT_TIMESTAMP, -- SQLite will store as TEXT in YYYY-MM-DD HH:MM:SS format
+    updated_at TEXT DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Trigger to update 'updated_at' timestamp on user update
+CREATE TRIGGER IF NOT EXISTS trigger_users_updated_at
+AFTER UPDATE ON users
+FOR EACH ROW
+BEGIN
+    UPDATE users SET updated_at = CURRENT_TIMESTAMP WHERE id = OLD.id;
+END;
+
+-- Indexes for users table for faster lookups
+CREATE UNIQUE INDEX IF NOT EXISTS idx_users_email ON users(email);
+CREATE INDEX IF NOT EXISTS idx_users_status ON users(status);
+CREATE INDEX IF NOT EXISTS idx_users_role ON users(role);
+
+
 -- Indexes for performance
 CREATE INDEX IF NOT EXISTS idx_chart_data_timestamp ON chart_data(lastUpdated);
 CREATE INDEX IF NOT EXISTS idx_chart_data_group_label ON chart_data(chartGroup, DataPoint);

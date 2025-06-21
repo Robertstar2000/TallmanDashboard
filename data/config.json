@@ -1,3 +1,17 @@
 {
-  "POR_ACCESS_FILE_PATH": "C:\\Users\\BobM\\Desktop\\POR.MDB"
+  "POR_ACCESS_FILE_PATH": "C:\\Users\\BobM\\Desktop\\POR.MDB",
+  "ldap": {
+    "url": "ldap://dc02.tallman.com",
+    "bindDN": "CN=LDAP,DC=tallman,DC=com",
+    "bindCredentials": "ebGGAm77kk",
+    "searchBase": "",
+    "searchFilter": "",
+    "enabled": true,
+    "server_url": "ldap://DC02",
+    "bind_user_dn": "CN=LDAP,DC=tallman,DC=com",
+    "bind_user_password": "ebGGAm77kk",
+    "base_dn": "DC=tallman,DC=com",
+    "port": 389,
+    "use_ssl": false
+  }
 }

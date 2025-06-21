@@ -18,6 +18,24 @@ export default function DashboardClient() {
   const isRunning = useQueryStatusStore((state: QueryStatusState) => state.isRunning);
   const isPolling = useQueryStatusStore((state: QueryStatusState) => state.isPolling);
 
+  // Debug: print LDAP connection status to browser console once on mount
+  useEffect(() => {
+    const checkLdap = async () => {
+      try {
+        const resp = await fetch('/api/auth/ldap-quick-check');
+        if (resp.ok) {
+          const { ok } = await resp.json();
+          console.log(ok ? 'LDAP connected' : 'LDAP NOT connected');
+        } else {
+          console.log('LDAP status unknown (HTTP error)');
+        }
+      } catch (err) {
+        console.log('LDAP status check failed:', err);
+      }
+    };
+    checkLdap();
+  }, []);
+
   // Check if we need to restart polling when dashboard loads
   useEffect(() => {
     const checkRunningStatus = async () => {

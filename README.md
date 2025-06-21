@@ -1,3 +1,19 @@
+## Run it up
+
+```powershell
+# from project root
+npm install          # picks up mongoose & nock (already executed once)
+npm run dev          # or: npm run build && npm start
+```
+
+You should now see the banner:
+
+```
+Starting TallmanDashboard at http://localhost:3000
+```
+
+Navigate to that URL and the UI should load.
+
 AccountingAPIQueueCustomer, AccountingAPIQueueGL, AccountingAPIQueueGLDimensions, AccountingAPIQueuePO, 
 AccountingAPIQueuePODetail, AccountingAPIQueuePODimensions, AccountingAPIQueueTRDetail, 
 AccountingAPIQueueTRDimensions, AccountingAPIQueueVendor, AccountingClass, AccountingCustomer, 
@@ -142,6 +158,61 @@ The dashboard implements a background worker system that periodically executes S
 ## Implementation
 The background worker is implemented using:
 - Server-side API routes for worker control (`/api/admin/run/start`, `/api/admin/run/stop`, `/api/admin/run/status`)
+
+---
+
+## Running TallmanDashboard as a Windows Service with PM2
+
+PM2 can keep the dashboard running 24×7 and restart it after crashes or reboots. Because Windows/PowerShell handles argument parsing differently, **two `--` separators** are required.
+
+1. **Stop anything currently running**
+   ```powershell
+   pm2 delete all   # safe if nothing is running
+   ```
+2. **Start TallmanDashboard in production mode**
+   ```powershell
+   pm2 start node --name TallmanDashboard -- scripts/start-dev.js -- --prod
+   #                                   │            │                │
+   #             PM2 flags end here ───┘            │                └─ forwarded to start-dev.js
+   #                                                └─ script path
+   ```
+3. **Verify**
+   ```powershell
+   pm2 list                 # status should be ONLINE
+   pm2 logs TallmanDashboard --lines 50
+   ```
+4. **Persist & register PM2 service**
+   ```powershell
+   pm2 save                 # remember current process list
+   pm2 startup              # prints a long command
+   # Copy/paste that printed command into an *elevated* PowerShell once.
+   ```
+   After running the generated command (or after the next reboot), PM2 will start automatically and restore `TallmanDashboard`.
+
+### Updating the application
+
+1. Stop the process.
+   ```powershell
+   pm2 stop TallmanDashboard   # or pm2 delete all
+   ```
+2. Pull new code / run `npm install` / rebuild as needed.
+3. Start it again using the command from step 2 above.
+4. Save the new process list.
+   ```powershell
+   pm2 save
+   ```
+
+### Common Commands
+| Action | Command |
+|--------|---------|
+| View logs | `pm2 logs TallmanDashboard --lines 100` |
+| Restart app | `pm2 restart TallmanDashboard` |
+| Stop app | `pm2 stop TallmanDashboard` |
+| Delete app | `pm2 delete TallmanDashboard` |
+| Show all processes | `pm2 list` |
+| Flush logs | `pm2 flush` |
+
+These steps ensure TallmanDashboard stays running continuously on Windows and is easy to update.
 - Client-side state management for tracking execution status
 - WebSocket-like polling for real-time status updates
 
@@ -182,7 +253,7 @@ The system supports various transformation types specified in the `calculation` 
    - `deploy-production.ps1` - Production deployment script
 
 ## Environment Variables
-- `DATABASE_URL` - SQLite database URL for local development
+- `DATABASE_URL` - SQLite database URL (e.g., `file:./data/dashboard.db`). This is the primary database for application data (user accounts, configurations, dashboard structure/definitions from `lib/db/single-source-data.ts`).
 - `P21_SERVER` - P21 SQL Server hostname
 - `P21_DATABASE` - P21 database name
 - `POR_FILE_PATH` - Path to POR MS Access database file
@@ -222,8 +293,8 @@ s
 ### Data Flow Architecture
 
 ## 1. Data Sources & Storage
-- Primary Storage: SQL Server
-- In development mode, initial data is loaded from the `initialData` object in `lib/db.ts`.
+- Primary Application Storage: SQLite (using `better-sqlite3`). External data sources are P21 (SQL Server) and POR (MS Access).
+- Initial dashboard structure and default metric definitions are loaded from `lib/db/single-source-data.ts` into the SQLite database on startup or via admin controls.
 - Connection configurations for P21 and POR servers are stored in the `p21Connection` and `porConnection` variables, respectively.
 - The `getConnection` function is used to retrieve the appropriate connection based on the server type.
 
@@ -280,8 +351,9 @@ The admin spreadsheet uses the following variables:
 
 ## 6. Data Flow (All Modes)
 
-- At application startup, static data is loaded in the admin spreadsheet from the initial-data.ts, the static data it includes all of the admin spreadsheet fields and all rows. The value field is set to a estimate of the what a 50 million dollar tool supply company might be. The SQL expression and table are matched to the P21 or POR schema. initial-data.ts must fill in all fields.
-- In stop mode, the sql expression and table fields can be edited and saved as a edit to the admin spreadsheet field and the initial-data.ts file stored in local storage
+- The application uses an SQLite database (e.g., `data/dashboard.db`) as its primary persistent store for application-specific data, including user accounts, configurations, and the dashboard's structural data (chart groups, variables, SQL expressions).
+- On application startup, or when triggered by admin controls ("Load DB"), the dashboard's structural data is loaded from `lib/db/single-source-data.ts` into this SQLite database. The SQLite database then serves as the source of truth for the admin spreadsheet and dashboard display.
+- In stop mode, SQL expressions and table names can be edited. When saved (e.g., via "Save DB" in the admin panel), these changes are persisted to the SQLite database and then written back to the `lib/db/single-source-data.ts` file.
 - In run mode, the admin spreadsheet executes each row's sql expression against the selected datasource (P21 or POR) and then steps to the next row every 2 seconds. Each sql expression evaluation gets one value and is stored in the value field of the admin spreadsheet
 - One data point (AKA value) from one row is updated every 2 seconds from one source generating one value
 - The Value is transformed to displayed in the admin spreadsheet and again transformed to displayed on the dashboard as a single data point on the chart or metrics group element it is linked to
@@ -607,4 +679,36 @@ The TallmanDashboard implements a robust database connection management system d
 
 3. **ServerConfig Interface**
    - Located in `lib/db/connections.ts`
+
+---
+
+## Authentication & Routing Flow
+
+The following sequence guarantees that the **right page is always shown for the right user**:
+
+1. **Navigate to `http://localhost:3000/`**
+   - The Next.js middleware executes on every request.
+   - If the request is for a static asset or a public path (e.g. `/login`), it is allowed straight through.
+   - Otherwise the middleware looks for a valid **JWT bearer token** in the `Authorization` header or cookie.
+   - If **no token is present** *or* verification fails:
+     1. It performs a quick LDAP bind (via `/api/auth/ldap-quick-check`) to confirm the LDAP server is reachable.
+     2. The user is **redirected to `/login`**.  Login uses LDAP credentials and, on success, issues a signed JWT.
+
+2. **Dashboard Access**
+   - Once the JWT is accepted, *all* authenticated users (`status` `'user'` **or** `'admin'`) may access the root route (`/`).
+   - The React `DashboardClient` loads the live metrics immediately.
+
+3. **Admin Page Access (`/admin`)**
+   - The middleware checks `decodedUser.status === 'admin'` for any admin-scoped API or page route.
+   - If the check fails the request is **redirected back to `/`** (or `403` for API calls).
+   - Inside the UI the red **Admin** button uses `AuthContext` to determine the current user:
+     - **Admins**: button is active and `router.push('/admin')` works.
+     - **Non-admins**: button is greyed-out/disabled; clicking has no effect.
+
+This guarantees the behaviour requested:
+
+* Visiting `/` first checks LDAP (indirectly via login) and only shows the dashboard after successful authentication.
+* Admins see and can enter the admin panel; regular users stay on the dashboard.
+* The admin button does nothing for non-admin users, preventing accidental navigation.
+
    -

@@ -31,7 +31,7 @@ export async function checkAllConnections(): Promise<{ p21Status: ConnectionStat
 
   let porStatus: ConnectionStatus = { isConnected: false, lastChecked: now };
   try {
-    const filePath = process.env.POR_DB_PATH!;
+    const filePath = process.env.POR_PATH!;
     const password = process.env.POR_DB_PASSWORD;
     const result = await testPORConnectionServer({ filePath, password } as DatabaseConnection);
     porStatus = {

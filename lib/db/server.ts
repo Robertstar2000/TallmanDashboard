@@ -1,10 +1,12 @@
 import Database from 'better-sqlite3';
 import fs from 'fs';
 import path from 'path';
-import odbc from 'odbc'; 
 import type * as sql from 'mssql'; 
 import { ChartDataRow, ServerConfig, DatabaseConnection } from './types';
 import MDBReader from 'mdb-reader';
+import { IUser } from './types'; // Added IUser import
+import crypto from 'crypto'; // For generating UUIDs
+import bcrypt from 'bcryptjs'; // For password hashing
 
 const DB_PATH = path.join(process.cwd(), 'data', 'dashboard.db');
 const DATA_DIR = path.dirname(DB_PATH);
@@ -19,41 +21,69 @@ if (!process.env.ADODB_JS_CSCRIPT_PATH) {
   process.env.ADODB_JS_CSCRIPT_PATH = system32Cscript;
 }
 
+let db: Database.Database;
+
+/**
+ * Initializes and returns a singleton SQLite database instance.
+ * Ensures that the schema (including the users table) exists.
+ */
+export const getDb = (): Database.Database => {
+  if (!db) {
+    try {
+      db = new Database(DB_PATH, { verbose: console.log }); // Enable verbose logging for DB operations if needed
+      db.pragma('journal_mode = WAL');
+      db.pragma('foreign_keys = ON');
+      ensureTableExists(db); // This function already exists and applies schema.sql
+      console.log('Database connection established and schema ensured.');
+    } catch (error) {
+      console.error('Failed to initialize the database:', error);
+      throw error; // Re-throw to indicate critical failure
+    }
+  }
+  return db;
+};
+
+// Close the database connection when the application exits
+process.on('exit', () => {
+  if (db && db.open) {
+    db.close();
+    console.log('Database connection closed.');
+  }
+});
+// Handle Ctrl+C gracefully
+process.on('SIGINT', () => {
+  if (db && db.open) {
+    db.close();
+    console.log('Database connection closed due to app termination.');
+  }
+  process.exit(0);
+});
+
+
 function ensureTableExists(db: Database.Database) {
   const schemaPath = path.join(process.cwd(), 'lib', 'db', 'schema.sql');
-  const schema = fs.readFileSync(schemaPath, 'utf8');
-  
-  const statements = schema.split(';').filter(stmt => stmt.trim());
-  for (const stmt of statements) {
-    if (stmt.trim()) {
-      try {
-        db.exec(stmt);
-      } catch (error) {
-        console.error('Error executing schema statement:', error);
-        console.error('Statement:', stmt);
-        throw error;
-      }
-    }
+  const schemaSql = fs.readFileSync(schemaPath, 'utf8');
+  try {
+    db.exec(schemaSql);
+  } catch (error) {
+    console.error('Error executing schema.sql:', error);
+    throw error;
   }
 }
 
+// Ensure DB is initialized when module is loaded, so other functions can use getDb()
+getDb();
+
 export const getAllChartData = (): ChartDataRow[] => {
-  let dbInstance: Database.Database | null = null;
+    const currentDb = getDb();
   try {
-    dbInstance = new Database(DB_PATH);
-    if (!dbInstance) throw new Error("Failed to create DB instance"); 
-    ensureTableExists(dbInstance);
     console.log('[getAllChartData] Preparing to execute SELECT * FROM chart_data'); 
-    const stmt = dbInstance.prepare('SELECT * FROM chart_data ORDER BY id ASC');
+    const stmt = currentDb.prepare('SELECT * FROM chart_data ORDER BY id ASC');
     const data = stmt.all() as ChartDataRow[];
     return data;
   } catch (error) {
     console.error('Error fetching all chart data:', error);
     throw error; 
-  } finally {
-    if (dbInstance) {
-      dbInstance.close();
-    }
   }
 };
 
@@ -62,26 +92,19 @@ export const getAllSpreadsheetData = (): ChartDataRow[] => {
 };
 
 export const updateChartDataValue = (rowId: string, value: number): boolean => {
-  let dbInstance: Database.Database | null = null;
+    const currentDb = getDb();
   try {
-    dbInstance = new Database(DB_PATH);
-    if (!dbInstance) throw new Error("Failed to create DB instance"); 
-    ensureTableExists(dbInstance);
-    const stmt = dbInstance.prepare('UPDATE chart_data SET value = ?, lastUpdated = CURRENT_TIMESTAMP WHERE rowId = ?');
+    const stmt = currentDb.prepare('UPDATE chart_data SET value = ?, lastUpdated = CURRENT_TIMESTAMP WHERE rowId = ?');
     const info = stmt.run(value, rowId);
     return info.changes > 0;
   } catch (error) {
     console.error(`Error updating value for rowId ${rowId}:`, error);
     return false;
-  } finally {
-    if (dbInstance) {
-      dbInstance.close();
-    }
   }
 };
 
 export const updateChartDataRow = (rowId: string, data: Partial<Omit<ChartDataRow, 'id' | 'rowId' | 'lastUpdated'>>): boolean => {
-  let dbInstance: Database.Database | null = null;
+  const currentDb = getDb();
   const fields = Object.keys(data).filter(key => key !== 'id' && key !== 'rowId' && key !== 'lastUpdated');
   if (fields.length === 0) {
     console.warn('No fields provided to update for rowId:', rowId);
@@ -93,366 +116,108 @@ export const updateChartDataRow = (rowId: string, data: Partial<Omit<ChartDataRo
   values.push(rowId); 
 
   try {
-    dbInstance = new Database(DB_PATH);
-    if (!dbInstance) throw new Error("Failed to create DB instance"); 
-    ensureTableExists(dbInstance);
-    const stmt = dbInstance.prepare(`UPDATE chart_data SET ${setClause}, lastUpdated = CURRENT_TIMESTAMP WHERE rowId = ?`);
+    const stmt = currentDb.prepare(`UPDATE chart_data SET ${setClause}, lastUpdated = CURRENT_TIMESTAMP WHERE rowId = ?`);
     const info = stmt.run(...values);
     console.log(`Updated row ${rowId}. Changes: ${info.changes}`);
     return info.changes > 0;
   } catch (error) {
     console.error(`Error updating row ${rowId}:`, error);
     return false;
-  } finally {
-    if (dbInstance) {
-      dbInstance.close();
-    }
   }
 };
 
 export const replaceAllChartData = (data: Omit<ChartDataRow, 'id' | 'lastUpdated'>[]): boolean => {
-  let dbInstance: Database.Database | null = null;
+  const currentDb = getDb();
   try {
-    dbInstance = new Database(DB_PATH);
-    if (!dbInstance) throw new Error("Failed to create DB instance"); 
-    ensureTableExists(dbInstance);
-    const insertStmt = dbInstance.prepare(`
-      INSERT INTO chart_data (id, rowId, chartGroup, chartName, variableName, DataPoint, serverName, tableName, productionSqlExpression, value, calculationType, axisStep)
-      VALUES (@rowId, @rowId, @chartGroup, @chartName, @variableName, @DataPoint, @serverName, @tableName, @productionSqlExpression, @value, @calculationType, @axisStep)
-    `);
+    currentDb.transaction(() => {
+      const deleteStmt = currentDb.prepare('DELETE FROM chart_data');
+      deleteStmt.run();
+      
+      const insertStmt = currentDb.prepare(`
+        INSERT INTO chart_data (
+          id, rowId, chartGroup, variableName, DataPoint, chartName, 
+          serverName, tableName, productionSqlExpression, value, 
+          lastUpdated, calculationType, axisStep, error
+        ) VALUES (
+          @id, @rowId, @chartGroup, @variableName, @DataPoint, @chartName, 
+          @serverName, @tableName, @productionSqlExpression, @value, 
+          CURRENT_TIMESTAMP, @calculationType, @axisStep, @error
+        )
+      `);
 
-    const transaction = dbInstance.transaction((rows: Omit<ChartDataRow, 'id' | 'lastUpdated'>[]) => {
-      if (!dbInstance) throw new Error("DB instance not available in transaction"); 
-      dbInstance.exec('DELETE FROM chart_data'); 
-      dbInstance.exec('DELETE FROM sqlite_sequence WHERE name=\'chart_data\''); 
-      for (const row of rows) {
-        insertStmt.run(row);
+      for (const row of data) {
+        insertStmt.run({
+          ...row,
+          id: crypto.randomUUID(), // Generate new UUID for id
+          lastUpdated: new Date().toISOString() // Set lastUpdated, though DB will set CURRENT_TIMESTAMP
+        });
       }
-    });
-
-    console.log('[replaceAllChartData] Executing transaction...'); 
-    transaction(data);
-    console.log(`[replaceAllChartData] Transaction completed. Successfully replaced all chart data with ${data.length} rows.`); 
+    })();
     return true;
   } catch (error) {
-    console.error('Error replacing chart data:', error);
+    console.error('Error replacing all chart data:', error);
     return false;
-  } finally {
-    if (dbInstance) {
-      dbInstance.close();
-    }
   }
 };
 
-export const updateSpreadsheetData = (data: ChartDataRow[]) => {
-  let dbInstance: Database.Database | null = null;
+export const updateSpreadsheetData = (data: ChartDataRow[]): boolean => {
+  const currentDb = getDb();
   try {
-    dbInstance = new Database(DB_PATH);
-    if (!dbInstance) throw new Error("Failed to create DB instance"); 
-    ensureTableExists(dbInstance);
-
-    const updateStmt = dbInstance.prepare(`
-      UPDATE chart_data
-      SET
-        chartGroup = ?,
-        variableName = ?,
-        DataPoint = ?,
-        serverName = ?,
-        tableName = ?,
-        productionSqlExpression = ?,
-        calculationType = ?,
-        chartName = ?,  
-        axisStep = ?,   
-        lastUpdated = ? 
-      WHERE rowId = ?
+    const updateStmt = currentDb.prepare(`
+      UPDATE chart_data 
+      SET 
+        chartGroup = @chartGroup, 
+        variableName = @variableName, 
+        DataPoint = @DataPoint, 
+        chartName = @chartName,
+        serverName = @serverName, 
+        tableName = @tableName, 
+        productionSqlExpression = @productionSqlExpression, 
+        value = @value,
+        calculationType = @calculationType, 
+        axisStep = @axisStep,
+        error = @error,
+        lastUpdated = CURRENT_TIMESTAMP
+      WHERE rowId = @rowId
     `);
 
-    const updateMany = dbInstance.transaction((rows: ChartDataRow[]) => {
-      if (!dbInstance) throw new Error("DB instance not available in transaction"); 
+    const updateMany = currentDb.transaction((rows: ChartDataRow[]) => {
+      let changes = 0;
       for (const row of rows) {
-        const params = [
-          row.chartGroup,
-          row.variableName,
-          row.DataPoint,
-          row.serverName,
-          row.tableName,
-          row.productionSqlExpression,
-          row.calculationType,
-          row.chartName, 
-          row.axisStep,  
-          new Date().toISOString(), 
-          row.rowId 
-        ];
-        try {
-          updateStmt.run(params);
-        } catch(err) {
-          console.error(`Failed to update row with id ${row.id}:`, err);
-          console.error('Row data:', row);
-          throw err;
-        }
+        // Ensure all fields from ChartDataRow are present, providing defaults for nullable ones if necessary
+        const result = updateStmt.run({
+          chartGroup: row.chartGroup,
+          variableName: row.variableName,
+          DataPoint: row.DataPoint,
+          chartName: row.chartName,
+          serverName: row.serverName,
+          tableName: row.tableName,
+          productionSqlExpression: row.productionSqlExpression,
+          value: row.value,
+          calculationType: row.calculationType,
+          axisStep: row.axisStep,
+          // error: row.error, // ChartDataRow does not have an 'error' property. The 'error' column in DB is handled separately.
+          rowId: row.rowId
+        });
+        changes += result.changes;
       }
+      return changes;
     });
 
-    try {
-      console.log(`Starting transaction to update ${data.length} rows...`);
-      updateMany(data);
-      console.log(`Successfully updated ${data.length} rows.`);
-    } catch (error) {
-      console.error('Transaction failed during spreadsheet data update:', error);
-      throw error;
-    }
-  } finally {
-    if (dbInstance) {
-      dbInstance.close();
-    }
-  }
-}
-
-export const testP21ConnectionServer = async (
-  connectionDetails: DatabaseConnection
-): Promise<{ success: boolean; message: string }> => {
-  const dsnName = process.env.P21_DSN!;
-  const { server, database, username, password } = connectionDetails;
-
-  let connectionString = `DSN=${dsnName};`;
-
-  console.log(`Attempting to connect to P21 using DSN: ${dsnName}`);
-
-  let connection: odbc.Connection | null = null;
-
-  try {
-    console.log('Using ODBC module for P21.');
-    connection = await odbc.connect(connectionString);
-    console.log(`Successfully connected to P21 using DSN: ${dsnName}`);
-
-    await connection.query('SELECT 1');
-    console.log(`Test query executed successfully on P21 via DSN: ${dsnName}.`);
-
-    return { success: true, message: `P21 connection successful using DSN: ${dsnName}!` };
-
+    console.log(`Starting transaction to update ${data.length} rows in chart_data...`);
+    const totalChanges = updateMany(data);
+    console.log(`Successfully updated chart_data. Total changes: ${totalChanges}`);
+    return totalChanges > 0 || data.length === 0; // Return true if changes were made or if no data was passed
   } catch (error) {
-    console.error(`Error testing P21 connection using DSN ${dsnName}:`, error);
-    const errorMessage = error instanceof Error ? error.message : `Unknown P21 connection error with DSN ${dsnName}.`;
-    return { success: false, message: `P21 connection failed using DSN ${dsnName}: ${errorMessage}` };
-
-  } finally {
-    if (connection) {
-      try {
-        await connection.close();
-        console.log(`P21 connection (DSN: ${dsnName}) closed.`);
-      } catch (closeError) {
-        console.error(`Error closing P21 connection (DSN: ${dsnName}):`, closeError);
-      }
-    }
-  }
-};
-
-export const testPORConnectionServer = async (
-  connectionDetails: DatabaseConnection
-): Promise<{ success: boolean; message: string }> => {
-  const { filePath, password } = connectionDetails;
-  if (!filePath) {
-    const errorMsg = 'File path is required for POR test.';
-    console.error(errorMsg);
-    return { success: false, message: errorMsg };
-  }
-  try {
-    const buffer = fs.readFileSync(filePath);
-    const reader = new MDBReader(buffer);
-    const tableNames = reader.getTableNames();
-    if (!tableNames.includes('PurchaseOrder')) {
-      return { success: false, message: 'Table PurchaseOrder not found in MDB file.' };
-    }
-    const table = reader.getTable('PurchaseOrder');
-    const rows = table.getData();
-    const count = Array.isArray(rows) ? rows.length : 0;
-    return { success: true, message: `POR MDB read successful. PurchaseOrder rows: ${count}.` };
-  } catch (err) {
-    console.error('[POR-MDB] Test error details:', err);
-    const errorMsg = err instanceof Error ? err.message : String(err);
-    return { success: false, message: `POR test via mdb-reader failed: ${errorMsg}` };
-  }
-};
-
-export const executeP21QueryServer = async (
-  sqlQuery: string
-): Promise<{ success: boolean; data?: any[]; columns?: string[]; error?: string; message?: string; executionTime?: number }> => {
-  const startTime = Date.now();
-  const dsnName = process.env.P21_DSN!;
-  let connection: odbc.Connection | null = null;
-
-  console.log(`Attempting to execute P21 query using DSN: ${dsnName}`);
-
-  try {
-    console.log('Using ODBC module for P21.');
-    connection = await odbc.connect(`DSN=${dsnName};`);
-    console.log(`Connected to P21 using DSN: ${dsnName} for query execution.`);
-
-    const rawQuery = sqlQuery.replace(/;$/, '');
-    const msQuery = rawQuery.replace(/\bAS\s+value\b/gi, 'AS [value]');
-    console.log('POR adjusted query:', msQuery);
-
-    const result = await connection.query(msQuery);
-    const executionTime = Date.now() - startTime;
-    console.log(`P21 query executed via DSN ${dsnName} in ${executionTime}ms.`);
-
-    const data = result as any[]; 
-    let columns: string[] = [];
-    if (data.length > 0) {
-      columns = Object.keys(data[0]);
-    }
-
-    return {
-        success: true,
-        data: data,
-        columns: columns,
-        message: `Query executed successfully on P21. Found ${data.length} rows.`,
-        executionTime: executionTime,
-    };
-
-  } catch (error) {
-    console.error(`Error executing P21 query using DSN ${dsnName}:`, error);
-    console.error('[Server] P21 Query Error Details:', JSON.stringify(error, null, 2)); 
-
-    const errorMessageString = error instanceof Error ? error.message : `Unknown P21 query execution error with DSN ${dsnName}.`;
-
-    const errorResult: { success: boolean; data?: any[]; columns?: string[]; error?: string; message?: string; executionTime?: number } = {
-        success: false,
-        error: `P21 query execution failed using DSN ${dsnName}: ${errorMessageString}`,
-        executionTime: Date.now() - startTime
-    };
-    return errorResult;
-
-  } finally {
-    if (connection) {
-      try {
-        await connection.close();
-        console.log(`P21 connection (DSN: ${dsnName}) closed after query.`);
-      } catch (closeError) {
-        console.error(`Error closing P21 connection (DSN: ${dsnName}) after query:`, closeError);
-      }
-    }
-  }
-};
-
-export const executePORQueryServer = async (
-  filePath: string,
-  password: string | undefined,
-  sqlQuery: string
-): Promise<{ success: boolean; data?: any[]; columns?: string[]; error?: string; message?: string; executionTime?: number }> => {
-  const startTime = Date.now();
-  if (!filePath) {
-    return { success: false, error: 'File path is required for POR query.' };
-  }
-
-  // Prepare individual statements (split on semicolons) and trim whitespace
-  const statements = sqlQuery
-    .split(';')
-    .map(s => s.trim())
-    .filter(s => s.length);
-
-  // Regex to detect very simple "SELECT Count(*) AS value FROM [TableName]" pattern
-  const simpleCountRegex = /^SELECT\s+Count\(\*\)\s+AS\s+(?:\[[^\]]+\]|[A-Za-z0-9_]+)\s+FROM\s+\[?([A-Za-z0-9_ ]+)\]?$/i;
-
-  // Helper using MDBReader for simple count queries
-  const tryExecuteWithMdbReader = (): { success: boolean; data?: any[]; columns?: string[]; error?: string } => {
-    try {
-      // If any statement is not a simple COUNT pattern, abort this strategy
-      if (!statements.every(stmt => simpleCountRegex.test(stmt))) {
-        return { success: false, error: 'Not all statements match simple COUNT pattern' };
-      }
-
-      // Read MDB file into memory
-      const buffer = fs.readFileSync(filePath);
-      const reader = new MDBReader(buffer, password ? { password } as any : undefined);
-      const tableNames = reader.getTableNames();
-
-      const results: { value: number }[] = [];
-      for (const stmt of statements) {
-        const match = simpleCountRegex.exec(stmt);
-        if (!match) {
-          return { success: false, error: `Unsupported SQL syntax: ${stmt}` };
-        }
-        const tableNameRaw = match[1];
-        const tableName = tableNameRaw.replace(/\[|\]/g, '');
-        if (!tableNames.includes(tableName)) {
-          return { success: false, error: `Table ${tableName} not found in MDB.` };
-        }
-        const table = reader.getTable(tableName);
-        const count = table.getData().length;
-        results.push({ value: count });
-      }
-
-      return { success: true, data: results, columns: ['value'] };
-    } catch (readerErr) {
-      console.error('[POR-MDB] Reader error details:', readerErr);
-      const msg = readerErr instanceof Error ? readerErr.message : String(readerErr);
-      return { success: false, error: `MDB reader failed: ${msg}` };
-    }
-  };
-
-  // First, attempt to execute via ADODB (required for complex queries)
-  try {
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
-    const ADODB: any = require('node-adodb');
-
-    const provider = filePath.toLowerCase().endsWith('.accdb')
-      ? 'Provider=Microsoft.ACE.OLEDB.12.0;'
-      : 'Provider=Microsoft.Jet.OLEDB.4.0;';
-    const auth = password ? `Jet OLEDB:Database Password=${password};` : '';
-    const connStr = `${provider}Data Source=${filePath};Persist Security Info=False;${auth}`;
-
-    const connection = ADODB.open(connStr, true); // force x64 engine
-
-    const results: any[] = [];
-    for (const original of statements) {
-      const raw = original.replace(/;$/, '');
-      const accessQuery = raw.replace(/\bAS\s+value\b/gi, 'AS [value]');
-      const partial = await connection.query(accessQuery);
-      // Access returns rows; we expect a single row with alias "value"
-      if (Array.isArray(partial)) {
-        results.push(partial[0] ?? {});
-      }
-    }
-
-    const executionTime = Date.now() - startTime;
-    const cols = results.length && results[0] ? Object.keys(results[0]) : [];
-    return {
-      success: true,
-      data: results,
-      columns: cols,
-      message: `Query executed via ADODB. Statements: ${results.length}`,
-      executionTime,
-    };
-  } catch (adodbErr) {
-    console.error('[POR-ADODB] Query error details:', adodbErr);
-    // Attempt fallback using MDBReader
-    const fallback = tryExecuteWithMdbReader();
-    if (fallback.success) {
-      return {
-        success: true,
-        data: fallback.data,
-        columns: fallback.columns,
-        message: `Query executed via fallback MDB reader. Statements: ${fallback.data?.length ?? 0}`,
-        executionTime: Date.now() - startTime,
-      };
-    }
-
-    const errorMsg = adodbErr instanceof Error ? adodbErr.message : String(adodbErr);
-    return {
-      success: false,
-      error: `POR query execution failed via ADODB: ${errorMsg}. Fallback attempt: ${fallback.error ?? 'none'}`,
-      executionTime: Date.now() - startTime,
-    };
+    console.error('Error updating spreadsheet data in chart_data:', error);
+    return false;
   }
 };
 
 export const getAdminVariables = (): ServerConfig[] => {
-  let dbInstance: Database.Database | null = null;
+  const currentDb = getDb();
   try {
-    dbInstance = new Database(DB_PATH);
-    if (!dbInstance) throw new Error("Failed to create DB instance"); 
-    dbInstance.exec(`
+    currentDb.exec(`
       CREATE TABLE IF NOT EXISTS admin_variables (
         id TEXT PRIMARY KEY,
         name TEXT NOT NULL,
@@ -464,7 +229,7 @@ export const getAdminVariables = (): ServerConfig[] => {
       );
     `);
 
-    const stmt = dbInstance.prepare('SELECT id, name, type, value, description, is_active, last_updated FROM admin_variables');
+    const stmt = currentDb.prepare('SELECT id, name, type, value, description, is_active, last_updated FROM admin_variables');
     const rows = stmt.all() as any[]; 
 
     const results: ServerConfig[] = rows.map(row => ({
@@ -483,16 +248,13 @@ export const getAdminVariables = (): ServerConfig[] => {
   } catch (error) {
     console.error('Server: Failed to get admin variables:', error);
     return []; 
-  } finally {
-    if (dbInstance) {
-      dbInstance.close();
-    }
   }
 };
 
 export const updateAdminVariable = (id: string, data: Partial<Omit<ServerConfig, 'id' | 'lastUpdated'>>): boolean => {
-  let dbInstance: Database.Database | null = null;
+  const currentDb = getDb();
   const fields = Object.keys(data).filter(key => key !== 'id' && key !== 'lastUpdated');
+  // ensureTableExists is called by getDb() if db is new, so not needed here directly.
   if (fields.length === 0) {
     console.warn('No fields provided to update for admin variable ID:', id);
     return false;
@@ -533,21 +295,14 @@ export const updateAdminVariable = (id: string, data: Partial<Omit<ServerConfig,
 
   const sql = `UPDATE admin_variables SET ${setClauses.join(', ')} WHERE id = ?`;
 
-  try {
-    dbInstance = new Database(DB_PATH);
-    if (!dbInstance) throw new Error("Failed to create DB instance"); 
-    ensureTableExists(dbInstance);
-    const stmt = dbInstance.prepare(sql);
+    try {
+    const stmt = currentDb.prepare(sql);
     const info = stmt.run(params);
     console.log(`Server: Admin variable ${id} update result: ${info.changes} changes.`);
     return info.changes > 0;
   } catch (error) {
     console.error(`Server: Failed to update admin variable ${id}:`, error);
     return false; 
-  } finally {
-    if (dbInstance) {
-      dbInstance.close();
-    }
   }
 };
 
@@ -591,11 +346,324 @@ export interface ConnectionConfig {
 
 ensureTypesFile(); 
 
-interface QueryExecResult {
+// --- User Authentication Functions ---
+
+export const findUserByEmail = (email: string): IUser | null => {
+  const currentDb = getDb();
+  try {
+    const stmt = currentDb.prepare('SELECT * FROM users WHERE email = ?');
+    const user = stmt.get(email.toLowerCase()) as IUser | undefined;
+    return user || null;
+  } catch (error) {
+    console.error(`Error finding user by email ${email}:`, error);
+    return null;
+  }
+};
+
+export const findUserById = (id: string): IUser | null => {
+  const currentDb = getDb();
+  try {
+    const stmt = currentDb.prepare('SELECT * FROM users WHERE id = ?');
+    const user = stmt.get(id) as IUser | undefined;
+    return user || null;
+  } catch (error) {
+    console.error(`Error finding user by id ${id}:`, error);
+    return null;
+  }
+};
+
+export const createUser = (userData: Pick<IUser, 'email' | 'name'> & Partial<Pick<IUser, 'password' | 'role' | 'isLdapUser' | 'status'>>): IUser | null => {
+  const currentDb = getDb();
+  const newId = crypto.randomUUID();
+  const hashedPassword = userData.password ? bcrypt.hashSync(userData.password, 10) : null;
+
+  const stmt = currentDb.prepare(`
+    INSERT INTO users (id, email, password, name, status, role, is_ldap_user, failed_login_attempts, lock_until, last_login, created_at, updated_at)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+  `);
+
+  try {
+    stmt.run(
+      newId,
+      userData.email.toLowerCase(),
+      hashedPassword,
+      userData.name,
+      userData.status || 'active',
+      userData.role || 'user',
+      userData.isLdapUser || false,
+      0, // failed_login_attempts
+      null, // lock_until
+      null // last_login
+    );
+    return findUserById(newId);
+  } catch (error) {
+    console.error('Error creating user:', error);
+    if (error instanceof Error && error.message.includes('UNIQUE constraint failed: users.email')) {
+      // More specific error handling or re-throwing could be done here
+      console.error(`User creation failed: email ${userData.email} already exists.`);
+    }
+    return null;
+  }
+};
+
+export const updateUser = (id: string, updates: Partial<Omit<IUser, 'id' | 'created_at' | 'updated_at'>>): boolean => {
+  const currentDb = getDb();
+  const fieldsToUpdate: string[] = [];
+  const values: any[] = [];
+
+  for (const [key, value] of Object.entries(updates)) {
+    if (key === 'id' || key === 'created_at' || key === 'updated_at') continue;
+
+    if (key === 'password' && typeof value === 'string') {
+      fieldsToUpdate.push('password = ?');
+      values.push(bcrypt.hashSync(value, 10));
+    } else if (key === 'email' && typeof value === 'string') {
+      fieldsToUpdate.push('email = ?');
+      values.push(value.toLowerCase());
+    } else if (key === 'isLdapUser') {
+        fieldsToUpdate.push('is_ldap_user = ?');
+        values.push(value ? 1 : 0); // SQLite stores booleans as 0 or 1
+    } else {
+      // Map IUser field names to DB column names if they differ (e.g., is_ldap_user)
+      // For now, assuming they are the same or direct mapping is fine
+      fieldsToUpdate.push(`${key} = ?`);
+      values.push(value);
+    }
+  }
+
+  if (fieldsToUpdate.length === 0) {
+    console.warn('No valid fields provided for user update.');
+    return false; // Or true, if no update needed is considered a success
+  }
+
+  // Always update the 'updated_at' timestamp
+  fieldsToUpdate.push('updated_at = CURRENT_TIMESTAMP');
+
+  const sql = `UPDATE users SET ${fieldsToUpdate.join(', ')} WHERE id = ?`;
+  values.push(id);
+
+  try {
+    const stmt = currentDb.prepare(sql);
+    const info = stmt.run(...values);
+    return info.changes > 0;
+  } catch (error) {
+    console.error(`Error updating user ${id}:`, error);
+    return false;
+  }
+};
+
+export function clearUsersTableForTesting(): void {
+  // It's a good practice to ensure this is only run in a test environment
+  if (process.env.NODE_ENV !== 'test' && process.env.ALLOW_TEST_DB_CLEAR !== 'true') {
+    console.warn('Refusing to clear users table outside of a recognized test environment or without explicit override.');
+    return; 
+  }
+  const db = getDb();
+  try {
+    db.prepare('DELETE FROM users').run();
+    console.log('Users table cleared for testing.');
+  } catch (error) {
+    console.error('Failed to clear users table:', error);
+    throw error; // Rethrow to fail tests if DB clearing fails
+  }
+}
+
+// ------------------------------------
+// Generic result interface for query exec
+export interface QueryExecResult {
   success: boolean;
   data?: any[];
   columns?: string[];
   error?: string;
-  message?: string; 
+  message?: string;
   executionTime?: number;
 }
+
+// ------------------------------------
+// P21 (SQL Server via ODBC) query execution helper
+export async function executeP21QueryServer(sqlQuery: string): Promise<QueryExecResult> {
+  const start = Date.now();
+  try {
+    const dsn = process.env.P21_DSN;
+    if (!dsn) {
+      return { success: false, error: 'P21_DSN environment variable is not set.' };
+    }
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore – dynamic import CommonJS
+    const odbcPkg = (await import('odbc')).default ?? (await import('odbc'));
+
+    let conn: any;
+    try {
+      conn = await odbcPkg.connect(`DSN=${dsn}`);
+      const result = await conn.query(sqlQuery);
+      const columns = result.length > 0 ? Object.keys(result[0]) : [];
+      return {
+        success: true,
+        data: result,
+        columns,
+        executionTime: Date.now() - start,
+      };
+    } finally {
+      if (conn) {
+        await conn.close();
+      }
+    }
+  } catch (err) {
+    return { success: false, error: (err as Error).message };
+  }
+}
+
+// ------------------------------------
+// POR (MS-Access) query execution helper
+// NOTE: This is a very light-weight implementation sufficient for simple
+// SELECT <col> FROM <table> queries used in TallmanDashboard metrics. It
+// avoids adding heavy dependencies that might break existing build setups.
+export async function executePORQueryServer(
+  filePath: string,
+  password: string | undefined,
+  sqlQuery: string
+): Promise<QueryExecResult> {
+  const start = Date.now();
+  try {
+    if (!fs.existsSync(filePath)) {
+      return { success: false, error: `POR file not found: ${filePath}` };
+    }
+
+    // Very naive SQL parser: we only support `SELECT <column> FROM <table>`
+    const match = /select\s+([\w*]+)\s+from\s+(\w+)/i.exec(sqlQuery.trim());
+    if (!match) {
+      return { success: false, error: 'Unsupported SQL for POR reader' };
+    }
+    const [, col, tbl] = match;
+
+    const buffer = fs.readFileSync(filePath);
+    const reader = new MDBReader(buffer, { password });
+    const table = reader.getTable(tbl);
+    if (!table) {
+      return { success: false, error: `Table ${tbl} not found in POR` };
+    }
+
+    const rows = table.getData();
+    const columns = table.getColumnNames();
+    const colIdx = col === '*' ? -1 : columns.indexOf(col);
+
+    const processed = rows.map(r => {
+      if (Array.isArray(r)) {
+        return colIdx === -1 ? r : r[colIdx];
+      }
+      return col === '*' ? r : (r as any)[col];
+    });
+
+    return {
+      success: true,
+      data: processed,
+      columns,
+      executionTime: Date.now() - start,
+    };
+  } catch (err) {
+    return { success: false, error: (err as Error).message };
+  }
+}
+
+// ------------------------------------
+// Connection Test Helpers for Admin UI
+
+/**
+ * Tests connectivity to a P21 SQL Server database using ODBC.
+ * Tries to establish a connection and run a trivial `SELECT 1` query.
+ * The function re-uses the same ODBC logic that the background worker uses
+ * (see lib/worker/sqlExecutor.ts) but does **not** modify that file.
+ */
+export async function testP21ConnectionServer(
+  details: DatabaseConnection,
+): Promise<{ success: boolean; message?: string }> {
+  try {
+    // Resolve connection string / DSN
+    const dsn = (details && (details as any).dsn) || process.env.P21_DSN;
+    const server = details.server || process.env.P21_SERVER;
+    const database = details.database || process.env.P21_DATABASE;
+
+    let connectionString: string;
+    if (dsn) {
+      connectionString = `DSN=${dsn};`;
+    } else if (server && database) {
+      // Build a generic trusted connection string (integrated security)
+      // Using the common Microsoft ODBC Driver name – adjust if your driver differs
+      connectionString = `Driver={ODBC Driver 17 for SQL Server};Server=${server};Database=${database};Trusted_Connection=Yes;`;
+    } else {
+      return { success: false, message: 'Missing DSN or server/database details for P21 connection.' };
+    }
+
+    // Dynamically import odbc to avoid build-time bundling issues (same pattern as worker)
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore – dynamic import CommonJS
+    const odbcPkg = (await import('odbc')).default ?? (await import('odbc'));
+
+    let conn: any;
+    try {
+      conn = await odbcPkg.connect(connectionString);
+      await conn.query('SELECT 1');
+      return { success: true, message: 'Successfully connected to P21.' };
+    } finally {
+      if (conn) {
+        await conn.close();
+      }
+    }
+  } catch (err) {
+    console.error('[testP21ConnectionServer] Error:', err);
+    return { success: false, message: (err as Error).message };
+  }
+}
+
+/**
+ * Tests connectivity to a POR MS-Access database by opening the file with mdb-reader.
+ */
+export async function testPORConnectionServer(
+  details: DatabaseConnection,
+): Promise<{ success: boolean; message?: string }> {
+  try {
+    const filePath = (details as any).filePath || process.env.POR_PATH;
+    const password = (details as any).password || process.env.POR_DB_PASSWORD;
+    if (!filePath) {
+      return { success: false, message: 'filePath is required for POR connection test (set POR_PATH in .env).' };
+    }
+
+    if (!fs.existsSync(filePath)) {
+      return { success: false, message: `File not found: ${filePath}` };
+    }
+
+    // Attempt to open the MDB file – if this succeeds, consider the connection healthy.
+    const reader = new MDBReader(fs.readFileSync(filePath), { password });
+    // Accessing table names ensures the DB is readable
+    const tables = reader.getTableNames();
+    return { success: true, message: `Successfully opened POR DB. Tables found: ${tables.length}` };
+  } catch (err) {
+    console.error('[testPORConnectionServer] Error:', err);
+    return { success: false, message: (err as Error).message };
+  }
+}
+
+// ------------------------------------
+// Manual-user helpers used by admin API
+export const getAllManualUsers = (): IUser[] => {
+  const currentDb = getDb();
+  try {
+    const stmt = currentDb.prepare('SELECT * FROM users WHERE is_ldap_user = 0 ORDER BY email');
+    return stmt.all() as IUser[];
+  } catch (error) {
+    console.error('Error fetching manual users:', error);
+    return [];
+  }
+};
+
+export const deleteUserByEmail = (email: string): boolean => {
+  const currentDb = getDb();
+  try {
+    const stmt = currentDb.prepare('DELETE FROM users WHERE LOWER(email) = LOWER(?)');
+    const info = stmt.run(email);
+    return info.changes > 0;
+  } catch (error) {
+    console.error(`Error deleting user ${email}:`, error);
+    return false;
+  }
+};

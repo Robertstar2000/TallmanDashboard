@@ -198,7 +198,7 @@ export function ConnectionDialog({ serverType, open, onOpenChange, onSuccess }: 
                   value={config.dsn ?? ''} // Use nullish coalescing for optional prop
                   onChange={(e) => setConfig({...config, dsn: e.target.value})}
                   className="col-span-3"
-                  placeholder="P21Play"
+                  placeholder="P21Live"
                 />
               </div>
               <div className="grid grid-cols-4 items-center gap-4 mb-4">
@@ -209,7 +209,7 @@ export function ConnectionDialog({ serverType, open, onOpenChange, onSuccess }: 
                   value={config.database ?? ''} // Use nullish coalescing
                   onChange={(e) => setConfig({...config, database: e.target.value})}
                   className="col-span-3"
-                  placeholder="P21Play"
+                  placeholder="P21Live"
                 />
               </div>
               <div className="grid grid-cols-4 items-center gap-4 mb-4">

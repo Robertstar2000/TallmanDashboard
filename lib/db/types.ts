@@ -155,6 +155,12 @@ export interface InventoryDataPoint {
   [key: string]: any;
 }
 
+// Points for POR daily sales chart
+export interface PORDailySalesPoint {
+  date: string;
+  value: number;
+}
+
 // Assuming this is a collection/map of DatabaseConnection
 export interface DatabaseConnections {
   [key: string]: DatabaseConnection; 
@@ -163,3 +169,23 @@ export interface DatabaseConnections {
 // Generic result type (can be used for various query results)
 // Keeping this simple for now, might need more specific result types later
 export type QueryResult = ChartDataRow | ServerConfig | ChartGroupSetting | DatabaseStatus | { [key: string]: any };
+
+// --- User Authentication Types ---
+
+/**
+ * Represents a user in the system for authentication and authorization.
+ */
+export interface IUser {
+  id: string; // Typically a UUID or auto-incremented ID from the database
+  email: string; // Unique email address for login
+  password?: string; // Hashed password (optional for LDAP users without local fallback)
+  name: string; // User's full name or display name
+  status: 'active' | 'inactive' | 'pending_verification' | 'locked'; // User account status
+  role: 'admin' | 'user'; // User role for authorization
+  isLdapUser: boolean; // Flag to indicate if the user is managed by LDAP
+  failedLoginAttempts?: number; // Counter for failed login attempts
+  lockUntil?: string | null; // ISO date string until which the account is locked
+  lastLogin?: string | null; // ISO date string of the last successful login
+  createdAt?: string; // ISO date string of when the user was created
+  updatedAt?: string; // ISO date string of when the user was last updated
+}

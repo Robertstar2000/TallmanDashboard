@@ -17,6 +17,7 @@ export default function PORConnectionSettings({ onConnectionChange }: PORConnect
     isConnected: boolean;
     error?: string;
   }>({ isConnected: false });
+  const [usingTestData, setUsingTestData] = useState<boolean>(false);
 
   useEffect(() => {
     const loadInitialPath = async () => {
@@ -28,7 +29,10 @@ export default function PORConnectionSettings({ onConnectionChange }: PORConnect
           setFilePath(porConfig.value);
           setPorConfigId(porConfig.id ?? null);
         } else {
-          console.warn("POR file path configuration not found or has no value.");
+          // No saved path: use default test file and mark test data
+          const defaultPath = 'C:\\Users\\BobM\\Desktop\\POR.MDB';
+          setFilePath(defaultPath);
+          setUsingTestData(true);
         }
       } catch (error) {
         console.error("Failed to load admin variables:", error);
@@ -136,6 +140,11 @@ export default function PORConnectionSettings({ onConnectionChange }: PORConnect
           </Typography>
         )}
         
+        {usingTestData && (
+          <Typography color="text.secondary" sx={{ mt: 1 }}>
+            Using Test Data
+          </Typography>
+        )}
         {connectionStatus.error && (
           <Typography color="error" sx={{ mt: 1 }}>
             Error: {connectionStatus.error}

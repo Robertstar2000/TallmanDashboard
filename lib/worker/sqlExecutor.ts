@@ -1,5 +1,18 @@
-import { getAllChartData, updateChartDataValue, executePORQueryServer } from '@/lib/db/server';
-import odbc from 'odbc';
+import { getAllChartData, updateChartDataValue } from '@/lib/db/server';
+// NOTE: Dynamic import used to avoid bundling issues with odbc & node-pre-gyp during Next.js build.
+let odbc: typeof import('odbc') | null = null;
+const getOdbc = async () => {
+  if (odbc) return odbc;
+  try {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore -- dynamic import for CommonJS package
+    odbc = (await import('odbc')).default ?? (await import('odbc'));
+    return odbc;
+  } catch (err) {
+    console.error('[Worker] Failed to load odbc package:', err);
+    return null;
+  }
+};
 import type { ChartDataRow } from '@/lib/db/types';
 
 // --- State Management ---
@@ -8,6 +21,7 @@ import type { ChartDataRow } from '@/lib/db/types';
 interface GlobalWorkerState {
   isRunning: boolean;
   promise: Promise<void> | null;
+  lastTick: number;
 }
 
 // Function to get or initialize the worker state object
@@ -23,15 +37,16 @@ const getWorkerState = (): GlobalWorkerState => {
       globalWithWorker.__SQL_WORKER_STATE__ = {
         isRunning: false,
         promise: null,
+        lastTick: 0,
       };
     }
-    return globalWithWorker.__SQL_WORKER_STATE__;
+    return globalWithWorker.__SQL_WORKER_STATE__ as GlobalWorkerState;
   } else {
     // In production, use module-level state (assuming module caching isn't an issue there)
     // We need to define these here if not in dev
     if (typeof workerStateModuleLevel === 'undefined') {
         // Initialize module-level state if it doesn't exist
-         workerStateModuleLevel = { isRunning: false, promise: null };
+         workerStateModuleLevel = { isRunning: false, promise: null, lastTick: 0 };
     }
     return workerStateModuleLevel;
   }
@@ -67,14 +82,19 @@ async function executeP21QueryWithValue(sql: string): Promise<number | null> {
   // Note: Assumes DSN is configured with necessary credentials or uses Windows Auth.
   // Add Uid=; Pwd=; if needed and storing credentials securely.
   const connectionString = `DSN=${dsnName};`;
-  let connection: odbc.Connection | null = null;
+  const odbcPkg = await getOdbc();
+  if (!odbcPkg) {
+    console.error('[Worker] odbc package unavailable; skipping P21 query');
+    return null;
+  }
+  let connection: any = null;
 
   try {
     console.log(`[Worker] P21 Connecting using DSN: ${dsnName}...`);
-    connection = await odbc.connect(connectionString);
+    connection = await odbcPkg.connect(connectionString);
     console.log('[Worker] P21 Connected. Executing query...');
     // Execute with a query timeout (e.g., 30 seconds)
-    const result = await connection.query<any[]>(sql);
+    const result = await connection.query(sql);
     console.log('[Worker] P21 Query executed.');
 
     if (Array.isArray(result) && result.length > 0) {
@@ -116,42 +136,36 @@ async function executeP21QueryWithValue(sql: string): Promise<number | null> {
 async function executePORQueryWithValue(sql: string): Promise<number | null> {
   console.log('[Worker] >>> ENTERING executePORQueryWithValue');
   console.log(`[Worker] POR Query Init: ${sql.substring(0, 100)}...`);
-  const dbPath = process.env.POR_DB_PATH;
+  const dbPath = process.env.POR_PATH;
   if (!dbPath) {
-    console.error('[Worker] POR_DB_PATH environment variable is not set. Cannot execute POR query.');
+    console.error('[Worker] POR_PATH environment variable is not set. Cannot execute POR query.');
     return null;
   }
   try {
-    const result = await executePORQueryServer(dbPath, process.env.POR_DB_PASSWORD, sql);
-    if (!result.success) {
-      console.error(`[Worker] POR Query failed: ${result.error || result.message}`);
+    const password = process.env.POR_DB_PASSWORD;
+    const { executePORQueryServer } = await import('@/lib/db/server');
+    const result = await executePORQueryServer(dbPath, password, sql);
+    if (!result.success || !result.data || result.data.length === 0) {
+      console.warn('[Worker] POR query did not return data:', result.error || 'No rows');
       return null;
     }
-    const rows = result.data;
-    const columns = result.columns;
-    if (Array.isArray(rows) && rows.length > 0) {
-      const row = rows[0] as Record<string, any>;
-      const key = columns && columns.length > 0 ? columns[0] : Object.keys(row)[0];
-      const rawVal = row[key];
-      const numericValue = Number(rawVal);
-      if (!isNaN(numericValue)) {
-        console.log(`[Worker] POR Query Success. Value: ${numericValue}`);
-        return numericValue;
-      } else {
-        console.warn(`[Worker] POR Query returned non-numeric value: ${rawVal} (SQL: ${sql})`);
-      }
-    } else {
-      console.warn(`[Worker] POR Query returned no rows (SQL: ${sql})`);
+    const rawVal = Array.isArray(result.data[0]) ? result.data[0][0] : result.data[0];
+    const numericValue = Number(rawVal);
+    if (!isNaN(numericValue)) {
+      console.log(`[Worker] POR Query Success. Value: ${numericValue}`);
+      return numericValue;
     }
+    console.warn(`[Worker] POR query returned non-numeric value: ${rawVal}`);
+    return null;
   } catch (error) {
-    console.error(`[Worker] executePORQueryWithValue error:`, error);
+    console.error('[Worker] Error executing POR query:', error);
+    return null;
   }
-  return null;
 }
 
 // --- Worker Loop Logic ---
 
-async function runSqlExecutionLoop(): Promise<void> {
+async function runSqlExecutionLoopInternal(): Promise<void> {
   console.log('[Worker] Starting SQL execution loop...');
   while (workerState.isRunning) {
     let itemsToProcess: ChartDataRow[] = [];
@@ -232,10 +246,20 @@ async function runSqlExecutionLoop(): Promise<void> {
   }
 
   console.log('[Worker] SQL execution loop finished.');
+  workerState.lastTick = Date.now();
   workerState.promise = null; 
 }
 
-// --- Control Functions ---
+// Export run loop for external script
+export async function runSqlExecutionLoop(): Promise<void> {
+  if (workerState.isRunning && workerState.promise) {
+    return workerState.promise; // already running
+  }
+  workerState.isRunning = true;
+  workerState.lastTick = Date.now();
+  await runSqlExecutionLoopInternal();
+}
+
 
 export function startWorker(): { success: boolean; message: string } {
   if (workerState.isRunning && workerState.promise) {
@@ -258,10 +282,10 @@ export function stopWorker(): { success: boolean; message: string } {
   return { success: true, message: 'Worker stop signal sent. It will halt after the current query (if any).' };
 }
 
-export function getWorkerStatus(): { isRunning: boolean } {
+export function getWorkerStatus(): { isRunning: boolean; lastTick?: number } {
   workerState = getWorkerState();
   console.log(`[Worker] Status check: ${workerState.isRunning}`);
-  return { isRunning: workerState.isRunning };
+  return { isRunning: workerState.isRunning, lastTick: workerState.lastTick };
 }
 
 // Optional: Add a cleanup function if needed, e.g., for server shutdown

@@ -1,4 +1,4 @@
-export const config = { runtime: 'nodejs' };
+export const runtime = "nodejs";
 import { NextResponse } from 'next/server';
 import { executeP21QueryServer, executePORQueryServer } from '@/lib/db/server';
 
@@ -37,7 +37,7 @@ export async function POST(request: Request) {
     console.log('[API run-query] Parsing request body...'); // Log before parsing
     const body: RunQueryRequest = await request.json();
     const { sqlQuery, targetDatabase, porFilePath: reqPorPath, porPassword } = body;
-    const porPath = reqPorPath || process.env.POR_DB_PATH;
+    const porPath = process.env.POR_PATH;
     console.log(`[API run-query] Parsed request body. Target Database: ${targetDatabase}`); // Log after parsing
 
     if (!sqlQuery || !targetDatabase) {
@@ -46,7 +46,7 @@ export async function POST(request: Request) {
     }
     if (targetDatabase === 'POR' && !porPath) {
         console.log('[API run-query] POR file path not provided and POR_DB_PATH env var is missing.');
-        return NextResponse.json<QueryResult>({ success: false, error: 'POR database path is not specified.' }, { status: 400 });
+        return NextResponse.json<QueryResult>({ success: false, error: 'POR database path is not specified. Set POR_PATH in .env.' }, { status: 400 });
     }
 
     console.log(`[API run-query] Checking if query is safe: ${sqlQuery.substring(0, 100)}...`); // Log before safety check
@@ -61,7 +61,7 @@ export async function POST(request: Request) {
     let result: QueryResult;
 
     if (targetDatabase === 'P21') {
-        console.log("[API run-query] Calling executeP21QueryServer for query: ${sqlQuery.substring(0, 100)}..."); // Log before call
+        console.log(`[API run-query] Calling executeP21QueryServer for query: ${sqlQuery.substring(0, 100)}...`); // Log before call
         result = await executeP21QueryServer(sqlQuery);
         console.log('[API run-query] Received result from executeP21QueryServer:', JSON.stringify(result, null, 2)); // Log after call
     } else if (targetDatabase === 'POR') {

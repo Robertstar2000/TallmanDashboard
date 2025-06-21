@@ -1,10 +1,12 @@
 'use client';
 
 import React from 'react';
+import 'chartjs-adapter-date-fns';
 import { Line } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
   CategoryScale,
+  TimeScale,
   LinearScale,
   PointElement,
   LineElement,
@@ -20,6 +22,7 @@ import {
 
 ChartJS.register(
   CategoryScale,
+  TimeScale,
   LinearScale,
   PointElement,
   LineElement,
@@ -125,7 +128,16 @@ export function LineChart<T>({
           }
         }
       },
-      x: {
+      x: interval === 'day' || interval === 'week' || interval === 'month' || interval === 'year' ? {
+        type: 'time',
+        time: { unit: interval },
+        title: {
+          display: true,
+          text: xAxisLabel,
+          font: { size: 11, weight: 'bold' }
+        },
+        ticks: { autoSkip: false, font: { size: 10 } }
+      } : {
         title: {
           display: true,
           text: xAxisLabel,
@@ -134,14 +146,7 @@ export function LineChart<T>({
             weight: 'bold' as const
           }
         },
-        ticks: {
-          font: {
-            size: 10
-          },
-          maxRotation: 45,
-          minRotation: 45,
-          autoSkip: false
-        }
+        ticks: { font: { size: 10 }, maxRotation: 45, minRotation: 45, autoSkip: false }
       }
     }
   };

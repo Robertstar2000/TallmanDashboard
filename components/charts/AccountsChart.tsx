@@ -123,8 +123,12 @@ export default function AccountsChart({ data }: AccountsChartProps) {
   };
 
   return (
-    <div className="h-64">
-      <Bar data={chartData} options={options} />
+    <div style={{ width: '100%', height: '280px' }}>
+      <Bar
+        data={chartData}
+        options={{ ...options, maintainAspectRatio: false }}
+        height={280}
+      />
     </div>
   );
 }

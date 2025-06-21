@@ -1,0 +1,20 @@
+[
+  {
+    "email": "bob@example.com",
+    "passwordHash": "$2b$10$Qa95gK6LJrVN6a8GN28MvuOHnqd7qV3CyMfCVx/gvBy06SnVAk0Um",
+    "role": "admin",
+    "status": "active"
+  },
+  {
+    "email": "bobm@tallmanequipment.com",
+    "passwordHash": "$2a$10$seSjm7KIKP86wuLrqK5AceBFIOHRMSBin/9b0PLS.x22KPJyHvjXC",
+    "role": "admin",
+    "status": "active"
+  },
+  {
+    "email": "biao@mcrcore.com",
+    "passwordHash": "$2a$10$sSV88.h6CQi2CFoYx6Ml8OKFHSN/s1ZwAKc87hy//GuRC7thv6D/.",
+    "role": "admin",
+    "status": "active"
+  }
+]

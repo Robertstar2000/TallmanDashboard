@@ -95,8 +95,12 @@ export default function HistoricalDataChart({ data }: HistoricalDataChartProps) 
   };
 
   return (
-    <div className="h-64">
-      <Line data={chartData} options={options} />
+    <div className="w-full h-[171px]">
+      <Line
+        data={chartData}
+        options={{ ...options, maintainAspectRatio: false }}
+        height={171}
+      />
     </div>
   );
 }

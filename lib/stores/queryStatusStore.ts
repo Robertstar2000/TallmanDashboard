@@ -5,6 +5,8 @@ export interface QueryStatusState {
   currentRowId: number | null;
   totalRows: number;
   error: string | null;
+  isPolling: boolean;
+  startPolling: () => void;
   startQueryRunner: (total: number) => void;
   stopQueryRunner: () => void;
   setCurrentRowId: (id: number | null) => void;
@@ -17,10 +19,12 @@ const useQueryStatusStore = create<QueryStatusState>((set) => ({
   currentRowId: null,
   totalRows: 0,
   error: null,
+  isPolling: false,
   startQueryRunner: (total) => set({ isRunning: true, error: null, currentRowId: null, totalRows: total }),
   stopQueryRunner: () => set({ isRunning: false, currentRowId: null }),
   setCurrentRowId: (id) => set({ currentRowId: id }),
   setError: (error) => set({ error: error, isRunning: false }), // Stop running on error
+  startPolling: () => set({ isPolling: true }),
   resetStore: () => set({ isRunning: false, currentRowId: null, error: null, totalRows: 0 }),
 }));
 

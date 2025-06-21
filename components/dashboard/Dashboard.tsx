@@ -2,8 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { DashboardData, MetricItem, HistoricalDataPoint, AccountsDataPoint, DailyOrderData, WebOrderData, SiteDistribution, SpreadsheetDataWithPopupSupport, POROverviewData, ARAgingDataPoint, CustomerMetricPoint, InventoryDataPoint, POROverviewPoint, SiteDistributionPoint, ARAgingPoint, DailyOrderPoint, WebOrderPoint } from '@/lib/db/types';
-// import { dashboardStateMachine } from '@/lib/state/stateMachine'; // Commented out - file doesn't exist
+import { DashboardData, HistoricalDataPoint, AccountsDataPoint, CustomerMetricPoint, InventoryDataPoint, SiteDistributionPoint, ARAgingPoint, DailyOrderPoint, WebOrderPoint, PORDailySalesPoint } from '@/lib/db/types';
 import { MetricsSection } from './MetricsSection';
 import { ChartsSection } from './ChartsSection';
 import { Button } from '@/components/ui/button';
@@ -11,14 +10,13 @@ import { RefreshCw } from 'lucide-react';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { AlertCircle } from 'lucide-react';
 
-type DashboardStateData = DashboardData & SpreadsheetDataWithPopupSupport;
-
+// Chart data after processing
 interface ChartData {
   historicalData: HistoricalDataPoint[];
   accounts: AccountsDataPoint[];
   customerMetrics: CustomerMetricPoint[];
   inventory: InventoryDataPoint[];
-  porOverview: POROverviewPoint[];
+  porOverview: PORDailySalesPoint[];
   siteDistribution: SiteDistributionPoint[];
   arAging: ARAgingPoint[];
   dailyOrders: DailyOrderPoint[];
@@ -115,24 +113,36 @@ export function Dashboard({ data, loading = false }: DashboardProps) {
         };
       }).sort((a, b) => a.date.localeCompare(b.date));
     })(),
-    customerMetrics: data.customerMetrics?.map(item => ({
-      id: item.id || `cust-${Math.random().toString(36).substr(2, 9)}`,
-      date: item.date || '',
-      newCustomers: typeof item.newCustomers === 'number' ? item.newCustomers : 0,
-      returning: 0 // Ensure returning is always a number
-    })) || [],
+    customerMetrics: (() => {
+      const raw = data.customerMetrics || [];
+      const steps = Array.from(new Set(raw.map(r => r.axisStep))).filter(Boolean) as string[];
+      const now = new Date();
+      const monthNames = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+      return steps.map(step => {
+        // Compute date for month step
+        const idx = monthNames.findIndex(m => m.toLowerCase() === step.substring(0,3).toLowerCase());
+        const date = idx >= 0
+          ? new Date(now.getFullYear(), idx, 1).toISOString().split('T')[0]
+          : step;
+        const newItem = raw.find(r => r.axisStep === step && /new/i.test(r.variableName));
+        const returningItem = raw.find(r => r.axisStep === step && /(prospect|returning)/i.test(r.variableName));
+        return {
+          date,
+          newCustomers: newItem?.value ?? 0,
+          returningCustomers: returningItem?.value ?? 0,
+        };
+      }).sort((a, b) => a.date.localeCompare(b.date));
+    })(),
     inventory: data.inventory?.map(item => ({
       id: item.id || `inv-${Math.random().toString(36).substr(2, 9)}`,
       department: item.department || '',
       inStock: typeof item.inStock === 'number' ? item.inStock : 0,
       onOrder: typeof item.onOrder === 'number' ? item.onOrder : 0
     })) || [],
-    porOverview: data.porOverview?.map(item => ({
-      id: item.id || `por-${Math.random().toString(36).substr(2, 9)}`,
-      date: item.date || '',
-      newRentals: typeof item.newRentals === 'number' ? item.newRentals : 0,
-      openRentals: typeof item.openRentals === 'number' ? item.openRentals : 0,
-      rentalValue: typeof item.rentalValue === 'number' ? item.rentalValue : 0
+    porOverview: data.porDailySales?.map(item => ({
+      id: item.date,
+      date: item.date,
+      value: item.value
     })) || [],
     siteDistribution: data.siteDistribution?.map(item => ({
       id: item.id || `site-${Math.random().toString(36).substr(2, 9)}`,
@@ -159,11 +169,10 @@ export function Dashboard({ data, loading = false }: DashboardProps) {
         amount: amount
       };
     }) || [],
-    dailyOrders: data.dailyOrders?.map(item => ({
-      id: item.id || `daily-${Math.random().toString(36).substr(2, 9)}`,
-      date: item.date || '',
-      orders: typeof item.orders === 'number' ? item.orders : 0
-    })) || [],
+    dailyOrders: (data.dailyOrders || [])
+      .map(item => ({ date: item.DataPoint || '', orders: item.value ?? 0 }))
+      .filter(d => !!d.date)
+      .sort((a, b) => a.date.localeCompare(b.date)),
     webOrders: data.webOrders?.map(item => ({
       id: item.id || `web-${Math.random().toString(36).substr(2, 9)}`,
       date: item.date || '',
