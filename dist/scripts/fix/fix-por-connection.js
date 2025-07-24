@@ -70,7 +70,7 @@ function fixPorConnection() {
     
     async function testPorConnection() {
       try {
-        const response = await fetch('http://localhost:3000/api/testAccessConnection', {
+        const response = await fetch('http://localhost:5500/api/testAccessConnection', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'

@@ -10,6 +10,9 @@ interface GlobalWorkerState {
   promise: Promise<void> | null;
 }
 
+// Declare module-level state variable for production fallback
+let workerStateModuleLevel: GlobalWorkerState;
+
 // Function to get or initialize the worker state object
 const getWorkerState = (): GlobalWorkerState => {
   // Use globalThis only in development to avoid module caching issues
@@ -36,9 +39,6 @@ const getWorkerState = (): GlobalWorkerState => {
     return workerStateModuleLevel;
   }
 };
-
-// Declare module-level state variable for production fallback
-let workerStateModuleLevel: GlobalWorkerState;
 
 // Get the state object (either global for dev or module-level for prod)
 let workerState = getWorkerState();
@@ -116,9 +116,9 @@ async function executeP21QueryWithValue(sql: string): Promise<number | null> {
 async function executePORQueryWithValue(sql: string): Promise<number | null> {
   console.log('[Worker] >>> ENTERING executePORQueryWithValue');
   console.log(`[Worker] POR Query Init: ${sql.substring(0, 100)}...`);
-  const dbPath = process.env.POR_DB_PATH;
+  const dbPath = process.env.NEXT_PUBLIC_POR_DB_PATH;
   if (!dbPath) {
-    console.error('[Worker] POR_DB_PATH environment variable is not set. Cannot execute POR query.');
+    console.error('[Worker] NEXT_PUBLIC_POR_DB_PATH environment variable is not set. Cannot execute POR query.');
     return null;
   }
   try {

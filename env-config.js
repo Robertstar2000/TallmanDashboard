@@ -5,7 +5,7 @@ module.exports = {
   },
   publicRuntimeConfig: {
     // Will be available on both server and client
-    PORT: 3000,
+    PORT: 5500,
     HOST: 'localhost'
   },
 };

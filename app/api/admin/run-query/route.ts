@@ -1,4 +1,3 @@
-export const config = { runtime: 'nodejs' };
 import { NextResponse } from 'next/server';
 import { executeP21QueryServer, executePORQueryServer } from '@/lib/db/server';
 
@@ -100,3 +99,5 @@ export async function POST(request: Request) {
 export async function GET() {
   return NextResponse.json({ message: 'Method Not Allowed' }, { status: 405 });
 }
+
+export const config = { runtime: 'nodejs' };

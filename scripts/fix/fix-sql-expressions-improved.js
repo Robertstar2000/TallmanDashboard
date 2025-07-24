@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Improved SQL Expression Fixer
  * 
  * This script analyzes and fixes SQL expressions for both P21 and POR databases.
@@ -12,7 +12,7 @@ const path = require('path');
 const sqlite3 = require('sqlite3').verbose();
 
 // Base URL for API calls
-const BASE_URL = 'http://localhost:3000';
+const BASE_URL = 'http://localhost:5500';
 
 // Database path
 const DB_PATH = path.join(__dirname, 'dashboard.db');

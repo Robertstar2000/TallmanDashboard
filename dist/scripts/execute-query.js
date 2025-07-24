@@ -49,7 +49,7 @@ export function executeQuery(serverName, query, tableName) {
 function executeP21Query(query) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const response = yield fetch('http://localhost:3000/api/executeQuery', {
+            const response = yield fetch('http://localhost:5500/api/executeQuery', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -84,7 +84,7 @@ function executeP21Query(query) {
 function executeAccessQuery(query) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const response = yield fetch('http://localhost:3000/api/executeAccessQuery', {
+            const response = yield fetch('http://localhost:5500/api/executeAccessQuery', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

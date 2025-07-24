@@ -683,7 +683,7 @@ export class ConnectionManager {
                         throw new Error(`POR database file not found at configured path: ${porFilePath}`);
                     }
                     // Use the executeAccessQuery API endpoint to query the Access database
-                    const response = yield fetch('http://localhost:3000/api/executeAccessQuery', {
+                    const response = yield fetch('http://localhost:5500/api/executeAccessQuery', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'

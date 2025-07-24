@@ -33,7 +33,7 @@ export default function DatabaseConnectionTester() {
   // P21 Connection Config - Use the new dedicated type
   const [p21Config, setP21Config] = useState<P21ConnectionFormData>({
     server: 'SQL01',
-    database: 'P21play',
+    database: 'P21Live',
     username: 'sa',
     password: '',
     useWindowsAuth: true,
@@ -299,29 +299,39 @@ export default function DatabaseConnectionTester() {
         </CardContent>
       </Card>
 
-      {/* POR Connection Section - Updated for MS Access */}
-      <Card className="mb-4">
+      {/* POR Connection Section */}
+      <Card className="mt-6">
         <CardHeader>
           <CardTitle>POR Database Connection</CardTitle>
-          <CardDescription>Configure connection to MS Access POR database.</CardDescription>
+          <CardDescription>Test connection to the POR MS Access database file.</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
-            <p className="text-sm text-muted-foreground">POR DB Path: {porConfig.filePath}</p>
-            <Button onClick={testPORConnection} disabled={testingPOR || !porConfig.filePath}>
-              {testingPOR ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="por-filepath" className="text-right">File Path</Label>
+              <Input
+                id="por-filepath"
+                name="filePath"
+                value={porConfig.filePath}
+                readOnly
+                className="col-span-3"
+              />
+            </div>
+            <Button onClick={testPORConnection} disabled={loadingPOR || !porConfig.filePath}>
+              {loadingPOR ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
               Test POR Connection
             </Button>
             {porResult && (
               <div className={`mt-4 p-3 rounded ${porResult.success ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
                 <p><strong>Status:</strong> {porResult.success ? 'Success' : 'Failed'}</p>
                 <p><strong>Message:</strong> {porResult.message}</p>
-                {porResult.details && <pre className="mt-2 text-xs whitespace-pre-wrap break-all">{porResult.details}</pre>} {/* Added break-all */}
+                {porResult.details && <pre className="mt-2 text-xs whitespace-pre-wrap">{porResult.details}</pre>}
               </div>
             )}
           </div>
         </CardContent>
       </Card>
+
       {/* Removed Snackbar as toasts are used */}
     </div>
   );

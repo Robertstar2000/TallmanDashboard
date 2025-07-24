@@ -145,7 +145,7 @@ const AdminSpreadsheet = ({
                       return (
                         // Increase vertical padding (py-2), decrease horizontal padding (px-1)
                         // Apply wrapping logic for specific columns
-                        <TableCell key={`${rowKey}-${column.header}`} 
+                        <TableCell key={`${rowKey}-${column.accessor || column.header || 'unknown'}`} 
                           className={`px-1 py-2 text-[11px] text-gray-700 
                           ${column.accessor === 'productionSqlExpression' ? 'font-mono break-words max-w-[230px]' : 
                           column.accessor === 'axisStep' ? 'break-words max-w-[150px]' : 

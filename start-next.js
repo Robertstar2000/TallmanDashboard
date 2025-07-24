@@ -15,7 +15,7 @@ try {
         stdio: 'inherit',
         env: { 
             ...process.env, 
-            PORT: process.env.PORT || '3000' 
+            PORT: process.env.PORT || '5500' 
         }
     });
 } catch (error) {

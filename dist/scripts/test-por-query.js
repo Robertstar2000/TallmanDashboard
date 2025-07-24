@@ -166,7 +166,7 @@ function executeTestQuery() {
             const testQuery = `SELECT Count(*) as value FROM ${testTable}`;
             console.log(`Test query: ${testQuery}`);
             // Execute the query using the executeAccessQuery API endpoint
-            const response = yield fetch('http://localhost:3000/api/executeAccessQuery', {
+            const response = yield fetch('http://localhost:5500/api/executeAccessQuery', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -208,7 +208,7 @@ function executeTestQuery() {
                     const testColumn = columns[0];
                     const complexQuery = `SELECT ${testColumn} as value FROM ${testTable}`;
                     console.log(`\nTesting complex query: ${complexQuery}`);
-                    const complexResponse = yield fetch('http://localhost:3000/api/executeAccessQuery', {
+                    const complexResponse = yield fetch('http://localhost:5500/api/executeAccessQuery', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
@@ -337,7 +337,7 @@ function main() {
         }
         // Check if the server is running before executing the API test
         try {
-            yield fetch('http://localhost:3000/api/health');
+            yield fetch('http://localhost:5500/api/health');
             console.log('\n=== Testing API query execution ===');
             // Execute a test query via API
             const querySuccess = yield executeTestQuery();
@@ -347,7 +347,7 @@ function main() {
             }
         }
         catch (error) {
-            console.warn('Server not running at localhost:3000, skipping API test');
+            console.warn('Server not running at localhost:5500, skipping API test');
             console.log('You can start the server with: npm run dev');
             // If direct query was successful, consider the test passed
             if (directQuerySuccess) {
@@ -419,7 +419,7 @@ function testSqlExpressions() {
                         const alternativeSql = expr.sqlExpression.replace(tableName, alternativeTable);
                         console.log(`Trying alternative SQL: ${alternativeSql}`);
                         // Execute the alternative query
-                        const response = yield fetch('http://localhost:3000/api/executeAccessQuery', {
+                        const response = yield fetch('http://localhost:5500/api/executeAccessQuery', {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json'
@@ -443,7 +443,7 @@ function testSqlExpressions() {
                 }
                 else {
                     // Execute the original query
-                    const response = yield fetch('http://localhost:3000/api/executeAccessQuery', {
+                    const response = yield fetch('http://localhost:5500/api/executeAccessQuery', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'

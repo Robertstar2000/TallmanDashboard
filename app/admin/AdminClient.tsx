@@ -6,12 +6,11 @@ import { useToast } from '@/hooks/use-toast';
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { DataTable } from "@/components/ui/data-table";
-import { Alert, AlertDescription } from "@/components/ui/alert";
-import { AlertCircle } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label"; 
 import { Save } from "lucide-react"; 
 import DatabaseConnectionDialog from '@/components/DatabaseConnectionDialog';
+import DatabaseStatusDisplay from '@/components/admin/DatabaseStatusDisplay';
 
 interface QueryExecutionState {
   [key: string]: {
@@ -52,6 +51,7 @@ export default function AdminClient() {
   const [loading, setLoading] = useState(true);
   const [initializing, setInitializing] = useState(false);
   const [isConnectionDialogOpen, setIsConnectionDialogOpen] = useState(false); // State for dialog visibility
+  const [connectionStatuses, setConnectionStatuses] = useState<DatabaseStatus[]>([]);
 
   // Function to execute a single SQL expression
   // Ensure row is explicitly typed
@@ -84,7 +84,7 @@ export default function AdminClient() {
         
         // Remove checkConnections from initial load
         await Promise.race([
-          Promise.all([fetchData()]), // <-- Removed checkConnections()
+          Promise.all([fetchData(), checkConnections()]),
           timeoutPromise
         ]);
       } catch (error) {
@@ -146,7 +146,7 @@ export default function AdminClient() {
       }
       
       console.log('Received connection statuses:', result.statuses);
-      // setConnectionStatuses(result.statuses);
+      setConnectionStatuses(result.statuses);
       
       // Update individual connection states based on the fetched statuses
       // const p21Status = result.statuses.find(s => s.serverName === 'P21');
@@ -412,18 +412,18 @@ export default function AdminClient() {
   };
 
   const columns = [
-    { Header: 'Row ID', accessor: 'rowId', editable: false },
-    { Header: 'Chart Group', accessor: 'chartGroup', editable: false },
-    { Header: 'Variable Name', accessor: 'variableName', editable: true },
-    { Header: 'Data Point', accessor: 'DataPoint', editable: false },
-    // { Header: 'Chart Name', accessor: 'chartName', editable: false }, // Likely redundant
-    { Header: 'Server', accessor: 'serverName', editable: true }, // Make server editable (e.g., Dropdown)
-    { Header: 'Table Name', accessor: 'tableName', editable: false },
-    { Header: 'SQL Expression', accessor: 'productionSqlExpression', editable: true },
-    { Header: 'Value', accessor: 'value', editable: false }, // Value is calculated, not directly edited
-    { Header: 'Last Updated', accessor: 'lastUpdated', editable: false },
-    { Header: 'Calc Type', accessor: 'calculationType', editable: false },
-    // { Header: 'Axis Step', accessor: 'axisStep', editable: false }, // Likely not needed in admin view
+    { header: 'Row ID', accessor: 'rowId', editable: false },
+    { header: 'Chart Group', accessor: 'chartGroup', editable: false },
+    { header: 'Variable Name', accessor: 'variableName', editable: true },
+    { header: 'Data Point', accessor: 'DataPoint', editable: false },
+    // { header: 'Chart Name', accessor: 'chartName', editable: false }, // Likely redundant
+    { header: 'Server', accessor: 'serverName', editable: true }, // Make server editable (e.g., Dropdown)
+    { header: 'Table Name', accessor: 'tableName', editable: false },
+    { header: 'SQL Expression', accessor: 'productionSqlExpression', editable: true },
+    { header: 'Value', accessor: 'value', editable: false }, // Value is calculated, not directly edited
+    { header: 'Last Updated', accessor: 'lastUpdated', editable: false },
+    { header: 'Calc Type', accessor: 'calculationType', editable: false },
+    // { header: 'Axis Step', accessor: 'axisStep', editable: false }, // Likely not needed in admin view
   ];
 
   if (loading) {
@@ -436,202 +436,55 @@ export default function AdminClient() {
   }
 
   return (
-    // Main content wrapper
-    <div className="space-y-4">
-      <div className="flex justify-between items-center">
-        <div className="flex items-center space-x-4">
-          <Button 
-            onClick={handleSaveToInitFile}
-            variant="outline"
-            title="Save current database content to single source data file"
-            className={`transition-colors duration-300 hover:bg-blue-100`}
-          >
-            Save DB
-          </Button>
-          <Button 
-            onClick={handleLoadFromInitFile}
-            variant="outline"
-            title="Load database content from single source data file"
-            className={`transition-colors duration-300 hover:bg-blue-100`}
-          >
-            Load DB
-          </Button>
-          <Button 
-            onClick={handleRefresh}
-            variant="outline"
-            title="Refresh data from the database"
-          >
-            Refresh
-          </Button>
-        </div>
+    <div className="space-y-6 p-4">
+      {/* Top Controls and Status */}
+      <div className="flex justify-between items-start gap-6">
+        {/* Left Side: Admin Controls */}
+        <Card className="p-4">
+          <h3 className="text-lg font-medium mb-4">Admin Controls</h3>
+          <div className="flex items-center space-x-2">
+            <Button 
+              onClick={handleSaveToInitFile}
+              variant="outline"
+              title="Save current database content to single source data file"
+              className={`transition-colors duration-300 hover:bg-blue-100`}
+            >
+              Save DB to File
+            </Button>
+            <Button 
+              onClick={handleLoadFromInitFile}
+              variant="outline"
+              title="Load database content from single source data file"
+              className={`transition-colors duration-300 hover:bg-blue-100`}
+            >
+              Load DB from File
+            </Button>
+            <Button 
+              onClick={handleRefresh}
+              variant="outline"
+              title="Refresh data from the database"
+            >
+              Refresh Data
+            </Button>
+          </div>
+        </Card>
 
-        <div className="flex items-center space-x-4">
-          {/* Connection dialogs are still needed for functionality, but buttons are removed */}
-          {/* <ConnectionDialog
-            serverType="P21"
-            open={showP21Dialog}
-            onOpenChange={setShowP21Dialog}
-            onSuccess={() => setP21Connected(true)}
-          />
-          <ConnectionDialog
-            serverType="POR"
-            open={showPorDialog}
-            onOpenChange={setShowPorDialog}
-            onSuccess={() => setPorConnected(true)}
-          /> */}
-        </div>
+        {/* Right Side: Connection Status */}
+        <DatabaseStatusDisplay statuses={connectionStatuses} />
       </div>
 
-      {/* Controls */}
-      <AdminControls 
-        lastRefresh={lastRefresh}
-        onRefresh={handleRefresh}
-        onManageConnections={() => setIsConnectionDialogOpen(true)} // Open dialog
-      />
-
-      {/* Spreadsheet Data Table Card */} 
+      {/* Spreadsheet Data Table Card */}
       <Card className="p-6">
         <AdminSpreadsheet 
-          columns={columns} // Pass the defined columns
+          columns={columns}
           data={data} 
-          onDataChange={handleSaveChanges} // Changed prop name from onSave
-          isRunning={isSaving} // Pass isSaving state as isRunning
-          isProduction={false} // Default isProduction to false in admin
+          onDataChange={handleSaveChanges}
+          isRunning={isSaving}
+          isProduction={false}
         />
       </Card>
 
-      {/* Connection Status Panel */}
-      <Card className="p-4 mb-4">
-        <h3 className="text-lg font-medium mb-4">Database Connections</h3>
-        {/* Display connection status here - Placeholder */} 
-        <p>P21 Status: {/* Connect this to state */}</p>
-        <p>POR Status: {/* Connect this to state */}</p>
-      </Card>
-
-      <Card className="p-4">
-        <h3 className="text-lg font-medium mb-4">Connection Status</h3>
-        <div className="grid grid-cols-3 gap-4">
-          {/* P21 Connection */}
-          <div className="p-4 border rounded-lg">
-            <h4 className="font-medium mb-2">P21 Database</h4>
-            <div className="space-y-3 mb-4">
-              <div className="flex items-center justify-between">
-                <Label htmlFor="p21-server">Server</Label>
-                <Input 
-                  id="p21-server" 
-                  value="P21"
-                  className="w-48"
-                  readOnly
-                />
-              </div>
-              <div className="flex items-center justify-between">
-                <Label htmlFor="p21-port">Port</Label>
-                <Input 
-                  id="p21-port" 
-                  value="5432"
-                  className="w-48"
-                  readOnly
-                />
-              </div>
-              <div className="flex items-center justify-between">
-                <Label htmlFor="p21-database">Database</Label>
-                <Input 
-                  id="p21-database" 
-                  value="P21Play"
-                  className="w-48"
-                  readOnly
-                />
-              </div>
-              <div className="flex items-center justify-between">
-                <Label htmlFor="p21-user">User</Label>
-                <Input 
-                  id="p21-user" 
-                  value="postgres"
-                  className="w-48"
-                  readOnly
-                />
-              </div>
-            </div>
-            <div className="flex items-center justify-between">
-              {/* Make status indicator clickable */}
-              <div 
-                className={`flex items-center gap-2 cursor-pointer`} 
-              >
-                <div className={`w-3 h-3 rounded-full bg-red-500`} />
-                <span className="text-sm">Disconnected</span>
-              </div>
-              {/* <Button 
-                onClick={() => setShowP21Dialog(true)}
-                variant="outline"
-                size="sm"
-              >
-                Connect
-              </Button> */}
-            </div>
-          </div>
-
-          {/* POR Connection */}
-          <div className="p-4 border rounded-lg">
-            <h4 className="font-medium mb-2">POR Database (MS Access)</h4>
-            <div className="space-y-3 mb-4">
-              <div className="flex items-center justify-between">
-                <Label htmlFor="por-type">Type</Label>
-                <span className="text-sm font-medium">MS Access</span>
-              </div>
-              <div className="flex items-center justify-between">
-                <Label htmlFor="por-path">File Path</Label>
-                <Input 
-                  id="por-path" 
-                  value={localStorage.getItem('porAccessFilePath') || 'C:\\Users\\BobM\\Desktop\\POR.MDB'}
-                  className="w-48"
-                  readOnly
-                />
-              </div>
-            </div>
-            <div className="flex items-center justify-between">
-              {/* Make status indicator clickable */}
-              <div 
-                className={`flex items-center gap-2 cursor-pointer`} 
-              >
-                <div className={`w-3 h-3 rounded-full bg-red-500`} />
-                <span className="text-sm">Disconnected</span>
-              </div>
-              {/* <Button 
-                onClick={() => setShowPorDialog(true)}
-                variant="outline"
-                size="sm"
-              >
-                Connect
-              </Button> */}
-            </div>
-          </div>
-
-          {/* SQLite Connection */}
-          <div className="p-4 border rounded-lg">
-            <h4 className="font-medium mb-2">Local Database</h4>
-            <div className="space-y-3 mb-4">
-              <div className="flex items-center justify-between">
-                <Label>Type</Label>
-                <span className="text-sm font-medium">SQLite</span>
-              </div>
-              <div className="flex items-center justify-between">
-                <Label>Location</Label>
-                <span className="text-sm">./data/dashboard.db</span>
-              </div>
-              <div className="flex items-center justify-between">
-                <Label>Status</Label>
-                <span className="text-sm">Unavailable</span>
-              </div>
-            </div>
-            <div className="flex items-center justify-between">
-              <div className={`flex items-center gap-2`}>
-                <div className={`w-3 h-3 rounded-full bg-red-500`} />
-                <span className="text-sm">Disconnected</span>
-              </div>
-            </div>
-        </div>
-      </div> {/* Correct closing div for the connection status grid */}
-      </Card> {/* Add missing closing Card tag */}
+      {/* This dialog is opened programmatically or via another button if needed */}
       <DatabaseConnectionDialog 
         isOpen={isConnectionDialogOpen}
         onClose={() => setIsConnectionDialogOpen(false)}

@@ -211,7 +211,14 @@ export const updateSpreadsheetData = (data: ChartDataRow[]) => {
 export const testP21ConnectionServer = async (
   connectionDetails: DatabaseConnection
 ): Promise<{ success: boolean; message: string }> => {
-  const dsnName = process.env.P21_DSN!;
+  const dsnName = process.env.P21_DSN;
+  
+  if (!dsnName) {
+    return { 
+      success: false, 
+      message: 'P21_DSN environment variable is not set. Please configure the DSN in .env.local file.' 
+    };
+  }
   const { server, database, username, password } = connectionDetails;
 
   let connectionString = `DSN=${dsnName};`;
@@ -247,30 +254,58 @@ export const testP21ConnectionServer = async (
   }
 };
 
+export const testSQLiteConnectionServer = async (): Promise<{ success: boolean; message: string; path?: string }> => {
+  const dbPath = path.join(process.cwd(), 'data', 'dashboard.db');
+  try {
+    if (!fs.existsSync(dbPath)) {
+      return { success: false, message: 'SQLite database file does not exist.', path: dbPath };
+    }
+    const db = new Database(dbPath, { readonly: true });
+    db.prepare('SELECT 1').run();
+    db.close();
+    return { success: true, message: 'SQLite connection successful.', path: dbPath };
+  } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : 'Unknown SQLite connection error.';
+    return { success: false, message: `SQLite connection failed: ${errorMessage}`, path: dbPath };
+  }
+};
+
 export const testPORConnectionServer = async (
   connectionDetails: DatabaseConnection
 ): Promise<{ success: boolean; message: string }> => {
-  const { filePath, password } = connectionDetails;
+  const { filePath } = connectionDetails;
   if (!filePath) {
-    const errorMsg = 'File path is required for POR test.';
-    console.error(errorMsg);
-    return { success: false, message: errorMsg };
+    return { success: false, message: 'File path is required for POR test.' };
   }
+
+  const connectionString = `Driver={Microsoft Access Driver (*.mdb, *.accdb)};DBQ=${filePath}`;
+  let connection: odbc.Connection | null = null;
+
   try {
-    const buffer = fs.readFileSync(filePath);
-    const reader = new MDBReader(buffer);
-    const tableNames = reader.getTableNames();
-    if (!tableNames.includes('PurchaseOrder')) {
-      return { success: false, message: 'Table PurchaseOrder not found in MDB file.' };
+    console.log(`Attempting to connect to POR using connection string...`);
+    connection = await odbc.connect(connectionString);
+    console.log(`Successfully connected to POR database at ${filePath}`);
+
+    await connection.query('SELECT 1');
+    console.log(`Test query executed successfully on POR.`);
+
+    return { success: true, message: `POR connection successful using file path: ${filePath}` };
+  } catch (error) {
+    console.error(`Error testing POR connection:`, error);
+    const errorMessage = error instanceof Error ? error.message : 'Unknown POR connection error.';
+    if (errorMessage.includes('Data source name not found')) {
+        return { success: false, message: `POR connection failed: The Microsoft Access ODBC driver might not be installed or configured correctly. Please ensure the 'Microsoft Access Driver (*.mdb, *.accdb)' is available. Error: ${errorMessage}` };
     }
-    const table = reader.getTable('PurchaseOrder');
-    const rows = table.getData();
-    const count = Array.isArray(rows) ? rows.length : 0;
-    return { success: true, message: `POR MDB read successful. PurchaseOrder rows: ${count}.` };
-  } catch (err) {
-    console.error('[POR-MDB] Test error details:', err);
-    const errorMsg = err instanceof Error ? err.message : String(err);
-    return { success: false, message: `POR test via mdb-reader failed: ${errorMsg}` };
+    return { success: false, message: `POR connection failed: ${errorMessage}` };
+  } finally {
+    if (connection) {
+      try {
+        await connection.close();
+        console.log(`POR connection to ${filePath} closed.`);
+      } catch (closeError) {
+        console.error(`Error closing POR connection:`, closeError);
+      }
+    }
   }
 };
 
