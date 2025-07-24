@@ -1,11 +1,18 @@
 import { NextResponse } from 'next/server';
+import { NextRequest } from 'next/server';
 import { getAllChartData } from '@/lib/db/server';
-import { ChartDataRow } from '@/lib/db/types';
+import { ChartDataRow, PORDailySalesPoint } from '@/lib/db/types';
 import { getPORDailySales } from '@/lib/db/porDailySales';
 import { getAdminVariables } from '@/lib/db/server';
+import { verifyRequest } from '@/lib/auth/apiAuth';
 
 // Define the expected structure of the response
-// TODO: Define this properly in lib/db/types.ts and import it
+interface WebOrderPoint {
+  date: string;
+  orders: number;
+  revenue: number;
+}
+
 interface DashboardApiResponse {
   metrics: ChartDataRow[];
   accounts: ChartDataRow[];
@@ -16,12 +23,8 @@ interface DashboardApiResponse {
   siteDistribution: ChartDataRow[];
   arAging: ChartDataRow[];
   dailyOrders: ChartDataRow[];
-  webOrders: {
-    date: string;
-    orders: number;
-    revenue: number;
-  }[];
-  porDailySales: { date: string; value: number }[];
+  webOrders: WebOrderPoint[];  // Using the defined interface
+  porDailySales: PORDailySalesPoint[];
 }
 
 // Determine POR path: prefer admin config, fallback to env var
@@ -31,9 +34,22 @@ const porVar = adminVars.find(v => v.type === 'POR' && v.value);
 const porPath = porVar?.value as string || envPorPath;
 console.log('API: Using POR path:', porPath);
 
-export async function GET(request: Request) {
+export async function GET(request: NextRequest) {
+  console.log('Dashboard API: Starting request');
+  
+  // Verify authentication
+  const { user, error } = await verifyRequest(request);
+  if (error) {
+    console.error('Dashboard API: Authentication failed:', error);
+    return error;
+  }
+  
+  console.log('Dashboard API: Authenticated user:', user?.email);
+  
   try {
+    console.log('Dashboard API: Fetching chart data...');
     const allData = getAllChartData();
+    console.log(`Dashboard API: Retrieved ${allData.length} data points`);
 
     // Initialize the structure for grouped data
     const groupedData: DashboardApiResponse = {
@@ -88,9 +104,6 @@ export async function GET(request: Request) {
           groupedData.dailyOrders.push(row);
           break;
         case 'Web Orders':
-        case 'Web Revenue':
-          rawWebOrders.push(row);
-          break;
         default:
           // Optionally log or handle rows with unexpected chartGroup
           console.warn(`Data row with unhandled chartGroup found: ${row.chartGroup}`);
@@ -98,21 +111,32 @@ export async function GET(request: Request) {
       }
     });
 
-    // Pivot raw Web Orders rows into date-series with orders & revenue
-    if (rawWebOrders.length > 0) {
-      const steps = Array.from(new Set(rawWebOrders.map(r => r.axisStep))).filter(Boolean);
-      const now = new Date();
-      const pivoted = steps.map(step => {
-        let offset = 0;
-        if (String(step).toLowerCase() !== 'current') {
-          const m = /-?\\d+/.exec(String(step));
-          offset = m ? parseInt(m[0], 10) : 0;
+    // First, collect all web orders data
+    const webOrdersData = allData.filter(row => 
+      row.chartGroup === 'web_orders' && 
+      row.serverName === 'P21' &&
+      row.axisStep
+    );
+
+    if (webOrdersData.length > 0) {
+      // Pivot the data by axisStep (month)
+      const months = [...new Set(webOrdersData.map(r => r.axisStep))].sort();
+      const pivoted: WebOrderPoint[] = months.map(step => {
+        const now = new Date();
+        const offset = Number(step) - 1; // Convert to 0-based month offset
+        if (isNaN(offset)) {
+          console.warn('Invalid month offset:', step);
+          return { date: '', orders: 0, revenue: 0 };
         }
         const dateObj = new Date(now.getFullYear(), now.getMonth() + offset, 1);
         const date = dateObj.toISOString().split('T')[0];
-        const ordersItem = rawWebOrders.find(r => r.axisStep === step && String(r.variableName).toLowerCase() === 'web_order_count');
-        const revenueItem = rawWebOrders.find(r => r.axisStep === step && String(r.variableName).toLowerCase() === 'web_order_value');
-        return { date, orders: ordersItem?.value ?? 0, revenue: revenueItem?.value ?? 0 };
+        const ordersItem = webOrdersData.find(r => r.axisStep === step && String(r.variableName).toLowerCase() === 'web_order_count');
+        const revenueItem = webOrdersData.find(r => r.axisStep === step && String(r.variableName).toLowerCase() === 'web_order_value');
+        return { 
+          date, 
+          orders: ordersItem?.value ? Number(ordersItem.value) : 0, 
+          revenue: revenueItem?.value ? Number(revenueItem.value) : 0 
+        };
       }).sort((a, b) => a.date.localeCompare(b.date));
       groupedData.webOrders = pivoted;
     }
@@ -121,11 +145,29 @@ export async function GET(request: Request) {
     if (porPath) {
       try {
         const values = await getPORDailySales(porPath);
-        groupedData.porOverview = values.map((v, i) => {
-          // date labels based on file order; using ISO date increment from today backwards
-          const d = new Date();
-          d.setDate(d.getDate() - (values.length - 1 - i));
-          return { date: d.toISOString().split('T')[0], value: v };
+        const today = new Date();
+        
+        groupedData.porOverview = values.map((value, i) => {
+          const date = new Date(today);
+          date.setDate(date.getDate() - (values.length - 1 - i));
+          const dateStr = date.toISOString().split('T')[0];
+          
+          // Create a proper ChartDataRow object
+          return {
+            id: `por-daily-${i}`,
+            rowId: `por-daily-${dateStr}`,
+            chartGroup: 'por_daily_sales',
+            variableName: 'daily_sales',
+            DataPoint: dateStr,
+            chartName: 'POR Daily Sales',
+            serverName: 'POR',
+            tableName: 'daily_sales',
+            productionSqlExpression: null,
+            value: value,
+            lastUpdated: new Date().toISOString(),
+            calculationType: 'SUM',
+            axisStep: dateStr
+          } as ChartDataRow;
         });
       } catch (e) {
         console.error('Failed to load POR daily sales:', e);
@@ -133,7 +175,7 @@ export async function GET(request: Request) {
     }
 
     // Fetch daily POR sales for last 30 days
-    let porDaily: { date: string; value: number }[] = [];
+    let porDaily: PORDailySalesPoint[] = [];
     if (porPath) {
       try {
         const values = await getPORDailySales(porPath);
@@ -161,15 +203,22 @@ export async function GET(request: Request) {
     console.log('API - Web Orders Data Count:', groupedData.webOrders?.length ?? 0);
     console.log('API - POR Daily Sales Data Count:', porDaily?.length ?? 0);
 
-    // Append porDailySales (deprecated; kept for compatibility)
-    return NextResponse.json({ ...groupedData });
-
+    console.log('Dashboard API: Successfully prepared response');
+    return NextResponse.json(groupedData);
   } catch (error) {
-    console.error('API Error fetching dashboard data:', error instanceof Error ? error.stack : error);
-    // Determine the type of error and provide a more specific message if possible
-    const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
+    console.error('Dashboard API: Error processing request:', error);
+    if (error instanceof Error) {
+      console.error('Error details:', {
+        message: error.message,
+        stack: error.stack,
+        name: error.name
+      });
+    }
     return NextResponse.json(
-      { message: `Failed to fetch dashboard data: ${errorMessage}` },
+      { 
+        error: 'Failed to fetch dashboard data',
+        details: error instanceof Error ? error.message : 'Unknown error'
+      },
       { status: 500 }
     );
   }

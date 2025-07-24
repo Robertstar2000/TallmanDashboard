@@ -47,7 +47,9 @@ export default function Home() {
         setLoading(true);
         
         // Fetch data from the API
-        const response = await fetch('/api/dashboard/data');
+        const response = await fetch('/api/dashboard/data', {
+          credentials: 'include',
+        });
         
         if (!response.ok) {
           throw new Error(`API request failed with status ${response.status}`);

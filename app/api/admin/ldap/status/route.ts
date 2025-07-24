@@ -27,6 +27,12 @@ export async function GET() {
       resolve(NextResponse.json({ connected: false, message: err.message }));
     });
 
+    if (typeof bindDN !== 'string' || !bindDN.trim()) {
+      console.error('[LDAP status] bind error: LDAP_BIND_DN is not a valid string. It is likely undefined or empty in the environment.');
+      client.unbind();
+      return resolve(NextResponse.json({ connected: false, message: 'LDAP_BIND_DN is not configured.' }));
+    }
+
     client.bind(bindDN, bindPW, (err) => {
       if (err) {
         console.error('[LDAP status] bind error', err);

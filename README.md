@@ -1,18 +1,127 @@
-## Run it up
+# Tallman Dashboard
+
+## Quick Start
+
+### Prerequisites
+- [Node.js](https://nodejs.org/) (LTS version recommended)
+- npm (comes with Node.js)
+
+### Installation
+
+1. Clone the repository
+2. Install dependencies:
+   ```powershell
+   npm install
+   ```
+
+## Starting the Dashboard
+
+### Option 1: Using the Batch File (Recommended)
+
+1. Double-click on `start-dashboard.bat`
+   - **For best results**, right-click and select "Run as administrator"
+   - This will automatically:
+     - Stop any existing Node.js processes
+     - Free up port 60005 if in use
+     - Start the Next.js development server
+     - Open your default browser to http://localhost:60005
+
+### Option 2: Manual Start
+
+1. Open a terminal in the project directory
+2. Run:
+   ```powershell
+   # Stop any running Node.js processes
+   taskkill /F /IM node.exe
+   
+   # Start the development server
+   npm run dev
+   ```
+3. Open your browser to http://localhost:60005
+
+## Accessing the Dashboard
+
+Once running, the dashboard is available at:
+- http://localhost:60005
+- Or, after proxy setup, http://tallman.com/dashboard
+
+## Troubleshooting
+
+### Port 60005 is in use
+If you see errors about port 60005 being in use:
+1. Close any running instances of the dashboard
+2. Run these commands in an administrator PowerShell:
+   ```powershell
+   # Find and stop processes using port 60005
+   $process = Get-NetTCPConnection -LocalPort 60005 -ErrorAction SilentlyContinue | Select-Object -ExpandProperty OwningProcess -First 1
+   if ($process) { Stop-Process -Id $process -Force }
+   ```
+
+### Running as a Service (Advanced)
+For production use, consider using a process manager like PM2 or setting up a Windows Service.
+
+---
+
+## Proxy Setup (Optional)
+
+To proxy tallman.com/dashboard to localhost:60005 using IIS/ARR:
+
+### 1. Map tallman.com to localhost
+
+Edit your `C:\Windows\System32\drivers\etc\hosts` file (as Administrator) and add:
+
+```
+127.0.0.1   tallman.com
+```
+
+### 2. Install IIS and ARR
+
+- Open **Windows Features** and enable **Internet Information Services**.
+- Download and install **Application Request Routing (ARR)** from [Microsoft](https://www.iis.net/downloads/microsoft/application-request-routing).
+- Also install **URL Rewrite** module from [here](https://www.iis.net/downloads/microsoft/url-rewrite).
+
+### 3. Create IIS Site for tallman.com
+
+- Open **IIS Manager**.
+- Right-click **Sites** > **Add Website...**
+    - **Site name:** TallmanDashboard
+    - **Physical path:** Any folder (can be project root)
+    - **Binding:**
+        - **Type:** http
+        - **IP address:** All Unassigned
+        - **Port:** 80
+        - **Host name:** tallman.com
+
+### 4. Configure Reverse Proxy to Node.js
+
+- In IIS Manager, select your new **TallmanDashboard** site.
+- Double-click **URL Rewrite**.
+- Add a new rule: **Reverse Proxy** (or **Add Rule(s)** > **Reverse Proxy**).
+    - **Inbound Rules:**
+        - **Requested URL:** Matches the Pattern
+        - **Using:** Regular Expressions
+        - **Pattern:** ^dashboard/(.*)
+    - **Action:**
+        - **Action type:** Rewrite
+        - **Rewrite URL:** http://localhost:3000/dashboard/{R:1}
+
+- If you want all traffic to `/dashboard` (and subroutes) to go to Node.js, this will work. For the root (`/`), you can add another rule if needed.
+
+- In **ARR Settings** (Server Proxy Settings), ensure **Enable proxy** is checked.
+
+### 5. Restart IIS
 
 ```powershell
-# from project root
-npm install          # picks up mongoose & nock (already executed once)
-npm run dev          # or: npm run build && npm start
+iisreset
 ```
 
-You should now see the banner:
+### 6. Test
 
-```
-Starting TallmanDashboard at http://localhost:3000
-```
+- Open http://tallman.com/dashboard in your browser. You should see your dashboard app running via IIS.
 
-Navigate to that URL and the UI should load.
+---
+
+For production, ensure firewall rules allow inbound HTTP, and consider using HTTPS bindings with a valid certificate for `tallman.com`.
 
 AccountingAPIQueueCustomer, AccountingAPIQueueGL, AccountingAPIQueueGLDimensions, AccountingAPIQueuePO, 
 AccountingAPIQueuePODetail, AccountingAPIQueuePODimensions, AccountingAPIQueueTRDetail, 
@@ -710,5 +819,80 @@ This guarantees the behaviour requested:
 * Visiting `/` first checks LDAP (indirectly via login) and only shows the dashboard after successful authentication.
 * Admins see and can enter the admin panel; regular users stay on the dashboard.
 * The admin button does nothing for non-admin users, preventing accidental navigation.
+
+---
+
+## LDAP & Admin Authentication Setup (2025-07)
+
+This section consolidates everything proved to work when wiring up secure **LDAPS domain logins** and the **local fallback admin** inside TallmanDashboard.
+
+### 1 Environment Variables
+Add these to `.env`, `.env.local`, or the NSSM `AppEnvironmentExtra` block:
+
+```ini
+# LDAP
+LDAP_ENABLED=true
+LDAP_URL=ldaps://dc02.tallman.com:636        # Always use LDAPS (636)
+LDAP_BIND_DN=LDAP@tallman.com                # Service account (UPN form)
+LDAP_BIND_PASSWORD=<password>                # Service-account secret
+LDAP_SEARCH_BASE=DC=tallman,DC=com           # Base DN covering all users
+
+# TEMP work-around while the AD root CA isn’t trusted locally
+NODE_TLS_REJECT_UNAUTHORIZED=0
+
+# Local emergency admin
+ADMIN_USER=Admin2214
+ADMIN_PASS=Tallman2214#
+```
+
+### 2 Update & Restart the Windows Service
+Run **Administrator PowerShell**:
+
+```powershell
+nssm set TallmanDashboardSvc1 AppEnvironmentExtra `
+  "LDAP_URL=ldaps://dc02.tallman.com:636" `
+  "LDAP_BIND_DN=LDAP@tallman.com" `
+  "LDAP_BIND_PASSWORD=<password>" `
+  "LDAP_SEARCH_BASE=DC=tallman,DC=com" `
+  "NODE_TLS_REJECT_UNAUTHORIZED=0" `
+  "ADMIN_USER=Admin2214" `
+  "ADMIN_PASS=Tallman2214#"
+
+nssm restart TallmanDashboardSvc1   # load new vars
+```
+
+### 3 Rebuild after Auth Code Changes
+`ldapAuth.ts` is compiled into `.next`. After any auth-related code edits:
+
+```powershell
+npm run build --prefix "C:\Users\BobM\CascadeProjects\TallmanDashboard_new"
+nssm restart TallmanDashboardSvc1
+```
+
+### 4 TLS Certificate Troubleshooting
+If `UNABLE_TO_VERIFY_LEAF_SIGNATURE` appears:
+1. Keep `NODE_TLS_REJECT_UNAUTHORIZED=0` **and** pass `tlsOptions: { rejectUnauthorized: false }` (already done).
+2. For production security, import Tallman’s AD Root CA into **Local Computer → Trusted Root Certification Authorities**, then remove the bypass.
+
+### 5 Quick Diagnostics
+```powershell
+# Tail service logs
+Get-Content -Tail 50 -Wait "C:\Users\BobM\Desktop\TallmanDash_out.log"
+Get-Content -Tail 50 -Wait "C:\Users\BobM\Desktop\TallmanDash_err.log"
+
+# Kill stray Node processes blocking ports (EADDRINUSE)
+powershell -Command "Get-Process -Name node | Stop-Process -Force"
+```
+Look for:
+- `Service-account bind succeeded` → connection OK.
+- `Bind with found DN failed: INVALID_CREDENTIALS` → wrong user pass.
+- `unable to verify the first certificate` → TLS trust missing.
+
+### 6 Login Paths
+* **Domain user**: `BobM@tallman.com` → LDAP search & bind.
+* **Fallback admin**: `Admin2214 / Tallman2214#` → skips LDAP; always works even if DC is down.
+
+A successful login drops a JWT, loads the dashboard, and (for admins) activates the red **Admin** button.
+
 
    -

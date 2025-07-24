@@ -36,9 +36,13 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     try {
       const storedToken = localStorage.getItem('authToken');
       const storedUser = localStorage.getItem('authUser');
-      if (storedToken && storedUser) {
+      if (storedToken && storedUser && storedUser !== 'undefined' && storedUser !== 'null') {
         setToken(storedToken);
         setUser(JSON.parse(storedUser));
+      } else {
+        // If data is corrupted or "undefined", clear it to prevent future errors
+        localStorage.removeItem('authToken');
+        localStorage.removeItem('authUser');
       }
     } catch (error) {
       console.error('Failed to load auth state from localStorage:', error);

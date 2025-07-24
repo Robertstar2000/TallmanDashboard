@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LDAP Login Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 500px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+        .test-case {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        button {
+            padding: 8px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .success {
+            color: green;
+            font-weight: bold;
+        }
+        .error {
+            color: red;
+        }
+        pre {
+            background-color: #f5f5f5;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>LDAP Login Test</h1>
+    
+    <div class="test-case">
+        <h3>Test with different username formats</h3>
+        <p>Password: <code>Rm2214ri#</code></p>
+        
+        <div id="test1" class="test">
+            <p><strong>Test 1:</strong> Username without domain (BobM)</p>
+            <button onclick="testLogin('BobM', 'Rm2214ri#')">Test Login</button>
+            <div id="result1" class="result"></div>
+        </div>
+        
+        <div id="test2" class="test">
+            <p><strong>Test 2:</strong> Lowercase username (bobm)</p>
+            <button onclick="testLogin('bobm', 'Rm2214ri#')">Test Login</button>
+            <div id="result2" class="result"></div>
+        </div>
+        
+        <div id="test3" class="test">
+            <p><strong>Test 3:</strong> Uppercase username (BOBM)</p>
+            <button onclick="testLogin('BOBM', 'Rm2214ri#')">Test Login</button>
+            <div id="result3" class="result"></div>
+        </div>
+        
+        <div id="test4" class="test">
+            <p><strong>Test 4:</strong> Username with domain (BobM@tallman.com)</p>
+            <button onclick="testLogin('BobM@tallman.com', 'Rm2214ri#')">Test Login</button>
+            <div id="result4" class="result"></div>
+        </div>
+        
+        <div id="test5" class="test">
+            <p><strong>Test 5:</strong> Lowercase with domain (bobm@tallman.com)</p>
+            <button onclick="testLogin('bobm@tallman.com', 'Rm2214ri#')">Test Login</button>
+            <div id="result5" class="result"></div>
+        </div>
+        
+        <div id="test6" class="test">
+            <p><strong>Test 6:</strong> Uppercase with domain (BOBM@TALLMAN.COM)</p>
+            <button onclick="testLogin('BOBM@TALLMAN.COM', 'Rm2214ri#')">Test Login</button>
+            <div id="result6" class="result"></div>
+        </div>
+    </div>
+    
+    <script>
+    async function testLogin(username, password) {
+        const testNumber = document.activeElement.parentElement.id.replace('test', '');
+        const resultDiv = document.getElementById(`result${testNumber}`);
+        resultDiv.innerHTML = 'Testing...';
+        
+        try {
+            const response = await fetch('/api/auth/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    username: username,
+                    password: password
+                })
+            });
+            
+            const data = await response.json();
+            
+            if (response.ok) {
+                resultDiv.innerHTML = `
+                    <div class="success">✅ Login successful!</div>
+                    <pre>${JSON.stringify(data, null, 2)}</pre>
+                `;
+            } else {
+                resultDiv.innerHTML = `
+                    <div class="error">❌ Login failed: ${data.message || 'Unknown error'}</div>
+                    <pre>Status: ${response.status}</pre>
+                    <pre>${JSON.stringify(data, null, 2)}</pre>
+                `;
+            }
+        } catch (error) {
+            resultDiv.innerHTML = `
+                <div class="error">❌ Error: ${error.message}</div>
+                <pre>${error.stack || ''}</pre>
+            `;
+        }
+    }
+    </script>
+</body>
+</html>

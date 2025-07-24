@@ -1,5 +1,5 @@
 {
   "ok": false,
   "message": "Unexpected error: Cannot find module 'C:\\Users\\BobM\\CascadeProjects\\TallmanDashboard_new\\lib\\auth\\ldapConfig.js' imported from C:\\Users\\BobM\\CascadeProjects\\TallmanDashboard_new\\scripts\\preAuthCheck.js",
-  "timestamp": "2025-06-21T19:28:31.855Z"
+  "timestamp": "2025-07-10T13:27:22.175Z"
 }

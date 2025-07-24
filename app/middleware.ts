@@ -32,6 +32,7 @@ export async function middleware(req: NextRequest) {
   // Paths that do not require authentication
   const publicPaths = [
     LOGIN_URL,
+    '/api/login',
     '/api/auth/login',
     '/api/auth/ldap-quick-check',
     // Add other public paths like /register, /forgot-password, public assets, etc.

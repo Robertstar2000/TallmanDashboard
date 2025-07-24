@@ -1,0 +1,9 @@
+{
+  "version": 1,
+  "functions": {
+    "/api/admin/run-query": {},
+    "/api/admin/variables": {},
+    "/api/auth/ldap-quick-check": {},
+    "/": {}
+  }
+}

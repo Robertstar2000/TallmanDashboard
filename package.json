@@ -4,9 +4,10 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "node ./scripts/start-dev.js",
+    "dev": "cross-env LANG=en_US.UTF-8 POR_Path=\\\\ts03\\POR\\POR.MDB JWT_SECRET=tallman_dashboard_secret_key next dev -p 60005",
+    "dev:log": "cross-env LANG=en_US.UTF-8 POR_Path=\\\\ts03\\POR\\POR.MDB JWT_SECRET=tallman_dashboard_secret_key next dev -p 60005 2>&1 | powershell -NoProfile -Command \"Out-File -FilePath output.log -Encoding utf8\"",
     "build": "next build",
-    "start": "node ./scripts/start-dev.js --prod",
+    "start": "cross-env LANG=en_US.UTF-8 POR_Path=\\\\ts03\\POR\\POR.MDB JWT_SECRET=tallman_dashboard_secret_key next start -p 60005",
     "lint": "next lint",
     "reset-db": "tsx scripts/seedDb.ts",
     "test": "node tests/run-tests.cjs"
@@ -50,7 +51,6 @@
     "@radix-ui/react-tooltip": "^1.1.2",
     "@types/lodash": "^4.17.16",
     "@types/mssql": "^9.1.7",
-    "@types/react": "18.2.22",
     "@types/react-dom": "18.2.7",
     "@types/react-responsive": "^8.0.8",
     "@types/stylis": "^4.2.7",
@@ -93,7 +93,7 @@
     "lucide-react": "^0.363.0",
     "mongoose": "^8.15.2",
     "mssql": "^11.0.1",
-    "next": "13.5.1",
+    "next": "^14.0.0",
     "next-themes": "^0.3.0",
     "next-transpile-modules": "^10.0.1",
     "nock": "^14.0.5",
@@ -141,9 +141,10 @@
     "@types/bcryptjs": "^2.4.6",
     "@types/better-sqlite3": "^7.6.13",
     "@types/jsonwebtoken": "^9.0.9",
-    "@types/node": "^22.14.1",
+    "@types/node": "^22.16.3",
     "@types/passport": "^1.0.17",
     "@types/passport-local": "^1.0.38",
+    "@types/react": "18.2.22",
     "@types/sqlite3": "^3.1.11",
     "@types/uuid": "^10.0.0",
     "autoprefixer": "^10.4.20",
@@ -166,6 +167,6 @@
     "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0",
     "tsx": "^4.19.3",
-    "typescript": "^5.8.2"
+    "typescript": "^5.8.3"
   }
 }
