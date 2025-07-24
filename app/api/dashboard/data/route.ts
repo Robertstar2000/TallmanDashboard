@@ -1,9 +1,9 @@
 import { NextResponse } from 'next/server';
 import { NextRequest } from 'next/server';
-import { getAllChartData } from '@/lib/db/server';
+// Temporarily using sqlite3 fix instead of better-sqlite3
+import { getAllChartData, getAdminVariables } from '@/lib/db/temp-server-fix';
 import { ChartDataRow, PORDailySalesPoint } from '@/lib/db/types';
 import { getPORDailySales } from '@/lib/db/porDailySales';
-import { getAdminVariables } from '@/lib/db/server';
 import { verifyRequest } from '@/lib/auth/apiAuth';
 
 // Define the expected structure of the response
@@ -27,12 +27,8 @@ interface DashboardApiResponse {
   porDailySales: PORDailySalesPoint[];
 }
 
-// Determine POR path: prefer admin config, fallback to env var
+// Environment variable for POR path
 const envPorPath = process.env.POR_Path;
-const adminVars = getAdminVariables();
-const porVar = adminVars.find(v => v.type === 'POR' && v.value);
-const porPath = porVar?.value as string || envPorPath;
-console.log('API: Using POR path:', porPath);
 
 export async function GET(request: NextRequest) {
   console.log('Dashboard API: Starting request');
@@ -46,9 +42,20 @@ export async function GET(request: NextRequest) {
   
   console.log('Dashboard API: Authenticated user:', user?.email);
   
+  // Determine POR path: prefer admin config, fallback to env var
+  let porPath = envPorPath;
+  try {
+    const adminVars = await getAdminVariables();
+    const porVar = adminVars.find((v: any) => v.type === 'POR' && v.value);
+    porPath = porVar?.value as string || envPorPath;
+  } catch (e) {
+    console.warn('Could not get admin variables, using env POR path');
+  }
+  console.log('API: Using POR path:', porPath);
+  
   try {
     console.log('Dashboard API: Fetching chart data...');
-    const allData = getAllChartData();
+    const allData = await getAllChartData();
     console.log(`Dashboard API: Retrieved ${allData.length} data points`);
 
     // Initialize the structure for grouped data
