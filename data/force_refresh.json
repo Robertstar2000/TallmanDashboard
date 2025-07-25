@@ -1,1 +1,8 @@
-{"timestamp":"Thu 07/24/2025 19:08:31.28","reason":"Bypass startup"} 
+﻿{
+    "timestamp":  {
+                      "value":  "\/Date(1753473454334)\/",
+                      "DisplayHint":  2,
+                      "DateTime":  "Friday, July 25, 2025 3:57:34 PM"
+                  },
+    "reason":  "Application startup"
+}

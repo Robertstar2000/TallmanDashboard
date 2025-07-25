@@ -14,14 +14,26 @@ if not exist "data" mkdir data
 echo %date% %time% > data\refresh_required
 echo %date% %time% > data\cache-refresh.txt
 echo {"timestamp":"%date% %time%","reason":"Bypass startup"} > data\force_refresh.json
-echo %date% %time% > .next-cache-reset
+echo %date% %time% > data\.next-cache-reset
 
 REM Clear Next.js cache
 echo Clearing Next.js cache...
 if exist ".next" rmdir /s /q .next
 
+REM Check dependencies
+echo Checking dependencies...
+call npm install --silent
+
 REM Start the application
 echo Starting dashboard on port 5500...
+echo.
+echo ========================================
+echo   TALLMAN DASHBOARD (BYPASS MODE)
+echo   URL: http://localhost:5500
+echo   Press Ctrl+C to stop the server
+echo ========================================
+echo.
+
 npx next dev -p 5500
 
 pause

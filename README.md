@@ -1,6 +1,19 @@
 # TallmanDashboard
 
-A Next.js-based business intelligence dashboard that connects to P21 (SQL Server) and POR (MS Access) databases to provide real-time key performance indicators (KPIs) and business metrics.
+A secure, Next.js-based business intelligence dashboard with LDAP authentication that connects to P21 (SQL Server) and POR (MS Access) databases to provide real-time key performance indicators (KPIs) and business metrics.
+
+## 🔐 Authentication System
+
+The dashboard features a comprehensive LDAP authentication system with user management:
+
+- **LDAP Integration**: Authenticates users against Tallmanequipment.com Active Directory
+- **User Management**: Database-stored approved user list with role-based access control
+- **Access Levels**:
+  - **User**: Can view dashboard and operational content
+  - **Admin**: Can manage Q&A database, access admin tools
+  - **Super Admin**: Full system access, user management, database control
+- **Modern UI**: Colorful, responsive login interface with detailed error handling
+- **Session Management**: Secure JWT-based sessions with 8-hour duration
 
 ## 🚀 Quick Start
 
@@ -38,9 +51,20 @@ A Next.js-based business intelligence dashboard that connects to P21 (SQL Server
    
    # POR MS Access Database
    NEXT_PUBLIC_POR_DB_PATH=\\ts03\POR\POR.MDB
+   
+   # LDAP Authentication
+   LDAP_URL=ldap://tallmanequipment.com:389
+   LDAP_BASE_DN=dc=tallmanequipment,dc=com
+   JWT_SECRET=tallman-dashboard-jwt-secret-key-2025
+   SESSION_DURATION=28800000
    ```
 
-4. **Start the application**
+4. **Setup initial users**
+   ```bash
+   node scripts/setup-initial-users.js
+   ```
+
+5. **Start the application**
    ```bash
    # Using the batch file (recommended)
    .\start-dashboard.bat
@@ -48,6 +72,11 @@ A Next.js-based business intelligence dashboard that connects to P21 (SQL Server
    # Or using npm directly
    npm run dev
    ```
+
+6. **Access the application**
+   - Open http://localhost:5500
+   - Login with your LDAP credentials
+   - Users must be in the approved user list to access the system
 
 5. **Access the dashboard**
    - Open your browser to `http://localhost:5500`
@@ -80,6 +109,49 @@ A Next.js-based business intelligence dashboard that connects to P21 (SQL Server
 2. **POR Database Connection**
    - File Path: `\\ts03\POR\POR.MDB`
    - Click "Test POR Connection" to verify file access
+
+### User Management
+
+**Accessing User Management**
+- Login with admin or super admin privileges
+- Navigate to Admin panel
+- Click "Manage Users" button
+
+**User Access Levels**
+- **User**: Can ask questions and view answers (operational dashboard access)
+- **Admin**: Can correct answers, manage Q&A database, access admin tools
+- **Super Admin**: Full system access, user management, database control
+
+**Managing Users**
+1. **Adding Users**
+   - Click "Add New User" button
+   - Enter username (must match LDAP username)
+   - Set display name, email, and access level
+   - Users must authenticate via LDAP AND be in approved list
+
+2. **Editing Users**
+   - Click edit button next to user
+   - Modify access level, status, or contact information
+   - Cannot change username after creation
+
+3. **User Status**
+   - **Active**: User can login and access system
+   - **Inactive**: User blocked from accessing system
+
+**Authentication Flow**
+1. User enters credentials on login page
+2. System validates against LDAP (Tallmanequipment.com)
+3. If LDAP succeeds, checks approved user list
+4. Grants access based on user's assigned role
+5. Creates secure session with 8-hour duration
+
+**Initial Users**
+The following users are created during setup:
+- `BobM` (Super Admin)
+- `admin` (Admin) 
+- `demo` (User)
+- `importer` (Admin)
+- `Robertstar` (Super Admin)
 
 ### Chart Management
 

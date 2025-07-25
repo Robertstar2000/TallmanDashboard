@@ -1,0 +1,17 @@
+Service batch started at Fri 07/25/2025 15:50:20.37 
+Changing to c:\Users\BobM\TallmanDashboard 
+Testing Node.js... 
+v22.17.1
+Killing existing processes... 
+Skipping npm install for service mode 
+Starting Next.js server... 
+Command: npx next dev -p 5500 
+  ▲ Next.js 13.5.1
+  - Local:        http://localhost:5500
+  - Environments: .env.local, .env
+  - Experiments (use at your own risk):
+     · serverActions
+
+ ✓ Ready in 2.9s
+[?25h
+Terminate batch job (Y/N)? 

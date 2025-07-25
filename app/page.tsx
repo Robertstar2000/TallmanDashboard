@@ -13,6 +13,7 @@ import { DailyOrdersChart } from '@/components/dashboard/DailyOrdersChart';
 import { WebOrdersChart } from '@/components/dashboard/WebOrdersChart';
 import Link from 'next/link';
 import { ChartDataRow } from '@/lib/db/types';
+import AuthenticatedApp from '@/components/AuthenticatedApp';
 
 // Placeholder type - will be replaced once API is implemented
 type DashboardDataPlaceholder = {
@@ -28,7 +29,7 @@ type DashboardDataPlaceholder = {
   webOrders: any[]; // Assuming ChartDataRow structure for now
 };
 
-export default function Home() {
+function DashboardContent() {
   const [dashboardData, setDashboardData] = useState<DashboardDataPlaceholder | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -88,9 +89,12 @@ export default function Home() {
   }
 
   return (
-    <main className="min-h-screen p-4">
+    <div className="p-4">
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold">Tallman Dashboard</h1>
+        <div>
+          <h1 className="text-2xl font-bold">Dashboard</h1>
+          <p className="text-gray-600">Real-time business metrics and analytics</p>
+        </div>
         <Link href="/admin" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
           Admin
         </Link>
@@ -151,9 +155,17 @@ export default function Home() {
 
         <div className="border rounded-lg p-4 shadow-sm">
           <h2 className="text-lg font-semibold mb-4">Web Orders</h2>
-          {dashboardData && <WebOrdersChart data={dashboardData.webOrders as ChartDataRow[]} />}
+          {dashboardData && <WebOrdersChart data={dashboardData.webOrders as any} />}
         </div>
       </div>
-    </main>
+    </div>
+  );
+}
+
+export default function Home() {
+  return (
+    <AuthenticatedApp>
+      <DashboardContent />
+    </AuthenticatedApp>
   );
 }

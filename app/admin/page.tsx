@@ -10,6 +10,7 @@ import Link from 'next/link';
 import { HelpDialog } from '@/components/admin/HelpDialog';
 import DatabaseConnectionTester from '@/components/admin/DatabaseConnectionTester';
 import SQLQueryTester from '@/components/admin/SQLQueryTester';
+import UserManagement from '@/components/admin/UserManagement';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogClose } from '@/components/ui/dialog';
 
 export default function AdminPage() {
@@ -17,6 +18,7 @@ export default function AdminPage() {
   const [showHelpDialog, setShowHelpDialog] = useState(false);
   const [showQueryTester, setShowQueryTester] = useState(false);
   const [showConnectionTester, setShowConnectionTester] = useState(false);
+  const [showUserManagement, setShowUserManagement] = useState(false);
 
   // Worker State
   const [workerIsRunning, setWorkerIsRunning] = useState<boolean | null>(null); // null initially
@@ -125,6 +127,13 @@ export default function AdminPage() {
           <div className="flex space-x-2">
             <Button
               variant="outline"
+              onClick={() => setShowUserManagement(true)}
+              className="bg-green-50 hover:bg-green-100 text-green-700 border-green-200"
+            >
+              Manage Users
+            </Button>
+            <Button
+              variant="outline"
               onClick={() => setShowHelpDialog(true)}
               className="bg-blue-50 hover:bg-blue-100"
             >
@@ -216,6 +225,23 @@ export default function AdminPage() {
                <DialogTitle>SQL Query Tester</DialogTitle> 
              </DialogHeader>
              <SQLQueryTester /> 
+             <DialogFooter>
+                <DialogClose asChild>
+                   <Button type="button" variant="secondary">
+                     Close
+                   </Button>
+                 </DialogClose>
+             </DialogFooter>
+           </DialogContent>
+         </Dialog>
+
+         {/* User Management Dialog */}
+         <Dialog open={showUserManagement} onOpenChange={setShowUserManagement}>
+           <DialogContent className="sm:max-w-[1000px] max-h-[90vh] overflow-y-auto"> 
+             <DialogHeader>
+               <DialogTitle>User Management</DialogTitle> 
+             </DialogHeader>
+             <UserManagement /> 
              <DialogFooter>
                 <DialogClose asChild>
                    <Button type="button" variant="secondary">

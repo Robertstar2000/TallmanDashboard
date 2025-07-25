@@ -100,4 +100,4 @@ export async function GET() {
   return NextResponse.json({ message: 'Method Not Allowed' }, { status: 405 });
 }
 
-export const config = { runtime: 'nodejs' };
+export const runtime = 'nodejs';
