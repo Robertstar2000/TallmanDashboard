@@ -97,6 +97,49 @@ const AdminSpreadsheet = ({
     return <div>Error: Invalid data format</div>;
   }
   
+  // Helper function to get column width classes
+  const getColumnWidth = (accessor: string) => {
+    switch (accessor) {
+      case 'id':
+        return 'w-12 min-w-[3rem]'; // Row ID - narrow
+      case 'chartGroup':
+        return 'w-20 min-w-[5rem]'; // Chart Group - compact
+      case 'variableName':
+        return 'w-24 min-w-[6rem]'; // Variable Name - compact
+      case 'DataPoint':
+        return 'w-32 min-w-[8rem] break-words'; // Data Point - medium
+      case 'serverName':
+        return 'w-16 min-w-[4rem]'; // Server - narrow
+      case 'tableName':
+        return 'w-24 min-w-[6rem]'; // Table Name - compact
+      case 'productionSqlExpression':
+        return 'w-96 min-w-[24rem] max-w-[30rem]'; // SQL - wide but capped
+      case 'value':
+        return 'w-20 min-w-[5rem]'; // Value - compact
+      case 'axisStep':
+        return 'w-20 min-w-[5rem] break-words'; // Axis Step - compact
+      default:
+        return 'w-auto';
+    }
+  };
+
+  // Helper function to get cell styling classes
+  const getCellClassName = (accessor: string) => {
+    switch (accessor) {
+      case 'productionSqlExpression':
+        return 'font-mono break-words max-w-[30rem] overflow-hidden';
+      case 'DataPoint':
+      case 'axisStep':
+        return 'break-words overflow-hidden';
+      case 'value':
+        return 'text-right font-mono';
+      case 'id':
+        return 'text-center font-mono';
+      default:
+        return 'whitespace-nowrap overflow-hidden text-ellipsis';
+    }
+  };
+
   // Sort data by Row ID in ascending order
   const sortedData = [...data].sort((a, b) => {
     // Convert IDs to numbers for proper numeric sorting
@@ -109,14 +152,14 @@ const AdminSpreadsheet = ({
     <>
       {/* Add detailed logging before rendering */}
       {console.log('AdminSpreadsheet: Rendering sortedData IDs:', sortedData.map(row => row.id))}
-      <div className="w-full overflow-x-auto">
-        <div className="min-w-full" style={{ fontSize: '0.85rem' }}>
+      <div className="w-full overflow-x-auto max-h-[80vh]">
+        <div className="min-w-full" style={{ fontSize: '0.75rem' }}>
           <Table>
             <TableHeader className="bg-gray-100 sticky top-0 z-10">
               <TableRow>
                 {columns.map((column, index) => (
                   // Reduce horizontal padding (px-1), keep vertical padding (py-2)
-                  <TableHead key={column.header} className={`px-1 py-2 text-left text-xs font-medium text-gray-600 uppercase tracking-wider ${column.accessor === 'productionSqlExpression' ? 'min-w-[600px]' : ''} ${column.accessor === 'axisStep' ? 'break-words' : ''}`}>
+                   <TableHead key={column.header} className={`px-1 py-1 text-left text-xs font-medium text-gray-600 uppercase tracking-wider ${getColumnWidth(column.accessor)}`}>
                     {column.header}
                   </TableHead>
                 ))}
@@ -145,12 +188,8 @@ const AdminSpreadsheet = ({
                       return (
                         // Increase vertical padding (py-2), decrease horizontal padding (px-1)
                         // Apply wrapping logic for specific columns
-                        <TableCell key={`${rowKey}-${column.accessor || column.header || 'unknown'}`} 
-                          className={`px-1 py-2 text-[11px] text-gray-700 
-                          ${column.accessor === 'productionSqlExpression' ? 'font-mono break-words max-w-[230px]' : 
-                          column.accessor === 'axisStep' ? 'break-words max-w-[150px]' : 
-                          column.accessor === 'DataPoint' ? 'break-words max-w-[150px]' : // Keep DataPoint wrapped
-                          'whitespace-nowrap'}`}>
+                         <TableCell key={`${rowKey}-${column.accessor || column.header || 'unknown'}`} 
+                           className={`px-1 py-1 text-[9px] text-gray-700 ${getCellClassName(column.accessor)}`}>
                           {column.render ? (
                             // Use render function if provided
                             column.render(row)
@@ -162,7 +201,7 @@ const AdminSpreadsheet = ({
                                 onValueChange={(value) => handleCellChange(row.id, column.accessor as keyof ChartDataRow, value)}
                                 disabled={!isEditable}
                               >
-                                <SelectTrigger className="h-8">
+                                <SelectTrigger className="h-6 text-[9px]">
                                   <SelectValue placeholder="Select server" />
                                 </SelectTrigger>
                                 <SelectContent>
@@ -175,7 +214,7 @@ const AdminSpreadsheet = ({
                                 value={String(cellValue ?? '')}
                                 onChange={(e) => handleCellChange(row.id, column.accessor as keyof ChartDataRow, e.target.value)}
                                 disabled={!isEditable}
-                                className="w-full p-2 text-[11px] font-mono border rounded-md min-h-[2.5rem] focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                className="w-full p-1 text-[9px] font-mono border rounded-md min-h-[2rem] focus:outline-none focus:ring-2 focus:ring-blue-500"
                                 style={{
                                   height: 'auto',
                                   resize: 'vertical',
@@ -187,7 +226,7 @@ const AdminSpreadsheet = ({
                             ) : (
                               // Default Input for other editable fields
                               <Input
-                                className="h-8"
+                                className="h-6 text-[9px]"
                                 value={String(cellValue ?? '')}
                                 onChange={(e) => handleCellChange(row.id, column.accessor as keyof ChartDataRow, e.target.value)}
                                 disabled={!isEditable}

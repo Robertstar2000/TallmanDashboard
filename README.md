@@ -1,238 +1,259 @@
-AccountingAPIQueueCustomer, AccountingAPIQueueGL, AccountingAPIQueueGLDimensions, AccountingAPIQueuePO, 
-AccountingAPIQueuePODetail, AccountingAPIQueuePODimensions, AccountingAPIQueueTRDetail, 
-AccountingAPIQueueTRDimensions, AccountingAPIQueueVendor, AccountingClass, AccountingCustomer, 
-AccountingDepartment, AccountingEmployee, AccountingJobsite, AccountingLocation, AccountingMethod, 
-AccountingProject, AccountingSalesman, AccountingTransaction, AccountingVendor, AccountNumbers, 
-AccountsReceivable, AccountsReceivableAssigned, Attachments, AttachmentsLinkType, AutoContinuationTemplates, 
-BankDeposits, BulkSerializationMethod, BulkSerializationMethod_Tr, CalendarSpecial, CalendarWeek, 
-CallLogType, CallLogType_Tr, CashDrawer, CashDrawer_1229, CashDrawer_BAK, CategoryIncome, 
-CategoryIncomeDetail, CategoryIncomeDetail_1229, CertificationDetail, CertificationDetailBackup_2016, 
-CertificationType, CertificationType_Tr, CheckCardFile, ColumnOrder, CommissionLevelCustomer, 
-CommissionLevelCustomer_Tr, CommissionLevelExcessiveDiscounts, CommissionLevelItem, CommissionLevelItem_Tr, 
-CommissionLevelSalesman, Contract, ContractColumns, ContractColumns_Tr, ContractDetail, ContractFooter, 
-ContractFormat, ContractFormat_Tr, ContractHeader, ContractSalesRepType, CountryCodes, CRMTerritories, 
-CurrencyExchange, CurrentStoreTransfers, CustomerCard, CustomerComments, CustomerComments_Tr, CustomerEdit, 
-CustomerEntityType, CustomerFile, CustomerFile_Tr, CustomerGroup, CustomerGroup_Tr, CustomerHeard, 
-CustomerHeard_Tr, CustomerJobSite, CustomerJobSite_Tr, CustomerJobSiteType_Tr, CustomerMessage, 
-CustomerMessage_Tr, CustomerNameFormat, CustomerNotifications, CustomerPicture, CustomerRestriction, 
-CustomerStatus, CustomerStatus_Tr, CustomerType_Tr, CustomerTypePricing, CustomerTypePricing_Tr, 
-DailyDeliveryPickupMax, Dates, DeliveryTrucks, DeliveryTrucks_Tr, DeliveryWindows, DisbursementDetail, 
-DisbursementItems, DisbursementItems_Tr, DiscountTable_Tr, DiscountTableByCategory, District, 
-DistrictStores, EmailMessages, EmailMessages_Tr, EmployeeHours, EmployeeLogType, EmployeePay, 
-EntityTypes, EpicorContractHistory, EpicorContractLines, EpicorProfile, EpicorSKUIntegration, 
-EpicorVersion, ErrorLog, ExportFormat, FeatureLicense, FeatureLicenseType, FeatureLimitType, 
-FeaturePermissionType, FieldDefinitions, FileDescriptions, FulfillmentActions_Tr, FulFillmentVersion, 
-GLDetailLevel, GLMode, GroupFile, GroupFile_Tr, GroupType, Images, ImagesLinkType, ImportTableDefinitions, 
-IncomeType, IntacctDimensionCandidates, IntacctDimensions, IntegrationResources, ItemCategory_Tr, 
-ItemCategoryPicture, ItemCategorySuper, ItemCategorySuper_Tr, ItemComments, ItemComments_Tr, 
-ItemDepartment_Tr, ItemDepr179Working, ItemDepreciation, ItemDepreciationDetail, ItemDepreciationMethods, 
-ItemDepreciationMethods_Tr, ItemDepreciationStoreDetail, ItemDivision, ItemDivision_Tr, ItemEdit, 
-ItemEngine, ItemFile, ItemFile_Tr, ItemIncome, ItemKits, ItemKitsAuto, ItemKitsRepairs, 
-ItemLocationDefaults, ItemLocations, ItemMaintenance, ItemMaintenanceDescription, 
-ItemMaintenanceDescription_Tr, ItemMaintenanceDetail, ItemMaintenanceType, ItemMaintenanceType_Tr, 
-ItemPicture, ItemPurchaseDetail, ItemPurchaseDetailFinancing, ItemQuantityChange, ItemQYOTLedger, 
-ItemRateCode, ItemRates, ItemRatesDaily, ItemSerialization, ItemsForSale, ItemsRelatedType, 
-ItemStatus, ItemType, ItemType_Tr, ItemWarranty, KitsActionTypes, KitsActionTypes_Tr, LanguageCode, 
-LedgerCode, LedgerContractLineDetail, LedgerDetail, LedgerDetailCode, LedgerKeyContract, Letters, 
-LicenseInfo, Locks, LoyaltyDetail, LoyaltyLevel, MapAddressAliases, MapColLayout, MapGPSMessages, 
-MapGPSWorkOrders, MapIt, MapNotifyDetail, MapNotifyDetailLog, MapNotifyTriggerDefinitions, 
-MapRouteDetails, MapRouteEdits, MapRouteNames, MapRouterOptions, MeterReadingCalledOffRent, 
-MissedRentalReasons, MissedRentalReasons_Tr, MissedRentals, PurchaseOrder, PurchaseOrderColumns, 
-PurchaseOrderEdit, PurchaseOrderFormat, PurchaseOrderGL, PurchaseOrderRejectedReasons, 
-PurchaseOrderRejectedReasons_Tr, PurchaseOrderShipTo, PurchaseOrderTransport, SFSync_TransactionOpportunities, 
-SFSync_TransactionPDFs, TotalsContractsAccrual, TotalsContractsCash, TransactionClassification, 
-TransactionEdit, TransactionFulfillmentLog, TransactionItems, TransactionItems_Tr, 
-TransactionItemsSerialization, TransactionItemsSerializationAction, TransactionItemsSerializationActionSources, 
-TransactionItemsSubstatus, TransactionKey, TransactionKeyBackup, TransactionNotificationMessages, 
-TransactionNotificationMessagesType, TransactionNotifications, TransactionOperation, TransactionOperation_Tr, 
-Transactions, Transactions_Tr, TransactionSecondaryStatus, TransactionService, TransactionServiceType, 
-TransactionServiceType_Tr, TransactionSignature, TransactionsRelated, TransactionsRelatedType, 
-TransactionsRelatedType_Tr, TransactionStatus, TransactionsVoided, TransactionTaxDefinition, 
-TransactionTaxDetail, TransactionType, TransactionType_Tr, TransferToRent, WorkOrderFormat, zCustomersIn, 
-Contract_Tr, CustomerFile_Tr_Bak, CustomerJobSiteType, CustomerRestriction_Tr, CustomerType, 
-LedgerKeyContractLine, PurchaseOrderDetail, PurchaseOrderPaymentMethods, SFSync_CustomerFileAccounts, 
-TransactionItemsSubStatus_Tr, TransactionSecondaryStatus_Tr, TransactionStatus_Tr
+# TallmanDashboard
 
-# Dashboard Overview
+A Next.js-based business intelligence dashboard that connects to P21 (SQL Server) and POR (MS Access) databases to provide real-time key performance indicators (KPIs) and business metrics.
 
-This dashboard provides key performance indicators (KPIs) derived from the P21 (SQL Server) and POR (MS Access) databases.
+## 🚀 Quick Start
 
-## Chart Groups
+### Prerequisites
+- Node.js 16+ installed
+- Windows environment (required for ODBC connections)
+- Access to P21 SQL Server database
+- Access to POR MS Access database file
+- ODBC drivers installed:
+  - SQL Server ODBC driver
+  - Microsoft Access ODBC driver (*.mdb, *.accdb)
+
+### Installation & Setup
+
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd TallmanDashboard
+   ```
+
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
+
+3. **Configure environment variables**
+   - Copy `.env` to `.env.local`
+   - Update the following variables in `.env.local`:
+   ```env
+   # P21 SQL Server Database
+   P21_SERVER=10.10.20.13
+   P21_DATABASE=P21_LIVE
+   P21_TRUSTED_CONNECTION=true
+   P21_DSN=P21Live
+   
+   # POR MS Access Database
+   NEXT_PUBLIC_POR_DB_PATH=\\ts03\POR\POR.MDB
+   ```
+
+4. **Start the application**
+   ```bash
+   # Using the batch file (recommended)
+   .\start-dashboard.bat
+   
+   # Or using npm directly
+   npm run dev
+   ```
+
+5. **Access the dashboard**
+   - Open your browser to `http://localhost:5500`
+   - The application **MUST** run on port 5500 only
+
+## 📋 Operating Instructions
+
+### Dashboard Navigation
+
+1. **Main Dashboard View**
+   - Access the main dashboard at `http://localhost:5500`
+   - View real-time KPIs organized by chart groups
+   - Charts automatically refresh based on configured intervals
+
+2. **Admin Panel**
+   - Navigate to the admin section for configuration
+   - Test database connections
+   - Manage chart data and SQL queries
+   - Configure refresh intervals and data sources
+
+### Database Connection Testing
+
+1. **P21 Database Connection**
+   - Server: SQL01
+   - Port: 1433
+   - Database: P21Live
+   - Authentication: Windows Authentication
+   - Click "Test P21 Connection" to verify connectivity
+
+2. **POR Database Connection**
+   - File Path: `\\ts03\POR\POR.MDB`
+   - Click "Test POR Connection" to verify file access
+
+### Chart Management
+
+1. **Viewing Charts**
+   - Charts are organized into groups: Key Metrics, Accounts, Customer Metrics, etc.
+   - Each chart displays real-time data from configured SQL queries
+   - Hover over charts for detailed information
+
+2. **Editing Chart Data**
+   - Access the admin panel to modify chart configurations
+   - Update SQL queries for data sources
+   - Configure chart types and display options
+   - Set refresh intervals for automatic updates
+
+3. **Adding New Charts**
+   - Use the admin interface to create new chart configurations
+   - Define SQL queries for P21 or POR databases
+   - Set chart properties and grouping
+
+### Data Refresh
+
+1. **Automatic Refresh**
+   - Charts refresh automatically based on configured intervals
+   - Background processes execute SQL queries periodically
+   - Data updates are reflected in real-time on the dashboard
+
+2. **Manual Refresh**
+   - Use the refresh controls in the admin panel
+   - Force immediate data updates for specific charts
+   - Clear cache and reload all data sources
+
+## 🔧 Troubleshooting
+
+### Database Connection Issues
+
+**Problem**: Database connections fail after system restart
+
+**Solution**: 
+1. Restart the Next.js development server to pick up environment variables
+2. Use the batch file: `./start-dashboard.bat`
+3. Verify `.env.local` contains correct database configurations
+
+**Problem**: P21 connection fails
+
+**Causes & Solutions**:
+- **Missing DSN**: Ensure `P21_DSN=P21Live` is set in `.env.local`
+- **ODBC Driver**: Verify SQL Server ODBC driver is installed
+- **Network Access**: Check connectivity to SQL Server (SQL01:1433)
+- **Authentication**: Ensure Windows Authentication is properly configured
+
+**Problem**: POR connection fails
+
+**Causes & Solutions**:
+- **File Path**: Verify `NEXT_PUBLIC_POR_DB_PATH=\\ts03\POR\POR.MDB` is correct
+- **File Access**: Ensure the network path is accessible
+- **ODBC Driver**: Install Microsoft Access ODBC driver
+- **Permissions**: Check file and network share permissions
+
+### Application Issues
+
+**Problem**: Application won't start
+
+**Solutions**:
+1. Check if port 5500 is already in use
+2. Run `./start-dashboard.bat` which kills existing processes
+3. Verify Node.js and npm are properly installed
+4. Check for build errors in the console
+
+**Problem**: Charts not displaying data
+
+**Solutions**:
+1. Test database connections in the admin panel
+2. Verify SQL queries are valid and return data
+3. Check console for JavaScript errors
+4. Restart the application to refresh data connections
+
+### Recent Fixes Applied
+
+**Build Error Fix (Latest)**
+- **Issue**: Next.js build failing due to misplaced `export const config` statement
+- **Fix**: Moved `export const config = { runtime: 'nodejs' }` from top to end of API route file
+- **File**: `app/api/admin/run-query/route.ts`
+- **Impact**: Resolved build errors and enabled proper server startup
+
+**Port Configuration**
+- **Issue**: Application attempting to use multiple ports
+- **Fix**: Enforced strict port 5500 usage across all configuration files
+- **Files Updated**: `package.json`, `next.config.cjs`, `start-dashboard.bat`, `server.js`
+- **Impact**: Consistent port usage prevents conflicts
+
+**Environment Variable Loading**
+- **Issue**: Database connections failing after restart
+- **Fix**: Ensured proper environment variable loading from `.env.local`
+- **Impact**: Reliable database connectivity after system restarts
+
+## 📊 Chart Groups
 
 The dashboard visualizes data organized into the following primary chart groups:
 
-*   Key Metrics
-*   Accounts
-*   Customer Metrics
-*   Historical Data
-*   Inventory
-*   POR Overview
-*   Site Distribution
-*   Daily Orders
-*   Web Orders
-*   AR Aging
+- **Key Metrics**: Core business KPIs and performance indicators
+- **Accounts**: Account-related metrics and financial data
+- **Customer Metrics**: Customer behavior and relationship data
+- **Historical Data**: Time-series analysis and trends
+- **Inventory**: Stock levels and inventory management
+- **POR Overview**: POR database specific metrics
+- **Site Distribution**: Geographic and location-based data
+- **Daily Orders**: Order processing and fulfillment metrics
+- **Web Orders**: E-commerce and online order tracking
+- **AR Aging**: Accounts receivable and aging analysis
 
-(Detailed descriptions of each group and its metrics can be found in `chart_descriptions.md`)
+## 🔒 Security Notes
 
-## Key Metric Examples (POR Database - `Transactions` table)
+- **Query Safety**: API routes include safety checks to allow only SELECT statements
+- **Environment Variables**: Sensitive data stored in `.env.local` (not committed to version control)
+- **Database Access**: Uses Windows Authentication and secure ODBC connections
+- **Input Validation**: All database queries are validated before execution
 
-1. **Open Rentals** - Number of open rental contracts
-   ```sql
-   SELECT Count(*) as value FROM Transactions 
-   WHERE TransactionStatus IN ('Open', 'Active', 'Out')
-   ```
-   Alternative tables: `Contract`, `TransactionItems`
+## 🛠️ Development
 
-2. **New Rentals** - Number of contracts created in the current month
-   ```sql
-   SELECT Count(*) as value FROM Transactions 
-   WHERE Month(DateCreated) = Month(Date()) AND Year(DateCreated) = Year(Date())
-   ```
-   Alternative tables: `Contract`, `TransactionItems`
+### Technology Stack
+- **Frontend**: Next.js 13 with TypeScript
+- **UI Components**: Material-UI (@mui/material), Radix UI
+- **Database**: ODBC connections to SQL Server and MS Access
+- **Styling**: Emotion React for styled components
+- **Charts**: Custom chart components with real-time data
 
-3. **Rental Value** - Total value of all open contracts
-   ```sql
-   SELECT Sum(TotalAmount) as value FROM Transactions 
-   WHERE TransactionStatus IN ('Open', 'Active', 'Out')
-   ```
-   Alternative tables: `Contract`, `TransactionItems`
+### Project Structure
+```
+TallmanDashboard/
+├── app/                    # Next.js 13 app directory
+│   ├── api/               # API routes
+│   │   └── admin/         # Admin API endpoints
+│   └── components/        # React components
+├── lib/                   # Utility libraries
+│   └── db/               # Database connection logic
+├── public/               # Static assets
+├── .env                  # Environment template
+├── .env.local           # Local environment config
+├── start-dashboard.bat  # Windows startup script
+└── package.json         # Dependencies and scripts
+```
 
-#### Key Table Columns for POR Metrics
+### Key Files
+- `start-dashboard.bat`: Startup script that handles port cleanup and cache clearing
+- `.env.local`: Database connection configuration
+- `lib/db/server.ts`: Database connection and query execution logic
+- `app/api/admin/`: API routes for database testing and admin functions
 
-1. **Transactions Table**:
-   - `TransactionStatus` - Status of the transaction (Open, Active, Out, etc.)
-   - `DateCreated` - Date the transaction was created
-   - `TotalAmount` - Total amount of the transaction
+## 📝 Maintenance
 
-2. **Contract Table**:
-   - `ContractStatus` - Status of the contract
-   - `ContractDate` - Date the contract was created
-   - `ContractAmount` - Total amount of the contract
+### Regular Tasks
+1. **Monitor Database Connections**: Regularly test P21 and POR connections
+2. **Update Dependencies**: Keep npm packages up to date
+3. **Review Logs**: Check console output for errors or warnings
+4. **Backup Configuration**: Ensure `.env.local` is backed up securely
 
-3. **TransactionItems Table**:
-   - `Status` - Status of the transaction item
-   - `DateCreated` - Date the item was created
-   - `ItemAmount` - Amount for the item
+### Performance Optimization
+1. **Query Optimization**: Review and optimize SQL queries for better performance
+2. **Cache Management**: Monitor and clear caches when necessary
+3. **Resource Monitoring**: Watch memory and CPU usage during operation
 
-### POR Query Limitations
-Due to the use of `mdb-reader` for MS Access connectivity, the following limitations apply:
+## 📞 Support
 
-1. **SQL Syntax**: Must use MS Access/Jet SQL syntax:
-   - No schema prefixes (no "dbo.")
-   - No table hints (no "WITH (NOLOCK)")
-   - Uses Date() for current date
-   - Uses DateAdd/DateDiff with quoted interval types
-   - Uses Nz() for NULL handling
+For technical issues:
+1. Check the troubleshooting section above
+2. Review console logs for error messages
+3. Verify database connectivity using the admin panel
+4. Ensure all environment variables are properly configured
 
-2. **Table Names**: The actual tables in the POR database may differ from the expected schema. The API will attempt to find similar table names if the exact table is not found.
+---
 
-3. **Query Types**: Only SELECT queries are supported. The API will parse the query to extract the table name and conditions, then use mdb-reader to filter the data.
+**Last Updated**: July 24, 2025
+**Version**: Latest with build fixes and port standardization
 
-### Background Worker System
-
-The dashboard implements a background worker system that periodically executes SQL queries against the connected databases to update the dashboard data.
-
-## Key Features
-- **Configurable Execution Interval**: Default is 2 seconds between queries
-- **Sequential Execution**: Queries are executed one at a time to prevent overloading the database. Queris are run in background and work independatly of the page selected or mode of the application,  they are only started or stoped by the UI interface.
-- **Error Handling**: Failed queries are logged and retried 4 times and then skipped
-- **Status Reporting**: Current execution status is displayed in the admin interface
-- **Manual Control**: Worker can be started and stopped from the admin interface
-
-## Implementation
-The background worker is implemented using:
-- Server-side API routes for worker control (`/api/admin/run/start`, `/api/admin/run/stop`, `/api/admin/run/status`)
-- Client-side state management for tracking execution status
-- WebSocket-like polling for real-time status updates
-
-### Data Transformation System
-
-Raw data from database queries is transformed into the format required by the dashboard charts through a series of transformation steps:
-
-1. **Query Execution**: SQL queries retrieve raw data from the database
-2. **Data Type Conversion**: String values are converted to appropriate types (number, date)
-3. **Aggregation**: Related data points are grouped together for dashboard chart consumption
-4. **Formatting**: Values are formatted for display (currency, percentages, etc.)
-5. **Chart Preparation**: Data is structured according to the requirements of each chart type
-
-## Transformation Types
-The system supports various transformation types specified in the `calculation` field:
-- `number` - Convert to numeric value
-- `percentage` - Convert to percentage
-- `currency` - Format as currency
-- `date` - Parse and format date
-- `count` - Count number of records
-- `sum` - Sum numeric values
-- `average` - Calculate average of numeric values
-- `total` - Calculate total of numeric values
-
-### Development and Deployment
-
-## Development Environment Setup
-1. Clone the repository
-2. Install dependencies: `npm install`
-3. Create `.env.local` file with required environment variables
-4. Start development server: `npm run dev`
-5. Access the dashboard at `http://localhost:3200`
-
-## Production Deployment
-1. Build the application: `npm run build`
-2. Deploy to IIS server using the provided deployment scripts:
-   - `deploy-iis.cmd` - Deploy to IIS
-   - `deploy-production.ps1` - Production deployment script
-
-## Environment Variables
-- `DATABASE_URL` - SQLite database URL for local development
-- `P21_SERVER` - P21 SQL Server hostname
-- `P21_DATABASE` - P21 database name
-- `POR_FILE_PATH` - Path to POR MS Access database file
-- `NEXT_PUBLIC_API_URL` - API URL for production deployment
-
-### Troubleshooting
-s
-
-## Database Connection Issues
-- **P21 Connection Failures**: 
-  - Verify SQL Server is running
-  - Check network connectivity
-  - Confirm firewall settings
-  - Verify credentials
-
-- **POR Connection Failures**:
-  - Verify file path is correct
-  - Check file permissions
-  - Ensure MS Access file is not locked by another process
-
-## Query Execution Errors
-- **Syntax Errors**: Check SQL syntax in the admin spreadsheet
-- **Permission Errors**: Verify user has appropriate permissions
-- **Timeout Errors**: Optimize queries or increase timeout settings
-
-## Dashboard Display Issues
-- **Missing Data**: Check if queries are returning expected results
-- **Chart Rendering Problems**: Verify data format matches chart requirements
-- **Performance Issues**: Optimize queries and reduce data volume
-
-## Diagnostic Tools
-- **Server Logs**: Check server logs for errors
-- **Network Diagnostics**: Use network tools to verify connectivity
-- **Database Profiler**: Use SQL Server Profiler to analyze query performance
-- **Browser Developer Tools**: Check for JavaScript errors and network issues
-
-### Data Flow Architecture
-
-## 1. Data Sources & Storage
-- Primary Storage: SQL Server
-- In development mode, initial data is loaded from the `initialData` object in `lib/db.ts`.
-- Connection configurations for P21 and POR servers are stored in the `p21Connection` and `porConnection` variables, respectively.
-- The `getConnection` function is used to retrieve the appropriate connection based on the server type.
-
-# 1a. External Data Source P21
-- P21:  (ExternalDB)
-- Provides data for dashboard value (with a P21 in the server field) set via SQL expression
-
-# 1b. External Data Source POR
-- POR:  (ExternalDB)
 - Provides data for dashboard value (with a POR in the server field) set via SQL expression
 
 ## 2. Admin Page Flow
