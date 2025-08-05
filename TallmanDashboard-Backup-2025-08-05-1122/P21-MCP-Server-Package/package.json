@@ -1,0 +1,26 @@
+{
+  "name": "p21-server",
+  "version": "0.1.0",
+  "description": "MCP server for P21 SQL Server database connectivity",
+  "type": "module",
+  "main": "build/index.js",
+  "scripts": {
+    "build": "tsc && node -e \"require('fs').chmodSync('build/index.js', '755')\"",
+    "dev": "tsc --watch",
+    "start": "node build/index.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^0.5.0",
+    "dotenv": "^17.2.1",
+    "mssql": "^11.0.1",
+    "odbc": "^2.4.9"
+  },
+  "devDependencies": {
+    "@types/mssql": "^9.1.7",
+    "@types/node": "^22.0.0",
+    "typescript": "^5.0.0"
+  },
+  "bin": {
+    "p21-server": "build/index.js"
+  }
+}
