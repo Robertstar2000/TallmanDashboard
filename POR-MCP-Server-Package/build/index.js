@@ -3,6 +3,8 @@ import { Server } from '@modelcontextprotocol/sdk/server/index.js';
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
 import { CallToolRequestSchema, ErrorCode, ListToolsRequestSchema, McpError, } from '@modelcontextprotocol/sdk/types.js';
 import MDBReader from 'mdb-reader';
+// Fix for ES module compatibility
+const MDBReaderClass = MDBReader.default || MDBReader;
 import { readFileSync } from 'fs';
 // Get database configuration from environment variables
 const POR_FILE_PATH = process.env.POR_FILE_PATH;
@@ -37,7 +39,7 @@ class PORServer {
     getMDBReader() {
         if (!this.mdbReader) {
             const buffer = readFileSync(POR_FILE_PATH);
-            this.mdbReader = new MDBReader(buffer);
+            this.mdbReader = new MDBReaderClass(buffer);
         }
         return this.mdbReader;
     }
@@ -184,7 +186,7 @@ class PORServer {
                         try {
                             const reader = this.getMDBReader();
                             const table = reader.getTable(tableName);
-                            const columns = table.getColumns().map(col => ({
+                            const columns = table.getColumns().map((col) => ({
                                 column_name: col.name,
                                 data_type: col.type,
                                 size: col.size,
