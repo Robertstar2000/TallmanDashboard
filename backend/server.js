@@ -424,7 +424,19 @@ app.get('/api/dashboard/data', authenticateToken, async (req, res) => {
     console.log('📊 Dashboard data requested - fetching from MCP servers...');
     
     // Get latest metrics from background worker (which queries MCP servers)
-    const metrics = backgroundWorker.getMetrics();
+    let metrics = backgroundWorker.getMetrics();
+    
+    // If worker hasn't loaded anything yet, load metric definitions now
+    if (!metrics || metrics.length === 0) {
+      console.log('ℹ️ No metrics loaded yet. Loading metric definitions from allData.json...');
+      try {
+        backgroundWorker.loadMetrics();
+        metrics = backgroundWorker.getMetrics();
+        console.log(`✅ Loaded ${metrics.length} metrics for initial response`);
+      } catch (loadErr) {
+        console.error('❌ Failed to lazily load metrics:', loadErr.message);
+      }
+    }
     
     console.log(`✅ Returning ${metrics.length} metrics from MCP servers`);
     
@@ -444,7 +456,11 @@ app.get('/api/dashboard/data', authenticateToken, async (req, res) => {
         'HISTORICAL_DATA',
         'SITE_DISTRIBUTION',
         'AR_AGING',
-        'POR_OVERVIEW'
+        'POR_OVERVIEW',
+        // Missing groups needed by frontend charts
+        'DAILY_ORDERS',
+        'CUSTOMER_METRICS',
+        'WEB_ORDERS'
       ];
       
       return allowedChartGroups.includes(metric.chartGroup);

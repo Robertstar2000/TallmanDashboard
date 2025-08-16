@@ -32,7 +32,9 @@ class MCPController {
                     if (!responseReceived) {
                         console.error(`âŒ MCP query timeout for ${serverName} after 30 seconds`);
                         connection.kill();
-                        reject(new Error(`MCP query timeout for ${serverName} after 30 seconds`));
+                        console.error(`❌ MCP query timeout for ${serverName} after 30 seconds`);
+                        // Return error indicator instead of rejecting
+                        resolve(99999);
                     }
                 }, 30000);
 
@@ -136,12 +138,14 @@ class MCPController {
                     }
                 });
 
-                // Initialize connection and send query
+                // Initialize connection and send query with non-fatal error handling
                 this.initializeAndQuery(connection, requestId, query)
                     .catch(error => {
                         if (!responseReceived) {
                             clearTimeout(timeout);
-                            reject(error);
+                            console.error(`❌ MCP initialization/query failed for ${serverName}:`, error.message);
+                            // Return default value instead of crashing
+                            resolve(99999); // Error indicator value
                         }
                     });
             });
@@ -330,7 +334,9 @@ class MCPController {
                     if (!responseReceived) {
                         console.error(`âŒ MCP list_tables timeout for ${serverName} after 30 seconds`);
                         connection.kill();
-                        reject(new Error(`MCP list_tables timeout for ${serverName} after 30 seconds`));
+                        console.error(`❌ MCP list_tables timeout for ${serverName} after 30 seconds`);
+                        // Return error indicator instead of rejecting
+                        resolve([]);
                     }
                 }, 30000);
 

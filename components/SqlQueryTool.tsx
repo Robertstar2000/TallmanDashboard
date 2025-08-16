@@ -75,11 +75,12 @@ const SqlQueryTool: React.FC<SqlQueryToolProps> = ({ updateDataPoint, dataPoints
                 }
             } else {
                 // Use real MCP servers for production mode
+                const token = sessionStorage.getItem('jwt_token');
                 const response = await fetch('http://localhost:3001/api/mcp/execute-query', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                        ...(token ? { Authorization: `Bearer ${token}` } : {})
                     },
                     body: JSON.stringify({ 
                         query: query, 

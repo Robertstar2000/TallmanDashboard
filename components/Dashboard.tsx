@@ -28,8 +28,9 @@ const getChartGroupDisplayName = (chartGroup: ChartGroup): string => {
 };
 
 const Dashboard: React.FC<DashboardProps> = ({ dataPoints }) => {
-    const keyMetrics = dataPoints.filter(dp => KEY_METRICS_VARS.includes(dp.variableName));
-    const chartDataPoints = dataPoints.filter(dp => !KEY_METRICS_VARS.includes(dp.variableName));
+    const isKpi = (dp: DashboardDataPoint) => KEY_METRICS_VARS.includes(dp.variableName) || dp.chartGroup === ChartGroup.KEY_METRICS;
+    const keyMetrics = dataPoints.filter(isKpi);
+    const chartDataPoints = dataPoints.filter(dp => !isKpi(dp));
 
     const groupedCharts = chartDataPoints.reduce((acc, dp) => {
         (acc[dp.chartGroup] = acc[dp.chartGroup] || []).push(dp);

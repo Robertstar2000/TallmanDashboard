@@ -25,21 +25,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             if (storedSession) {
                 const sessionUser = JSON.parse(storedSession);
                 setUser(sessionUser);
-            } else {
-                // TEMPORARY: Auto-login with BobM for development
-                const mockUser = {
-                    username: 'BobM',
-                    displayName: 'Bob M',
-                    email: 'bobm@tallman.com',
-                    role: 'admin'
-                };
-                setUser(mockUser);
-                sessionStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify(mockUser));
-                console.log('Development mode: Auto-logged in as BobM');
-                // Navigate to dashboard immediately
-                setTimeout(() => {
-                    navigate('/');
-                }, 100);
             }
         } catch (error) {
             console.error("Could not parse user session:", error);
@@ -49,19 +34,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
     const login = async (username: string, password: string): Promise<boolean> => {
         try {
-            // DEVELOPMENT MODE: Bypass authentication for BobM
-            if (username === 'BobM') {
-                const mockUser = {
-                    username: 'BobM',
-                    displayName: 'Bob M',
-                    email: 'bobm@tallman.com',
-                    role: 'admin'
-                };
-                setUser(mockUser);
-                sessionStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify(mockUser));
-                console.log('Development mode: Logged in as BobM');
-                return true;
-            }
             
             // Call backend API for authentication
             const response = await fetch('http://localhost:3001/api/auth/login', {
@@ -103,6 +75,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const logout = useCallback(() => {
         setUser(null);
         sessionStorage.removeItem(SESSION_STORAGE_KEY);
+        sessionStorage.removeItem('jwt_token');
         navigate('/login', { replace: true });
     }, [navigate]);
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { HashRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { useDashboardData } from './hooks/useDashboardData';
 import Dashboard from './components/Dashboard';
@@ -14,6 +14,8 @@ import SqlQueryTool from './components/SqlQueryTool';
 
 const MainLayout = () => {
     const dashboardData = useDashboardData();
+
+    // Note: Removed auto-start on mount so Admin Run button controls refresh
 
     return (
         <div className="flex flex-col min-h-screen bg-background font-sans">

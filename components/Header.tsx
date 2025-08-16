@@ -48,7 +48,7 @@ const ThemeSwitcher: React.FC = () => {
 
 
 const Header: React.FC<HeaderProps> = ({ isRunning, statusMessage, p21Status, porStatus }) => {
-    const { user, logout } = useAuth();
+    const { user, logout, isAdmin } = useAuth();
     
     const navLinkClass = ({ isActive }: { isActive: boolean }) =>
         `px-3 py-2 rounded-md text-sm font-medium transition-colors ${
@@ -66,7 +66,7 @@ const Header: React.FC<HeaderProps> = ({ isRunning, statusMessage, p21Status, po
                         </div>
                         <nav className="hidden md:flex space-x-4">
                             <NavLink to="/" className={navLinkClass}>Dashboard</NavLink>
-                            {user?.role === 'admin' && <NavLink to="/admin" className={navLinkClass}>Admin</NavLink>}
+                            {isAdmin && <NavLink to="/admin" className={navLinkClass}>Admin</NavLink>}
                         </nav>
                     </div>
                     <div className="flex items-center space-x-4">

@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 import { DashboardDataPoint, ChartGroup } from '../types';
 import { useGlobal } from '../contexts/GlobalContext';
 
@@ -44,6 +44,41 @@ const ChartCard: React.FC<ChartCardProps> = ({ title, data }) => {
         color: legendColor
     };
 
+    const formatNumber = (v: number) => {
+        if (v >= 1_000_000) return `${(v / 1_000_000).toFixed(1)}M`;
+        if (v >= 1_000) return `${(v / 1_000).toFixed(0)}k`;
+        return v.toLocaleString();
+    };
+
+    const prettifyLabel = (s: string) => s
+        .replace(/_/g, ' ')
+        .replace(/([a-z0-9])([A-Z])/g, '$1 $2')
+        .replace(/\s+/g, ' ')
+        .trim()
+        .toLowerCase()
+        .replace(/\b\w/g, c => c.toUpperCase());
+
+    const normalizeKey = (s: string) => s.toLowerCase().replace(/\s+/g, '').replace(/_/g, '');
+    const clean = (s: string) => s.trim().replace(/\s+/g, ' ');
+
+    const preferredOrder: Partial<Record<ChartGroup, string[]>> = {
+        [ChartGroup.ACCOUNTS]: ['payable', 'overdue', 'receivable'],
+        [ChartGroup.INVENTORY]: ['instock', 'onorder'],
+        [ChartGroup.POR_OVERVIEW]: ['newrentals', 'openrentals', 'rentalvalue'],
+        [ChartGroup.HISTORICAL_DATA]: ['p21', 'por', 'total'],
+        [ChartGroup.CUSTOMER_METRICS]: ['newcustomers', 'prospects'],
+        [ChartGroup.WEB_ORDERS]: ['orders', 'revenue'],
+    };
+
+    const splitDataPoint = (label: string) => {
+        const cleaned = clean(label);
+        // Support ", ", ",", " - ", "|" as separators
+        const parts = cleaned.split(/[,|\-]\s*/);
+        const category = parts[0] || cleaned;
+        const groupName = parts[1] || category;
+        return { category: clean(category), groupName: clean(groupName) };
+    };
+
     let chartData: any[];
     let bars: React.ReactNode;
     const barCategories: string[] = [];
@@ -54,22 +89,52 @@ const ChartCard: React.FC<ChartCardProps> = ({ title, data }) => {
         ChartGroup.HISTORICAL_DATA,
         ChartGroup.INVENTORY,
         ChartGroup.POR_OVERVIEW,
+        ChartGroup.WEB_ORDERS,
     ];
 
-    if (chartsToGroup.includes(title)) {
+    if (title === ChartGroup.SITE_DISTRIBUTION) {
+        // Donut chart for site distribution
+        const aggregated: Record<string, number> = {};
+        data.forEach(dp => {
+            const name = dp.dataPoint;
+            const val = Number(dp.value) || 0;
+            aggregated[name] = (aggregated[name] || 0) + val;
+        });
+        const pieData = Object.entries(aggregated).map(([name, value]) => ({ name, value }));
+
+        return (
+            <div className="bg-primary p-4 rounded-lg shadow-lg h-96 flex flex-col">
+                <h3 className="text-lg font-semibold text-text-primary mb-4">{getChartGroupDisplayName(title)}</h3>
+                <div className="flex-grow">
+                    <ResponsiveContainer width="100%" height="100%">
+                        <PieChart>
+                            <Tooltip contentStyle={tooltipStyle} formatter={(value: number) => formatNumber(Number(value))} />
+                            <Legend wrapperStyle={{ color: legendColor }} formatter={(v: string) => prettifyLabel(v)} />
+                            <Pie data={pieData} dataKey="value" nameKey="name" innerRadius={60} outerRadius={90} paddingAngle={2}>
+                                {pieData.map((entry, index) => (
+                                    <Cell key={`cell-${index}`} fill={colors[index % colors.length]} />
+                                ))}
+                            </Pie>
+                        </PieChart>
+                    </ResponsiveContainer>
+                </div>
+            </div>
+        );
+
+    } else if (chartsToGroup.includes(title)) {
         const groupedData = data.reduce((acc, dp) => {
-            const parts = dp.dataPoint.split(', ');
-            const category = parts[0];
-            const groupName = parts.length > 1 ? parts[1] : category;
-            
-            if (!barCategories.includes(category)) {
-                barCategories.push(category);
+            const { category, groupName } = splitDataPoint(dp.dataPoint);
+            const catKey = normalizeKey(category);
+            const grpKey = clean(groupName);
+
+            if (!barCategories.includes(catKey)) {
+                barCategories.push(catKey);
             }
 
-            if (!acc[groupName]) {
-                acc[groupName] = { name: groupName };
+            if (!acc[grpKey]) {
+                acc[grpKey] = { name: grpKey };
             }
-            acc[groupName][category] = Number(dp.value) || 0;
+            acc[grpKey][catKey] = (acc[grpKey][catKey] || 0) + (Number(dp.value) || 0);
 
             return acc;
         }, {} as Record<string, any>);
@@ -81,8 +146,14 @@ const ChartCard: React.FC<ChartCardProps> = ({ title, data }) => {
             chartData.sort((a, b) => monthOrder.indexOf(a.name) - monthOrder.indexOf(b.name));
         }
 
-        bars = barCategories.map((category, index) => (
-            <Bar key={category} dataKey={category} fill={colors[index % colors.length]} name={category} />
+        // Enforce preferred legend ordering if provided for this chart group
+        const order = preferredOrder[title];
+        const orderedCats = order
+            ? [...barCategories].sort((a, b) => (order.indexOf(a) - order.indexOf(b)))
+            : barCategories;
+
+        bars = orderedCats.map((category, index) => (
+            <Bar key={category} dataKey={category} fill={colors[index % colors.length]} name={prettifyLabel(category)} />
         ));
 
     } else {
@@ -127,18 +198,19 @@ const ChartCard: React.FC<ChartCardProps> = ({ title, data }) => {
                     >
                         <CartesianGrid strokeDasharray="3 3" stroke={gridStroke} />
                         <XAxis dataKey="name" tick={{ fill: tickFill }} fontSize={12} interval={0} angle={-30} textAnchor="end" height={70}/>
-                        <YAxis tick={{ fill: tickFill }} />
+                        <YAxis tick={{ fill: tickFill }} tickFormatter={formatNumber} />
                         <Tooltip
                             contentStyle={tooltipStyle}
-                            formatter={(value: number) => value.toLocaleString()}
+                            formatter={(value: number) => formatNumber(Number(value))}
                          />
-                        <Legend wrapperStyle={{ color: legendColor }}/>
+                        <Legend wrapperStyle={{ color: legendColor }} formatter={(v: string) => prettifyLabel(v)} />
                         {bars}
                     </BarChart>
                 </ResponsiveContainer>
             </div>
         </div>
     );
-};
+}
+;
 
 export default ChartCard;

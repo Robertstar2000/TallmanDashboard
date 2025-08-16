@@ -9,7 +9,7 @@ interface ProtectedRouteProps {
 }
 
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, requiredRole }) => {
-    const { user, isAuthenticated } = useAuth();
+    const { isAuthenticated, isAdmin } = useAuth();
     const location = useLocation();
 
     if (!isAuthenticated) {
@@ -17,7 +17,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, requiredRole 
     }
 
     // If a specific role is required and the user doesn't have it, redirect.
-    if (requiredRole && user?.role !== requiredRole) {
+    if (requiredRole === 'admin' && !isAdmin) {
         // Redirect non-admins trying to access admin pages to the dashboard.
         return <Navigate to="/" replace />;
     }
