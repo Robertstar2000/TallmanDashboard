@@ -24,7 +24,9 @@ const loadAllMetrics = () => {
       console.log(`🔍 Checking for allData.json at: ${allDataPath}`);
       if (fs.existsSync(allDataPath)) {
         const allDataContent = fs.readFileSync(allDataPath, 'utf8');
-        const allData = JSON.parse(allDataContent);
+        // Remove UTF-8 BOM if present and trim extraneous whitespace
+        const sanitized = allDataContent.replace(/^\uFEFF/, '').trim();
+        const allData = JSON.parse(sanitized);
         console.log(`✅ Successfully loaded ${allData.length} metrics from allData.json at ${allDataPath}`);
         
         // Set all values to 99999 initially - MUST be updated by MCP

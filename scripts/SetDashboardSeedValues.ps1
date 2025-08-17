@@ -44,7 +44,10 @@ foreach ($row in $data) {
 }
 
 # Save JSON
-$data | ConvertTo-Json -Depth 10 | Set-Content -LiteralPath $JsonPath -Encoding UTF8
+# Write UTF-8 without BOM to avoid JSON parser issues
+$utf8NoBom = New-Object System.Text.UTF8Encoding($false)
+$jsonOut = $data | ConvertTo-Json -Depth 10
+[System.IO.File]::WriteAllText($JsonPath, $jsonOut, $utf8NoBom)
 
 # Verify
 $data2 = (Get-Content -LiteralPath $JsonPath -Raw) | ConvertFrom-Json

@@ -65,21 +65,22 @@ const checkMCPStatus = async (serverName) => {
       throw new Error(`Unknown server: ${serverName}`);
     }
     
-    // Test a simple query to verify MCP server connectivity
-    // Use different queries for different database types
-    let testQuery;
+    // For POR, use list_tables tool (POR MCP exposes tools, not system tables)
     if (serverName.toLowerCase() === 'por') {
-      // MS Access compatible query
-      testQuery = 'SELECT 1 FROM MSysObjects WHERE 1=0';
-    } else {
-      // SQL Server compatible query
-      testQuery = 'SELECT 1 as test_connection';
+      const tables = await mcpController.executeListTables('POR');
+      console.log(`✅ MCP POR list_tables returned ${Array.isArray(tables) ? tables.length : 0} tables`);
+      return {
+        status: 'Connected',
+        config: config,
+        version: config.type,
+        responseTime: 100
+      };
     }
-    
-    const result = await mcpController.executeQuery(serverName.toUpperCase(), testQuery);
-    
+
+    // Default path (P21): simple SQL query
+    const testQuery = 'SELECT 1 as test_connection';
+    await mcpController.executeQuery(serverName.toUpperCase(), testQuery);
     console.log(`✅ MCP ${serverName.toUpperCase()} connection successful`);
-    
     return {
       status: 'Connected',
       config: config,
@@ -110,22 +111,15 @@ backgroundWorker.setCallbacks(
     }
 );
 
-// Auto-start worker in production mode
-setTimeout(() => {
-    console.log('🚀 Starting MCP background worker...');
-    backgroundWorker.start().catch(error => {
-        console.error('Failed to start background worker:', error);
-        latestStatus = `Failed to start: ${error.message}`;
-    });
-}, 2000); // Give server time to initialize
 const initializeWorker = async () => {
-    console.log('Background worker initialization disabled for debugging...');
-    
-    // Load initial metrics - DISABLED
-    // backgroundWorker.loadMetrics();
-    
-    // Start worker in production mode by default - DISABLED
-    // await backgroundWorker.start();
+  console.log('🚀 Starting MCP background worker...');
+  try {
+    await backgroundWorker.start();
+    console.log('✅ MCP background worker started');
+  } catch (error) {
+    console.error('Failed to start background worker:', error);
+    latestStatus = `Failed to start: ${error.message}`;
+  }
 };
 
 // Authentication middleware
@@ -576,8 +570,52 @@ app.post('/api/mcp/execute-query', authenticateToken, async (req, res) => {
     }
 
     try {
+        // Special handling: Schema exploration for both servers
+        const qRaw = String(query).trim();
+        const q = qRaw.toLowerCase();
+        if (q === 'list tables' || q === 'show tables') {
+            if (server === 'POR') {
+                const tables = await backgroundWorker.mcpController.executeListTables('POR');
+                return res.json(tables);
+            } else if (server === 'P21') {
+                const sql = `SELECT TABLE_SCHEMA + '.' + TABLE_NAME AS name FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE='BASE TABLE' ORDER BY name`;
+                const rows = await backgroundWorker.mcpController.executeQueryRows('P21', sql);
+                const names = Array.isArray(rows) ? rows.map(r => r.name ?? Object.values(r)[0]).filter(Boolean) : [];
+                return res.json(names);
+            }
+        }
+
+        if (q.startsWith('describe ')) {
+            const tableIdent = qRaw.substring(8).trim().replace(/;$/, '');
+            if (server === 'P21') {
+                const parts = tableIdent.replace(/[\[\]]/g, '').split('.');
+                const tableName = parts.pop();
+                const schema = parts.pop();
+                let sql = `SELECT COLUMN_NAME as name, DATA_TYPE as dataType, IS_NULLABLE as isNullable FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME='${tableName}'`;
+                if (schema) sql += ` AND TABLE_SCHEMA='${schema}'`;
+                sql += ' ORDER BY ORDINAL_POSITION';
+                const cols = await backgroundWorker.mcpController.executeQueryRows('P21', sql);
+                return res.json(cols);
+            } else if (server === 'POR') {
+                // Infer columns by selecting a single row
+                const tbl = tableIdent.startsWith('[') ? tableIdent : `[${tableIdent}]`;
+                const sampleRows = await backgroundWorker.mcpController.executeQueryRows('POR', `SELECT TOP 1 * FROM ${tbl};`);
+                if (Array.isArray(sampleRows) && sampleRows.length > 0) {
+                    const cols = Object.keys(sampleRows[0]).map(k => ({ name: k }));
+                    return res.json(cols);
+                }
+                return res.json([]);
+            }
+        }
+
+        // If this is a SELECT statement, return row data (arrays/objects)
+        if (/^\s*select\b/i.test(query)) {
+            const rows = await backgroundWorker.mcpController.executeQueryRows(server, query);
+            return res.json(rows);
+        }
+
         const result = await backgroundWorker.mcpController.executeQuery(server, query);
-        res.json([{ result: result }]);
+        res.json([{ result }]);
     } catch (error) {
         console.error(`Error executing query on ${server}:`, error);
         res.status(500).json({ error: `Failed to execute query on ${server}: ${error.message}` });
@@ -605,6 +643,16 @@ app.post('/api/mcp/execute-batch', authenticateToken, async (req, res) => {
         console.error('Error executing batch queries:', error);
         res.status(500).json({ error: 'Failed to execute batch queries' });
     }
+});
+
+// Serve Vite-built frontend (static files)
+const distPath = join(__dirname, '..', 'dist');
+app.use(express.static(distPath));
+
+// SPA fallback: send index.html for non-API routes
+app.get('*', (req, res, next) => {
+  if (req.path.startsWith('/api/')) return next();
+  res.sendFile(join(distPath, 'index.html'));
 });
 
 // Error handling middleware

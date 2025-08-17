@@ -1,5 +1,4 @@
-
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { ServerName, DashboardDataPoint } from '../types';
 import { simulateSqlQuery } from '../services/ollamaService';
@@ -37,7 +36,7 @@ const SqlQueryTool: React.FC<SqlQueryToolProps> = ({ updateDataPoint, dataPoints
     const navigate = useNavigate();
 
     const [selectedServer, setSelectedServer] = useState<ServerName>(ServerName.P21);
-    const [sqlQuery, setSqlQuery] = useState<string>('SELECT * FROM oe_hdr LIMIT 10;');
+    const [sqlQuery, setSqlQuery] = useState<string>('SELECT TOP 10 * FROM oe_hdr;');
     const [queryResult, setQueryResult] = useState<any | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
@@ -49,7 +48,7 @@ const SqlQueryTool: React.FC<SqlQueryToolProps> = ({ updateDataPoint, dataPoints
 
     const { mode } = useGlobal();
 
-    const runQuery = useCallback(async (query: string, action: 'fetch-tables' | 'fetch-columns' | 'execute-query' | 'test-column') => {
+    const runQuery = useCallback(async (query: string, action: 'fetch-tables' | 'fetch-columns' | 'execute-query' | 'test-column', serverOverride?: ServerName) => {
         setIsLoading(true);
         setError(null);
         if (action !== 'fetch-columns') setColumns([]);
@@ -59,9 +58,11 @@ const SqlQueryTool: React.FC<SqlQueryToolProps> = ({ updateDataPoint, dataPoints
         try {
             let result;
             
+            const serverToUse = serverOverride || selectedServer;
+            
             if (mode === 'demo') {
                 // Use simulation for demo mode
-                result = await simulateSqlQuery(query, selectedServer);
+                result = await simulateSqlQuery(query, serverToUse);
                 if (result.error) {
                     setError(result.error);
                     setQueryResult(null);
@@ -84,12 +85,24 @@ const SqlQueryTool: React.FC<SqlQueryToolProps> = ({ updateDataPoint, dataPoints
                     },
                     body: JSON.stringify({ 
                         query: query, 
-                        server: selectedServer 
+                        server: serverToUse 
                     })
                 });
 
                 if (!response.ok) {
-                    throw new Error(`Query failed: ${response.status}`);
+                    // Try to extract useful error info
+                    let errMsg = `Query failed: ${response.status}`;
+                    try {
+                        const errJson = await response.json();
+                        if (errJson?.message) errMsg = errJson.message;
+                        else if (errJson?.error) errMsg = errJson.error;
+                    } catch {
+                        try {
+                            const errText = await response.text();
+                            if (errText) errMsg = errText;
+                        } catch {}
+                    }
+                    throw new Error(errMsg);
                 }
 
                 result = await response.json();
@@ -97,8 +110,13 @@ const SqlQueryTool: React.FC<SqlQueryToolProps> = ({ updateDataPoint, dataPoints
 
                 // Process specific actions for production mode
                 if (action === 'fetch-tables' && Array.isArray(result)) {
-                    // Extract table names from MCP result
-                    const tableNames = result.map(row => Object.values(row)[0]).filter(name => typeof name === 'string');
+                    // Accept either array of strings or array of objects
+                    let tableNames: string[] = [];
+                    if (typeof result[0] === 'string') {
+                        tableNames = result as string[];
+                    } else {
+                        tableNames = result.map((row: any) => Object.values(row)[0]).filter((name: any) => typeof name === 'string');
+                    }
                     setTables(tableNames);
                 } else if (action === 'fetch-columns' && Array.isArray(result)) {
                     // Extract column info from MCP result
@@ -112,21 +130,26 @@ const SqlQueryTool: React.FC<SqlQueryToolProps> = ({ updateDataPoint, dataPoints
         }
     }, [selectedServer, mode]);
 
-    const handleFetchTables = () => runQuery('list tables', 'fetch-tables');
+    const handleFetchTables = () => runQuery('list tables', 'fetch-tables', selectedServer);
     
     const handleTableSelect = (tableName: string) => {
         setSelectedTable(tableName);
         setColumns([]);
         if (tableName) {
-            runQuery(`describe ${tableName}`, 'fetch-columns');
+            // Access (POR) prefers bracketed identifiers
+            const ident = selectedServer === ServerName.POR ? `[${tableName}]` : tableName;
+            setSqlQuery(`SELECT TOP 10 * FROM ${ident};`);
+            runQuery(`describe ${tableName}`, 'fetch-columns', selectedServer);
         }
     };
 
     const handleTestColumn = (columnName: string) => {
         if (!selectedTable) return;
-        const query = `SELECT COUNT(${columnName}) as data_count FROM ${selectedTable} WHERE ${columnName} IS NOT NULL;`;
+        const tbl = selectedServer === ServerName.POR ? `[${selectedTable}]` : selectedTable;
+        const col = selectedServer === ServerName.POR ? `[${columnName}]` : columnName;
+        const query = `SELECT COUNT(${col}) as data_count FROM ${tbl} WHERE ${col} IS NOT NULL;`;
         setSqlQuery(query);
-        runQuery(query, 'test-column');
+        runQuery(query, 'test-column', selectedServer);
     };
 
     const handleSaveQuery = () => {
@@ -157,6 +180,18 @@ const SqlQueryTool: React.FC<SqlQueryToolProps> = ({ updateDataPoint, dataPoints
     const insertIntoQuery = (text: string) => {
         setSqlQuery(prev => `${prev ? prev + ' ' : ''}${text}`);
     };
+
+    useEffect(() => {
+        // Clear context when switching servers
+        setSelectedTable('');
+        setTables([]);
+        setColumns([]);
+        if (selectedServer === ServerName.P21) {
+            setSqlQuery('SELECT TOP 10 * FROM oe_hdr;');
+        } else if (selectedServer === ServerName.POR) {
+            setSqlQuery('SELECT TOP 10 * FROM <pick_table_from_left>;');
+        }
+    }, [selectedServer]);
 
     return (
         <div className="bg-primary shadow-xl rounded-lg p-6">
@@ -217,6 +252,7 @@ const SqlQueryTool: React.FC<SqlQueryToolProps> = ({ updateDataPoint, dataPoints
                 <div className="lg:col-span-2 space-y-4">
                     <div>
                         <h3 className="font-bold text-text-primary mb-2">Query Editor</h3>
+                        <div className="text-xs text-text-secondary mb-1">Sending to: <span className="font-mono text-text-primary">{selectedServer}</span></div>
                         <div className="mb-2">
                              <label htmlFor="row-select" className="block text-sm font-medium text-text-secondary mb-1">Load SQL From Row</label>
                              <select id="row-select" value={targetRowId} onChange={e => handleRowSelect(e.target.value)} className="w-full bg-secondary p-2 rounded border border-transparent focus:border-accent focus:ring-0 text-sm">
@@ -234,7 +270,7 @@ const SqlQueryTool: React.FC<SqlQueryToolProps> = ({ updateDataPoint, dataPoints
                         />
                     </div>
                      <div className="flex flex-col sm:flex-row gap-4">
-                        <button onClick={() => runQuery(sqlQuery, 'execute-query')} disabled={isLoading} className="flex-grow px-4 py-2 text-sm font-medium text-white bg-green-600 rounded-md hover:bg-green-700 disabled:bg-gray-500">
+                        <button onClick={() => runQuery(sqlQuery, 'execute-query', selectedServer)} disabled={isLoading} className="flex-grow px-4 py-2 text-sm font-medium text-white bg-green-600 rounded-md hover:bg-green-700 disabled:bg-gray-500">
                             {isLoading ? 'Executing...' : 'Execute Query'}
                         </button>
                         <button onClick={handleSaveQuery} disabled={isLoading || !targetRowId} className="flex-grow px-4 py-2 text-sm font-medium text-white bg-highlight rounded-md hover:bg-accent disabled:bg-gray-500 disabled:cursor-not-allowed" title={!targetRowId ? "Select a row to enable saving" : "Save and return to Admin"}>

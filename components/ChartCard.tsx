@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 import { DashboardDataPoint, ChartGroup } from '../types';
@@ -65,7 +64,7 @@ const ChartCard: React.FC<ChartCardProps> = ({ title, data }) => {
         [ChartGroup.ACCOUNTS]: ['payable', 'overdue', 'receivable'],
         [ChartGroup.INVENTORY]: ['instock', 'onorder'],
         [ChartGroup.POR_OVERVIEW]: ['newrentals', 'openrentals', 'rentalvalue'],
-        [ChartGroup.HISTORICAL_DATA]: ['p21', 'por', 'total'],
+        [ChartGroup.HISTORICAL_DATA]: ['p21sales', 'porsales', 'totalsales'],
         [ChartGroup.CUSTOMER_METRICS]: ['newcustomers', 'prospects'],
         [ChartGroup.WEB_ORDERS]: ['orders', 'revenue'],
     };
@@ -142,8 +141,12 @@ const ChartCard: React.FC<ChartCardProps> = ({ title, data }) => {
         chartData = Object.values(groupedData);
         
         const monthOrder = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-        if (monthOrder.includes(chartData[0]?.name)) {
-            chartData.sort((a, b) => monthOrder.indexOf(a.name) - monthOrder.indexOf(b.name));
+        if (chartData.length > 0) {
+            const getMonthKey = (name: string) => (name || '').trim().slice(0, 3);
+            const aKey = getMonthKey((chartData[0] as any)?.name);
+            if (monthOrder.includes(aKey)) {
+                chartData.sort((a: any, b: any) => monthOrder.indexOf(getMonthKey(a.name)) - monthOrder.indexOf(getMonthKey(b.name)));
+            }
         }
 
         // Enforce preferred legend ordering if provided for this chart group

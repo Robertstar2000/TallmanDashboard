@@ -156,6 +156,101 @@ class MCPController {
         }
     }
 
+    async executeQueryRows(serverName, query) {
+        try {
+            console.log(`🔍 Executing MCP row query on ${serverName}: ${query.substring(0, 100)}...`);
+
+            const connection = await this.createSingleUseConnection(serverName);
+
+            return new Promise((resolve, reject) => {
+                const requestId = this.requestId++;
+                let responseReceived = false;
+
+                const timeout = setTimeout(() => {
+                    if (!responseReceived) {
+                        console.error(`❌ MCP row query timeout for ${serverName} after 30 seconds`);
+                        connection.kill();
+                        resolve([]);
+                    }
+                }, 30000);
+
+                let buffer = '';
+
+                connection.stdout.on('data', (data) => {
+                    const output = data.toString();
+                    buffer += output;
+
+                    const lines = buffer.split('\n');
+                    buffer = lines.pop() || '';
+
+                    for (const line of lines) {
+                        if (line.trim()) {
+                            try {
+                                const response = JSON.parse(line);
+                                if (response.id === requestId && !responseReceived) {
+                                    responseReceived = true;
+                                    clearTimeout(timeout);
+                                    connection.kill();
+
+                                    if (response.error) {
+                                        console.error(`❌ MCP error for ${serverName}:`, response.error.message);
+                                        reject(new Error(response.error.message || 'MCP Error'));
+                                    } else {
+                                        try {
+                                            const content = response.result?.content?.[0]?.text;
+                                            if (content) {
+                                                const data = JSON.parse(content);
+                                                resolve(data);
+                                            } else {
+                                                console.warn(`ℹ️ No content in MCP response for ${serverName}, returning empty array`);
+                                                resolve([]);
+                                            }
+                                        } catch (parseError) {
+                                            console.error(`❌ Error parsing MCP row result for ${serverName}:`, parseError);
+                                            reject(new Error(`Failed to parse MCP response: ${parseError.message}`));
+                                        }
+                                    }
+                                }
+                            } catch {
+                                // Ignore non-JSON lines
+                            }
+                        }
+                    }
+                });
+
+                connection.stderr.on('data', (data) => {
+                    console.log(`📰 MCP ${serverName} stderr:`, data.toString().trim());
+                });
+
+                connection.on('exit', (code) => {
+                    if (!responseReceived) {
+                        clearTimeout(timeout);
+                        reject(new Error(`MCP ${serverName} process exited with code ${code} before response`));
+                    }
+                });
+
+                connection.on('error', (error) => {
+                    if (!responseReceived) {
+                        clearTimeout(timeout);
+                        reject(new Error(`MCP ${serverName} process error: ${error.message}`));
+                    }
+                });
+
+                this.initializeAndQuery(connection, requestId, query)
+                    .catch(error => {
+                        if (!responseReceived) {
+                            clearTimeout(timeout);
+                            console.error(`❌ MCP initialization/query failed for ${serverName}:`, error.message);
+                            resolve([]);
+                        }
+                    });
+            });
+        } catch (error) {
+            console.error(`❌ CRITICAL MCP ROW QUERY ERROR for ${serverName}:`, error.message);
+            throw new Error(`MCP row execution failed for ${serverName}: ${error.message}`);
+        }
+    }
+
     async createSingleUseConnection(serverName) {
         const serverPath = this.serverPaths[serverName];
         if (!serverPath) {
@@ -189,12 +284,28 @@ class MCPController {
             packageEnv.POR_FILE_PATH = 'C:\\TallmanDashboard\\POR.mdb';
         }
 
+        // Validate POR file path exists to avoid cryptic failures
+        if (serverName === 'POR') {
+            try {
+                const fs = await import('fs');
+                const porPath = packageEnv.POR_FILE_PATH || process.env.POR_FILE_PATH;
+                if (!porPath || !fs.existsSync(porPath)) {
+                    throw new Error(`POR_FILE_PATH not found at '${porPath || '(undefined)'}'`);
+                }
+            } catch (e) {
+                throw new Error(`POR configuration error: ${e.message}`);
+            }
+        }
+
         // Spawn the MCP server process
         const childProcess = spawn('node', [serverPath], {
             stdio: ['pipe', 'pipe', 'pipe'],
             env: { ...process.env, ...packageEnv },
             cwd: packageDir
         });
+
+        // Annotate for clearer logs in initialize handlers
+        childProcess.serverName = serverName;
 
         // Add error handling for the child process
         childProcess.on('error', (error) => {
@@ -542,4 +653,3 @@ class MCPController {
 }
 
 export default MCPController;
-
