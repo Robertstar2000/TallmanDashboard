@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "checkJs": false,
+    "baseUrl": "."
+  },
+  "exclude": [
+    "node_modules",
+    "backend/node_modules",
+    "dist",
+    "build",
+    "**/dist/**",
+    "**/build/**"
+  ],
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.js",
+    "**/*.jsx",
+    "vite-env.d.ts"
+  ]
+}
