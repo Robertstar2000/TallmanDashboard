@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json.schemastore.org/package.json",
+  "name": "tallman-dashboard-mcp-servers",
+  "version": "1.0.0",
+  "description": "MCP servers for P21 and POR database connections",
+  "main": "index.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node stable-p21-server.js",
+    "start-p21": "node stable-p21-server.js",
+    "start-por": "node stable-por-server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^0.4.0",
+    "dotenv": "^17.2.1",
+    "mdb-reader": "^1.2.1",
+    "node-adodb": "^5.0.3",
+    "odbc": "^2.4.9"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "author": "MIFECO",
+  "license": "MIT"
+}

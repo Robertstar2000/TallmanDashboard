@@ -5,265 +5,139 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+// Simple RPC client for MCP communication
+class StdioRpcClient {
+    constructor(childProc) {
+        this.process = childProc;
+        this.nextId = 1;
+        this.pending = new Map(); // id -> { resolve, reject, timeout }
+        this.buffer = Buffer.alloc(0);
+
+        this.onData = this.onData.bind(this);
+        this.process.stdout.on('data', this.onData);
+
+        this.process.on('exit', (code, signal) => {
+            const err = new Error(`RPC process exited: code=${code}, signal=${signal}`);
+            for (const [id, p] of this.pending.entries()) {
+                clearTimeout(p.timeout);
+                p.reject(err);
+            }
+            this.pending.clear();
+        });
+    }
+
+    onData(chunk) {
+        this.buffer = Buffer.concat([this.buffer, Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk)]);
+
+        // Parse one or more frames: headers (CRLF) + body of length Content-Length
+        while (true) {
+            // Support both CRLFCRLF and LFLF separators
+            let sepIndex = this.buffer.indexOf('\r\n\r\n');
+            let sepLen = 4;
+            if (sepIndex === -1) {
+                sepIndex = this.buffer.indexOf('\n\n');
+                sepLen = sepIndex === -1 ? -1 : 2;
+            }
+            if (sepIndex === -1) break;
+
+            const headerStr = this.buffer.slice(0, sepIndex).toString('utf8');
+            const headerLines = headerStr.split(/\r?\n/);
+            let contentLength = 0;
+            for (const line of headerLines) {
+                const m = /^Content-Length:\s*(\d+)$/i.exec(line.trim());
+                if (m) {
+                    contentLength = parseInt(m[1], 10);
+                    break;
+                }
+            }
+            const frameTotal = sepIndex + sepLen + contentLength;
+            if (this.buffer.length < frameTotal) {
+                // Wait for more data
+                break;
+            }
+
+            const jsonPayload = this.buffer.slice(sepIndex + sepLen, frameTotal).toString('utf8');
+            // Advance buffer
+            this.buffer = this.buffer.slice(frameTotal);
+
+            let message;
+            try {
+                message = JSON.parse(jsonPayload);
+            } catch (e) {
+                // Invalid JSON payload; continue parsing next frames
+                continue;
+            }
+
+            // Only resolve/reject when this is a response with an id
+            if (message && Object.prototype.hasOwnProperty.call(message, 'id')) {
+                const pending = this.pending.get(message.id);
+                if (pending) {
+                    this.pending.delete(message.id);
+                    clearTimeout(pending.timeout);
+                    if (message.error) {
+                        pending.reject(new Error(message.error.message || 'Unknown RPC error'));
+                    } else {
+                        pending.resolve(message);
+                    }
+                }
+            }
+        }
+    }
+
+    send(method, params) {
+        const id = this.nextId++;
+        const payload = JSON.stringify({ jsonrpc: '2.0', id, method, params });
+        // Standard MCP framing: Content-Length header with CRLF separators, no Content-Type
+        const header = `Content-Length: ${Buffer.byteLength(payload, 'utf8')}\r\n\r\n`;
+        this.process.stdin.write(header + payload);
+        return id;
+    }
+
+    request(method, params, timeoutMs = 30000) {
+        return new Promise((resolve, reject) => {
+            const id = this.send(method, params);
+            const timeout = setTimeout(() => {
+                this.pending.delete(id);
+                reject(new Error(`RPC timeout for method ${method}`));
+            }, timeoutMs);
+            this.pending.set(id, { resolve, reject, timeout });
+        });
+    }
+}
+
+// Simple MCP controller without external SDK dependencies
 class MCPController {
     constructor() {
         this.requestId = 1;
         this.simulateMode = false; // Real data only from external servers
         
-        // MCP server paths
+        // MCP server paths - use built packages
         this.serverPaths = {
             'P21': path.join(__dirname, '..', 'P21-MCP-Server-Package', 'build', 'index.js'),
             'POR': path.join(__dirname, '..', 'POR-MCP-Server-Package', 'build', 'index.js')
         };
+        
+        // Active connections cache
+        this.connections = new Map();
     }
 
-    async executeQuery(serverName, query) {
-        try {
-            console.log(`ðŸ” Executing MCP query on ${serverName}: ${query.substring(0, 100)}...`);
-            
-            // Create a fresh MCP connection for each query (MCP servers are stateless)
-            const connection = await this.createSingleUseConnection(serverName);
-            
-            return new Promise((resolve, reject) => {
-                const requestId = this.requestId++;
-                let responseReceived = false;
-                
-                const timeout = setTimeout(() => {
-                    if (!responseReceived) {
-                        console.error(`âŒ MCP query timeout for ${serverName} after 30 seconds`);
-                        connection.kill();
-                        console.error(`❌ MCP query timeout for ${serverName} after 30 seconds`);
-                        // Return error indicator instead of rejecting
-                        resolve(99999);
-                    }
-                }, 30000);
-
-                let buffer = '';
-
-                // Handle stdout data
-                connection.stdout.on('data', (data) => {
-                    const output = data.toString();
-                    buffer += output;
-                    
-                    // Process complete JSON messages
-                    const lines = buffer.split('\n');
-                    buffer = lines.pop() || ''; // Keep incomplete line in buffer
-
-                    for (const line of lines) {
-                        if (line.trim()) {
-                            try {
-                                const response = JSON.parse(line);
-                                
-                                if (response.id === requestId && !responseReceived) {
-                                    responseReceived = true;
-                                    clearTimeout(timeout);
-                                    connection.kill();
-                                    
-                                    if (response.error) {
-                                        console.error(`âŒ MCP error for ${serverName}:`, response.error.message);
-                                        reject(new Error(response.error.message || 'MCP Error'));
-                                    } else {
-                                        console.log(`âœ… MCP query successful for ${serverName}`);
-                                        try {
-                                            console.log(`ðŸ“‹ Full MCP response structure for ${serverName}:`, JSON.stringify(response.result, null, 2));
-                                            
-                                            const content = response.result?.content?.[0]?.text;
-                                            if (content) {
-                                                console.log(`ðŸ“‹ MCP content for ${serverName}:`, content);
-                                                const data = JSON.parse(content);
-                                                console.log(`ðŸ“‹ Parsed data for ${serverName}:`, data);
-                                                
-                                                // Extract numeric value from result
-                                                let value;
-                                                if (Array.isArray(data) && data.length > 0) {
-                                                    const firstRow = data[0];
-                                                    value = Object.values(firstRow)[0];
-                                                } else if (typeof data === 'object' && data !== null) {
-                                                    value = Object.values(data)[0];
-                                                } else {
-                                                    value = data;
-                                                }
-                                                
-                                                const numericValue = Number(value) || 0;
-                                                console.log(`ðŸ“Š Extracted value: ${numericValue}`);
-                                                resolve(numericValue);
-                                            } else {
-                                                console.error(`âŒ No content in MCP response for ${serverName}`);
-                                                console.log(`ðŸ“‹ Available result keys:`, Object.keys(response.result || {}));
-                                                
-                                                // Check if there's a different response structure
-                                                if (response.result) {
-                                                    console.log(`ðŸ“‹ Trying alternative response structure...`);
-                                                    const altValue = response.result.value || response.result.data || 1;
-                                                    resolve(Number(altValue) || 1);
-                                                } else {
-                                                    reject(new Error(`No content in MCP response for ${serverName}`));
-                                                }
-                                            }
-                                        } catch (parseError) {
-                                            console.error(`âŒ Error parsing MCP result for ${serverName}:`, parseError);
-                                            console.log(`ðŸ“‹ Raw response for debugging:`, response);
-                                            reject(new Error(`Failed to parse MCP response: ${parseError.message}`));
-                                        }
-                                    }
-                                }
-                            } catch (jsonError) {
-                                // Ignore non-JSON lines (like initialization messages)
-                                console.log(`ðŸ“ MCP ${serverName} log:`, line.trim());
-                            }
-                        }
-                    }
-                });
-
-                // Handle stderr
-                connection.stderr.on('data', (data) => {
-                    const error = data.toString();
-                    console.log(`ðŸ“ MCP ${serverName} stderr:`, error.trim());
-                });
-
-                // Handle process exit
-                connection.on('exit', (code) => {
-                    if (!responseReceived) {
-                        clearTimeout(timeout);
-                        reject(new Error(`MCP ${serverName} process exited with code ${code} before response`));
-                    }
-                });
-
-                // Handle process error
-                connection.on('error', (error) => {
-                    if (!responseReceived) {
-                        clearTimeout(timeout);
-                        console.error(`ðŸ’¥ MCP ${serverName} process error:`, error);
-                        reject(new Error(`MCP ${serverName} process error: ${error.message}`));
-                    }
-                });
-
-                // Initialize connection and send query with non-fatal error handling
-                this.initializeAndQuery(connection, requestId, query)
-                    .catch(error => {
-                        if (!responseReceived) {
-                            clearTimeout(timeout);
-                            console.error(`❌ MCP initialization/query failed for ${serverName}:`, error.message);
-                            // Return default value instead of crashing
-                            resolve(99999); // Error indicator value
-                        }
-                    });
-            });
-
-        } catch (error) {
-            console.error(`âŒ CRITICAL MCP ERROR for ${serverName}:`, error.message);
-            throw new Error(`MCP execution failed for ${serverName}: ${error.message}`);
+    async getOrCreateConnection(serverName) {
+        if (this.connections.has(serverName)) {
+            return this.connections.get(serverName);
         }
-    }
 
-    async executeQueryRows(serverName, query) {
-        try {
-            console.log(`🔍 Executing MCP row query on ${serverName}: ${query.substring(0, 100)}...`);
-
-            const connection = await this.createSingleUseConnection(serverName);
-
-            return new Promise((resolve, reject) => {
-                const requestId = this.requestId++;
-                let responseReceived = false;
-
-                const timeout = setTimeout(() => {
-                    if (!responseReceived) {
-                        console.error(`❌ MCP row query timeout for ${serverName} after 30 seconds`);
-                        connection.kill();
-                        resolve([]);
-                    }
-                }, 30000);
-
-                let buffer = '';
-
-                connection.stdout.on('data', (data) => {
-                    const output = data.toString();
-                    buffer += output;
-
-                    const lines = buffer.split('\n');
-                    buffer = lines.pop() || '';
-
-                    for (const line of lines) {
-                        if (line.trim()) {
-                            try {
-                                const response = JSON.parse(line);
-                                if (response.id === requestId && !responseReceived) {
-                                    responseReceived = true;
-                                    clearTimeout(timeout);
-                                    connection.kill();
-
-                                    if (response.error) {
-                                        console.error(`❌ MCP error for ${serverName}:`, response.error.message);
-                                        reject(new Error(response.error.message || 'MCP Error'));
-                                    } else {
-                                        try {
-                                            const content = response.result?.content?.[0]?.text;
-                                            if (content) {
-                                                const data = JSON.parse(content);
-                                                resolve(data);
-                                            } else {
-                                                console.warn(`ℹ️ No content in MCP response for ${serverName}, returning empty array`);
-                                                resolve([]);
-                                            }
-                                        } catch (parseError) {
-                                            console.error(`❌ Error parsing MCP row result for ${serverName}:`, parseError);
-                                            reject(new Error(`Failed to parse MCP response: ${parseError.message}`));
-                                        }
-                                    }
-                                }
-                            } catch {
-                                // Ignore non-JSON lines
-                            }
-                        }
-                    }
-                });
-
-                connection.stderr.on('data', (data) => {
-                    console.log(`📰 MCP ${serverName} stderr:`, data.toString().trim());
-                });
-
-                connection.on('exit', (code) => {
-                    if (!responseReceived) {
-                        clearTimeout(timeout);
-                        reject(new Error(`MCP ${serverName} process exited with code ${code} before response`));
-                    }
-                });
-
-                connection.on('error', (error) => {
-                    if (!responseReceived) {
-                        clearTimeout(timeout);
-                        reject(new Error(`MCP ${serverName} process error: ${error.message}`));
-                    }
-                });
-
-                this.initializeAndQuery(connection, requestId, query)
-                    .catch(error => {
-                        if (!responseReceived) {
-                            clearTimeout(timeout);
-                            console.error(`❌ MCP initialization/query failed for ${serverName}:`, error.message);
-                            resolve([]);
-                        }
-                    });
-            });
-        } catch (error) {
-            console.error(`❌ CRITICAL MCP ROW QUERY ERROR for ${serverName}:`, error.message);
-            throw new Error(`MCP row execution failed for ${serverName}: ${error.message}`);
-        }
-    }
-
-    async createSingleUseConnection(serverName) {
         const serverPath = this.serverPaths[serverName];
         if (!serverPath) {
             throw new Error(`No MCP server path configured for ${serverName}`);
         }
 
-        // Load environment variables from the package directory
+        // Load environment variables
         const packageDir = path.dirname(path.dirname(serverPath));
-        const envPath = path.join(packageDir, '.env');
-        
         let packageEnv = {};
+        
         try {
             const fs = await import('fs');
+            const envPath = path.join(packageDir, '.env');
             const envContent = fs.readFileSync(envPath, 'utf8');
             const envLines = envContent.split('\n');
             for (const line of envLines) {
@@ -279,376 +153,199 @@ class MCPController {
             console.warn(`Could not load .env file for ${serverName}:`, envError.message);
         }
 
-        // Special handling for POR server
-        if (serverName === 'POR' && !packageEnv.POR_FILE_PATH) {
-            packageEnv.POR_FILE_PATH = 'C:\\TallmanDashboard\\POR.mdb';
+        // Allow root env vars to override package .env values
+        if (process.env.P21_DSN) {
+            packageEnv.P21_DSN = process.env.P21_DSN;
+        }
+        if (process.env.POR_FILE_PATH) {
+            packageEnv.POR_FILE_PATH = process.env.POR_FILE_PATH;
         }
 
-        // Validate POR file path exists to avoid cryptic failures
+        // Log effective configuration for visibility
+        if (serverName === 'P21') {
+            console.log(`[MCP ${serverName}] Effective P21_DSN=${packageEnv.P21_DSN || '(unset)'}`);
+        }
         if (serverName === 'POR') {
-            try {
-                const fs = await import('fs');
-                const porPath = packageEnv.POR_FILE_PATH || process.env.POR_FILE_PATH;
-                if (!porPath || !fs.existsSync(porPath)) {
-                    throw new Error(`POR_FILE_PATH not found at '${porPath || '(undefined)'}'`);
-                }
-            } catch (e) {
-                throw new Error(`POR configuration error: ${e.message}`);
-            }
+            console.log(`[MCP ${serverName}] Effective POR_FILE_PATH=${packageEnv.POR_FILE_PATH || '(unset)'}`);
         }
-
-        // Spawn the MCP server process
-        const childProcess = spawn('node', [serverPath], {
+        console.log(`🚀 Spawning MCP server for ${serverName} at ${serverPath}`);
+        
+        // Spawn the MCP server process using the exact Node executable path (Windows-safe)
+        const childProcess = spawn(process.execPath, [serverPath], {
             stdio: ['pipe', 'pipe', 'pipe'],
             env: { ...process.env, ...packageEnv },
             cwd: packageDir
         });
 
-        // Annotate for clearer logs in initialize handlers
-        childProcess.serverName = serverName;
-
-        // Add error handling for the child process
+        // Add error handling
         childProcess.on('error', (error) => {
-            console.error(`âŒ MCP server ${serverName} process error:`, error.message);
+            console.error(`❌ MCP server ${serverName} process error:`, error.message);
+            this.connections.delete(serverName);
         });
 
         childProcess.on('exit', (code, signal) => {
-            if (code !== 0) {
-                console.error(`âŒ MCP server ${serverName} exited with code ${code}, signal ${signal}`);
+            console.log(`🔚 MCP server ${serverName} exited: code=${code}, signal=${signal}`);
+            this.connections.delete(serverName);
+        });
+
+        // Surface server stderr for diagnostics
+        childProcess.stderr.on('data', (data) => {
+            const msg = data?.toString?.() || String(data);
+            if (msg && msg.trim()) {
+                console.error(`[${serverName} STDERR] ${msg.trim()}`);
             }
         });
 
-        // Add error handling for stdin/stdout pipes
-        childProcess.stdin.on('error', (error) => {
-            console.error(`âŒ MCP server ${serverName} stdin error:`, error.message);
-        });
+        // Initialize the connection with proper MCP handshake
+        const rpc = new StdioRpcClient(childProcess);
+        const connection = {
+            process: childProcess,
+            rpc,
+            initialized: false,
+            ready: false
+        };
 
-        childProcess.stdout.on('error', (error) => {
-            console.error(`âŒ MCP server ${serverName} stdout error:`, error.message);
-        });
-
-        childProcess.stderr.on('error', (error) => {
-            console.error(`âŒ MCP server ${serverName} stderr error:`, error.message);
-        });
-
-        return childProcess;
+        // Perform MCP initialization
+        await this.initializeConnection(connection, serverName);
+        
+        this.connections.set(serverName, connection);
+        return connection;
     }
 
-    async initializeAndQuery(connection, requestId, query) {
-        return new Promise((resolve, reject) => {
-            let initComplete = false;
-            
-            // Handle initialization response
-            const originalStdoutHandler = connection.stdout.listeners('data')[0];
-            
-            // Temporary handler for initialization
-            const initHandler = (data) => {
-                const output = data.toString();
-                const lines = output.split('\n');
-                
-                for (const line of lines) {
-                    if (line.trim()) {
-                        try {
-                            const response = JSON.parse(line);
-                            if (response.id === 1 && !initComplete) {
-                                initComplete = true;
-                                console.log(`ðŸ”§ MCP ${connection.serverName || 'server'} initialized successfully`);
-                                
-                                // Remove init handler and restore original
-                                connection.stdout.removeListener('data', initHandler);
-                                
-                                // Send query request now that init is complete
-                                const queryRequest = {
-                                    jsonrpc: '2.0',
-                                    id: requestId,
-                                    method: 'tools/call',
-                                    params: {
-                                        name: 'execute_query',
-                                        arguments: { query }
-                                    }
-                                };
-                                
-                                // Check if connection is still alive before writing
-                                if (connection.stdin && !connection.stdin.destroyed && connection.exitCode === null) {
-                                    try {
-                                        connection.stdin.write(JSON.stringify(queryRequest) + '\n');
-                                        resolve();
-                                    } catch (writeError) {
-                                        console.error(`âŒ Failed to write query to MCP server:`, writeError.message);
-                                        reject(writeError);
-                                    }
-                                } else {
-                                    const error = new Error('MCP server connection closed before query could be sent');
-                                    console.error(`âŒ ${error.message}`);
-                                    reject(error);
-                                }
-                                return;
-                            }
-                        } catch (error) {
-                            // Ignore non-JSON lines
-                        }
-                    }
-                }
+    async initializeConnection(connection, serverName) {
+        try {
+            const params = {
+                protocolVersion: '2024-11-05',
+                capabilities: { tools: {} },
+                clientInfo: { name: 'tallman-dashboard', version: '1.0.0' }
             };
-            
-            // Set up initialization handler
-            connection.stdout.on('data', initHandler);
-            
-            // Send initialization request
-            const initRequest = {
-                jsonrpc: '2.0',
-                id: 1,
-                method: 'initialize',
-                params: {
-                    protocolVersion: '2024-11-05',
-                    capabilities: { tools: {} },
-                    clientInfo: { name: 'tallman-dashboard', version: '1.0.0' }
-                }
-            };
+            await connection.rpc.request('initialize', params, 20000);
+            connection.initialized = true;
+            connection.ready = true;
+            console.log(`✅ MCP server ${serverName} initialized successfully`);
+            return connection;
+        } catch (err) {
+            throw new Error(`MCP initialization failed for ${serverName}: ${err?.message || err}`);
+        }
+    }
 
-            // Check if connection is alive before writing initialization request
-            if (connection.stdin && !connection.stdin.destroyed && connection.exitCode === null) {
-                try {
-                    connection.stdin.write(JSON.stringify(initRequest) + '\n');
-                } catch (writeError) {
-                    console.error(`âŒ Failed to write init request to MCP server:`, writeError.message);
-                    reject(writeError);
-                    return;
-                }
-            } else {
-                reject(new Error('MCP server connection closed before initialization'));
-                return;
+    async executeQuery(serverName, query) {
+        try {
+            console.log(`🔍 Executing MCP query on ${serverName}: ${query.substring(0, 100)}...`);
+            const connection = await this.getOrCreateConnection(serverName);
+            const response = await connection.rpc.request('tools/call', {
+                name: 'execute_query',
+                arguments: { query }
+            }, 120000);
+
+            const content = response?.result?.content?.[0]?.text;
+            if (!content) {
+                console.error(`❌ No content in MCP response for ${serverName}`);
+                return [];
             }
             
-            // Timeout for initialization
-            setTimeout(() => {
-                if (!initComplete) {
-                    connection.stdout.removeListener('data', initHandler);
-                    reject(new Error('MCP initialization timeout'));
+            const data = JSON.parse(content);
+            console.log(`✅ MCP query result for ${serverName}:`, Array.isArray(data) ? `${data.length} rows` : typeof data);
+            return Array.isArray(data) ? data : [];
+        } catch (error) {
+            console.error(`❌ MCP query failed for ${serverName}:`, error?.message || error);
+            return [];
+        }
+    }
+
+    // Separate method for extracting single numeric values (for dashboard metrics)
+    async executeQueryValue(serverName, query) {
+        try {
+            console.log(`🔍 Executing MCP value query on ${serverName}: ${query.substring(0, 100)}...`);
+            const data = await this.executeQuery(serverName, query);
+            
+            if (Array.isArray(data) && data.length > 0) {
+                const firstRow = data[0];
+                const valueField = firstRow.value || firstRow.VALUE || firstRow.count || firstRow.COUNT;
+                if (typeof valueField === 'number') {
+                    console.log(`✅ Extracted numeric value from ${serverName}:`, valueField);
+                    return valueField;
                 }
-            }, 5000);
-        });
+                console.log(`⚠️ Non-numeric result from ${serverName} - treating as failure (99999):`, firstRow);
+                return 99999;
+            }
+            console.log(`⚠️ Empty result from ${serverName} - treating as failure (99999)`);
+            return 99999;
+        } catch (error) {
+            console.error(`❌ MCP value query failed for ${serverName}:`, error?.message || error);
+            return 99999;
+        }
+    }
+
+    async executeQueryRows(serverName, query) {
+        try {
+            console.log(`🔍 Executing MCP row query on ${serverName}: ${query.substring(0, 100)}...`);
+            const connection = await this.getOrCreateConnection(serverName);
+            const response = await connection.rpc.request('tools/call', {
+                name: 'execute_query',
+                arguments: { query }
+            }, 120000);
+            const content = response?.result?.content?.[0]?.text;
+            if (!content) {
+                console.warn(`⚠️ No content in row query MCP response for ${serverName}`);
+                return [];
+            }
+            const data = JSON.parse(content);
+            return Array.isArray(data) ? data : [];
+        } catch (error) {
+            console.error(`❌ MCP row query failed for ${serverName}:`, error?.message || error);
+            return [];
+        }
     }
 
     async executeListTables(serverName) {
         try {
-            console.log(`ðŸ” Executing list_tables tool on ${serverName}...`);
+            console.log(`🔍 Executing list_tables tool on ${serverName}...`);
+            const connection = await this.getOrCreateConnection(serverName);
+            const response = await connection.rpc.request('tools/call', { 
+                name: 'list_tables',
+                arguments: {}
+            }, 120000);
             
-            // Create a fresh MCP connection for each query
-            const connection = await this.createSingleUseConnection(serverName);
+            console.log(`[${serverName}] Raw MCP response:`, JSON.stringify(response, null, 2));
             
-            return new Promise((resolve, reject) => {
-                const requestId = this.requestId++;
-                let responseReceived = false;
-                
-                const timeout = setTimeout(() => {
-                    if (!responseReceived) {
-                        console.error(`âŒ MCP list_tables timeout for ${serverName} after 30 seconds`);
-                        connection.kill();
-                        console.error(`❌ MCP list_tables timeout for ${serverName} after 30 seconds`);
-                        // Return error indicator instead of rejecting
-                        resolve([]);
-                    }
-                }, 30000);
-
-                let buffer = '';
-
-                // Handle stdout data
-                connection.stdout.on('data', (data) => {
-                    const output = data.toString();
-                    buffer += output;
-                    
-                    // Process complete JSON messages
-                    const lines = buffer.split('\n');
-                    buffer = lines.pop() || ''; // Keep incomplete line in buffer
-
-                    for (const line of lines) {
-                        if (line.trim()) {
-                            try {
-                                const response = JSON.parse(line);
-                                
-                                if (response.id === requestId && !responseReceived) {
-                                    responseReceived = true;
-                                    clearTimeout(timeout);
-                                    connection.kill();
-                                    
-                                    if (response.error) {
-                                        console.error(`âŒ MCP error for ${serverName}:`, response.error.message);
-                                        reject(new Error(response.error.message || 'MCP Error'));
-                                    } else {
-                                        console.log(`âœ… MCP list_tables successful for ${serverName}`);
-                                        try {
-                                            const content = response.result?.content?.[0]?.text;
-                                            if (content) {
-                                                const data = JSON.parse(content);
-                                                console.log(`ðŸ“‹ Tables from ${serverName}:`, data);
-                                                resolve(data);
-                                            } else {
-                                                console.error(`âŒ No content in MCP response for ${serverName}`);
-                                                reject(new Error(`No content in MCP response for ${serverName}`));
-                                            }
-                                        } catch (parseError) {
-                                            console.error(`âŒ Error parsing MCP result for ${serverName}:`, parseError);
-                                            reject(new Error(`Failed to parse MCP response: ${parseError.message}`));
-                                        }
-                                    }
-                                }
-                            } catch (jsonError) {
-                                // Ignore non-JSON lines (like initialization messages)
-                                console.log(`ðŸ“ MCP ${serverName} log:`, line.trim());
-                            }
-                        }
-                    }
-                });
-
-                // Handle stderr
-                connection.stderr.on('data', (data) => {
-                    const error = data.toString();
-                    console.log(`ðŸ“ MCP ${serverName} stderr:`, error.trim());
-                });
-
-                // Handle process exit
-                connection.on('exit', (code) => {
-                    if (!responseReceived) {
-                        clearTimeout(timeout);
-                        reject(new Error(`MCP ${serverName} process exited with code ${code} before response`));
-                    }
-                });
-
-                // Handle process error
-                connection.on('error', (error) => {
-                    if (!responseReceived) {
-                        clearTimeout(timeout);
-                        console.error(`ðŸ’¥ MCP ${serverName} process error:`, error);
-                        reject(new Error(`MCP ${serverName} process error: ${error.message}`));
-                    }
-                });
-
-                // Initialize connection and send list_tables request
-                this.initializeAndListTables(connection, requestId)
-                    .catch(error => {
-                        if (!responseReceived) {
-                            clearTimeout(timeout);
-                            reject(error);
-                        }
-                    });
-            });
-
-        } catch (error) {
-            console.error(`âŒ CRITICAL MCP ERROR for ${serverName}:`, error.message);
-            throw new Error(`MCP list_tables failed for ${serverName}: ${error.message}`);
-        }
-    }
-
-    async initializeAndListTables(connection, requestId) {
-        return new Promise((resolve, reject) => {
-            let initComplete = false;
-            
-            // Temporary handler for initialization
-            const initHandler = (data) => {
-                const output = data.toString();
-                const lines = output.split('\n');
-                
-                for (const line of lines) {
-                    if (line.trim()) {
-                        try {
-                            const response = JSON.parse(line);
-                            if (response.id === 1 && !initComplete) {
-                                initComplete = true;
-                                console.log(`ðŸ”§ MCP ${connection.serverName || 'server'} initialized for list_tables`);
-                                
-                                // Remove init handler
-                                connection.stdout.removeListener('data', initHandler);
-                                
-                                // Send list_tables request
-                                const listTablesRequest = {
-                                    jsonrpc: '2.0',
-                                    id: requestId,
-                                    method: 'tools/call',
-                                    params: {
-                                        name: 'list_tables',
-                                        arguments: {}
-                                    }
-                                };
-                                
-                                // Check if connection is still alive before writing
-                                if (connection.stdin && !connection.stdin.destroyed && connection.exitCode === null) {
-                                    try {
-                                        connection.stdin.write(JSON.stringify(listTablesRequest) + '\n');
-                                    } catch (writeError) {
-                                        console.error(`âŒ Failed to write list_tables request to MCP server:`, writeError.message);
-                                        reject(writeError);
-                                        return;
-                                    }
-                                } else {
-                                    const error = new Error('MCP server connection closed before list_tables request could be sent');
-                                    console.error(`âŒ ${error.message}`);
-                                    reject(error);
-                                    return;
-                                }
-                                resolve();
-                                return;
-                            }
-                        } catch (error) {
-                            // Ignore non-JSON lines
-                        }
-                    }
-                }
-            };
-            
-            // Set up initialization handler
-            connection.stdout.on('data', initHandler);
-            
-            // Send initialization request
-            const initRequest = {
-                jsonrpc: '2.0',
-                id: 1,
-                method: 'initialize',
-                params: {
-                    protocolVersion: '2024-11-05',
-                    capabilities: { tools: {} },
-                    clientInfo: { name: 'tallman-dashboard', version: '1.0.0' }
-                }
-            };
-
-            // Check if connection is alive before writing initialization request
-            if (connection.stdin && !connection.stdin.destroyed && connection.exitCode === null) {
-                try {
-                    connection.stdin.write(JSON.stringify(initRequest) + '\n');
-                } catch (writeError) {
-                    console.error(`âŒ Failed to write init request to MCP server:`, writeError.message);
-                    reject(writeError);
-                    return;
-                }
-            } else {
-                reject(new Error('MCP server connection closed before initialization'));
-                return;
+            const content = response?.result?.content?.[0]?.text;
+            if (!content) {
+                console.warn(`⚠️ No content in list_tables MCP response for ${serverName}`);
+                console.warn(`Full response structure:`, JSON.stringify(response, null, 2));
+                return [];
             }
             
-            // Timeout for initialization
-            setTimeout(() => {
-                if (!initComplete) {
-                    connection.stdout.removeListener('data', initHandler);
-                    reject(new Error('MCP initialization timeout'));
+            try {
+                const data = JSON.parse(content);
+                if (Array.isArray(data)) {
+                    if (data.length === 0) {
+                        console.warn(`⚠️ ${serverName} list_tables returned an empty array. Raw content: ${content}`);
+                    } else {
+                        console.log(`✅ ${serverName} list_tables returned ${data.length} tables. Sample: ${JSON.stringify(data.slice(0, 5))}`);
+                    }
+                    return data;
                 }
-            }, 5000);
-        });
-    }
-
-    async testConnection(serverName) {
-        try {
-            console.log(`Testing MCP connection for ${serverName}...`);
-            const result = await this.executeListTables(serverName);
-            return result !== null && result !== undefined;
+                console.warn(`⚠️ ${serverName} list_tables returned non-array JSON. Type=${typeof data}. Raw: ${content.slice(0, 200)}`);
+                return [];
+            } catch (parseErr) {
+                console.error(`❌ Failed to parse list_tables JSON for ${serverName}: ${parseErr?.message || parseErr}. Raw: ${content.slice(0, 200)}`);
+                return [];
+            }
         } catch (error) {
-            console.error(`MCP connection test failed for ${serverName}:`, error.message);
-            return false;
+            console.error(`❌ MCP list_tables failed for ${serverName}:`, error?.message || error);
+            return [];
         }
     }
 
-    closeAllConnections() {
-        // No persistent connections to close in this implementation
-        console.log('No persistent MCP connections to close');
+    // Clean up connections
+    async cleanup() {
+        for (const [serverName, connection] of this.connections) {
+            if (connection.process && !connection.process.killed) {
+                connection.process.kill();
+            }
+        }
+        this.connections.clear();
     }
 }
 

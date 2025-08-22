@@ -1,0 +1,619 @@
+import { spawn } from 'child_process';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { Client } from '@modelcontextprotocol/sdk/client/index.js';
+import { StdioClientTransport } from '@modelcontextprotocol/sdk/client/stdio.js';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+class MCPController {
+    constructor() {
+        this.requestId = 1;
+        this.simulateMode = false; // Real data only from external servers
+        
+        // MCP server paths - use built packages
+        this.serverPaths = {
+            'P21': path.join(__dirname, '..', 'P21-MCP-Server-Package', 'build', 'index.js'),
+            'POR': path.join(__dirname, '..', 'POR-MCP-Server-Package', 'build', 'index.js')
+        };
+        
+        // Cache connections
+        this.connections = new Map();
+    }
+
+    async getOrCreateClient(serverName) {
+        if (this.connections.has(serverName)) {
+            return this.connections.get(serverName);
+        }
+
+        const serverPath = this.serverPaths[serverName];
+        if (!serverPath) {
+            throw new Error(`No MCP server path configured for ${serverName}`);
+        }
+
+        // Load environment variables from the package directory
+        const packageDir = path.dirname(path.dirname(serverPath)); // Go up from build/ to package root
+        const envPath = path.join(packageDir, '.env');
+        
+        let packageEnv = {};
+        try {
+            const fs = await import('fs');
+            const envContent = fs.readFileSync(envPath, 'utf8');
+            const envLines = envContent.split('\n');
+            for (const line of envLines) {
+                const trimmedLine = line.trim();
+                if (trimmedLine && !trimmedLine.startsWith('#')) {
+                    const [key, ...valueParts] = trimmedLine.split('=');
+                    if (key && valueParts.length > 0) {
+                        packageEnv[key.trim()] = valueParts.join('=').trim();
+                    }
+                }
+            }
+        } catch (envError) {
+            console.warn(`Could not load .env file for ${serverName}:`, envError.message);
+        }
+
+        // Special handling for POR server
+        if (serverName === 'POR' && !packageEnv.POR_FILE_PATH) {
+            packageEnv.POR_FILE_PATH = 'C:\\TallmanDashboard\\POR.mdb';
+        }
+
+        // Validate POR file path exists to avoid cryptic failures
+        if (serverName === 'POR') {
+            try {
+                const fs = await import('fs');
+                const porPath = packageEnv.POR_FILE_PATH || process.env.POR_FILE_PATH;
+                if (!porPath || !fs.existsSync(porPath)) {
+                    throw new Error(`POR_FILE_PATH not found at '${porPath || '(undefined)'}'`);
+                }
+            } catch (e) {
+                throw new Error(`POR configuration error: ${e.message}`);
+            }
+        }
+
+        // Spawn the MCP server process
+        const childProcess = spawn('node', [serverPath], {
+            stdio: ['pipe', 'pipe', 'pipe'],
+            env: { ...process.env, ...packageEnv },
+            cwd: packageDir
+        });
+
+        // Annotate for clearer logs in initialize handlers
+        childProcess.serverName = serverName;
+
+        // Add error handling for the child process
+        childProcess.on('error', (error) => {
+            console.error(`âŒ MCP server ${serverName} process error:`, error.message);
+        });
+
+        childProcess.on('exit', (code, signal) => {
+            if (code !== 0) {
+                console.error(`âŒ MCP server ${serverName} exited with code ${code}, signal ${signal}`);
+            }
+        });
+
+        // Add error handling for stdin/stdout pipes
+        childProcess.stdin.on('error', (error) => {
+            console.error(`âŒ MCP server ${serverName} stdin error:`, error.message);
+        });
+
+        childProcess.stdout.on('error', (error) => {
+            console.error(`âŒ MCP server ${serverName} stdout error:`, error.message);
+        });
+
+        childProcess.stderr.on('error', (error) => {
+            console.error(`âŒ MCP server ${serverName} stderr error:`, error.message);
+        });
+
+        const transport = new StdioClientTransport(childProcess.stdin, childProcess.stdout);
+        const client = new Client(transport);
+
+        this.connections.set(serverName, client);
+
+        return client;
+    }
+
+    async executeQuery(serverName, query) {
+        try {
+            console.log(`🔍 Executing MCP query on ${serverName}: ${query.substring(0, 100)}...`);
+            
+            // Get or create MCP client connection
+            const client = await this.getOrCreateClient(serverName);
+            
+            // Execute the query using the official MCP SDK
+            const result = await client.callTool({
+                name: 'execute_query',
+                arguments: { query }
+            });
+            
+            console.log(`✅ MCP query successful for ${serverName}`);
+            
+            // Parse the response
+            const content = result.content?.[0]?.text;
+            if (!content) {
+                console.error(`❌ No content in MCP response for ${serverName}`);
+                return 99999;
+            }
+            
+            // Check for error messages
+            if (content.startsWith('Error:') || content.includes('Error:')) {
+                console.error(`❌ MCP server returned error for ${serverName}:`, content);
+                return 99999;
+            }
+            
+            // Parse JSON response data
+            try {
+                const data = JSON.parse(content);
+                if (Array.isArray(data) && data.length > 0) {
+                    // Extract numeric value from first row
+                    const firstRow = data[0];
+                    const valueField = firstRow.value || firstRow.VALUE || firstRow.count || firstRow.COUNT;
+                    
+                    if (typeof valueField === 'number') {
+                        console.log(`✅ Extracted numeric value from ${serverName}:`, valueField);
+                        return valueField;
+                    } else {
+                        console.log(`⚠️ Non-numeric result from ${serverName}:`, firstRow);
+                        return 0; // Default to 0 for non-numeric results
+                    }
+                } else {
+                    console.log(`⚠️ Empty result from ${serverName}`);
+                    return 0; // Default to 0 for empty results
+                }
+            } catch (parseError) {
+                console.error(`❌ JSON parse error for ${serverName}:`, parseError.message);
+                return 99999; // Error indicator
+            }
+            
+        } catch (error) {
+            console.error(`❌ MCP query failed for ${serverName}:`, error.message);
+            return 99999; // Error indicator
+        }
+    }
+
+    async executeQueryRows(serverName, query) {
+        try {
+            console.log(`🔍 Executing MCP row query on ${serverName}: ${query.substring(0, 100)}...`);
+            
+            // Get or create MCP client connection
+            const client = await this.getOrCreateClient(serverName);
+            
+            // Execute the query using the official MCP SDK
+            const result = await client.callTool({
+                name: 'execute_query',
+                arguments: { query }
+            });
+            
+            console.log(`✅ MCP row query successful for ${serverName}`);
+            
+            // Parse the response
+            const content = result.content?.[0]?.text;
+            if (!content) {
+                console.error(`❌ No content in MCP response for ${serverName}`);
+                return [];
+            }
+            
+            // Parse JSON response data
+            try {
+                const data = JSON.parse(content);
+                return Array.isArray(data) ? data : [];
+            } catch (parseError) {
+                console.error(`❌ JSON parse error for ${serverName}:`, parseError.message);
+                return [];
+            }
+            
+        } catch (error) {
+            console.error(`❌ MCP row query failed for ${serverName}:`, error.message);
+            return [];
+        }
+    }
+        const serverPath = this.serverPaths[serverName];
+        if (!serverPath) {
+            throw new Error(`No MCP server path configured for ${serverName}`);
+        }
+
+        // Load environment variables from the package directory
+        const packageDir = path.dirname(path.dirname(serverPath)); // Go up from build/ to package root
+        const envPath = path.join(packageDir, '.env');
+        
+        let packageEnv = {};
+        try {
+            const fs = await import('fs');
+            const envContent = fs.readFileSync(envPath, 'utf8');
+            const envLines = envContent.split('\n');
+            for (const line of envLines) {
+                const trimmedLine = line.trim();
+                if (trimmedLine && !trimmedLine.startsWith('#')) {
+                    const [key, ...valueParts] = trimmedLine.split('=');
+                    if (key && valueParts.length > 0) {
+                        packageEnv[key.trim()] = valueParts.join('=').trim();
+                    }
+                }
+            }
+        } catch (envError) {
+            console.warn(`Could not load .env file for ${serverName}:`, envError.message);
+        }
+
+        // Special handling for POR server
+        if (serverName === 'POR' && !packageEnv.POR_FILE_PATH) {
+            packageEnv.POR_FILE_PATH = 'C:\\TallmanDashboard\\POR.mdb';
+        }
+
+        // Validate POR file path exists to avoid cryptic failures
+        if (serverName === 'POR') {
+            try {
+                const fs = await import('fs');
+                const porPath = packageEnv.POR_FILE_PATH || process.env.POR_FILE_PATH;
+                if (!porPath || !fs.existsSync(porPath)) {
+                    throw new Error(`POR_FILE_PATH not found at '${porPath || '(undefined)'}'`);
+                }
+            } catch (e) {
+                throw new Error(`POR configuration error: ${e.message}`);
+            }
+        }
+
+        // Spawn the MCP server process
+        const childProcess = spawn('node', [serverPath], {
+            stdio: ['pipe', 'pipe', 'pipe'],
+            env: { ...process.env, ...packageEnv },
+            cwd: packageDir
+        });
+
+        // Annotate for clearer logs in initialize handlers
+        childProcess.serverName = serverName;
+
+        // Add error handling for the child process
+        childProcess.on('error', (error) => {
+            console.error(`âŒ MCP server ${serverName} process error:`, error.message);
+        });
+
+        childProcess.on('exit', (code, signal) => {
+            if (code !== 0) {
+                console.error(`âŒ MCP server ${serverName} exited with code ${code}, signal ${signal}`);
+            }
+        });
+
+        // Add error handling for stdin/stdout pipes
+        childProcess.stdin.on('error', (error) => {
+            console.error(`âŒ MCP server ${serverName} stdin error:`, error.message);
+        });
+
+        childProcess.stdout.on('error', (error) => {
+            console.error(`âŒ MCP server ${serverName} stdout error:`, error.message);
+        });
+
+        childProcess.stderr.on('error', (error) => {
+            console.error(`âŒ MCP server ${serverName} stderr error:`, error.message);
+        });
+
+        return childProcess;
+    }
+
+    async initializeAndQuery(connection, requestId, query) {
+        return new Promise((resolve, reject) => {
+            let initComplete = false;
+            
+            // Handle initialization response
+            const originalStdoutHandler = connection.stdout.listeners('data')[0];
+            
+            // Temporary handler for initialization
+            const initHandler = (data) => {
+                const output = data.toString();
+                const lines = output.split('\n');
+                
+                for (const line of lines) {
+                    if (line.trim()) {
+                        try {
+                            const response = JSON.parse(line);
+                            if (response.id === 1 && !initComplete) {
+                                initComplete = true;
+                                console.log(`ðŸ”§ MCP ${connection.serverName || 'server'} initialized successfully`);
+                                
+                                // Remove init handler and restore original
+                                connection.stdout.removeListener('data', initHandler);
+                                
+                                // Send query request now that init is complete
+                                const queryRequest = {
+                                    jsonrpc: '2.0',
+                                    id: requestId,
+                                    method: 'tools/call',
+                                    params: {
+                                        name: 'execute_query',
+                                        arguments: { query }
+                                    }
+                                };
+                                
+                                // Check if connection is still alive before writing
+                                if (connection.stdin && !connection.stdin.destroyed && connection.exitCode === null) {
+                                    try {
+                                        connection.stdin.write(JSON.stringify(queryRequest) + '\n');
+                                        resolve();
+                                    } catch (writeError) {
+                                        console.error(`âŒ Failed to write query to MCP server:`, writeError.message);
+                                        reject(writeError);
+                                    }
+                                } else {
+                                    const error = new Error('MCP server connection closed before query could be sent');
+                                    console.error(`âŒ ${error.message}`);
+                                    reject(error);
+                                }
+                                return;
+                            }
+                        } catch (error) {
+                            // Ignore non-JSON lines
+                        }
+                    }
+                }
+            };
+            
+            // Set up initialization handler
+            connection.stdout.on('data', initHandler);
+            
+            // Send initialization request
+            const initRequest = {
+                jsonrpc: '2.0',
+                id: 1,
+                method: 'initialize',
+                params: {
+                    protocolVersion: '2024-11-05',
+                    capabilities: { tools: {} },
+                    clientInfo: { name: 'tallman-dashboard', version: '1.0.0' }
+                }
+            };
+
+            // Check if connection is alive before writing initialization request
+            if (connection.stdin && !connection.stdin.destroyed && connection.exitCode === null) {
+                try {
+                    connection.stdin.write(JSON.stringify(initRequest) + '\n');
+                } catch (writeError) {
+                    console.error(`âŒ Failed to write init request to MCP server:`, writeError.message);
+                    reject(writeError);
+                    return;
+                }
+            } else {
+                reject(new Error('MCP server connection closed before initialization'));
+                return;
+            }
+            
+            // Timeout for initialization
+            setTimeout(() => {
+                if (!initComplete) {
+                    connection.stdout.removeListener('data', initHandler);
+                    reject(new Error('MCP initialization timeout'));
+                }
+            }, 5000);
+        });
+    }
+
+    async executeListTables(serverName) {
+        try {
+            console.log(`ðŸ” Executing list_tables tool on ${serverName}...`);
+            
+            // Create a fresh MCP connection for each query
+            const connection = await this.createSingleUseConnection(serverName);
+            
+            return new Promise((resolve, reject) => {
+                const requestId = this.requestId++;
+                let responseReceived = false;
+                
+                const timeout = setTimeout(() => {
+                    if (!responseReceived) {
+                        console.error(`âŒ MCP list_tables timeout for ${serverName} after 30 seconds`);
+                        connection.kill();
+                        console.error(`❌ MCP list_tables timeout for ${serverName} after 30 seconds`);
+                        // Return error indicator instead of rejecting
+                        resolve([]);
+                    }
+                }, 30000);
+
+                let buffer = '';
+
+                // Handle stdout data
+                connection.stdout.on('data', (data) => {
+                    const output = data.toString();
+                    buffer += output;
+                    
+                    // Process complete JSON messages
+                    const lines = buffer.split('\n');
+                    buffer = lines.pop() || ''; // Keep incomplete line in buffer
+
+                    for (const line of lines) {
+                        if (line.trim()) {
+                            try {
+                                const response = JSON.parse(line);
+                                
+                                if (response.id === requestId && !responseReceived) {
+                                    responseReceived = true;
+                                    clearTimeout(timeout);
+                                    connection.kill();
+                                    
+                                    if (response.error) {
+                                        console.error(`âŒ MCP error for ${serverName}:`, response.error.message);
+                                        reject(new Error(response.error.message || 'MCP Error'));
+                                    } else {
+                                        console.log(`âœ… MCP list_tables successful for ${serverName}`);
+                                        try {
+                                            const content = response.result?.content?.[0]?.text;
+                                            if (content) {
+                                                console.log(`ðŸ“‹ Tables from ${serverName}:`, content);
+                                                
+                                                // Check if content starts with error message
+                                                if (content.startsWith('Error:') || content.includes('Error:')) {
+                                                    console.error(`❌ MCP server returned error for ${serverName}:`, content);
+                                                    reject(new Error(`MCP server error: ${content}`));
+                                                    return;
+                                                }
+                                                
+                                                const data = JSON.parse(content);
+                                                resolve(data);
+                                            } else {
+                                                console.error(`âŒ No content in MCP response for ${serverName}`);
+                                                reject(new Error(`No content in MCP response for ${serverName}`));
+                                            }
+                                        } catch (parseError) {
+                                            console.error(`âŒ Error parsing MCP result for ${serverName}:`, parseError);
+                                            reject(new Error(`Failed to parse MCP response: ${parseError.message}`));
+                                        }
+                                    }
+                                }
+                            } catch (jsonError) {
+                                // Ignore non-JSON lines (like initialization messages)
+                                console.log(`ðŸ“ MCP ${serverName} log:`, line.trim());
+                            }
+                        }
+                    }
+                });
+
+                // Handle stderr
+                connection.stderr.on('data', (data) => {
+                    const error = data.toString();
+                    console.log(`ðŸ“ MCP ${serverName} stderr:`, error.trim());
+                });
+
+                // Handle process exit
+                connection.on('exit', (code) => {
+                    if (!responseReceived) {
+                        clearTimeout(timeout);
+                        reject(new Error(`MCP ${serverName} process exited with code ${code} before response`));
+                    }
+                });
+
+                // Handle process error
+                connection.on('error', (error) => {
+                    if (!responseReceived) {
+                        clearTimeout(timeout);
+                        console.error(`ðŸ’¥ MCP ${serverName} process error:`, error);
+                        reject(new Error(`MCP ${serverName} process error: ${error.message}`));
+                    }
+                });
+
+                // Initialize connection and send list_tables request
+                this.initializeAndListTables(connection, requestId)
+                    .catch(error => {
+                        if (!responseReceived) {
+                            clearTimeout(timeout);
+                            reject(error);
+                        }
+                    });
+            });
+
+        } catch (error) {
+            console.error(`âŒ CRITICAL MCP ERROR for ${serverName}:`, error.message);
+            throw new Error(`MCP list_tables failed for ${serverName}: ${error.message}`);
+        }
+    }
+
+    async initializeAndListTables(connection, requestId) {
+        return new Promise((resolve, reject) => {
+            let initComplete = false;
+            
+            // Temporary handler for initialization
+            const initHandler = (data) => {
+                const output = data.toString();
+                const lines = output.split('\n');
+                
+                for (const line of lines) {
+                    if (line.trim()) {
+                        try {
+                            const response = JSON.parse(line);
+                            if (response.id === 1 && !initComplete) {
+                                initComplete = true;
+                                console.log(`ðŸ”§ MCP ${connection.serverName || 'server'} initialized for list_tables`);
+                                
+                                // Remove init handler
+                                connection.stdout.removeListener('data', initHandler);
+                                
+                                // Send list_tables request
+                                const listTablesRequest = {
+                                    jsonrpc: '2.0',
+                                    id: requestId,
+                                    method: 'tools/call',
+                                    params: {
+                                        name: 'list_tables',
+                                        arguments: {}
+                                    }
+                                };
+                                
+                                // Check if connection is still alive before writing
+                                if (connection.stdin && !connection.stdin.destroyed && connection.exitCode === null) {
+                                    try {
+                                        connection.stdin.write(JSON.stringify(listTablesRequest) + '\n');
+                                    } catch (writeError) {
+                                        console.error(`âŒ Failed to write list_tables request to MCP server:`, writeError.message);
+                                        reject(writeError);
+                                        return;
+                                    }
+                                } else {
+                                    const error = new Error('MCP server connection closed before list_tables request could be sent');
+                                    console.error(`âŒ ${error.message}`);
+                                    reject(error);
+                                    return;
+                                }
+                                resolve();
+                                return;
+                            }
+                        } catch (error) {
+                            // Ignore non-JSON lines
+                        }
+                    }
+                }
+            };
+            
+            // Set up initialization handler
+            connection.stdout.on('data', initHandler);
+            
+            // Send initialization request
+            const initRequest = {
+                jsonrpc: '2.0',
+                id: 1,
+                method: 'initialize',
+                params: {
+                    protocolVersion: '2024-11-05',
+                    capabilities: { tools: {} },
+                    clientInfo: { name: 'tallman-dashboard', version: '1.0.0' }
+                }
+            };
+
+            // Check if connection is alive before writing initialization request
+            if (connection.stdin && !connection.stdin.destroyed && connection.exitCode === null) {
+                try {
+                    connection.stdin.write(JSON.stringify(initRequest) + '\n');
+                } catch (writeError) {
+                    console.error(`âŒ Failed to write init request to MCP server:`, writeError.message);
+                    reject(writeError);
+                    return;
+                }
+            } else {
+                reject(new Error('MCP server connection closed before initialization'));
+                return;
+            }
+            
+            // Timeout for initialization
+            setTimeout(() => {
+                if (!initComplete) {
+                    connection.stdout.removeListener('data', initHandler);
+                    reject(new Error('MCP initialization timeout'));
+                }
+            }, 5000);
+        });
+    }
+
+    async testConnection(serverName) {
+        try {
+            console.log(`Testing MCP connection for ${serverName}...`);
+            const result = await this.executeListTables(serverName);
+            return result !== null && result !== undefined;
+        } catch (error) {
+            console.error(`MCP connection test failed for ${serverName}:`, error.message);
+            return false;
+        }
+    }
+
+    closeAllConnections() {
+        // No persistent connections to close in this implementation
+        console.log('No persistent MCP connections to close');
+    }
+}
+
+export default MCPController;

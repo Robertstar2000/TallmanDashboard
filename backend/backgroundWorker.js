@@ -29,13 +29,13 @@ const loadAllMetrics = () => {
         const allData = JSON.parse(sanitized);
         console.log(`✅ Successfully loaded ${allData.length} metrics from allData.json at ${allDataPath}`);
         
-        // Set all values to 99999 initially - MUST be updated by MCP
+        // Set all values to 0 initially - MUST be updated by MCP
         const mcpDependentMetrics = allData.map(metric => ({
           ...metric,
-          value: 99999, // Start with error indicator - MCP MUST provide real data
+          value: 0, // Start at 0 until MCP provides real data
           lastUpdated: new Date().toISOString(),
           status: 'pending_mcp',
-          note: 'Awaiting real MCP data - no fallbacks allowed'
+          note: 'Awaiting real MCP data - initialized to 0'
         }));
         
         // Log chart group breakdown
@@ -69,7 +69,7 @@ class BackgroundWorker {
         this.workerInterval = null;
         this.statusCallback = null;
         this.dataCallback = null;
-        this.rateLimitDelay = 2000; // 2 seconds between queries (respects 1-second MCP rate limit)
+        this.rateLimitDelay = 60000; // 1 minute between queries (prevents overloading external servers)
         this.useRealMCP = true; // ALWAYS use real MCP - NO SIMULATION ALLOWED
     }
 
@@ -89,16 +89,16 @@ class BackgroundWorker {
     }
 
     loadMetrics() {
-        // Load all metrics - PRODUCTION RULE: Keep 99999 error indicators until MCP provides real data
+        // Load all metrics - initialize to 0 until MCP provides real data
         try {
-            this.metrics = loadAllMetrics(); // This already sets values to 99999 and proper status
+            this.metrics = loadAllMetrics(); // This sets values to 0 and proper status
             
-            console.log(`🔄 Loaded ${this.metrics.length} metrics for MCP processing - all showing 99999 until real data retrieved`);
+            console.log(`🔄 Loaded ${this.metrics.length} metrics for MCP processing - all initialized to 0 until real data retrieved`);
             console.log(`📊 Chart groups: ${[...new Set(this.metrics.map(m => m.chartGroup))].join(', ')}`);
             
-            // Log error indicator status
-            const errorCount = this.metrics.filter(m => m.value === 99999).length;
-            console.log(`⚠️  ${errorCount}/${this.metrics.length} metrics showing error indicator (99999) - awaiting MCP data`);
+            // Log pending status
+            const pendingCount = this.metrics.filter(m => m.status === 'pending_mcp').length;
+            console.log(`ℹ️  ${pendingCount}/${this.metrics.length} metrics pending MCP update (initialized to 0)`);
             
             if (this.dataCallback) {
                 this.dataCallback(this.metrics);
@@ -212,11 +212,19 @@ class BackgroundWorker {
                         value = value.value || Object.values(value)[0] || 0;
                     }
                     
-                    value = Number(value) || 0;
+                    // Convert to number and enforce sentinel on invalid
+                    value = Number(value);
+                    if (!Number.isFinite(value)) {
+                        value = 99999;
+                    }
                     metric.status = 'completed';
-                    metric.note = 'Real data from MCP server';
+                    metric.note = value === 99999 ? 'MCP failure sentinel value (99999)' : 'Real data from MCP server';
                     
-                    console.log(`MCP query successful: ${metric.variableName} = ${value}`);
+                    if (value === 99999) {
+                        console.log(`⚠️ MCP query returned sentinel for ${metric.variableName}: 99999`);
+                    } else {
+                        console.log(`MCP query successful: ${metric.variableName} = ${value}`);
+                    }
                 } catch (mcpError) {
                     console.warn(`MCP query failed for ${metric.variableName}:`, mcpError.message);
                     throw mcpError; // Let it fall through to the simulation
@@ -236,16 +244,16 @@ class BackgroundWorker {
         } catch (error) {
             console.error(`❌ CRITICAL PRODUCTION ERROR - Metric ID ${metric.id}:`, error.message);
             
-            // PRODUCTION RULE: ALWAYS use 99999 to indicate SQL execution failure - NO SIMULATION EVER
+            // On MCP failure set sentinel value 99999 and continue without failure
             metric.value = 99999;
             metric.lastUpdated = new Date().toISOString();
-            metric.status = 'error';
-            metric.note = `MCP SQL execution failed: ${error.message}`;
+            metric.status = 'completed';
+            metric.note = `MCP SQL execution failed - sentinel 99999 set: ${error.message}`;
 
-            console.error(`🚨 Setting ${metric.variableName} = 99999 due to MCP failure`);
+            console.error(`🚨 Setting ${metric.variableName} to sentinel 99999 due to MCP failure`);
 
             if (this.statusCallback) {
-                this.statusCallback(`❌ MCP SQL execution failed for ${metric.variableName} - displaying error indicator (99999)`);
+                this.statusCallback(`⚠️ MCP SQL execution failed for ${metric.variableName} - set to 99999 and continuing`);
             }
         }
 
@@ -300,6 +308,30 @@ class BackgroundWorker {
         return this.metrics;
     }
 
+    async forceRefresh() {
+        console.log('Force refreshing all metrics...');
+        
+        // Stop the current loop if it's running
+        if (this.workerInterval) {
+            clearTimeout(this.workerInterval);
+            this.workerInterval = null;
+        }
+        
+        this.isRunning = true; // Ensure it's marked as running
+        this.currentIndex = 0; // Reset index to the beginning
+        
+        // Reload metrics to get the latest definitions and reset values to 0
+        this.loadMetrics();
+        
+        if (this.statusCallback) {
+            this.statusCallback('Force refresh initiated. Reprocessing all metrics...');
+        }
+        
+        // Immediately start processing the first metric
+        this.processNextMetric();
+        console.log('✅ Force refresh process started.');
+    }
+
     // REMOVED: generateReasonableValue method - NO SIMULATION ALLOWED IN PRODUCTION
 
     async testMCPConnections() {
@@ -308,7 +340,7 @@ class BackgroundWorker {
             
             // Test P21 connection
             try {
-                await this.mcpController.executeQuery('P21', 'SELECT 1 as test;');
+                await this.mcpController.executeQuery('P21', 'SELECT 1 as value;');
                 results.P21 = 'Connected';
             } catch (error) {
                 results.P21 = `Error: ${error.message}`;
@@ -316,7 +348,7 @@ class BackgroundWorker {
             
             // Test POR connection
             try {
-                await this.mcpController.executeQuery('POR', 'SELECT 1 as test;');
+                await this.mcpController.executeQuery('POR', 'SELECT 1 as value;');
                 results.POR = 'Connected';
             } catch (error) {
                 results.POR = `Error: ${error.message}`;

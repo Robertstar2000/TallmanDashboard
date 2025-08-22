@@ -13,21 +13,27 @@ const LoginPage: React.FC = () => {
     const [lockout, setLockout] = useState<number | null>(null);
 
     useEffect(() => {
-        // One-time reset for testing - remove lockout
+        // Complete lockout reset for testing
         localStorage.removeItem('lockoutTime');
+        localStorage.removeItem('loginAttempts');
         setLockout(null);
         setAttempts(0);
+        console.log('🔓 Login lockout reset for testing');
         
         const lockoutTime = localStorage.getItem('lockoutTime');
         if (lockoutTime) {
             const remaining = parseInt(lockoutTime, 10) - Date.now();
+            console.log(`⏰ Lockout remaining: ${remaining}ms`);
             if (remaining > 0) {
                 setLockout(remaining);
-                setTimeout(() => {
+                const timer = setTimeout(() => {
+                    console.log('⏰ Lockout timer expired, unlocking login');
                     setLockout(null);
                     localStorage.removeItem('lockoutTime');
                 }, remaining);
+                return () => clearTimeout(timer);
             } else {
+                console.log('⏰ Lockout time expired, removing from storage');
                 localStorage.removeItem('lockoutTime');
             }
         }
@@ -48,16 +54,24 @@ const LoginPage: React.FC = () => {
             setError(err.message);
             const newAttempts = attempts + 1;
             setAttempts(newAttempts);
+            console.log(`🔐 Login attempt ${newAttempts}/3 failed`);
+            
             if (newAttempts >= 3) {
-                const lockoutDuration = 15 * 60 * 1000; // 15 minutes
+                const lockoutDuration = 30 * 1000; // 30 seconds for testing (was 15 minutes)
                 const lockoutEndTime = Date.now() + lockoutDuration;
                 localStorage.setItem('lockoutTime', lockoutEndTime.toString());
+                localStorage.setItem('loginAttempts', newAttempts.toString());
                 setLockout(lockoutDuration);
                 setAttempts(0);
-                 setTimeout(() => {
+                console.log(`🔒 Account locked for ${lockoutDuration / 1000} seconds`);
+                
+                const timer = setTimeout(() => {
+                    console.log('🔓 Lockout timer expired, unlocking login');
                     setLockout(null);
                     localStorage.removeItem('lockoutTime');
+                    localStorage.removeItem('loginAttempts');
                 }, lockoutDuration);
+                return () => clearTimeout(timer);
             }
         } finally {
             setIsLoading(false);

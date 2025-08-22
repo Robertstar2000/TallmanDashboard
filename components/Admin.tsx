@@ -12,7 +12,7 @@ interface AdminProps {
     stop: () => void;
     simulateData: () => void;
     updateDataPoint: (id: number, field: keyof DashboardDataPoint, value: string) => void;
-    testConnections: () => Promise<boolean>;
+    testConnections: () => Promise<ConnectionDetails[]>;
     connectionDetails: ConnectionDetails[] | null;
     clearConnectionDetails: () => void;
 }

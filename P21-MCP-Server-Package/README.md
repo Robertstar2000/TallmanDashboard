@@ -5,7 +5,7 @@ A Model Context Protocol (MCP) server that provides secure, read-only access to 
 ## Features
 
 - **Read-Only Access**: Built-in write protection prevents any data modification
-- **Rate Limiting**: 30-second delays between requests to protect database performance
+- **Rate Limiting**: 1-second delays between requests to protect database performance
 - **ODBC Connectivity**: Uses ODBC for reliable database connections
 - **MCP Protocol**: Compatible with Claude and other MCP-enabled AI assistants
 - **SQL Server Support**: Optimized for P21 SQL Server databases
@@ -117,7 +117,7 @@ The server automatically blocks any SQL statements that could modify data:
 
 ### Rate Limiting
 
-- 30-second minimum delay between requests
+- 1-second minimum delay between requests
 - Prevents database overload
 - Protects production systems
 

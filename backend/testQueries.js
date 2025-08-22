@@ -10,24 +10,24 @@ async function testQueries() {
     try {
         // Test basic connection
         console.log('1. Testing basic P21 connection...');
-        const basicTest = await mcpController.executeQuery('P21', 'SELECT 1 as test');
-        console.log('✅ P21 basic connection successful');
+        const basicTest = await mcpController.executeQuery('P21', 'SELECT 1 as value');
+        console.log('✅ P21 basic connection successful:', basicTest);
         
         // Test table discovery
         console.log('2. Discovering P21 tables...');
-        const tables = await mcpController.executeQuery('P21', `
+        const tables = await mcpController.executeQueryRows('P21', `
             SELECT TABLE_NAME 
             FROM INFORMATION_SCHEMA.TABLES 
             WHERE TABLE_TYPE = 'BASE TABLE'
             ORDER BY TABLE_NAME
         `);
-        console.log('✅ P21 tables found:', tables.slice(0, 10)); // Show first 10 tables
+        console.log('✅ P21 tables found:', tables.slice(0, 10).map(t => t.TABLE_NAME)); // Show first 10 tables
         
         // Test common table patterns
         const commonPatterns = ['invoice', 'order', 'customer', 'item', 'ar_', 'sales'];
         for (const pattern of commonPatterns) {
             try {
-                const matchingTables = await mcpController.executeQuery('P21', `
+                const matchingTables = await mcpController.executeQueryRows('P21', `
                     SELECT TABLE_NAME 
                     FROM INFORMATION_SCHEMA.TABLES 
                     WHERE TABLE_NAME LIKE '%${pattern}%'
@@ -49,16 +49,12 @@ async function testQueries() {
     try {
         // Test basic POR connection with MS Access compatible query
         console.log('1. Testing basic POR connection...');
-        const porTest = await mcpController.executeQuery('POR', 'SELECT 1 FROM MSysObjects WHERE 1=0');
-        console.log('✅ POR basic connection successful');
+        const porTest = await mcpController.executeQuery('POR', 'SELECT 1 as value');
+        console.log('✅ POR basic connection successful:', porTest);
         
         // Try to list POR tables (MS Access approach)
         console.log('2. Discovering POR tables...');
-        const porTables = await mcpController.executeQuery('POR', `
-            SELECT Name FROM MSysObjects 
-            WHERE Type=1 AND Flags=0
-            ORDER BY Name
-        `);
+        const porTables = await mcpController.executeListTables('POR');
         console.log('✅ POR tables found:', porTables.slice(0, 10));
         
     } catch (error) {

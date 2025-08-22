@@ -5,7 +5,7 @@ A Model Context Protocol (MCP) server that provides secure, read-only access to 
 ## Features
 
 - **Read-Only Access**: Built-in write protection prevents any data modification
-- **Rate Limiting**: 30-second delays between requests to protect database performance
+- **Rate Limiting**: 1-second delays between requests to protect database performance
 - **MS Access Connectivity**: Uses mdb-reader for reliable Access database connections
 - **MCP Protocol**: Compatible with Claude and other MCP-enabled AI assistants
 - **MS Access Support**: Optimized for POR MS Access databases
@@ -45,23 +45,23 @@ Create or edit the `.env` file in the package root:
 
 ```env
 # POR Database Configuration
-POR_DB_PATH=C:\path\to\your\por\database.mdb
+POR_FILE_PATH=C:\path\to\your\por\database.mdb
 ```
 
 ### Database Path Setup
 
-The POR_DB_PATH should point to your POR MS Access database file:
+The POR_FILE_PATH should point to your POR MS Access database file:
 
 **Examples:**
 ```env
 # Local file
-POR_DB_PATH=C:\POR\Database\POR.mdb
+POR_FILE_PATH=C:\POR\Database\POR.mdb
 
 # Network share
-POR_DB_PATH=\\server\share\POR\POR.accdb
+POR_FILE_PATH=\\server\share\POR\POR.accdb
 
 # Relative path (from server directory)
-POR_DB_PATH=./data/POR.mdb
+POR_FILE_PATH=./data/POR.mdb
 ```
 
 ## Usage with Claude (Cline)
@@ -106,7 +106,7 @@ The server automatically blocks any SQL statements that could modify data:
 
 ### Rate Limiting
 
-- 30-second minimum delay between requests
+- 1-second minimum delay between requests
 - Prevents database overload
 - Protects production systems
 
@@ -132,14 +132,14 @@ SELECT DISTINCT FieldName FROM TableName
 ### Common Issues
 
 1. **"Cannot connect to database"**
-   - Verify POR_DB_PATH points to correct file
+   - Verify POR_FILE_PATH points to correct file
    - Check file permissions and accessibility
    - Ensure database file is not locked by another application
    - Verify network connectivity if using network path
 
-2. **"POR_DB_PATH environment variable is required"**
+2. **"POR_FILE_PATH environment variable is required"**
    - Ensure `.env` file exists in package root
-   - Verify POR_DB_PATH is set correctly
+   - Verify POR_FILE_PATH is set correctly
    - Restart the MCP server after changes
 
 3. **"Rate limiting" messages**

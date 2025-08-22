@@ -2,13 +2,14 @@
   "name": "tallman-dashboard-backend",
   "version": "1.0.0",
   "description": "Backend server for Tallman Dashboard with MCP integration",
-  "main": "server.js",
+  "main": "server-fixed.js",
   "type": "module",
   "scripts": {
-    "start": "node server.js",
-    "dev": "nodemon server.js"
+    "start": "node server-fixed.js",
+    "dev": "nodemon server-fixed.js"
   },
   "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.17.3",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",

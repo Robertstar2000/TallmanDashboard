@@ -67,7 +67,7 @@ const ConnectionStatusModal: React.FC<ConnectionStatusModalProps> = ({ details, 
                                         </>
                                     ) : (
                                         <div className="sm:col-span-2">
-                                            <DetailRow label="Error Details" value={detail.error} />
+                                            <DetailRow label="Error Details" value={detail.error || (typeof (detail as any).details === 'string' ? (detail as any).details : undefined)} />
                                         </div>
                                     )}
                                 </div>

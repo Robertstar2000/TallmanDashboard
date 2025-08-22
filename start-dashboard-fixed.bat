@@ -26,7 +26,7 @@ echo ================================
 echo.
 echo SERVICES RUNNING:
 echo - Backend Server: http://localhost:3001 (with Background Worker)
-echo - Frontend: http://localhost:5173
+echo - Frontend: http://localhost:5500
 echo.
 echo You should now see 3 windows total:
 echo 1. This main window (batch file)
@@ -35,7 +35,7 @@ echo 3. Frontend Dev Server window
 echo.
 echo Opening dashboard in browser in 3 seconds...
 timeout /t 3 /nobreak >nul
-start http://localhost:5173
+start http://localhost:5500
 echo.
 echo Press any key to exit this window...
 pause >nul

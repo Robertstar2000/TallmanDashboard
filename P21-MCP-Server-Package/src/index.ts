@@ -13,12 +13,13 @@ import odbc from 'odbc';
 // Load environment variables from .env file
 config({ path: '.env' });
 
-// Get database configuration from environment variables
-const P21_DSN = process.env.P21_DSN;
-
-if (!P21_DSN) {
+// Database connection configuration
+const dsn = process.env.P21_DSN;
+if (!dsn) {
   throw new Error('P21_DSN environment variable is required');
 }
+
+console.error(`P21 MCP Server starting (DSN: ${dsn})`);
 
 interface QueryArgs {
   query: string;
@@ -64,9 +65,12 @@ class P21Server {
       await this.connection.close();
     }
 
-    // Use DSN connection string for ODBC
-    const connectionString = `DSN=${P21_DSN}`;
-    
+    if (!dsn) {
+      throw new Error('DSN not configured');
+    }
+
+    const connectionString = `DSN=${dsn};Trusted_Connection=Yes;`;
+    console.error(`Connecting to P21 with: DSN=${dsn};Trusted_Connection=Yes;`);
     this.connection = await odbc.connect(connectionString);
     return this.connection;
   }
@@ -123,7 +127,7 @@ class P21Server {
 
     this.server.setRequestHandler(CallToolRequestSchema, async (request) => {
       try {
-        // Rate limiting: enforce 30-second delay between requests
+        // Rate limiting: enforce 1-second delay between requests
         const currentTime = Date.now();
         const timeSinceLastRequest = currentTime - this.lastRequestTime;
         
@@ -174,9 +178,9 @@ class P21Server {
             const result = await connection.query('SELECT @@VERSION as version');
             const serverInfo = {
               version: (result as any)[0]?.version || 'Unknown',
-              dsn: P21_DSN,
+              dsn: dsn,
               provider: 'ODBC',
-              connectionString: `DSN=${P21_DSN}`,
+              connectionString: `DSN=${dsn}`,
             };
 
             return {
@@ -190,21 +194,46 @@ class P21Server {
           }
 
           case 'list_tables': {
-            const result = await connection.query(`
-              SELECT TABLE_NAME 
-              FROM INFORMATION_SCHEMA.TABLES 
-              WHERE TABLE_TYPE = 'BASE TABLE'
-              ORDER BY TABLE_NAME
-            `);
+            try {
+              // Identify current database for diagnostics
+              let dbName = 'Unknown';
+              try {
+                const dbRes: any = await connection.query("SELECT DB_NAME() as db");
+                dbName = dbRes?.[0]?.db || dbRes?.[0]?.DB || 'Unknown';
+              } catch (e) {
+                console.error('[P21] Failed to get DB_NAME():', (e as Error)?.message || e);
+              }
 
-            return {
-              content: [
-                {
-                  type: 'text',
-                  text: JSON.stringify(result.map((row: any) => row.TABLE_NAME), null, 2),
-                },
-              ],
-            };
+              const result: any[] = await connection.query(`
+                SELECT TABLE_NAME 
+                FROM INFORMATION_SCHEMA.TABLES 
+                WHERE TABLE_TYPE = 'BASE TABLE'
+                ORDER BY TABLE_NAME
+              `);
+
+              const tables = result.map((row: any) => row.TABLE_NAME);
+              console.error(`[P21] list_tables: db=${dbName}, count=${tables.length}`);
+              if (tables.length === 0) {
+                console.error('[P21] list_tables returned empty array. Check DSN target DB and permissions.');
+              } else {
+                console.error(`[P21] Sample tables: ${tables.slice(0, 5).join(', ')}`);
+              }
+
+              return {
+                content: [
+                  {
+                    type: 'text',
+                    text: JSON.stringify(tables, null, 2),
+                  },
+                ],
+              };
+            } catch (err) {
+              console.error('[P21] list_tables error:', (err as Error)?.message || err);
+              throw new McpError(
+                ErrorCode.InternalError,
+                `Failed to list tables: ${(err as Error)?.message || 'Unknown error'}`
+              );
+            }
           }
 
           case 'describe_table': {
