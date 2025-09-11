@@ -6,7 +6,7 @@ import fs from 'node:fs';
 import MDBReader from 'mdb-reader';
 
 // Path to the MDB file. Can be overridden via the POR_DB_PATH env var.
-const path = process.env.POR_DB_PATH || 'C:/Users/BobM/Desktop/POR.mdb';
+const path = process.env.POR_DB_PATH || '\\\\ts03\\POR\\POR.MDB';
 
 // Optional table name to inspect. Defaults to the first user table found.
 const TEST_TABLE = process.env.POR_TEST_TABLE;

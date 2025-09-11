@@ -225,8 +225,8 @@ export function updateSpreadsheetData(data) {
  * Tests the connection to a P21 database using provided connection details.
  */
 export const testP21ConnectionServer = async (connectionDetails) => {
-    // Using a predefined DSN for P21Play
-    const dsnName = "P21Play";
+    // Using a predefined DSN for P21Live
+    const dsnName = "P21Live";
     // Connection details like server/database might still be useful for logging or other purposes
     // but are not used for the connection string itself when using a DSN.
     const { server, database, username, password } = connectionDetails;
@@ -514,7 +514,7 @@ ensureTypesFile(); // Ensure the types file exists on module load
  */
 export const executeP21QueryServer = async (sqlQuery) => {
     const startTime = Date.now();
-    const dsnName = "P21Play"; // Hardcoded DSN from test function
+    const dsnName = "P21Live"; // Hardcoded DSN from test function
     let connection = null;
     console.log(`Attempting to execute P21 query using DSN: ${dsnName}`);
     try {

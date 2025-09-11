@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Fix SQL Syntax and Execute
  * 
  * This script fixes the SQL syntax errors in the expressions and then
@@ -17,7 +17,7 @@ const dataDir = path.join(process.cwd(), 'data');
 const dbPath = path.join(dataDir, 'dashboard.db');
 
 // P21 connection settings
-const P21_DSN = process.env.P21_DSN || 'P21Play';
+const P21_DSN = process.env.P21_DSN || 'P21Live';
 const P21_USERNAME = process.env.P21_USERNAME || '';
 const P21_PASSWORD = process.env.P21_PASSWORD || '';
 

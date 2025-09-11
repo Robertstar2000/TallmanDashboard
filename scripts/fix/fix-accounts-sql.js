@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Fix Accounts SQL Expressions
  * 
  * This script fixes the SQL expressions for the Accounts section
@@ -17,7 +17,7 @@ const dataDir = path.join(process.cwd(), 'data');
 const dbPath = path.join(dataDir, 'dashboard.db');
 
 // P21 connection settings
-const P21_DSN = process.env.P21_DSN || 'P21Play';
+const P21_DSN = process.env.P21_DSN || 'P21Live';
 
 // Corrected SQL expressions for Accounts
 const accountsSqlFixes = [

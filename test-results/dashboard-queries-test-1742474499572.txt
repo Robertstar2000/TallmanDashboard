@@ -7,7 +7,7 @@ Sample chart data:
 - Key Metrics - Open Orders 2: SQL = SELECT ISNULL(SUM(l.extended_price), 0) as value F...
 
 --- P21 Connection Test ---
-Connection string: DSN=P21Play;Trusted_Connection=Yes;
+Connection string: DSN=P21Live;Trusted_Connection=Yes;
 Connecting to ODBC data source...
 ✅ CONNECTED SUCCESSFULLY to ODBC data source!
 

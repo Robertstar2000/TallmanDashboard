@@ -1,4 +1,4 @@
-﻿/**
+/**
  * FIND P21 TABLES AND FIX SQL
  * 
  * This script:
@@ -26,8 +26,8 @@ const testAllPorSqlPath = path.join(process.cwd(), 'app', 'TestScripts', 'test-a
 // Function to execute a query against the P21 database
 async function executeP21Query(query) {
   try {
-    // Use the DSN from environment or default to P21Play
-    const dsn = process.env.P21_DSN || 'P21Play';
+    // Use the DSN from environment or default to P21Live
+    const dsn = process.env.P21_DSN || 'P21Live';
     
     // Connect using the DSN that's already configured in Windows
     const connectionString = `DSN=${dsn};Trusted_Connection=Yes;`;

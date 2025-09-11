@@ -1,6 +1,6 @@
 === P21 Vendor Query Test ===
 Starting test at 2025-03-19T17:25:09.509Z
-Connection string: DSN=P21Play;Trusted_Connection=Yes;
+Connection string: DSN=P21Live;Trusted_Connection=Yes;
 Connecting to ODBC data source...
 ✅ CONNECTED SUCCESSFULLY to ODBC data source!
 

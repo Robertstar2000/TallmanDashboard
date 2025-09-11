@@ -1,6 +1,6 @@
 === Testing Alternative Queries for Open Invoices ===
 Starting at 2025-03-20T11:12:02.536Z
-Connection string: DSN=P21Play;Trusted_Connection=Yes;
+Connection string: DSN=P21Live;Trusted_Connection=Yes;
 Connecting to ODBC data source...
 ✅ CONNECTED SUCCESSFULLY to ODBC data source!
 

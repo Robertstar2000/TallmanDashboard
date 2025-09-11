@@ -548,7 +548,7 @@ const odbc = require('odbc');
 const fs = require('fs');
 
 // Connect to P21 database
-const connectionString = 'DSN=P21Play;Trusted_Connection=Yes;';
+const connectionString = 'DSN=P21Live;Trusted_Connection=Yes;';
 const connection = await odbc.connect(connectionString);
 
 // Test each key metric query

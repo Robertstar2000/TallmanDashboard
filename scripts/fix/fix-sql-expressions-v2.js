@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Fix SQL Expressions Script (Version 2)
  * This script checks all SQL expressions in the admin database and fixes any that are reporting execution errors.
  */
@@ -60,7 +60,7 @@ async function fixSqlExpressions() {
     console.log(`Found ${rows.length} rows in initialSpreadsheetData`);
     
     // Connect to P21 database
-    const dsn = process.env.P21_DSN || 'P21Play';
+    const dsn = process.env.P21_DSN || 'P21Live';
     const connectionString = `DSN=${dsn};Trusted_Connection=Yes;`;
     
     console.log('Connecting to ODBC data source...');

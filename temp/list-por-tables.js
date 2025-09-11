@@ -3,7 +3,7 @@ import fs from 'fs';
 
 (async () => {
   try {
-    const buffer = fs.readFileSync('C:/Users/BobM/Desktop/POR.mdb');
+    const buffer = fs.readFileSync('\\\\ts03\\POR\\POR.MDB');
     const reader = new MDBReader(buffer);
     const tables = reader.getTableNames().filter(name => !/^MSys/i.test(name));
     console.log('User tables:', tables);

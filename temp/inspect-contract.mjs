@@ -1,7 +1,7 @@
 import MDBReader from 'mdb-reader';
 import fs from 'fs';
 
-const dbPath = 'C:/Users/BobM/Desktop/POR.mdb';
+const dbPath = '\\\\ts03\\POR\\POR.MDB';
 
 const buffer = fs.readFileSync(dbPath);
 const reader = new MDBReader(buffer);

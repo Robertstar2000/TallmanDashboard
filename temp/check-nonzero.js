@@ -3,7 +3,7 @@ import fs from 'fs';
 
 (async () => {
   try {
-    const buffer = fs.readFileSync('C:/Users/BobM/Desktop/POR.mdb');
+    const buffer = fs.readFileSync('\\\\ts03\\POR\\POR.MDB');
     const reader = new MDBReader(buffer);
     const table = reader.getTable('AccountsReceivable');
     const rows = table.getData();

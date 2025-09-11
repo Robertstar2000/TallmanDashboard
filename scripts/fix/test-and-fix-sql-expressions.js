@@ -29,7 +29,7 @@ async function testSqlExpression(id, name, server, sql) {
     
     // Add filePath for POR queries
     if (server === 'POR') {
-      requestBody.filePath = process.env.POR_FILE_PATH || 'C:\\Users\\BobM\\Desktop\\POR.MDB';
+      requestBody.filePath = process.env.POR_FILE_PATH || '\\\\ts03\\POR\\POR.MDB';
     }
     
     const response = await fetch(`${BASE_URL}/api/executeQuery`, {

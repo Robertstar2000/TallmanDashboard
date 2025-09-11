@@ -3,7 +3,7 @@ const odbc = require('odbc');
 const fs = require('fs');
 
 // Adjust path via env var if needed
-const path = process.env.POR_DB_PATH || 'C:/Users/BobM/Desktop/POR.mdb';
+const path = process.env.POR_DB_PATH || '\\\\ts03\\POR\\POR.MDB';
 const testTable = process.env.POR_TEST_TABLE || 'SOMAST';
 
 (async () => {

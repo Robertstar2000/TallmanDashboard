@@ -4,7 +4,7 @@ import * as fs from 'fs';
 (async () => {
   try {
     // Load your MDB file
-    const buffer = fs.readFileSync('C:/Users/BobM/Desktop/POR.mdb');
+    const buffer = fs.readFileSync('\\\\ts03\\POR\\POR.MDB');
     const reader = new MDBReader(buffer);
 
     // Get AccountsReceivable table

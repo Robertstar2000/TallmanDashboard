@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Fix Specific SQL Expressions Script
  * This script fixes the specific SQL expressions that were identified as problematic
  */
@@ -80,7 +80,7 @@ async function fixSpecificSqlExpressions() {
     console.log('Successfully read initial-data.ts file');
     
     // Connect to P21 database
-    const dsn = process.env.P21_DSN || 'P21Play';
+    const dsn = process.env.P21_DSN || 'P21Live';
     const connectionString = `DSN=${dsn};Trusted_Connection=Yes;`;
     
     console.log('Connecting to ODBC data source...');

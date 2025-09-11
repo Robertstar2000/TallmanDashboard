@@ -1,6 +1,6 @@
 === Testing Production SQL Queries ===
 Starting at 2025-03-20T11:20:47.193Z
-Connection string: DSN=P21Play;Trusted_Connection=Yes;
+Connection string: DSN=P21Live;Trusted_Connection=Yes;
 Connecting to ODBC data source...
 ✅ CONNECTED SUCCESSFULLY to ODBC data source!
 

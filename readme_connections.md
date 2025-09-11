@@ -18,14 +18,14 @@ Connection details are primarily configured through environment variables in the
 1.  **POR Database Configuration:**
     *   **Variable:** `POR_FILE_PATH`
     *   **Purpose:** Specifies the absolute path to the Microsoft Access `.MDB` file.
-    *   **Example:** `POR_FILE_PATH=C:\\Users\\BobM\\Desktop\\POR.MDB`
+    *   **Example:** `POR_FILE_PATH=\\\\ts03\\POR\\POR.MDB`
     *   **Requirement:** The specified `.MDB` file must exist at this location, and the necessary Microsoft Access ODBC drivers must be installed on the machine running the dashboard application.
 
 2.  **P21 Database Configuration:**
     *   **Variable:** `P21_DSN`
     *   **Purpose:** Specifies the **System Data Source Name (DSN)** configured on the host Windows machine that points to the P21 SQL Server database.
-    *   **Example:** `P21_DSN=P21Play`
-    *   **Requirement:** A System ODBC DSN with the exact name specified (`P21Play` in the example) must be created and configured via the Windows "ODBC Data Sources (x64)" administrator tool. This DSN contains the server address, database name, and authentication details needed to connect to the P21 SQL Server.
+    *   **Example:** `P21_DSN=P21Live`
+    *   **Requirement:** A System ODBC DSN with the exact name specified (`P21Live` in the example) must be created and configured via the Windows "ODBC Data Sources (x64)" administrator tool. This DSN contains the server address, database name, and authentication details needed to connect to the P21 SQL Server.
 
 ## Connection Logic Flow (Intended)
 
@@ -34,8 +34,8 @@ Connection details are primarily configured through environment variables in the
     *   If `"P21"`, it uses the DSN specified by `P21_DSN`.
     *   If `"POR"`, it uses the file path specified by `POR_FILE_PATH`.
 3.  **Establish ODBC Connection:** The application uses the `odbc` package to establish a connection:
-    *   For P21: It attempts to connect using the DSN (`DSN=P21Play`).
-    *   For POR: It attempts to connect using a connection string derived from the file path (e.g., `Driver={Microsoft Access Driver (*.mdb, *.accdb)};Dbq=C:\Users\BobM\Desktop\POR.MDB;`).
+    *   For P21: It attempts to connect using the DSN (`DSN=P21Live`).
+    *   For POR: It attempts to connect using a connection string derived from the file path (e.g., `Driver={Microsoft Access Driver (*.mdb, *.accdb)};Dbq=\\\\ts03\\POR\\POR.MDB;`).
 4.  **Execute Query:** Once connected, the application executes the SQL query stored in the `productionSqlExpression` field for that specific data row against the connected database.
 5.  **Return Result:** The database returns the result (expected to be a single value aliased as `value`).
 6.  **Update Dashboard:** The fetched `value` updates the corresponding data row in the application's internal state (and potentially the local SQLite cache/spreadsheet display), which then reflects on the dashboard charts.
@@ -90,4 +90,4 @@ Connection details are primarily configured through environment variables in the
 *   **POR Connection Status:** Due to the build issues, the **POR database connection is likely non-functional** in the current state unless the `odbc` package issues have been resolved and the relevant code uncommented/re-integrated.
 *   **P21 Connection Dependency:** The P21 connection relies entirely on a **correctly configured System ODBC DSN** existing on the host machine. Without this external setup, P21 queries will fail.
 *   **Error Handling/Credentials:** The current state of robust error handling, connection pooling, or explicit credential management (beyond what the DSN handles) within the application code is unclear and may need implementation.
-*   **Empty POR Database:** Testing has shown that the currently configured POR database file (`C:\Users\BobM\Desktop\POR.MDB`) contains tables but no actual data rows (`MEMORY[9681a486-f3fc-4556-8ead-670fe29e1c30]`). Even if the connection works, queries might return zero/null.
+*   **Empty POR Database:** Testing has shown that the currently configured POR database file (`\\\\ts03\\POR\\POR.MDB`) contains tables but no actual data rows (`MEMORY[9681a486-f3fc-4556-8ead-670fe29e1c30]`). Even if the connection works, queries might return zero/null.

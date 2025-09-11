@@ -1,5 +1,5 @@
 const ADODB = require('node-adodb');
-const dbPath = 'C:/Users/BobM/Desktop/POR.mdb';
+const dbPath = '\\\\ts03\\POR\\POR.MDB';
 const connection = ADODB.open(`Provider=Microsoft.ACE.OLEDB.12.0;Data Source=${dbPath};Persist Security Info=False;`);
 
 (async () => {
